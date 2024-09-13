@@ -1,0 +1,47 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Distribution / packaging
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# Virtual environment
+.env/
+.venv/
+env/
+venv/
+ENV/
+
+# Logs
+*.log
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Sphinx documentation
+docs/_build/
+docs/_autosummary/
+
+# Python egg caches
+*.egg
+.eggs/
+.eggs-info/
+.sphinx-build/
+
+# Simulation results
+examples/results/
+examples/in_progress/
+
+# Custom configurations
+git.code-workspace
+*.code-workspace
+*.workspace
+
+.vscode/
+.pytest_cache/
+
