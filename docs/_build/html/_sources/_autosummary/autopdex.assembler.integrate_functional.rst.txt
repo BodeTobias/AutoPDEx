@@ -1,0 +1,6 @@
+﻿autopdex.assembler.integrate\_functional
+========================================
+
+.. currentmodule:: autopdex.assembler
+
+.. autofunction:: integrate_functional

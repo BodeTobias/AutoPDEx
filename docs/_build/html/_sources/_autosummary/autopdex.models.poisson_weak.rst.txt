@@ -1,0 +1,6 @@
+﻿autopdex.models.poisson\_weak
+=============================
+
+.. currentmodule:: autopdex.models
+
+.. autofunction:: poisson_weak

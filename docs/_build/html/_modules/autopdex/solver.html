@@ -1,0 +1,1353 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>autopdex.solver &mdash; AutoPDEx 0.0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../../_static/jupyter-sphinx.css?v=572af1d6" />
+      <link rel="stylesheet" type="text/css" href="../../_static/thebelab.css" />
+      <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=acfd50eb" />
+      <link rel="stylesheet" type="text/css" href="../../_static/dark_mode_css/general.css?v=c0a7eb24" />
+      <link rel="stylesheet" type="text/css" href="../../_static/dark_mode_css/dark.css?v=70edf1c7" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../_static/documentation_options.js?v=d45e8c67"></script>
+        <script src="../../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="../../_static/copybutton.js?v=f281be69"></script>
+        <script src="../../_static/thebelab-helper.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script src="../../_static/dark_mode_js/default_light.js?v=c2e647ce"></script>
+        <script src="../../_static/dark_mode_js/theme_switcher.js?v=358d3910"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            AutoPDEx
+              <img src="../../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../notebooks/quickstart.html">Quickstart to AutoPDEx</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">High level operations</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../solver.html">Solver</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../models.html">Models</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Settings</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../settings.html">Settings and static_settings</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../example_notebooks.html">Example notebooks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../examples.html">Examplary input files</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Lower level operations</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../assembler.html">Assembler</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../implicit_diff.html">Implicit_diff</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../spaces.html">Spaces</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../solution_structures.html">Solution_structures</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../variational_schemes.html">Variational_schemes</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Pre- and postprocessing</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../geometry.html">Geometry</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../seeder.html">Seeder</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../utility.html">Utility</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../plotter.html">Plotter</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">AutoPDEx</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">autopdex.solver</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for autopdex.solver</h1><div class="highlight"><pre>
+<span></span><span class="c1"># solver.py</span>
+<span class="c1"># Copyright (C) 2024 Tobias Bode</span>
+<span class="c1">#</span>
+<span class="c1"># This program is free software: you can redistribute it and/or modify</span>
+<span class="c1"># it under the terms of the GNU Affero General Public License as published by</span>
+<span class="c1"># the Free Software Foundation, either version 3 of the License, or</span>
+<span class="c1"># (at your option) any later version.</span>
+<span class="c1">#</span>
+<span class="c1"># This program is distributed in the hope that it will be useful,</span>
+<span class="c1"># but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+<span class="c1"># MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the</span>
+<span class="c1"># GNU Affero General Public License for more details.</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">This module is the central module of the analysis phase.</span>
+<span class="sd">Based on the given entries in settings and static_settings, the functions solver and adaptive_load_stepping can be used to find the roots of the global residual vector. </span>
+<span class="sd">Depending on the settings, linear equation solvers, the Newton-Raphson method, or nonlinear minimizers are utilized. </span>
+<span class="sd">The residual vectors and (in the case of external solvers) the tangent matrix are automatically assembled according to the chosen settings. </span>
+<span class="sd">The solver module uses the assembler, which in turn calls the variational_scheme, the solution_structure, and the spaces modules. </span>
+<span class="sd">Additionally, automatic implicit differentiation in forward or reverse mode via the implicit_diff module is provided for the adaptive_load_stepping function.</span>
+<span class="sd">For solving the linear equation systems, wrappers for different backends on CPU and GPU are available, including Pardiso and PETSc.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+
+<span class="kn">import</span> <span class="nn">jax</span>
+<span class="kn">import</span> <span class="nn">jaxopt</span>
+<span class="kn">import</span> <span class="nn">jax.numpy</span> <span class="k">as</span> <span class="nn">jnp</span>
+<span class="kn">from</span> <span class="nn">jax.experimental</span> <span class="kn">import</span> <span class="n">sparse</span>
+<span class="kn">from</span> <span class="nn">jax</span> <span class="kn">import</span> <span class="n">lax</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">scipy</span> <span class="k">as</span> <span class="nn">scp</span>
+
+<span class="kn">from</span> <span class="nn">autopdex</span> <span class="kn">import</span> <span class="n">assembler</span><span class="p">,</span> <span class="n">implicit_diff</span>
+<span class="kn">from</span> <span class="nn">autopdex.utility</span> <span class="kn">import</span> <span class="n">jit_with_docstring</span>
+
+
+
+<span class="c1">### Solvers as specified by the static_settings and settings</span>
+
+<div class="viewcode-block" id="solver">
+<a class="viewcode-back" href="../../_autosummary/autopdex.solver.solver.html#autopdex.solver.solver">[docs]</a>
+<span class="nd">@jit_with_docstring</span><span class="p">(</span><span class="n">static_argnames</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;static_settings&#39;</span><span class="p">,</span> <span class="s1">&#39;**kwargs&#39;</span><span class="p">])</span>
+<span class="k">def</span> <span class="nf">solver</span><span class="p">(</span><span class="n">dofs</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  General solver function to solve a given problem based on provided settings.</span>
+
+<span class="sd">  This function chooses and runs the appropriate solver type (e.g., minimization, linear, Newton) based on the provided</span>
+<span class="sd">  `static_settings` and returns the solution and any additional information.</span>
+
+<span class="sd">  Parameters:</span>
+<span class="sd">      dofs (jnp.ndarray): Degrees of freedom or initial guess for the solution.</span>
+<span class="sd">      settings (dict): Dictionary containing various settings and parameters required for assembling the problem.</span>
+<span class="sd">      static_settings (dict): Dictionary containing static settings such as solver type, verbose level, and variational schemes.</span>
+<span class="sd">      **kwargs (dict): Additional keyword arguments passed to the specific solver functions.</span>
+
+<span class="sd">  Returns:</span>
+<span class="sd">      jnp.ndarray: The solution obtained from the selected solver.</span>
+<span class="sd">      Any: Additional information from the solver, such as number of iterations or convergence status.</span>
+
+<span class="sd">  Solver Types:</span>
+<span class="sd">    - &#39;minimize&#39; : Uses nonlinear minimization solvers (e.g., LBFGS, BFGS, etc.).</span>
+<span class="sd">    - &#39;linear&#39; : Solves linear systems using specified backend (e.g., JAX, PETSc, PARDISO, PyAMG, Scipy).</span>
+<span class="sd">    - &#39;diagonal linear&#39; : Solves linear systems assuming a diagonal tangent matrix.</span>
+<span class="sd">    - &#39;newton&#39; : Uses the Newton method for solving nonlinear systems.</span>
+<span class="sd">    - &#39;damped newton&#39; : Uses a damped Newton method for solving nonlinear systems.</span>
+
+<span class="sd">  For the different solvers, the function conducts the following functions in which more documentation is provided:</span>
+<span class="sd">    - &#39;minimize&#39; : solver.solve_nonlinear_minimization</span>
+<span class="sd">    - &#39;linear&#39; : solver.solve_linear</span>
+<span class="sd">    - &#39;diagonal linear&#39; : solver.solve_diagonal_linear</span>
+<span class="sd">    - &#39;newton&#39; : solver.solve_newton</span>
+<span class="sd">    - &#39;damped newton&#39; : solver.solve_damped_newton</span>
+
+<span class="sd">  Notes:</span>
+<span class="sd">    - If all domains are using &#39;least square pde loss&#39; variational scheme and verbosity level is &gt;=1, it prints the L2 error before and after optimization.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  
+  <span class="c1"># Give global error estimator with unfitted dofs if all domains are &#39;least square pde loss&#39;</span>
+  <span class="n">verbose</span> <span class="o">=</span> <span class="n">static_settings</span><span class="p">[</span><span class="s1">&#39;verbose&#39;</span><span class="p">]</span>
+  <span class="k">try</span><span class="p">:</span>
+    <span class="k">if</span> <span class="nb">all</span><span class="p">([</span><span class="n">scheme</span> <span class="o">==</span> <span class="s1">&#39;least square pde loss&#39;</span> <span class="k">for</span> <span class="n">scheme</span> <span class="ow">in</span> <span class="n">static_settings</span><span class="p">[</span><span class="s1">&#39;variational scheme&#39;</span><span class="p">]])</span> <span class="ow">and</span> <span class="n">verbose</span><span class="o">&gt;=</span><span class="mi">1</span><span class="p">:</span>
+      <span class="n">jax</span><span class="o">.</span><span class="n">debug</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s2">&quot;L2 error unoptimized: </span><span class="si">{x}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="n">assembler</span><span class="o">.</span><span class="n">integrate_functional</span><span class="p">(</span><span class="n">dofs</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">))</span>
+  <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+    <span class="k">pass</span>
+
+  <span class="c1"># Choose type of solver and call it</span>
+  <span class="n">solver_type</span> <span class="o">=</span> <span class="n">static_settings</span><span class="p">[</span><span class="s1">&#39;solver type&#39;</span><span class="p">]</span>
+  <span class="k">match</span> <span class="n">solver_type</span><span class="p">:</span>
+    <span class="k">case</span> <span class="s1">&#39;minimize&#39;</span><span class="p">:</span>
+      <span class="n">sol</span> <span class="o">=</span> <span class="n">solve_nonlinear_minimization</span><span class="p">(</span><span class="n">dofs</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+      <span class="n">infos</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">case</span> <span class="s1">&#39;linear&#39;</span><span class="p">:</span>
+      <span class="n">sol</span> <span class="o">=</span> <span class="n">solve_linear</span><span class="p">(</span><span class="n">dofs</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+      <span class="n">infos</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">case</span> <span class="s1">&#39;diagonal linear&#39;</span><span class="p">:</span>
+      <span class="n">sol</span> <span class="o">=</span> <span class="n">solve_diagonal_linear</span><span class="p">(</span><span class="n">dofs</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+      <span class="n">infos</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="c1"># case &#39;diagonal newton&#39;:</span>
+    <span class="c1">#   # ToDo</span>
+    <span class="c1">#   sol, infos = solve_diagonal_newton(dofs, settings, static_settings, **kwargs)</span>
+    <span class="k">case</span> <span class="s1">&#39;newton&#39;</span><span class="p">:</span>
+      <span class="n">sol</span><span class="p">,</span> <span class="n">infos</span> <span class="o">=</span> <span class="n">solve_newton</span><span class="p">(</span><span class="n">dofs</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="k">case</span> <span class="s1">&#39;damped newton&#39;</span><span class="p">:</span>
+      <span class="n">sol</span><span class="p">,</span> <span class="n">infos</span> <span class="o">=</span> <span class="n">solve_damped_newton</span><span class="p">(</span><span class="n">dofs</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="k">case</span><span class="w"> </span><span class="k">_</span><span class="p">:</span>
+      <span class="k">assert</span> <span class="kc">False</span><span class="p">,</span> <span class="s1">&#39;Solver type not implemented!&#39;</span>
+
+  <span class="c1"># Give global error estimator with fitted dofs if all domains are &#39;least square pde loss&#39;</span>
+  <span class="k">try</span><span class="p">:</span>
+    <span class="k">if</span> <span class="nb">all</span><span class="p">([</span><span class="n">scheme</span> <span class="o">==</span> <span class="s1">&#39;least square pde loss&#39;</span> <span class="k">for</span> <span class="n">scheme</span> <span class="ow">in</span> <span class="n">static_settings</span><span class="p">[</span><span class="s1">&#39;variational scheme&#39;</span><span class="p">]])</span> <span class="ow">and</span> <span class="n">verbose</span><span class="o">&gt;=</span><span class="mi">1</span><span class="p">:</span>
+      <span class="n">jax</span><span class="o">.</span><span class="n">debug</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s2">&quot;L2 error optimized: </span><span class="si">{x}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="n">assembler</span><span class="o">.</span><span class="n">integrate_functional</span><span class="p">(</span><span class="n">sol</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">))</span>
+  <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+    <span class="k">pass</span>
+  <span class="k">return</span> <span class="n">sol</span><span class="p">,</span> <span class="n">infos</span></div>
+
+
+<div class="viewcode-block" id="adaptive_load_stepping">
+<a class="viewcode-back" href="../../_autosummary/autopdex.solver.adaptive_load_stepping.html#autopdex.solver.adaptive_load_stepping">[docs]</a>
+<span class="nd">@jit_with_docstring</span><span class="p">(</span><span class="n">static_argnames</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;static_settings&#39;</span><span class="p">,</span> <span class="s1">&#39;multiplier_settings&#39;</span><span class="p">,</span> <span class="s1">&#39;path_dependent&#39;</span><span class="p">,</span> <span class="s1">&#39;implicit_diff_mode&#39;</span><span class="p">,</span> <span class="s1">&#39;max_multiplier&#39;</span><span class="p">,</span> <span class="s1">&#39;min_increment&#39;</span><span class="p">,</span> <span class="s1">&#39;max_increment&#39;</span><span class="p">,</span> <span class="s1">&#39;init_increment&#39;</span><span class="p">,</span> <span class="s1">&#39;target_num_newton_iter&#39;</span><span class="p">,</span> <span class="s1">&#39;max_load_steps&#39;</span><span class="p">,</span> <span class="s1">&#39;newton_tol&#39;</span><span class="p">,</span> <span class="s1">&#39;**kwargs&#39;</span><span class="p">])</span>
+<span class="k">def</span> <span class="nf">adaptive_load_stepping</span><span class="p">(</span><span class="n">dofs</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">,</span> <span class="n">multiplier_settings</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">settings</span><span class="p">,</span> <span class="n">multiplier</span><span class="p">:</span> <span class="p">(</span><span class="n">settings</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;load multiplier&#39;</span><span class="p">:</span> <span class="n">multiplier</span><span class="p">}),</span> <span class="n">settings</span><span class="p">)[</span><span class="mi">1</span><span class="p">],</span> <span class="n">path_dependent</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">implicit_diff_mode</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">max_multiplier</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span> <span class="n">min_increment</span> <span class="o">=</span> <span class="mf">0.01</span><span class="p">,</span> <span class="n">max_increment</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span> <span class="n">init_increment</span> <span class="o">=</span> <span class="mf">0.2</span><span class="p">,</span> <span class="n">max_load_steps</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">,</span> <span class="n">target_num_newton_iter</span> <span class="o">=</span> <span class="mi">7</span><span class="p">,</span> <span class="n">newton_tol</span> <span class="o">=</span> <span class="mf">1e-10</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Performs adaptive load stepping to solve a nonlinear system of equations.</span>
+
+<span class="sd">  This function iteratively adjusts the load increment to ensure convergence </span>
+<span class="sd">  using a Newton-Raphson solver. The increment size is adaptively controlled </span>
+<span class="sd">  based on the convergence behavior of the solver. Works currently only with</span>
+<span class="sd">  solver types &#39;newton&#39; and &#39;damped newton&#39;. </span>
+
+<span class="sd">  Args:</span>
+<span class="sd">    dofs (jnp.ndarray): Initial degrees of freedom.</span>
+<span class="sd">    settings (dict): Dictionary of problem settings.</span>
+<span class="sd">    static_settings (dict): Dictionary of static settings that do not change during load steps.</span>
+<span class="sd">    multiplier_settings (callable): Function to update settings based on the current load multiplier.</span>
+<span class="sd">    path_dependent (bool): Specifies wether problem is path-dependent or not (has an influence on the implicit differentiation).</span>
+<span class="sd">    implicit_diff_mode (string): Can be either \&#39;reverse\&#39;, \&#39;forward\&#39; or None. In case of \&#39;reverse\&#39;, only reverse mode differentiation is supported (jacrev), in case of \&#39;forward\&#39;, only forward mode differentiation is supported (jacfwd).</span>
+<span class="sd">    max_multiplier (float): Maximum value for the load multiplier.</span>
+<span class="sd">    min_increment (float): Minimum allowable increment size.</span>
+<span class="sd">    max_increment (float): Maximum allowable increment size.</span>
+<span class="sd">    init_increment (float): Initial increment size.</span>
+<span class="sd">    max_load_steps (int): Maximal number of load steps. Only used in case implicit_diff_mod is not None</span>
+<span class="sd">    target_num_newton_iter (int): Target number of Newton iterations for each load step.</span>
+<span class="sd">    newton_tol (float, optional): Tolerance for Newton solver convergence. Default is 1e-10.</span>
+<span class="sd">    **kwargs: Additional keyword arguments for the solver.</span>
+
+<span class="sd">  Returns:</span>
+<span class="sd">      - jnp.ndarray: Solution degrees of freedom after load stepping.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="n">verbose</span> <span class="o">=</span> <span class="n">static_settings</span><span class="p">[</span><span class="s1">&#39;verbose&#39;</span><span class="p">]</span>
+
+  <span class="k">if</span> <span class="n">implicit_diff_mode</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="c1"># Set-up the decorator for implicit differentiation</span>
+    <span class="n">residual_fun</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">dofs</span><span class="p">,</span> <span class="n">settings</span><span class="p">:</span> <span class="n">assembler</span><span class="o">.</span><span class="n">assemble_residual</span><span class="p">(</span><span class="n">dofs</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">)</span>
+    <span class="n">tangent_fun</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">dofs</span><span class="p">,</span> <span class="n">settings</span><span class="p">:</span> <span class="n">assembler</span><span class="o">.</span><span class="n">assemble_tangent</span><span class="p">(</span><span class="n">dofs</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">)</span>
+    <span class="n">free_dofs_flat</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">try</span><span class="p">:</span>
+      <span class="n">dirichlet_dofs_flat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">([</span><span class="n">element</span> <span class="k">for</span> <span class="n">tupl</span> <span class="ow">in</span> <span class="n">static_settings</span><span class="p">[</span><span class="s1">&#39;dirichlet dofs&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">element</span> <span class="ow">in</span> <span class="n">tupl</span><span class="p">])</span>
+      <span class="n">free_dofs_flat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">invert</span><span class="p">(</span><span class="n">dirichlet_dofs_flat</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+      <span class="k">pass</span>
+
+    <span class="n">solver_backend</span> <span class="o">=</span> <span class="n">static_settings</span><span class="p">[</span><span class="s1">&#39;solver backend&#39;</span><span class="p">]</span>
+    <span class="n">solver_subtype</span> <span class="o">=</span> <span class="n">static_settings</span><span class="p">[</span><span class="s1">&#39;solver&#39;</span><span class="p">]</span>
+    <span class="k">try</span><span class="p">:</span> 
+      <span class="n">sensitivity_solver_backend</span> <span class="o">=</span> <span class="n">static_settings</span><span class="p">[</span><span class="s1">&#39;sensitivity solver backend&#39;</span><span class="p">]</span>
+      <span class="n">sensitivity_solver_subtype</span> <span class="o">=</span> <span class="n">static_settings</span><span class="p">[</span><span class="s1">&#39;sensitivity solver&#39;</span><span class="p">]</span>
+    <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+      <span class="n">sensitivity_solver_backend</span> <span class="o">=</span> <span class="n">solver_backend</span>
+      <span class="n">sensitivity_solver_subtype</span> <span class="o">=</span> <span class="n">solver_subtype</span>
+
+    <span class="k">match</span> <span class="n">sensitivity_solver_backend</span><span class="p">:</span>
+      <span class="k">case</span> <span class="s1">&#39;petsc&#39;</span><span class="p">:</span>
+        <span class="n">n_fields</span> <span class="o">=</span> <span class="n">static_settings</span><span class="p">[</span><span class="s1">&#39;number of fields&#39;</span><span class="p">]</span>
+        <span class="n">pc_type</span> <span class="o">=</span> <span class="n">static_settings</span><span class="p">[</span><span class="s1">&#39;type of preconditioner&#39;</span><span class="p">]</span>
+        <span class="n">lin_solve_fun</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">mat</span><span class="p">,</span> <span class="n">rhs</span><span class="p">:</span> <span class="n">linear_solve_petsc</span><span class="p">(</span><span class="n">mat</span><span class="p">,</span> <span class="n">rhs</span><span class="p">,</span> <span class="n">n_fields</span><span class="p">,</span> <span class="n">sensitivity_solver_subtype</span><span class="p">,</span> <span class="n">pc_type</span><span class="p">,</span> <span class="n">verbose</span><span class="p">,</span> <span class="n">free_dofs_flat</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+      <span class="k">case</span> <span class="s1">&#39;pardiso&#39;</span><span class="p">:</span>
+        <span class="n">lin_solve_fun</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">mat</span><span class="p">,</span> <span class="n">rhs</span><span class="p">:</span> <span class="n">linear_solve_pardiso</span><span class="p">(</span><span class="n">mat</span><span class="p">,</span> <span class="n">rhs</span><span class="p">,</span> <span class="n">sensitivity_solver_subtype</span><span class="p">,</span> <span class="n">verbose</span><span class="p">,</span> <span class="n">free_dofs_flat</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+      <span class="k">case</span> <span class="s1">&#39;pyamg&#39;</span><span class="p">:</span>
+        <span class="n">pc_type</span> <span class="o">=</span> <span class="n">static_settings</span><span class="p">[</span><span class="s1">&#39;type of preconditioner&#39;</span><span class="p">]</span>
+        <span class="n">lin_solve_fun</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">mat</span><span class="p">,</span> <span class="n">rhs</span><span class="p">:</span> <span class="n">linear_solve_pyamg</span><span class="p">(</span><span class="n">mat</span><span class="p">,</span> <span class="n">rhs</span><span class="p">,</span> <span class="n">sensitivity_solver_subtype</span><span class="p">,</span> <span class="n">pc_type</span><span class="p">,</span> <span class="n">verbose</span><span class="p">,</span> <span class="n">free_dofs_flat</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+      <span class="k">case</span> <span class="s1">&#39;scipy&#39;</span><span class="p">:</span>
+        <span class="n">lin_solve_fun</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">mat</span><span class="p">,</span> <span class="n">rhs</span><span class="p">:</span> <span class="n">linear_solve_scipy</span><span class="p">(</span><span class="n">mat</span><span class="p">,</span> <span class="n">rhs</span><span class="p">,</span> <span class="n">sensitivity_solver_subtype</span><span class="p">,</span> <span class="n">verbose</span><span class="p">,</span> <span class="n">free_dofs_flat</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+      <span class="k">case</span><span class="w"> </span><span class="k">_</span><span class="p">:</span>
+          <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Specified sensitivity solver backend not available. Choose </span><span class="se">\&#39;</span><span class="s2">pardiso</span><span class="se">\&#39;</span><span class="s2">, </span><span class="se">\&#39;</span><span class="s2">petsc</span><span class="se">\&#39;</span><span class="s2">, </span><span class="se">\&#39;</span><span class="s2">pyamg</span><span class="se">\&#39;</span><span class="s2"> or </span><span class="se">\&#39;</span><span class="s2">scipy</span><span class="se">\&#39;</span><span class="s2">.&quot;</span><span class="p">)</span>
+    <span class="n">lin_solve_callback_fun</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">mat</span><span class="p">,</span> <span class="n">rhs</span><span class="p">:</span> <span class="n">jax</span><span class="o">.</span><span class="n">pure_callback</span><span class="p">(</span><span class="n">lin_solve_fun</span><span class="p">,</span> <span class="n">jnp</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">rhs</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">rhs</span><span class="o">.</span><span class="n">dtype</span><span class="p">),</span> <span class="n">mat</span><span class="p">,</span> <span class="n">rhs</span><span class="p">)</span>
+
+  <span class="c1"># Set up functions for adaptive load stepping loop</span>
+  <span class="k">def</span> <span class="nf">continue_check</span><span class="p">(</span><span class="n">carry</span><span class="p">):</span>
+    <span class="n">_</span><span class="p">,</span> <span class="n">multiplier</span><span class="p">,</span> <span class="n">increment</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">carry</span>
+    <span class="n">_continue_1</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">logical_and</span><span class="p">(</span><span class="n">multiplier</span> <span class="o">&lt;</span> <span class="n">max_multiplier</span><span class="p">,</span> <span class="n">increment</span> <span class="o">&gt;</span> <span class="n">min_increment</span><span class="p">)</span>
+    <span class="n">jax</span><span class="o">.</span><span class="n">lax</span><span class="o">.</span><span class="n">cond</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">logical_and</span><span class="p">(</span><span class="n">multiplier</span> <span class="o">&lt;</span> <span class="n">max_multiplier</span> <span class="o">-</span> <span class="n">min_increment</span><span class="p">,</span> <span class="n">increment</span> <span class="o">&lt;</span> <span class="n">min_increment</span><span class="p">),</span> 
+                 <span class="k">lambda</span><span class="p">:</span> <span class="n">jax</span><span class="o">.</span><span class="n">debug</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s2">&quot;Adaptive load stepping could not converge; increment size below min_increment!&quot;</span><span class="p">),</span>
+                 <span class="k">lambda</span><span class="p">:</span> <span class="kc">None</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">_continue_1</span>
+  
+  <span class="k">def</span> <span class="nf">step</span><span class="p">(</span><span class="n">carry</span><span class="p">):</span>
+    <span class="n">dofs0</span><span class="p">,</span> <span class="n">multiplier</span><span class="p">,</span> <span class="n">increment</span><span class="p">,</span> <span class="n">load_step</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">carry</span>
+
+    <span class="c1"># Update multiplier</span>
+    <span class="n">multiplier</span> <span class="o">+=</span> <span class="n">increment</span>
+
+    <span class="c1"># Update boundary conditions</span>
+    <span class="k">if</span> <span class="n">verbose</span> <span class="o">&gt;</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+      <span class="k">if</span> <span class="n">verbose</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">jax</span><span class="o">.</span><span class="n">debug</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+      <span class="n">jax</span><span class="o">.</span><span class="n">debug</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s1">&#39;Multiplier: </span><span class="si">{x}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="n">multiplier</span><span class="p">)</span>
+    <span class="n">settings</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">jit</span><span class="p">(</span><span class="n">multiplier_settings</span><span class="p">)(</span><span class="n">settings</span><span class="p">,</span> <span class="n">multiplier</span><span class="p">)</span>
+
+    <span class="c1"># Call newton solver</span>
+    <span class="k">if</span> <span class="n">path_dependent</span> <span class="ow">and</span> <span class="n">implicit_diff_mode</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span> <span class="c1"># Add implicit differentiation for each load step</span>
+      <span class="nd">@implicit_diff</span><span class="o">.</span><span class="n">custom_root</span><span class="p">(</span><span class="n">residual_fun</span><span class="p">,</span> <span class="n">tangent_fun</span><span class="p">,</span> <span class="n">lin_solve_callback_fun</span><span class="p">,</span> <span class="n">free_dofs_flat</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="n">implicit_diff_mode</span><span class="p">)</span>
+      <span class="k">def</span> <span class="nf">diffable_solve</span><span class="p">(</span><span class="n">dofs0</span><span class="p">,</span> <span class="n">settings</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">solver</span><span class="p">(</span><span class="n">dofs0</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">,</span> <span class="n">newton_tol</span><span class="o">=</span><span class="n">newton_tol</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+      <span class="n">dofs</span><span class="p">,</span> <span class="n">infos</span> <span class="o">=</span> <span class="n">diffable_solve</span><span class="p">(</span><span class="n">dofs0</span><span class="p">,</span> <span class="n">settings</span><span class="p">)</span>
+      <span class="n">needed_steps</span><span class="p">,</span> <span class="n">res_norm_free_dofs</span><span class="p">,</span> <span class="n">divergence</span> <span class="o">=</span> <span class="n">infos</span>
+
+    <span class="k">else</span><span class="p">:</span> <span class="c1"># Add implicit diff wrapper on the adaptive load stepping level</span>
+      <span class="n">dofs</span><span class="p">,</span> <span class="n">infos</span> <span class="o">=</span> <span class="n">solver</span><span class="p">(</span><span class="n">dofs0</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">,</span> <span class="n">newton_tol</span><span class="o">=</span><span class="n">newton_tol</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+      <span class="n">needed_steps</span><span class="p">,</span> <span class="n">res_norm_free_dofs</span><span class="p">,</span> <span class="n">divergence</span> <span class="o">=</span> <span class="n">infos</span>
+
+    <span class="c1"># Adaptive incrementation</span>
+    <span class="n">multiplier</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">divergence</span><span class="p">,</span> <span class="n">multiplier</span> <span class="o">-</span> <span class="n">increment</span><span class="p">,</span> <span class="n">multiplier</span><span class="p">)</span>
+    <span class="n">increment</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">divergence</span><span class="p">,</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">increment</span><span class="p">,</span>
+                          <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="n">target_num_newton_iter</span> <span class="o">-</span> <span class="n">needed_steps</span><span class="p">)</span> <span class="o">/</span> <span class="n">target_num_newton_iter</span><span class="p">)</span> <span class="o">*</span> <span class="n">increment</span><span class="p">)</span>
+    <span class="n">increment</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">increment</span> <span class="o">&gt;</span> <span class="n">max_increment</span><span class="p">,</span> <span class="n">max_increment</span><span class="p">,</span> <span class="n">increment</span><span class="p">)</span>
+
+    <span class="n">dofs</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">divergence</span><span class="p">,</span> <span class="n">dofs0</span><span class="p">,</span> <span class="n">dofs</span><span class="p">)</span>
+
+    <span class="c1"># Limit to max_multiplier</span>
+    <span class="n">increment</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">multiplier</span> <span class="o">+</span> <span class="n">increment</span> <span class="o">&gt;</span> <span class="n">max_multiplier</span><span class="p">,</span> <span class="n">max_multiplier</span> <span class="o">-</span> <span class="n">multiplier</span><span class="p">,</span> <span class="n">increment</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">dofs</span><span class="p">,</span> <span class="n">multiplier</span><span class="p">,</span> <span class="n">increment</span><span class="p">,</span> <span class="n">load_step</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">res_norm_free_dofs</span>
+
+  <span class="c1"># Use implicit diff wrappers to make it differentiable</span>
+  <span class="k">if</span> <span class="n">implicit_diff_mode</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">path_dependent</span><span class="p">:</span> <span class="c1"># Conservative problem</span>
+      <span class="nd">@implicit_diff</span><span class="o">.</span><span class="n">custom_root</span><span class="p">(</span><span class="n">residual_fun</span><span class="p">,</span> <span class="n">tangent_fun</span><span class="p">,</span> <span class="n">lin_solve_callback_fun</span><span class="p">,</span> <span class="n">free_dofs_flat</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="n">implicit_diff_mode</span><span class="p">)</span>
+      <span class="k">def</span> <span class="nf">diffable_adaptive_load_stepping</span><span class="p">(</span><span class="n">dofs</span><span class="p">,</span> <span class="n">settings</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">jax</span><span class="o">.</span><span class="n">lax</span><span class="o">.</span><span class="n">while_loop</span><span class="p">(</span><span class="n">continue_check</span><span class="p">,</span> <span class="n">step</span><span class="p">,</span> <span class="p">(</span><span class="n">dofs</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="n">init_increment</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="mf">0.</span><span class="p">))</span>
+      <span class="k">return</span> <span class="n">diffable_adaptive_load_stepping</span><span class="p">(</span><span class="n">dofs</span><span class="p">,</span> <span class="n">settings</span><span class="p">)</span>
+
+    <span class="k">else</span><span class="p">:</span> <span class="c1"># Pathdependent problem; uses fori_loop with static limits for supporting reverse mode differentiation</span>
+      <span class="k">def</span> <span class="nf">body_fn</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">carry</span><span class="p">):</span>
+        <span class="k">def</span> <span class="nf">continue_check</span><span class="p">(</span><span class="n">carry</span><span class="p">):</span>
+          <span class="n">_</span><span class="p">,</span> <span class="n">multiplier</span><span class="p">,</span> <span class="n">increment</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">divergence</span><span class="p">,</span> <span class="n">stop</span> <span class="o">=</span> <span class="n">carry</span>
+          <span class="n">_continue_1</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">logical_and</span><span class="p">(</span><span class="n">multiplier</span> <span class="o">&lt;</span> <span class="n">max_multiplier</span><span class="p">,</span> <span class="n">increment</span> <span class="o">&gt;</span> <span class="n">min_increment</span><span class="p">)</span>
+          <span class="n">jax</span><span class="o">.</span><span class="n">lax</span><span class="o">.</span><span class="n">cond</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">logical_and</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">logical_and</span><span class="p">(</span><span class="n">multiplier</span> <span class="o">&lt;</span> <span class="n">max_multiplier</span><span class="p">,</span> <span class="n">increment</span> <span class="o">&lt;</span> <span class="n">min_increment</span><span class="p">),</span> <span class="n">jnp</span><span class="o">.</span><span class="n">logical_not</span><span class="p">(</span><span class="n">stop</span><span class="p">)),</span>
+                      <span class="k">lambda</span><span class="p">:</span> <span class="n">jax</span><span class="o">.</span><span class="n">debug</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s2">&quot;Adaptive load stepping could not converge; increment size below min_increment!&quot;</span><span class="p">),</span>
+                      <span class="k">lambda</span><span class="p">:</span> <span class="kc">None</span><span class="p">)</span>
+          <span class="k">return</span> <span class="n">_continue_1</span>
+
+        <span class="k">def</span> <span class="nf">step_extended</span><span class="p">(</span><span class="n">carry</span><span class="p">):</span>
+          <span class="n">dofs</span><span class="p">,</span> <span class="n">multiplier</span><span class="p">,</span> <span class="n">increment</span><span class="p">,</span> <span class="n">load_step</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">res_norm_free_dofs</span><span class="p">,</span> <span class="n">stop</span> <span class="o">=</span> <span class="n">carry</span>
+          <span class="n">args</span> <span class="o">=</span> <span class="n">dofs</span><span class="p">,</span> <span class="n">multiplier</span><span class="p">,</span> <span class="n">increment</span><span class="p">,</span> <span class="n">load_step</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">res_norm_free_dofs</span>
+          <span class="k">return</span> <span class="n">step</span><span class="p">(</span><span class="n">args</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="kc">False</span><span class="p">,)</span>
+
+        <span class="k">def</span> <span class="nf">finish</span><span class="p">(</span><span class="n">carry</span><span class="p">):</span>
+          <span class="n">dofs</span><span class="p">,</span> <span class="n">multiplier</span><span class="p">,</span> <span class="n">increment</span><span class="p">,</span> <span class="n">load_step</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">res_norm_free_dofs</span><span class="p">,</span> <span class="n">stop</span> <span class="o">=</span> <span class="n">carry</span>
+          <span class="k">return</span> <span class="n">dofs</span><span class="p">,</span> <span class="n">multiplier</span><span class="p">,</span> <span class="n">increment</span><span class="p">,</span> <span class="n">load_step</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">res_norm_free_dofs</span><span class="p">,</span> <span class="kc">True</span>
+
+        <span class="n">carry</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">lax</span><span class="o">.</span><span class="n">cond</span><span class="p">(</span><span class="n">continue_check</span><span class="p">(</span><span class="n">carry</span><span class="p">),</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">step_extended</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">finish</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">carry</span><span class="p">)</span>
+
+        <span class="c1"># ToDo: Verify accuracy of derivatives with finite differences.</span>
+        <span class="k">return</span> <span class="n">carry</span>
+      <span class="n">init_state</span> <span class="o">=</span> <span class="p">(</span><span class="n">dofs</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="n">init_increment</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+      <span class="k">return</span> <span class="n">jax</span><span class="o">.</span><span class="n">lax</span><span class="o">.</span><span class="n">fori_loop</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">max_load_steps</span><span class="p">,</span> <span class="n">body_fn</span><span class="p">,</span> <span class="n">init_state</span><span class="p">)</span>
+
+  <span class="k">else</span><span class="p">:</span> <span class="c1"># No definition of implicit derivatives</span>
+    <span class="k">return</span> <span class="n">jax</span><span class="o">.</span><span class="n">lax</span><span class="o">.</span><span class="n">while_loop</span><span class="p">(</span><span class="n">continue_check</span><span class="p">,</span> <span class="n">step</span><span class="p">,</span> <span class="p">(</span><span class="n">dofs</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="n">init_increment</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="mf">0.</span><span class="p">))</span></div>
+
+
+    <span class="c1"># # ToDo: check performance of jitting one level lower in order to reduce compile time</span>
+    <span class="c1"># state = (dofs, 0.0, init_increment, 0, settings, 0.0)</span>
+    <span class="c1"># while continue_check(state):</span>
+    <span class="c1">#     state = step(state)</span>
+    <span class="c1"># return state</span>
+
+<span class="c1">### Minimizers</span>
+<div class="viewcode-block" id="solve_nonlinear_minimization">
+<a class="viewcode-back" href="../../_autosummary/autopdex.solver.solve_nonlinear_minimization.html#autopdex.solver.solve_nonlinear_minimization">[docs]</a>
+<span class="nd">@jit_with_docstring</span><span class="p">(</span><span class="n">static_argnames</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;static_settings&#39;</span><span class="p">,</span> <span class="s1">&#39;**kwargs&#39;</span><span class="p">])</span>
+<span class="k">def</span> <span class="nf">solve_nonlinear_minimization</span><span class="p">(</span><span class="n">dofs</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Solves a nonlinear minimization problem using specified optimization methods.</span>
+
+<span class="sd">  This function wraps nonlinear minimization solvers provided by `jaxopt` to minimize a functional</span>
+<span class="sd">  and solve the given problem.</span>
+
+<span class="sd">  Parameters:</span>
+<span class="sd">    dofs (jnp.ndarray): Degrees of freedom or initial guess for the solution.</span>
+<span class="sd">    settings (dict): Dictionary containing various settings and parameters required for assembling the problem.</span>
+<span class="sd">    static_settings (dict): Dictionary containing static settings such as solver type, verbose level, and variational schemes.</span>
+<span class="sd">    **kwargs (dict): Additional keyword arguments passed to the specific solver functions.</span>
+
+<span class="sd">  Returns:</span>
+<span class="sd">    jnp.ndarray: The optimized solution obtained from the selected solver.</span>
+
+<span class="sd">  Solver Types</span>
+<span class="sd">    - &#39;gradient descent&#39; : Uses gradient descent for optimization.</span>
+<span class="sd">    - &#39;lbfgs&#39; : Uses Limited-memory Broyden-Fletcher-Goldfarb-Shanno (LBFGS) algorithm for optimization.</span>
+<span class="sd">    - &#39;bfgs&#39; : Uses Broyden-Fletcher-Goldfarb-Shanno (BFGS) algorithm for optimization.</span>
+<span class="sd">    - &#39;nonlinear cg&#39; : Uses nonlinear conjugate gradient method for optimization.</span>
+<span class="sd">    - &#39;gauss newton&#39; : Uses Gauss-Newton method for optimization.</span>
+<span class="sd">    - &#39;levenberg marquart&#39; : Uses Levenberg-Marquardt algorithm for optimization.</span>
+<span class="sd">    - Default : If solver name is not set or not available, uses &#39;lbfgs&#39; as the default solver.</span>
+
+<span class="sd">  Notes:</span>
+<span class="sd">    - This function should just be called, if the variational scheme involves the definition of a functional that is to be minimized,</span>
+<span class="sd">      e.g. &#39;least square pde loss&#39;. The modes &#39;gauss newton&#39; and &#39;levenberg marquart&#39; are an exeption, since the utilize the residual.</span>
+<span class="sd">    - The function conducts the assembler.integrate_functional and assembler.assemble_residual functions in order</span>
+<span class="sd">      to set up suitable optimization functions or residual functions, depending on what the solver needs.</span>
+<span class="sd">    - The current implementation does not support nodal imposition of DOFs. This will raise an assertion error if</span>
+<span class="sd">      nodal imposition is detected in the `static_settings`.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="n">nodal_imposition</span> <span class="o">=</span> <span class="s1">&#39;nodal imposition&#39;</span> <span class="ow">in</span> <span class="n">static_settings</span><span class="p">[</span><span class="s1">&#39;solution structure&#39;</span><span class="p">]</span>
+  <span class="k">assert</span> <span class="ow">not</span> <span class="n">nodal_imposition</span><span class="p">,</span> <span class="s2">&quot;solver type </span><span class="se">\&#39;</span><span class="s2">minimize</span><span class="se">\&#39;</span><span class="s2"> does currently not support nodal imposition of DOFs.&quot;</span>
+  <span class="c1"># ToDo: impose boundary conditions and freeze dirichlet dofs</span>
+
+  <span class="k">def</span> <span class="nf">functional</span><span class="p">(</span><span class="n">params</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">assembler</span><span class="o">.</span><span class="n">integrate_functional</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">)</span>
+  <span class="k">def</span> <span class="nf">residual_function</span><span class="p">(</span><span class="n">params</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">assembler</span><span class="o">.</span><span class="n">assemble_residual</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">)</span>
+  <span class="k">def</span> <span class="nf">residual_function_flat</span><span class="p">(</span><span class="n">params</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">assembler</span><span class="o">.</span><span class="n">assemble_residual</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">dofs</span><span class="o">.</span><span class="n">shape</span><span class="p">),</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">)</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+
+  <span class="c1"># Select minimizer</span>
+  <span class="n">solver_name</span> <span class="o">=</span> <span class="n">static_settings</span><span class="p">[</span><span class="s1">&#39;solver&#39;</span><span class="p">]</span>
+  <span class="k">match</span> <span class="n">solver_name</span><span class="p">:</span>
+    <span class="k">case</span> <span class="s1">&#39;gradient descent&#39;</span><span class="p">:</span>
+      <span class="n">solver</span> <span class="o">=</span> <span class="n">jaxopt</span><span class="o">.</span><span class="n">GradientDescent</span><span class="p">(</span><span class="n">functional</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+      <span class="n">sol</span> <span class="o">=</span> <span class="n">solver</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">dofs</span><span class="p">)</span><span class="o">.</span><span class="n">params</span>
+    <span class="k">case</span> <span class="s1">&#39;lbfgs&#39;</span><span class="p">:</span>
+      <span class="n">solver</span> <span class="o">=</span> <span class="n">jaxopt</span><span class="o">.</span><span class="n">LBFGS</span><span class="p">(</span><span class="n">functional</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+      <span class="n">sol</span> <span class="o">=</span> <span class="n">solver</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">dofs</span><span class="p">)</span><span class="o">.</span><span class="n">params</span>
+    <span class="k">case</span> <span class="s1">&#39;bfgs&#39;</span><span class="p">:</span>
+      <span class="n">solver</span> <span class="o">=</span> <span class="n">jaxopt</span><span class="o">.</span><span class="n">BFGS</span><span class="p">(</span><span class="n">functional</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+      <span class="n">sol</span> <span class="o">=</span> <span class="n">solver</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">dofs</span><span class="p">)</span><span class="o">.</span><span class="n">params</span>
+    <span class="k">case</span> <span class="s1">&#39;nonlinear cg&#39;</span><span class="p">:</span>
+      <span class="n">solver</span> <span class="o">=</span> <span class="n">jaxopt</span><span class="o">.</span><span class="n">NonlinearCG</span><span class="p">(</span><span class="n">functional</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+      <span class="n">sol</span> <span class="o">=</span> <span class="n">solver</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">dofs</span><span class="p">)</span><span class="o">.</span><span class="n">params</span>
+    <span class="k">case</span> <span class="s1">&#39;gauss newton&#39;</span><span class="p">:</span>
+      <span class="n">solver</span> <span class="o">=</span> <span class="n">jaxopt</span><span class="o">.</span><span class="n">GaussNewton</span><span class="p">(</span><span class="n">residual_function</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+      <span class="n">sol</span> <span class="o">=</span> <span class="n">solver</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">dofs</span><span class="p">)</span><span class="o">.</span><span class="n">params</span>
+    <span class="k">case</span> <span class="s1">&#39;levenberg marquart&#39;</span><span class="p">:</span>
+      <span class="n">solver</span> <span class="o">=</span> <span class="n">jaxopt</span><span class="o">.</span><span class="n">LevenbergMarquardt</span><span class="p">(</span><span class="n">residual_function_flat</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+      <span class="n">sol</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">solver</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">dofs</span><span class="o">.</span><span class="n">flatten</span><span class="p">())</span><span class="o">.</span><span class="n">params</span><span class="p">,</span> <span class="n">dofs</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+    <span class="k">case</span><span class="w"> </span><span class="k">_</span><span class="p">:</span>
+      <span class="n">solver</span> <span class="o">=</span> <span class="n">jaxopt</span><span class="o">.</span><span class="n">LBFGS</span><span class="p">(</span><span class="n">functional</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+      <span class="n">sol</span> <span class="o">=</span> <span class="n">solver</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">dofs</span><span class="p">)</span><span class="o">.</span><span class="n">params</span>
+      <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Solver name not set or not available in combination with this solver type. Using static_settings[</span><span class="se">\&#39;</span><span class="s1">solver name</span><span class="se">\&#39;</span><span class="s1">] = </span><span class="se">\&#39;</span><span class="s1">lbfgs</span><span class="se">\&#39;</span><span class="s1"> as default.&#39;</span><span class="p">)</span>
+  <span class="k">return</span> <span class="n">sol</span></div>
+
+
+<span class="c1">### Root finders</span>
+<div class="viewcode-block" id="solve_linear">
+<a class="viewcode-back" href="../../_autosummary/autopdex.solver.solve_linear.html#autopdex.solver.solve_linear">[docs]</a>
+<span class="nd">@jit_with_docstring</span><span class="p">(</span><span class="n">static_argnames</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;static_settings&#39;</span><span class="p">,</span> <span class="s1">&#39;**kwargs&#39;</span><span class="p">])</span>
+<span class="k">def</span> <span class="nf">solve_linear</span><span class="p">(</span><span class="n">dofs</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Solves a linear system using the specified backend and solver settings.</span>
+
+<span class="sd">  This function determines the appropriate linear solver based on the provided settings and forwards the</span>
+<span class="sd">  call to the selected solver function. It supports both JAX matrix-free solvers and external solvers</span>
+<span class="sd">  like PETSc, PARDISO, PyAMG, and Scipy using jax.pure_callback.</span>
+
+<span class="sd">  Parameters:</span>
+<span class="sd">    dofs (jnp.ndarray): Degrees of freedom or initial guess for the solution.</span>
+<span class="sd">    settings (dict): Dictionary containing various settings and parameters required for assembling the problem.</span>
+<span class="sd">    static_settings (dict): Dictionary containing static settings such as solver backend, type of solver, and preconditioner.</span>
+<span class="sd">    **kwargs (dict): Additional keyword arguments passed to the specific solver functions.</span>
+
+<span class="sd">  Returns:</span>
+<span class="sd">    jnp.ndarray: The solution obtained from the selected linear solver.</span>
+
+<span class="sd">  Solver Backends:</span>
+<span class="sd">    - &#39;jax&#39; : Uses JAX&#39;s matrix-free solvers.</span>
+<span class="sd">    - &#39;petsc&#39; : Uses PETSc for solving linear systems.</span>
+<span class="sd">    - &#39;pardiso&#39; : Uses PARDISO for solving linear systems.</span>
+<span class="sd">    - &#39;pyamg&#39; : Uses PyAMG for solving linear systems.</span>
+<span class="sd">    - &#39;scipy&#39; : Uses Scipy&#39;s sparse solvers for solving linear systems.</span>
+
+<span class="sd">  Notes:</span>
+<span class="sd">    - If `nodal imposition` is detected in the `static_settings`, the function imposes Dirichlet boundary conditions</span>
+<span class="sd">      and adjusts the degrees of freedom accordingly.</span>
+<span class="sd">    - The function assembles the residual and tangent matrix before solving the system in case an external solver is used.</span>
+<span class="sd">    - If the tangent matrix is dense and an external solver is used, it is converted to a sparse format.</span>
+<span class="sd">    - The function uses JAX&#39;s `pure_callback` to call external solvers and handle the solution.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="n">solver_backend</span> <span class="o">=</span> <span class="n">static_settings</span><span class="p">[</span><span class="s1">&#39;solver backend&#39;</span><span class="p">]</span>
+
+  <span class="c1">### Jax matrix-free solver</span>
+  <span class="k">if</span> <span class="n">solver_backend</span> <span class="o">==</span> <span class="s1">&#39;jax&#39;</span><span class="p">:</span>
+    <span class="k">return</span> <span class="n">linear_solve_jax</span><span class="p">(</span><span class="n">dofs</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+  <span class="c1">### External linear solver</span>
+  <span class="n">nodal_imposition</span> <span class="o">=</span> <span class="s1">&#39;nodal imposition&#39;</span> <span class="ow">in</span> <span class="n">static_settings</span><span class="p">[</span><span class="s1">&#39;solution structure&#39;</span><span class="p">]</span>
+  <span class="k">if</span> <span class="n">nodal_imposition</span><span class="p">:</span>
+    <span class="c1"># Impose Dirichlet boundaries. Dirichlet dofs has to be concrete, therefore it is passed in static_settings as tuple of tuples</span>
+    <span class="n">dirichlet_dofs_flat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">([</span><span class="n">element</span> <span class="k">for</span> <span class="n">tupl</span> <span class="ow">in</span> <span class="n">static_settings</span><span class="p">[</span><span class="s1">&#39;dirichlet dofs&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">element</span> <span class="ow">in</span> <span class="n">tupl</span><span class="p">])</span>
+    <span class="n">free_dofs_flat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">invert</span><span class="p">(</span><span class="n">dirichlet_dofs_flat</span><span class="p">)</span>
+
+    <span class="c1"># Impose nodal dofs</span>
+    <span class="n">dirichlet_conditions</span> <span class="o">=</span> <span class="n">settings</span><span class="p">[</span><span class="s1">&#39;dirichlet conditions&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+    <span class="n">flat_dofs</span> <span class="o">=</span> <span class="n">dofs</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+    <span class="n">idx</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">flat_dofs</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])[</span><span class="n">dirichlet_dofs_flat</span><span class="p">]</span>
+    <span class="n">flat_dofs</span> <span class="o">=</span> <span class="n">flat_dofs</span><span class="o">.</span><span class="n">at</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">dirichlet_conditions</span><span class="p">[</span><span class="n">idx</span><span class="p">])</span>
+    <span class="n">dofs</span> <span class="o">=</span> <span class="n">flat_dofs</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">dofs</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+
+  <span class="c1"># Assembling</span>
+  <span class="n">verbose</span> <span class="o">=</span> <span class="n">static_settings</span><span class="p">[</span><span class="s1">&#39;verbose&#39;</span><span class="p">]</span>
+  <span class="n">solver</span> <span class="o">=</span> <span class="n">static_settings</span><span class="p">[</span><span class="s1">&#39;solver&#39;</span><span class="p">]</span>
+  <span class="n">rhs</span> <span class="o">=</span> <span class="o">-</span> <span class="n">assembler</span><span class="o">.</span><span class="n">assemble_residual</span><span class="p">(</span><span class="n">dofs</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">)</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+  <span class="n">mat</span> <span class="o">=</span> <span class="n">assembler</span><span class="o">.</span><span class="n">assemble_tangent</span><span class="p">(</span><span class="n">dofs</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">)</span>
+
+  <span class="c1"># If dense matrix and external solver, convert to sparse</span>
+  <span class="k">if</span> <span class="n">solver_backend</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;petsc&#39;</span><span class="p">,</span> <span class="s1">&#39;pardiso&#39;</span><span class="p">,</span> <span class="s1">&#39;pyamg&#39;</span><span class="p">,</span> <span class="s1">&#39;scipy&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">type</span><span class="p">(</span><span class="n">mat</span><span class="p">)</span> <span class="o">==</span> <span class="n">jnp</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+    <span class="n">mat</span> <span class="o">=</span> <span class="n">sparse</span><span class="o">.</span><span class="n">bcoo_fromdense</span><span class="p">()</span>
+
+  <span class="k">if</span> <span class="n">nodal_imposition</span><span class="p">:</span>
+    <span class="c1"># Delete rows</span>
+    <span class="n">rhs</span> <span class="o">=</span> <span class="n">rhs</span><span class="p">[</span><span class="n">free_dofs_flat</span><span class="p">]</span>
+
+  <span class="k">match</span> <span class="n">solver_backend</span><span class="p">:</span>
+    <span class="k">case</span> <span class="s1">&#39;petsc&#39;</span><span class="p">:</span>
+      <span class="n">n_fields</span> <span class="o">=</span> <span class="n">static_settings</span><span class="p">[</span><span class="s1">&#39;number of fields&#39;</span><span class="p">]</span>
+      <span class="n">pc_type</span> <span class="o">=</span> <span class="n">static_settings</span><span class="p">[</span><span class="s1">&#39;type of preconditioner&#39;</span><span class="p">]</span>
+      <span class="n">solve_fun</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span> <span class="p">:</span> <span class="n">linear_solve_petsc</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">n_fields</span><span class="p">,</span> <span class="n">solver</span><span class="p">,</span> <span class="n">pc_type</span><span class="p">,</span> <span class="n">verbose</span><span class="p">,</span> <span class="n">free_dofs</span><span class="o">=</span><span class="n">c</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="k">case</span> <span class="s1">&#39;pardiso&#39;</span><span class="p">:</span>
+      <span class="n">solve_fun</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">:</span> <span class="n">linear_solve_pardiso</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">solver</span><span class="p">,</span> <span class="n">verbose</span><span class="p">,</span> <span class="n">free_dofs</span><span class="o">=</span><span class="n">c</span><span class="p">)</span>
+    <span class="k">case</span> <span class="s1">&#39;pyamg&#39;</span><span class="p">:</span>
+      <span class="n">pc_type</span> <span class="o">=</span> <span class="n">static_settings</span><span class="p">[</span><span class="s1">&#39;type of preconditioner&#39;</span><span class="p">]</span>
+      <span class="n">solve_fun</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">:</span> <span class="n">linear_solve_pyamg</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">solver</span><span class="p">,</span> <span class="n">pc_type</span><span class="p">,</span> <span class="n">verbose</span><span class="p">,</span> <span class="n">free_dofs</span><span class="o">=</span><span class="n">c</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="k">case</span> <span class="s1">&#39;scipy&#39;</span><span class="p">:</span>
+      <span class="n">solve_fun</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">:</span> <span class="n">linear_solve_scipy</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">solver</span><span class="p">,</span> <span class="n">verbose</span><span class="p">,</span> <span class="n">free_dofs</span><span class="o">=</span><span class="n">c</span><span class="p">)</span>
+
+  <span class="c1"># Prepare callback</span>
+  <span class="n">result_shape_dtype</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">ShapeDtypeStruct</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="n">rhs</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">rhs</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
+
+  <span class="k">if</span> <span class="n">nodal_imposition</span><span class="p">:</span>
+    <span class="n">sol</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">pure_callback</span><span class="p">(</span><span class="n">solve_fun</span><span class="p">,</span> <span class="n">result_shape_dtype</span><span class="p">,</span> <span class="n">mat</span><span class="p">,</span> <span class="n">rhs</span><span class="p">,</span> <span class="n">free_dofs_flat</span><span class="p">)</span>
+
+    <span class="c1"># Compose solution dofs</span>
+    <span class="n">idx</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">flat_dofs</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])[</span><span class="n">free_dofs_flat</span><span class="p">]</span>
+    <span class="n">flat_dofs</span> <span class="o">=</span> <span class="n">flat_dofs</span><span class="o">.</span><span class="n">at</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">sol</span><span class="p">)</span>
+    <span class="n">dofs</span> <span class="o">=</span> <span class="n">flat_dofs</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">dofs</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">dofs</span>
+  <span class="k">else</span><span class="p">:</span>
+    <span class="k">return</span> <span class="n">jax</span><span class="o">.</span><span class="n">pure_callback</span><span class="p">(</span><span class="n">solve_fun</span><span class="p">,</span> <span class="n">result_shape_dtype</span><span class="p">,</span> <span class="n">mat</span><span class="p">,</span> <span class="n">rhs</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">dofs</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="solve_diagonal_linear">
+<a class="viewcode-back" href="../../_autosummary/autopdex.solver.solve_diagonal_linear.html#autopdex.solver.solve_diagonal_linear">[docs]</a>
+<span class="nd">@jit_with_docstring</span><span class="p">(</span><span class="n">static_argnames</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;static_settings&#39;</span><span class="p">,</span> <span class="s1">&#39;**kwargs&#39;</span><span class="p">])</span>
+<span class="k">def</span> <span class="nf">solve_diagonal_linear</span><span class="p">(</span><span class="n">dofs</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Solves a linear system assuming the tangent matrix is diagonal.</span>
+
+<span class="sd">  This function solves the linear system by leveraging the assumption that the tangent matrix is diagonal,</span>
+<span class="sd">  which simplifies the solution process. It supports nodal imposition of Dirichlet boundary conditions and</span>
+<span class="sd">  handles the assembly of the residual and diagonal tangent matrix. </span>
+<span class="sd">  </span>
+<span class="sd">  If the tangent matrix is not diagonal, it will produce a wrong diagonal of the tangent!</span>
+
+<span class="sd">  Parameters:</span>
+<span class="sd">    dofs (jnp.ndarray): Degrees of freedom or initial guess for the solution.</span>
+<span class="sd">    settings (dict): Dictionary containing various settings and parameters required for assembling the problem.</span>
+<span class="sd">    static_settings (dict): Dictionary containing static settings such as solution structure and solver backend.</span>
+<span class="sd">    **kwargs (dict): Additional keyword arguments passed to the solver function.</span>
+
+<span class="sd">  Returns:</span>
+<span class="sd">    sol (jnp.ndarray): The solution obtained by solving the linear system assuming a diagonal tangent matrix.</span>
+
+<span class="sd">  Notes:</span>
+<span class="sd">    - If `nodal imposition` is detected in the `static_settings`, the function imposes Dirichlet boundary conditions</span>
+<span class="sd">      and adjusts the degrees of freedom accordingly.</span>
+<span class="sd">    - The function assembles the residual and diagonal tangent matrix before solving the system.</span>
+<span class="sd">    - The solution process involves element-wise division of the residual by the diagonal elements of the tangent matrix.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="n">nodal_imposition</span> <span class="o">=</span> <span class="s1">&#39;nodal imposition&#39;</span> <span class="ow">in</span> <span class="n">static_settings</span><span class="p">[</span><span class="s1">&#39;solution structure&#39;</span><span class="p">]</span>
+  <span class="k">if</span> <span class="n">nodal_imposition</span><span class="p">:</span>
+    <span class="c1"># Impose Dirichlet boundaries. Dirichlet dofs has to be concrete, therefore it is passed in static_settings as tuple of tuples</span>
+    <span class="n">dirichlet_dofs_flat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">([</span><span class="n">element</span> <span class="k">for</span> <span class="n">tupl</span> <span class="ow">in</span> <span class="n">static_settings</span><span class="p">[</span><span class="s1">&#39;dirichlet dofs&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">element</span> <span class="ow">in</span> <span class="n">tupl</span><span class="p">])</span>
+    <span class="n">free_dofs_flat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">invert</span><span class="p">(</span><span class="n">dirichlet_dofs_flat</span><span class="p">)</span>
+
+    <span class="c1"># Impose nodal dofs</span>
+    <span class="n">dirichlet_conditions</span> <span class="o">=</span> <span class="n">settings</span><span class="p">[</span><span class="s1">&#39;dirichlet conditions&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+    <span class="n">flat_dofs</span> <span class="o">=</span> <span class="n">dofs</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+    <span class="n">idx</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">flat_dofs</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])[</span><span class="n">dirichlet_dofs_flat</span><span class="p">]</span>
+    <span class="n">flat_dofs</span> <span class="o">=</span> <span class="n">flat_dofs</span><span class="o">.</span><span class="n">at</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">dirichlet_conditions</span><span class="p">[</span><span class="n">idx</span><span class="p">])</span>
+    <span class="n">dofs</span> <span class="o">=</span> <span class="n">flat_dofs</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">dofs</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+
+  <span class="c1"># Assembling</span>
+  <span class="n">rhs</span> <span class="o">=</span> <span class="o">-</span> <span class="n">assembler</span><span class="o">.</span><span class="n">assemble_residual</span><span class="p">(</span><span class="n">dofs</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">)</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+  <span class="n">diag_mat</span> <span class="o">=</span> <span class="n">assembler</span><span class="o">.</span><span class="n">assemble_tangent</span><span class="p">(</span><span class="n">dofs</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">)</span><span class="o">.</span><span class="n">data</span>
+
+  <span class="k">if</span> <span class="n">nodal_imposition</span><span class="p">:</span>
+    <span class="c1"># Delete rows</span>
+    <span class="n">rhs</span> <span class="o">=</span> <span class="n">rhs</span><span class="p">[</span><span class="n">free_dofs_flat</span><span class="p">]</span>
+
+  <span class="c1"># Solve while assuming a diagonal tangent</span>
+  <span class="n">sol</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">multiply</span><span class="p">((</span><span class="mi">1</span><span class="o">/</span><span class="n">diag_mat</span><span class="p">),</span> <span class="n">rhs</span><span class="p">)</span>
+
+  <span class="k">if</span> <span class="n">nodal_imposition</span><span class="p">:</span>
+    <span class="c1"># Compose solution dofs</span>
+    <span class="n">idx</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">flat_dofs</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])[</span><span class="n">free_dofs_flat</span><span class="p">]</span>
+    <span class="n">flat_dofs</span> <span class="o">=</span> <span class="n">flat_dofs</span><span class="o">.</span><span class="n">at</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">sol</span><span class="p">)</span>
+    <span class="n">dofs</span> <span class="o">=</span> <span class="n">flat_dofs</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">dofs</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">dofs</span>
+  <span class="k">else</span><span class="p">:</span>
+    <span class="k">return</span> <span class="n">sol</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">dofs</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="solve_newton">
+<a class="viewcode-back" href="../../_autosummary/autopdex.solver.solve_newton.html#autopdex.solver.solve_newton">[docs]</a>
+<span class="nd">@jit_with_docstring</span><span class="p">(</span><span class="n">static_argnames</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;static_settings&#39;</span><span class="p">,</span> <span class="s1">&#39;**kwargs&#39;</span><span class="p">])</span>
+<span class="k">def</span> <span class="nf">solve_newton</span><span class="p">(</span><span class="n">dofs</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">,</span> <span class="n">newton_tol</span><span class="o">=</span><span class="mf">1e-8</span><span class="p">,</span> <span class="n">maxiter</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Solves a nonlinear system using the Newton-Raphson method.</span>
+
+<span class="sd">  This function is a wrapper for the damped Newton method with a damping coefficient of 1.0,</span>
+<span class="sd">  effectively performing standard Newton-Raphson iterations.</span>
+
+<span class="sd">  Parameters:</span>
+<span class="sd">    dofs (jnp.ndarray): Degrees of freedom or initial guess for the solution.</span>
+<span class="sd">    settings (dict): Dictionary containing various settings and parameters required for assembling the problem.</span>
+<span class="sd">    static_settings (dict): Dictionary containing static settings such as solution structure and solver backend.</span>
+<span class="sd">    newton_tol (float, optional): Tolerance for the Newton method convergence criterion. Default is 1e-8.</span>
+<span class="sd">    maxiter (int, optional): Maximum number of iterations for the Newton method. Default is 30.</span>
+<span class="sd">    **kwargs (dict): Additional keyword arguments passed to the solver function.</span>
+
+<span class="sd">  Returns:</span>
+<span class="sd">    tuple: A tuple containing the following elements:</span>
+<span class="sd">      - sol (jnp.ndarray): The solution obtained by solving the nonlinear system using the Newton method.</span>
+<span class="sd">      - infos (tuple): Additional information about the solution process, including:</span>
+<span class="sd">          - num_iterations (int): The number of iterations performed.</span>
+<span class="sd">          - residual_norm (float): The norm of the residual at the solution.</span>
+<span class="sd">          - diverged (bool): Flag indicating whether the method diverged.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="k">return</span> <span class="n">solve_damped_newton</span><span class="p">(</span><span class="n">dofs</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">,</span> <span class="n">newton_tol</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="n">maxiter</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="solve_damped_newton">
+<a class="viewcode-back" href="../../_autosummary/autopdex.solver.solve_damped_newton.html#autopdex.solver.solve_damped_newton">[docs]</a>
+<span class="nd">@jit_with_docstring</span><span class="p">(</span><span class="n">static_argnames</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;static_settings&#39;</span><span class="p">,</span> <span class="s1">&#39;**kwargs&#39;</span><span class="p">])</span>
+<span class="k">def</span> <span class="nf">solve_damped_newton</span><span class="p">(</span><span class="n">dofs</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">,</span> <span class="n">newton_tol</span><span class="o">=</span><span class="mf">1e-8</span><span class="p">,</span> <span class="n">damping_coefficient</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">maxiter</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Solves a nonlinear system using the damped Newton method.</span>
+
+<span class="sd">  This function performs damped Newton iterations to solve a nonlinear system, </span>
+<span class="sd">  with support for nodal imposition of Dirichlet boundary conditions specified as a boolean tuple-tree in static_settings[&#39;dirichlet dofs&#39;].</span>
+
+<span class="sd">  In this function the information needed for solver.damped_newton is prepared and the function is then called.</span>
+
+<span class="sd">  Parameters:</span>
+<span class="sd">    dofs (jnp.ndarray): Degrees of freedom or initial guess for the solution.</span>
+<span class="sd">    settings (dict): Dictionary containing various settings and parameters required for assembling the problem.</span>
+<span class="sd">    static_settings (dict): Dictionary containing static settings such as solution structure and solver backend.</span>
+<span class="sd">    newton_tol (float, optional): Tolerance for the Newton method convergence criterion. Default is 1e-8.</span>
+<span class="sd">    damping_coefficient (float, optional): Damping coefficient for the Newton updates. Default is 0.8.</span>
+<span class="sd">    maxiter (int, optional): Maximum number of iterations for the Newton method. Default is 30.</span>
+<span class="sd">    **kwargs (dict): Additional keyword arguments passed to the solver function.</span>
+
+<span class="sd">  Returns:</span>
+<span class="sd">    tuple: A tuple containing the following elements:</span>
+<span class="sd">      - sol (jnp.ndarray): The solution obtained by solving the nonlinear system using the damped Newton method.</span>
+<span class="sd">      - infos (tuple): Additional information about the solution process, including:</span>
+<span class="sd">          - num_iterations (int): The number of iterations performed.</span>
+<span class="sd">          - residual_norm (float): The norm of the residual at the solution.</span>
+<span class="sd">          - diverged (bool): Flag indicating whether the method diverged.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="n">residual_fun</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x_i</span><span class="p">:</span> <span class="n">assembler</span><span class="o">.</span><span class="n">assemble_residual</span><span class="p">(</span><span class="n">x_i</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">)</span>
+  <span class="n">lin_solve_fun</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x_i</span><span class="p">:</span> <span class="n">solve_linear</span><span class="p">(</span><span class="n">x_i</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+  <span class="n">nodal_imposition</span> <span class="o">=</span> <span class="s1">&#39;nodal imposition&#39;</span> <span class="ow">in</span> <span class="n">static_settings</span><span class="p">[</span><span class="s1">&#39;solution structure&#39;</span><span class="p">]</span>
+  <span class="k">if</span> <span class="n">nodal_imposition</span><span class="p">:</span>
+    <span class="c1"># Impose Dirichlet boundaries. Dirichlet dofs has to be concrete, therefore it is passed in static_settings as tuple of tuples</span>
+    <span class="n">dirichlet_dofs_flat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">([</span><span class="n">element</span> <span class="k">for</span> <span class="n">tupl</span> <span class="ow">in</span> <span class="n">static_settings</span><span class="p">[</span><span class="s1">&#39;dirichlet dofs&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">element</span> <span class="ow">in</span> <span class="n">tupl</span><span class="p">])</span>
+    <span class="n">free_dofs_flat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">invert</span><span class="p">(</span><span class="n">dirichlet_dofs_flat</span><span class="p">)</span>
+  <span class="k">else</span><span class="p">:</span>
+    <span class="n">free_dofs_flat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">dofs</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">bool_</span><span class="p">)</span>
+
+  <span class="n">verbose</span> <span class="o">=</span> <span class="n">static_settings</span><span class="p">[</span><span class="s1">&#39;verbose&#39;</span><span class="p">]</span>
+  <span class="k">return</span> <span class="n">damped_newton</span><span class="p">(</span><span class="n">dofs</span><span class="p">,</span> <span class="n">residual_fun</span><span class="p">,</span> <span class="n">lin_solve_fun</span><span class="p">,</span> <span class="n">free_dofs_flat</span><span class="p">,</span> <span class="n">newton_tol</span><span class="p">,</span> <span class="n">maxiter</span><span class="p">,</span> <span class="n">damping_coefficient</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="n">verbose</span><span class="p">)</span></div>
+
+
+<span class="k">def</span> <span class="nf">damped_newton</span><span class="p">(</span><span class="n">dofs_0</span><span class="p">,</span> <span class="n">residual_fun</span><span class="p">,</span> <span class="n">lin_solve_fun</span><span class="p">,</span> <span class="n">free_dofs_flat</span><span class="p">,</span> <span class="n">newton_tol</span><span class="p">,</span> <span class="n">maxiter</span><span class="p">,</span> <span class="n">damping_coefficient</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Performs damped Newton iterations to solve a nonlinear system.</span>
+
+<span class="sd">  This function implements the damped Newton method for solving a nonlinear system. It updates</span>
+<span class="sd">  the solution iteratively based on the residual and chosen linear solver for the Newton step,</span>
+<span class="sd">  with a damping coefficient to control the step size.</span>
+
+<span class="sd">  Parameters:</span>
+<span class="sd">    dofs_0 (jnp.ndarray): Initial guess for the degrees of freedom.</span>
+<span class="sd">    residual_fun (callable): Function to compute the residual of the system.</span>
+<span class="sd">    lin_solve_fun (callable): Function to solve the linearized system for the Newton step.</span>
+<span class="sd">    free_dofs_flat (jnp.ndarray): Boolean array indicating the free degrees of freedom.</span>
+<span class="sd">    newton_tol (float): Tolerance for the Newton method convergence criterion.</span>
+<span class="sd">    maxiter (int): Maximum number of iterations for the Newton method.</span>
+<span class="sd">    damping_coefficient (float): Damping coefficient for the Newton updates.</span>
+
+<span class="sd">  Returns:</span>
+<span class="sd">    tuple: A tuple containing the following elements:</span>
+<span class="sd">      - sol (jnp.ndarray): The solution obtained by solving the nonlinear system using the damped Newton method.</span>
+<span class="sd">      - infos (tuple): Additional information about the solution process, including:</span>
+<span class="sd">          - num_iterations (int): The number of iterations performed.</span>
+<span class="sd">          - residual_norm (float): The norm of the residual at the solution.</span>
+<span class="sd">          - diverged (bool): Flag indicating whether the method diverged.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="k">def</span> <span class="nf">step</span><span class="p">(</span><span class="n">carry</span><span class="p">):</span>
+    <span class="n">dofs_i</span><span class="p">,</span> <span class="n">itt</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">res_norm_old</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">carry</span>
+    
+    <span class="c1"># Update formula of newton scheme</span>
+    <span class="n">delta_x_i</span> <span class="o">=</span> <span class="n">lin_solve_fun</span><span class="p">(</span><span class="n">dofs_i</span><span class="p">)</span>
+    <span class="n">delta_x_i_flat</span> <span class="o">=</span> <span class="n">delta_x_i</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+
+    <span class="c1"># Update free dofs</span>
+    <span class="n">dofs_i_flat</span> <span class="o">=</span> <span class="n">dofs_i</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+    <span class="n">idx_free</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">delta_x_i_flat</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])[</span><span class="n">free_dofs_flat</span><span class="p">]</span>
+    <span class="n">dofs_i_flat</span> <span class="o">=</span> <span class="n">dofs_i_flat</span><span class="o">.</span><span class="n">at</span><span class="p">[</span><span class="n">idx_free</span><span class="p">]</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">damping_coefficient</span> <span class="o">*</span> <span class="n">delta_x_i_flat</span><span class="o">.</span><span class="n">at</span><span class="p">[</span><span class="n">idx_free</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">())</span>
+
+    <span class="c1"># Set boundary conditions</span>
+    <span class="n">idx_constrained</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">delta_x_i_flat</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])[</span><span class="n">np</span><span class="o">.</span><span class="n">invert</span><span class="p">(</span><span class="n">free_dofs_flat</span><span class="p">)]</span>
+    <span class="n">dofs_i_flat</span> <span class="o">=</span> <span class="n">dofs_i_flat</span><span class="o">.</span><span class="n">at</span><span class="p">[</span><span class="n">idx_constrained</span><span class="p">]</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">delta_x_i_flat</span><span class="o">.</span><span class="n">at</span><span class="p">[</span><span class="n">idx_constrained</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">())</span>
+    <span class="n">dofs_i</span> <span class="o">=</span> <span class="n">dofs_i_flat</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">dofs_i</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+
+    <span class="c1"># Compute residual in next step as convergence test</span>
+    <span class="n">residual</span> <span class="o">=</span> <span class="n">residual_fun</span><span class="p">(</span><span class="n">dofs_i</span><span class="p">)</span>
+    <span class="n">residual_flat</span> <span class="o">=</span> <span class="n">residual</span><span class="o">.</span><span class="n">flatten</span><span class="p">()[</span><span class="n">free_dofs_flat</span><span class="p">]</span>
+    <span class="n">res_norm</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">residual_flat</span><span class="p">)</span>
+    <span class="n">not_stop</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">res_norm</span> <span class="o">&gt;</span> <span class="n">newton_tol</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">report</span><span class="p">():</span>
+      <span class="k">if</span> <span class="n">verbose</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">jax</span><span class="o">.</span><span class="n">debug</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s1">&#39;Residual after Newton itteration </span><span class="si">{x}</span><span class="s1">: </span><span class="si">{y}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="n">itt</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">res_norm</span><span class="p">)</span>     
+        <span class="k">if</span> <span class="n">verbose</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+          <span class="n">jax</span><span class="o">.</span><span class="n">debug</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+
+      <span class="c1"># Check convergence</span>
+      <span class="n">divergence</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">logical_and</span><span class="p">(</span><span class="n">res_norm</span><span class="o">/</span><span class="n">res_norm_old</span> <span class="o">&gt;</span> <span class="mi">10</span><span class="p">,</span> <span class="n">itt</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">),</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+      <span class="k">return</span> <span class="n">jnp</span><span class="o">.</span><span class="n">invert</span><span class="p">(</span><span class="n">divergence</span><span class="p">),</span> <span class="n">divergence</span>
+
+    <span class="k">def</span> <span class="nf">stop_newton</span><span class="p">():</span>
+      <span class="n">jax</span><span class="o">.</span><span class="n">debug</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s1">&#39;Warning: Newton scheme could not converge!&#39;</span><span class="p">)</span>
+      <span class="k">return</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">True</span>
+
+    <span class="n">next_step</span><span class="p">,</span> <span class="n">divergence</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">lax</span><span class="o">.</span><span class="n">cond</span><span class="p">(</span><span class="n">itt</span> <span class="o">&lt;</span> <span class="n">maxiter</span><span class="p">,</span> <span class="n">report</span><span class="p">,</span> <span class="n">stop_newton</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">dofs_i</span><span class="p">,</span> <span class="n">itt</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">jnp</span><span class="o">.</span><span class="n">logical_and</span><span class="p">(</span><span class="n">not_stop</span><span class="p">,</span> <span class="n">next_step</span><span class="p">),</span> <span class="n">res_norm</span><span class="p">,</span> <span class="n">divergence</span><span class="p">)</span>
+
+  <span class="k">def</span> <span class="nf">convergence_check</span><span class="p">(</span><span class="n">carry</span><span class="p">):</span>
+    <span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">not_stop</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">carry</span>
+    <span class="k">return</span> <span class="n">not_stop</span>
+  <span class="n">sol</span><span class="p">,</span> <span class="n">load_steps</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">res_norm</span><span class="p">,</span> <span class="n">divergence</span>  <span class="o">=</span> <span class="n">lax</span><span class="o">.</span><span class="n">while_loop</span><span class="p">(</span><span class="n">convergence_check</span><span class="p">,</span> <span class="n">step</span><span class="p">,</span> <span class="p">(</span><span class="n">dofs_0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="kc">False</span><span class="p">))</span>
+
+  <span class="k">return</span> <span class="p">(</span><span class="n">sol</span><span class="p">,</span> <span class="p">(</span><span class="n">load_steps</span><span class="p">,</span> <span class="n">res_norm</span><span class="p">,</span> <span class="n">divergence</span><span class="p">))</span>
+
+<span class="c1">### Linear solvers for different backends</span>
+<div class="viewcode-block" id="linear_solve_jax">
+<a class="viewcode-back" href="../../_autosummary/autopdex.solver.linear_solve_jax.html#autopdex.solver.linear_solve_jax">[docs]</a>
+<span class="nd">@jit_with_docstring</span><span class="p">(</span><span class="n">static_argnames</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;static_settings&#39;</span><span class="p">,</span> <span class="s1">&#39;**kwargs&#39;</span><span class="p">])</span>
+<span class="k">def</span> <span class="nf">linear_solve_jax</span><span class="p">(</span><span class="n">dofs</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Solves a linear system of equations using JAX&#39;s matrix free solvers.</span>
+
+<span class="sd">  This function performs a linear solve using different itterative solvers, </span>
+<span class="sd">  optionally imposing Dirichlet boundary conditions and preconditioning and </span>
+<span class="sd">  using different matrix or Hessian vector product (HVP) methods.</span>
+
+<span class="sd">  Args:</span>
+<span class="sd">    dofs (jnp.ndarray): Initial degrees of freedom.</span>
+<span class="sd">    settings (dict): Dictionary of problem settings.</span>
+<span class="sd">    static_settings (dict): Dictionary of static settings that do not change during iterations.</span>
+<span class="sd">    **kwargs: Additional keyword arguments for the solver.</span>
+
+<span class="sd">  Returns:</span>
+<span class="sd">    jnp.ndarray: Solution degrees of freedom after solving the linear system.</span>
+
+<span class="sd">  Hessian Vector Product (HVP) Types:</span>
+<span class="sd">    - &#39;fwdrev&#39;: Forward and reverse mode differentiation.</span>
+<span class="sd">    - &#39;revrev&#39;: Reverse mode differentiation (only for symmetric matrices).</span>
+<span class="sd">    - &#39;assemble&#39;: Assembles the tangent matrix explicitly (not supported with nodal imposition, then call e.g. PetSc).</span>
+<span class="sd">    - &#39;linearize&#39;: Uses JAX&#39;s linearize function.</span>
+<span class="sd">    - Default: Uses &#39;fwdrev&#39; if not specified or if an unsupported type is provided.</span>
+
+<span class="sd">  Solver Types:</span>
+<span class="sd">    - &#39;cg&#39;: Conjugate Gradient.</span>
+<span class="sd">    - &#39;normal cg&#39;: Normal Conjugate Gradient.</span>
+<span class="sd">    - &#39;gmres&#39;: Generalized Minimal Residual Method.</span>
+<span class="sd">    - &#39;bicgstab&#39;: BiConjugate Gradient Stabilized.</span>
+<span class="sd">    - &#39;lu&#39;: LU Decomposition.</span>
+<span class="sd">    - &#39;cholesky&#39;: Cholesky Decomposition (converts tangent to dense mode; not supported with nodal imposition).</span>
+<span class="sd">    - &#39;qr&#39;: QR Decomposition (not supported with nodal imposition).</span>
+<span class="sd">    - &#39;jacobi&#39;: Jacobi Method.</span>
+<span class="sd">    - Default: Uses &#39;bicgstab&#39; if not specified or if an unsupported type is provided.</span>
+
+<span class="sd">  Notes:</span>
+<span class="sd">    - Dirichlet boundary conditions are imposed if &#39;nodal imposition&#39; is specified as the solution structure.</span>
+<span class="sd">    - The itterative solver can be preconditioned with &#39;jacobi&#39;.</span>
+<span class="sd">    - When using &#39;assemble&#39; HVP type, the function will explicitly assemble the tangent matrix.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="n">solver</span> <span class="o">=</span> <span class="n">static_settings</span><span class="p">[</span><span class="s1">&#39;solver&#39;</span><span class="p">]</span>
+  <span class="n">hvp_type</span> <span class="o">=</span> <span class="n">static_settings</span><span class="p">[</span><span class="s1">&#39;hvp type&#39;</span><span class="p">]</span>
+  <span class="n">nodal_imposition</span> <span class="o">=</span> <span class="s1">&#39;nodal imposition&#39;</span> <span class="ow">in</span> <span class="n">static_settings</span><span class="p">[</span><span class="s1">&#39;solution structure&#39;</span><span class="p">]</span>
+
+  <span class="k">if</span> <span class="n">nodal_imposition</span><span class="p">:</span>
+    <span class="c1"># Impose Dirichlet boundaries. Dirichlet dofs has to be concrete, therefore it is passed in static_settings as tuple of tuples</span>
+    <span class="n">dirichlet_dofs_flat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">([</span><span class="n">element</span> <span class="k">for</span> <span class="n">tupl</span> <span class="ow">in</span> <span class="n">static_settings</span><span class="p">[</span><span class="s1">&#39;dirichlet dofs&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">element</span> <span class="ow">in</span> <span class="n">tupl</span><span class="p">])</span>
+    <span class="n">free_dofs_flat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">invert</span><span class="p">(</span><span class="n">dirichlet_dofs_flat</span><span class="p">)</span>
+
+    <span class="c1"># Impose nodal dofs</span>
+    <span class="n">dirichlet_conditions</span> <span class="o">=</span> <span class="n">settings</span><span class="p">[</span><span class="s1">&#39;dirichlet conditions&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+    <span class="n">flat_dofs</span> <span class="o">=</span> <span class="n">dofs</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+    <span class="n">idx</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">flat_dofs</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])[</span><span class="n">dirichlet_dofs_flat</span><span class="p">]</span>
+    <span class="n">flat_dofs</span> <span class="o">=</span> <span class="n">flat_dofs</span><span class="o">.</span><span class="n">at</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">dirichlet_conditions</span><span class="p">[</span><span class="n">idx</span><span class="p">])</span>
+    <span class="n">dofs</span> <span class="o">=</span> <span class="n">flat_dofs</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">dofs</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+    <span class="n">free_dofs</span> <span class="o">=</span> <span class="n">dofs</span><span class="o">.</span><span class="n">flatten</span><span class="p">()[</span><span class="n">free_dofs_flat</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">residual_fun</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+      <span class="n">flat_dofs</span> <span class="o">=</span> <span class="n">dofs</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+      <span class="n">idx</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">flat_dofs</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])[</span><span class="n">free_dofs_flat</span><span class="p">]</span>
+      <span class="n">flat_dofs</span> <span class="o">=</span> <span class="n">flat_dofs</span><span class="o">.</span><span class="n">at</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+      <span class="k">return</span> <span class="n">assembler</span><span class="o">.</span><span class="n">assemble_residual</span><span class="p">(</span><span class="n">flat_dofs</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">dofs</span><span class="o">.</span><span class="n">shape</span><span class="p">),</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">)</span><span class="o">.</span><span class="n">flatten</span><span class="p">()[</span><span class="n">free_dofs_flat</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">diag_assemble_fun</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+      <span class="n">flat_dofs</span> <span class="o">=</span> <span class="n">dofs</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+      <span class="n">idx</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">flat_dofs</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])[</span><span class="n">free_dofs_flat</span><span class="p">]</span>
+      <span class="n">flat_dofs</span> <span class="o">=</span> <span class="n">flat_dofs</span><span class="o">.</span><span class="n">at</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+      <span class="k">return</span> <span class="n">assembler</span><span class="o">.</span><span class="n">assemble_tangent_diagonal</span><span class="p">(</span><span class="n">flat_dofs</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">dofs</span><span class="o">.</span><span class="n">shape</span><span class="p">),</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">)</span><span class="o">.</span><span class="n">flatten</span><span class="p">()[</span><span class="n">free_dofs_flat</span><span class="p">]</span>
+    <span class="n">rhs</span> <span class="o">=</span> <span class="o">-</span><span class="n">residual_fun</span><span class="p">(</span><span class="n">dofs</span><span class="o">.</span><span class="n">flatten</span><span class="p">()[</span><span class="n">free_dofs_flat</span><span class="p">])</span>
+
+  <span class="k">else</span><span class="p">:</span>
+    <span class="n">free_dofs</span> <span class="o">=</span> <span class="n">dofs</span>
+    <span class="n">residual_fun</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">assembler</span><span class="o">.</span><span class="n">assemble_residual</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">)</span>
+    <span class="n">mat_assemble_fun</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">assembler</span><span class="o">.</span><span class="n">assemble_tangent</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">)</span>
+    <span class="n">diag_assemble_fun</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">assembler</span><span class="o">.</span><span class="n">assemble_tangent_diagonal</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">)</span>
+    <span class="n">rhs</span> <span class="o">=</span> <span class="o">-</span><span class="n">residual_fun</span><span class="p">(</span><span class="n">dofs</span><span class="p">)</span>
+ 
+  <span class="c1"># Type of Hessian vector product</span>
+  <span class="k">match</span> <span class="n">hvp_type</span><span class="p">:</span>
+    <span class="k">case</span> <span class="s1">&#39;fwdrev&#39;</span><span class="p">:</span>
+      <span class="k">def</span> <span class="nf">hvp_fwdrev</span><span class="p">(</span><span class="n">v</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">jax</span><span class="o">.</span><span class="n">jvp</span><span class="p">(</span><span class="n">residual_fun</span><span class="p">,</span> <span class="p">(</span><span class="n">free_dofs</span><span class="p">,),</span> <span class="p">(</span><span class="n">v</span><span class="p">,))[</span><span class="mi">1</span><span class="p">]</span>
+      <span class="n">hvp</span> <span class="o">=</span> <span class="n">hvp_fwdrev</span>
+    <span class="k">case</span> <span class="s1">&#39;revrev&#39;</span><span class="p">:</span> <span class="c1"># only works for symmetric matrices</span>
+      <span class="k">def</span> <span class="nf">hvp_revrev</span><span class="p">(</span><span class="n">v</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">jax</span><span class="o">.</span><span class="n">jacrev</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">jnp</span><span class="o">.</span><span class="n">vdot</span><span class="p">(</span><span class="n">residual_fun</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">v</span><span class="p">))(</span><span class="n">free_dofs</span><span class="p">)</span>
+      <span class="n">hvp</span> <span class="o">=</span> <span class="n">hvp_revrev</span>
+    <span class="k">case</span> <span class="s1">&#39;assemble&#39;</span><span class="p">:</span>
+      <span class="k">assert</span> <span class="ow">not</span> <span class="n">nodal_imposition</span><span class="p">,</span> <span class="s2">&quot;hvp type </span><span class="se">\&#39;</span><span class="s2">assemble</span><span class="se">\&#39;</span><span class="s2"> is currently not supported for nodal imposition of DOFs.&quot;</span>
+
+      <span class="n">tangent</span> <span class="o">=</span> <span class="n">mat_assemble_fun</span><span class="p">(</span><span class="n">free_dofs</span><span class="p">)</span>
+      <span class="k">def</span> <span class="nf">hvp_assembled</span><span class="p">(</span><span class="n">v</span><span class="p">):</span>
+        <span class="n">mapped</span> <span class="o">=</span> <span class="n">tangent</span> <span class="o">@</span> <span class="n">v</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">jnp</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">mapped</span><span class="p">,</span> <span class="n">v</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+      <span class="n">hvp</span> <span class="o">=</span> <span class="n">hvp_assembled</span>
+    <span class="k">case</span> <span class="s1">&#39;linearize&#39;</span><span class="p">:</span>
+      <span class="k">def</span> <span class="nf">hvp_linearized</span><span class="p">(</span><span class="n">v</span><span class="p">):</span>
+        <span class="p">(</span><span class="n">_</span><span class="p">,</span><span class="n">linearized</span><span class="p">)</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">linearize</span><span class="p">(</span><span class="n">residual_fun</span><span class="p">,</span> <span class="n">free_dofs</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">linearized</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+      <span class="n">hvp</span> <span class="o">=</span> <span class="n">hvp_linearized</span>
+    <span class="k">case</span><span class="w"> </span><span class="k">_</span><span class="p">:</span>
+      <span class="n">hvp</span> <span class="o">=</span> <span class="n">hvp_fwdrev</span>
+      <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Type of hessian vector product has not been set or is not available. Using static_settings[</span><span class="se">\&#39;</span><span class="s1">matrix-free</span><span class="se">\&#39;</span><span class="s1">] = </span><span class="se">\&#39;</span><span class="s1">revrev</span><span class="se">\&#39;</span><span class="s1"> as default.&#39;</span><span class="p">)</span>
+
+  <span class="c1"># Preconditioning for itterative solvers</span>
+  <span class="k">if</span> <span class="n">solver</span><span class="o">==</span><span class="s1">&#39;cg&#39;</span> <span class="ow">or</span> <span class="n">solver</span><span class="o">==</span><span class="s1">&#39;bicgstab&#39;</span> <span class="ow">or</span> <span class="n">solver</span><span class="o">==</span><span class="s1">&#39;normal cg&#39;</span> <span class="ow">or</span> <span class="n">solver</span><span class="o">==</span><span class="s1">&#39;gmres&#39;</span><span class="p">:</span>
+    <span class="k">try</span><span class="p">:</span>
+      <span class="n">precond_type</span> <span class="o">=</span> <span class="n">static_settings</span><span class="p">[</span><span class="s1">&#39;type of preconditioner&#39;</span><span class="p">]</span>
+      <span class="k">match</span> <span class="n">precond_type</span><span class="p">:</span>
+        <span class="k">case</span> <span class="s1">&#39;jacobi&#39;</span><span class="p">:</span>
+          <span class="c1"># Inversion of diagonal part of tangent matrix as preconditioner</span>
+          <span class="n">M</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">diag_assemble_fun</span><span class="p">(</span><span class="n">free_dofs</span><span class="p">)</span>
+          <span class="k">def</span> <span class="nf">preconditioner</span><span class="p">(</span><span class="n">v</span><span class="p">):</span>
+            <span class="n">preconditioned</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">multiply</span><span class="p">(</span><span class="n">M</span><span class="p">,</span> <span class="n">v</span><span class="o">.</span><span class="n">flatten</span><span class="p">())</span>
+            <span class="k">return</span> <span class="n">jnp</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">preconditioned</span><span class="p">,</span> <span class="n">free_dofs</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+        <span class="k">case</span><span class="w"> </span><span class="k">_</span><span class="p">:</span>
+          <span class="k">def</span> <span class="nf">preconditioner</span><span class="p">(</span><span class="n">v</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">v</span>
+          <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Wrong preconditioner keyword. Continue without preconditioner.&quot;</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+      <span class="n">preconditioner</span> <span class="o">=</span> <span class="kc">None</span>
+      <span class="k">pass</span>
+
+  <span class="c1"># Select linear solver (itterative or direct)</span>
+  <span class="k">match</span> <span class="n">solver</span><span class="p">:</span>
+    <span class="k">case</span> <span class="s1">&#39;cg&#39;</span><span class="p">:</span>
+      <span class="p">(</span><span class="n">sol</span><span class="p">,</span> <span class="n">_</span><span class="p">)</span>  <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">scipy</span><span class="o">.</span><span class="n">sparse</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">cg</span><span class="p">(</span><span class="n">hvp</span><span class="p">,</span> <span class="n">rhs</span><span class="p">,</span> <span class="n">M</span><span class="o">=</span><span class="n">preconditioner</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="k">case</span> <span class="s1">&#39;normal cg&#39;</span><span class="p">:</span>
+      <span class="n">sol</span>  <span class="o">=</span> <span class="n">jaxopt</span><span class="o">.</span><span class="n">linear_solve</span><span class="o">.</span><span class="n">solve_normal_cg</span><span class="p">(</span><span class="n">hvp</span><span class="p">,</span> <span class="n">rhs</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="k">case</span> <span class="s1">&#39;gmres&#39;</span><span class="p">:</span>
+      <span class="p">(</span><span class="n">sol</span><span class="p">,</span> <span class="n">_</span><span class="p">)</span>  <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">scipy</span><span class="o">.</span><span class="n">sparse</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">gmres</span><span class="p">(</span><span class="n">hvp</span><span class="p">,</span> <span class="n">rhs</span><span class="p">,</span> <span class="n">M</span><span class="o">=</span><span class="n">preconditioner</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="k">case</span> <span class="s1">&#39;bicgstab&#39;</span><span class="p">:</span>
+      <span class="p">(</span><span class="n">sol</span><span class="p">,</span> <span class="n">_</span><span class="p">)</span>  <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">scipy</span><span class="o">.</span><span class="n">sparse</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">bicgstab</span><span class="p">(</span><span class="n">hvp</span><span class="p">,</span> <span class="n">rhs</span><span class="p">,</span> <span class="n">M</span><span class="o">=</span><span class="n">preconditioner</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="k">case</span> <span class="s1">&#39;lu&#39;</span><span class="p">:</span>
+      <span class="n">sol</span>  <span class="o">=</span> <span class="n">jaxopt</span><span class="o">.</span><span class="n">linear_solve</span><span class="o">.</span><span class="n">solve_lu</span><span class="p">(</span><span class="n">hvp</span><span class="p">,</span> <span class="n">rhs</span><span class="p">)</span>
+    <span class="k">case</span> <span class="s1">&#39;cholesky&#39;</span><span class="p">:</span>
+      <span class="k">assert</span> <span class="ow">not</span> <span class="n">nodal_imposition</span><span class="p">,</span> <span class="s2">&quot;solver </span><span class="se">\&#39;</span><span class="s2">cholesky</span><span class="se">\&#39;</span><span class="s2"> is currently not supported for nodal imposition of DOFs.&quot;</span>
+      <span class="n">chol</span><span class="p">,</span> <span class="n">lower</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">scipy</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">cho_factor</span><span class="p">(</span><span class="n">mat_assemble_fun</span><span class="p">(</span><span class="n">dofs</span><span class="p">)</span><span class="o">.</span><span class="n">todense</span><span class="p">())</span>
+      <span class="n">sol</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">jax</span><span class="o">.</span><span class="n">scipy</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">cho_solve</span><span class="p">((</span><span class="n">chol</span><span class="p">,</span> <span class="n">lower</span><span class="p">),</span> <span class="n">rhs</span><span class="o">.</span><span class="n">flatten</span><span class="p">()),</span> <span class="n">dofs</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+    <span class="k">case</span> <span class="s1">&#39;qr&#39;</span><span class="p">:</span>
+      <span class="k">assert</span> <span class="ow">not</span> <span class="n">nodal_imposition</span><span class="p">,</span> <span class="s2">&quot;solver </span><span class="se">\&#39;</span><span class="s2">qr</span><span class="se">\&#39;</span><span class="s2"> is currently not supported for nodal imposition of DOFs.&quot;</span>
+      <span class="n">bcoo_tangent</span> <span class="o">=</span> <span class="n">mat_assemble_fun</span><span class="p">(</span><span class="n">dofs</span><span class="p">)</span>
+      <span class="n">bcsr_tangent</span> <span class="o">=</span> <span class="n">sparse</span><span class="o">.</span><span class="n">BCSR</span><span class="o">.</span><span class="n">from_bcoo</span><span class="p">(</span><span class="n">bcoo_tangent</span><span class="p">)</span><span class="o">.</span><span class="n">sum_duplicates</span><span class="p">(</span><span class="n">nse</span><span class="o">=</span><span class="n">bcoo_tangent</span><span class="o">.</span><span class="n">nse</span><span class="p">)</span>
+      <span class="n">sol</span> <span class="o">=</span> <span class="n">sparse</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">spsolve</span><span class="p">(</span><span class="n">bcsr_tangent</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">bcsr_tangent</span><span class="o">.</span><span class="n">indices</span><span class="p">,</span> <span class="n">bcsr_tangent</span><span class="o">.</span><span class="n">indptr</span><span class="p">,</span> <span class="n">rhs</span><span class="o">.</span><span class="n">flatten</span><span class="p">())</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">dofs</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+    <span class="k">case</span> <span class="s1">&#39;jacobi&#39;</span><span class="p">:</span>
+      <span class="n">diag</span> <span class="o">=</span> <span class="n">diag_assemble_fun</span><span class="p">(</span><span class="n">free_dofs</span><span class="p">)</span>
+      <span class="n">sol</span> <span class="o">=</span> <span class="n">jacobi_method</span><span class="p">(</span><span class="n">hvp</span><span class="p">,</span> <span class="n">diag</span><span class="p">,</span> <span class="n">free_dofs</span><span class="p">,</span> <span class="n">rhs</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="k">case</span><span class="w"> </span><span class="k">_</span><span class="p">:</span>
+      <span class="p">(</span><span class="n">sol</span><span class="p">,</span> <span class="n">_</span><span class="p">)</span>  <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">scipy</span><span class="o">.</span><span class="n">sparse</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">bicgstab</span><span class="p">(</span><span class="n">hvp</span><span class="p">,</span> <span class="n">rhs</span><span class="p">,</span> <span class="n">M</span><span class="o">=</span><span class="n">preconditioner</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+      <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Solver name not set or not available in combination with this solver type. Using static_settings[</span><span class="se">\&#39;</span><span class="s1">solver</span><span class="se">\&#39;</span><span class="s1">] = </span><span class="se">\&#39;</span><span class="s1">bicgstab</span><span class="se">\&#39;</span><span class="s1"> as default.&#39;</span><span class="p">)</span>
+
+  <span class="k">if</span> <span class="n">static_settings</span><span class="p">[</span><span class="s1">&#39;verbose&#39;</span><span class="p">]</span><span class="o">&gt;=</span><span class="mi">1</span><span class="p">:</span>
+    <span class="n">residual</span> <span class="o">=</span> <span class="n">rhs</span> <span class="o">-</span> <span class="n">hvp</span><span class="p">(</span><span class="n">sol</span><span class="p">)</span>
+    <span class="n">jax</span><span class="o">.</span><span class="n">debug</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s1">&#39;The relative residual is: </span><span class="si">{value}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">value</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">residual</span><span class="p">)</span> <span class="o">/</span> <span class="n">jnp</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">rhs</span><span class="p">))</span>
+
+  <span class="c1"># Compose solution dofs</span>
+  <span class="k">if</span> <span class="n">nodal_imposition</span><span class="p">:</span>
+    <span class="n">flat_dofs</span> <span class="o">=</span> <span class="n">dofs</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+    <span class="n">flat_dofs</span> <span class="o">=</span> <span class="n">flat_dofs</span><span class="o">.</span><span class="n">at</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">dirichlet_conditions</span><span class="p">[</span><span class="n">idx</span><span class="p">])</span>
+    <span class="n">idx</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">flat_dofs</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])[</span><span class="n">free_dofs_flat</span><span class="p">]</span>
+    <span class="n">flat_dofs</span> <span class="o">=</span> <span class="n">flat_dofs</span><span class="o">.</span><span class="n">at</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">sol</span><span class="p">)</span>
+    <span class="n">dofs</span> <span class="o">=</span> <span class="n">flat_dofs</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">dofs</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">dofs</span>
+  <span class="k">else</span><span class="p">:</span>
+    <span class="k">return</span> <span class="n">sol</span></div>
+
+
+<div class="viewcode-block" id="scipy_assembling">
+<a class="viewcode-back" href="../../_autosummary/autopdex.solver.scipy_assembling.html#autopdex.solver.scipy_assembling">[docs]</a>
+<span class="k">def</span> <span class="nf">scipy_assembling</span><span class="p">(</span><span class="n">tangent_with_duplicates</span><span class="p">,</span> <span class="n">verbose</span><span class="p">,</span> <span class="n">free_dofs</span><span class="p">):</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Convert a JAX BCOO matrix to a SciPy CSR matrix while summing duplicates.</span>
+
+<span class="sd">  This function converts a JAX BCOO matrix, which may contain duplicate entries, </span>
+<span class="sd">  into a SciPy CSR matrix. It optionally deletes rows and columns corresponding </span>
+<span class="sd">  to Dirichlet degrees of freedom.</span>
+
+<span class="sd">  Args:</span>
+<span class="sd">    tangent_with_duplicates (jax.experimental.sparse.BCOO): The input JAX BCOO matrix.</span>
+<span class="sd">    verbose (int): Verbosity level. If &gt;= 2, timing information is printed.</span>
+<span class="sd">    free_dofs (array or None): Boolean array indicating which degrees of freedom are free. </span>
+<span class="sd">                                If not None, rows and columns corresponding to Dirichlet DOFs </span>
+<span class="sd">                                are removed from the matrix.</span>
+
+<span class="sd">  Returns:</span>
+<span class="sd">    scipy.sparse.csr_matrix: The converted and possibly reduced CSR matrix.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="k">if</span> <span class="n">verbose</span><span class="o">&gt;=</span><span class="mi">2</span><span class="p">:</span>
+    <span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+
+  <span class="n">data</span> <span class="o">=</span> <span class="n">tangent_with_duplicates</span><span class="o">.</span><span class="n">data</span>
+  <span class="n">indices</span> <span class="o">=</span> <span class="n">tangent_with_duplicates</span><span class="o">.</span><span class="n">indices</span>
+  <span class="n">rows</span> <span class="o">=</span> <span class="n">indices</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]</span>
+  <span class="n">cols</span> <span class="o">=</span> <span class="n">indices</span><span class="p">[:,</span><span class="mi">1</span><span class="p">]</span>
+
+  <span class="c1"># This is currently done on CPU and seems to be one of the computational bottlenecks when using GPU</span>
+  <span class="n">tangent_coo</span> <span class="o">=</span> <span class="n">scp</span><span class="o">.</span><span class="n">sparse</span><span class="o">.</span><span class="n">coo_matrix</span><span class="p">((</span><span class="n">data</span><span class="p">,</span> <span class="p">(</span><span class="n">rows</span><span class="p">,</span> <span class="n">cols</span><span class="p">)),</span> <span class="n">shape</span><span class="o">=</span><span class="n">tangent_with_duplicates</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+  <span class="n">tangent_csr</span> <span class="o">=</span> <span class="n">scp</span><span class="o">.</span><span class="n">sparse</span><span class="o">.</span><span class="n">csr_matrix</span><span class="p">(</span><span class="n">tangent_coo</span><span class="p">)</span>
+
+  <span class="c1"># Row deletion for Dirichlet-DOFs</span>
+  <span class="k">if</span> <span class="n">free_dofs</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="c1"># Deleting rows and columns</span>
+    <span class="n">tangent_csr</span> <span class="o">=</span> <span class="n">tangent_csr</span><span class="p">[:,</span> <span class="n">free_dofs</span><span class="p">]</span>
+    <span class="n">tangent_csr</span> <span class="o">=</span> <span class="n">tangent_csr</span><span class="p">[</span><span class="n">free_dofs</span><span class="p">]</span>
+
+  <span class="k">if</span> <span class="n">verbose</span><span class="o">&gt;=</span><span class="mi">2</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Time for summing duplicates / assemble tangent: &quot;</span><span class="p">,</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start</span><span class="p">)</span>
+
+  <span class="k">return</span> <span class="n">tangent_csr</span></div>
+
+
+<div class="viewcode-block" id="linear_solve_petsc">
+<a class="viewcode-back" href="../../_autosummary/autopdex.solver.linear_solve_petsc.html#autopdex.solver.linear_solve_petsc">[docs]</a>
+<span class="k">def</span> <span class="nf">linear_solve_petsc</span><span class="p">(</span><span class="n">mat</span><span class="p">,</span> <span class="n">rhs</span><span class="p">,</span> <span class="n">n_fields</span><span class="p">,</span> <span class="n">solver</span><span class="p">,</span> <span class="n">pc_type</span><span class="p">,</span> <span class="n">verbose</span><span class="p">,</span> <span class="n">free_dofs</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="mf">1e-8</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Solve a linear system using the PETSc solver (requires PETSc and petsc4py to be installed).</span>
+
+<span class="sd">  This function solves a linear system using PETSc, with options for different </span>
+<span class="sd">  solvers and preconditioners. The input matrix is first converted to a SciPy </span>
+<span class="sd">  CSR matrix, and rows and columns corresponding to Dirichlet DOFs are optionally </span>
+<span class="sd">  removed.</span>
+
+<span class="sd">  Args:</span>
+<span class="sd">    mat (jax.experimental.sparse.BCOO): The input matrix in JAX BCOO format.</span>
+<span class="sd">    rhs (jnp.ndarray): The right-hand side vector.</span>
+<span class="sd">    n_fields (int): The number of fields.</span>
+<span class="sd">    solver (str): The type of solver to use.</span>
+<span class="sd">    pc_type (str): The type of preconditioner to use.</span>
+<span class="sd">    verbose (int): Verbosity level. If &gt;= 1, timing and solver information is printed.</span>
+<span class="sd">    free_dofs (array or None): Boolean array indicating which degrees of freedom are free.</span>
+<span class="sd">    tol (float): The relative tolerance for the solver.</span>
+<span class="sd">    **kwargs: Additional keyword arguments for the solver.</span>
+
+<span class="sd">  Returns:</span>
+<span class="sd">    jax.numpy.array: The solution vector.</span>
+<span class="sd">  </span>
+<span class="sd">  Notes:</span>
+<span class="sd">    - The solver settings can also be set from the command line. See PETSc and petsc4py documentation.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="k">try</span><span class="p">:</span>
+    <span class="kn">import</span> <span class="nn">petsc4py</span>
+    <span class="n">petsc4py</span><span class="o">.</span><span class="n">init</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">)</span>
+    <span class="kn">from</span> <span class="nn">petsc4py</span> <span class="kn">import</span> <span class="n">PETSc</span>
+  <span class="k">except</span> <span class="ne">ModuleNotFoundError</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Linear solver requires petsc and petsc4py&#39;</span><span class="p">)</span>
+
+  <span class="n">n_dofs</span> <span class="o">=</span> <span class="n">rhs</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+  
+  <span class="c1"># Transform matrix to csr format and sum duplicates</span>
+  <span class="n">tangent_csr</span> <span class="o">=</span> <span class="n">scipy_assembling</span><span class="p">(</span><span class="n">mat</span><span class="p">,</span> <span class="n">verbose</span><span class="p">,</span> <span class="n">free_dofs</span><span class="p">)</span>
+  <span class="k">if</span> <span class="n">verbose</span><span class="o">&gt;=</span><span class="mi">2</span><span class="p">:</span>
+    <span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+
+  <span class="c1"># Load to petsc</span>
+  <span class="n">mat_petsc</span> <span class="o">=</span> <span class="n">PETSc</span><span class="o">.</span><span class="n">Mat</span><span class="p">()</span><span class="o">.</span><span class="n">createAIJ</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="n">tangent_csr</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">csr</span><span class="o">=</span><span class="p">(</span><span class="n">tangent_csr</span><span class="o">.</span><span class="n">indptr</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">PETSc</span><span class="o">.</span><span class="n">IntType</span><span class="p">),</span> <span class="n">tangent_csr</span><span class="o">.</span><span class="n">indices</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">PETSc</span><span class="o">.</span><span class="n">IntType</span><span class="p">),</span> <span class="n">tangent_csr</span><span class="o">.</span><span class="n">data</span><span class="p">))</span>
+  <span class="n">mat_petsc</span><span class="o">.</span><span class="n">setFromOptions</span><span class="p">()</span>
+  <span class="n">mat_petsc</span><span class="o">.</span><span class="n">setBlockSize</span><span class="p">(</span><span class="n">n_fields</span><span class="p">)</span>
+  
+  <span class="k">if</span> <span class="n">verbose</span><span class="o">&gt;=</span><span class="mi">2</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;To PETSc transformation time: &quot;</span><span class="p">,</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Matrix infos: &quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">mat_petsc</span><span class="o">.</span><span class="n">getInfo</span><span class="p">())</span>
+    <span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+
+  <span class="c1"># Initialization of right hand side and solution vector</span>
+  <span class="n">b</span> <span class="o">=</span> <span class="n">PETSc</span><span class="o">.</span><span class="n">Vec</span><span class="p">()</span><span class="o">.</span><span class="n">createSeq</span><span class="p">(</span><span class="n">n_dofs</span><span class="p">)</span>
+  <span class="n">b</span><span class="o">.</span><span class="n">setFromOptions</span><span class="p">()</span>
+  <span class="n">b</span><span class="o">.</span><span class="n">setArray</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">rhs</span><span class="p">))</span>
+  <span class="n">x</span> <span class="o">=</span> <span class="n">PETSc</span><span class="o">.</span><span class="n">Vec</span><span class="p">()</span><span class="o">.</span><span class="n">createSeq</span><span class="p">(</span><span class="n">n_dofs</span><span class="p">)</span>
+  <span class="n">x</span><span class="o">.</span><span class="n">setFromOptions</span><span class="p">()</span>
+
+  <span class="c1"># Solver settings</span>
+  <span class="n">rtol</span> <span class="o">=</span> <span class="n">tol</span>
+  <span class="n">ksp</span> <span class="o">=</span> <span class="n">PETSc</span><span class="o">.</span><span class="n">KSP</span><span class="p">()</span><span class="o">.</span><span class="n">create</span><span class="p">()</span>
+  <span class="n">ksp</span><span class="o">.</span><span class="n">setTolerances</span><span class="p">(</span><span class="n">rtol</span><span class="o">=</span><span class="n">rtol</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+  <span class="n">ksp</span><span class="o">.</span><span class="n">setOperators</span><span class="p">(</span><span class="n">mat_petsc</span><span class="p">)</span>
+  <span class="n">ksp</span><span class="o">.</span><span class="n">setType</span><span class="p">(</span><span class="n">solver</span><span class="p">)</span>
+  <span class="n">ksp</span><span class="o">.</span><span class="n">setFromOptions</span><span class="p">()</span>
+  <span class="n">ksp</span><span class="o">.</span><span class="n">setConvergenceHistory</span><span class="p">()</span>
+  <span class="n">ksp</span><span class="o">.</span><span class="n">getPC</span><span class="p">()</span><span class="o">.</span><span class="n">setType</span><span class="p">(</span><span class="n">pc_type</span><span class="p">)</span>
+  <span class="n">ksp</span><span class="o">.</span><span class="n">getPC</span><span class="p">()</span><span class="o">.</span><span class="n">setFromOptions</span><span class="p">()</span>
+  
+  <span class="c1"># Monitoring</span>
+  <span class="k">if</span> <span class="n">verbose</span><span class="o">&gt;=</span><span class="mi">2</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Iteration   Residual&#39;</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">monitor</span><span class="p">(</span><span class="n">ksp</span><span class="p">,</span> <span class="n">its</span><span class="p">,</span> <span class="n">rnorm</span><span class="p">):</span>
+      <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%5d</span><span class="s1">      </span><span class="si">%20.15g</span><span class="s1">&#39;</span><span class="o">%</span><span class="p">(</span><span class="n">its</span><span class="p">,</span><span class="n">rnorm</span><span class="p">))</span>
+    <span class="n">ksp</span><span class="o">.</span><span class="n">setMonitor</span><span class="p">(</span><span class="n">monitor</span><span class="p">)</span>
+
+  <span class="c1"># Solving</span>
+  <span class="n">ksp</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+  <span class="n">sol</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">getArray</span><span class="p">())</span>
+
+  <span class="k">if</span> <span class="n">verbose</span><span class="o">&gt;=</span><span class="mi">2</span><span class="p">:</span>
+    <span class="n">residual</span> <span class="o">=</span> <span class="n">mat_petsc</span> <span class="o">*</span> <span class="n">x</span> <span class="o">-</span> <span class="n">b</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Itterative linear solver time: &quot;</span><span class="p">,</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Number of iterations: &quot;</span><span class="p">,</span> <span class="n">ksp</span><span class="o">.</span><span class="n">getIterationNumber</span><span class="p">())</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Type: &quot;</span><span class="p">,</span> <span class="n">ksp</span><span class="o">.</span><span class="n">getType</span><span class="p">())</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Tolerances: &quot;</span><span class="p">,</span> <span class="n">ksp</span><span class="o">.</span><span class="n">getTolerances</span><span class="p">())</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;The relative residual is: </span><span class="si">{</span><span class="n">residual</span><span class="o">.</span><span class="n">norm</span><span class="p">()</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">b</span><span class="o">.</span><span class="n">norm</span><span class="p">()</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
+  <span class="k">return</span> <span class="n">sol</span></div>
+
+
+<div class="viewcode-block" id="linear_solve_pardiso">
+<a class="viewcode-back" href="../../_autosummary/autopdex.solver.linear_solve_pardiso.html#autopdex.solver.linear_solve_pardiso">[docs]</a>
+<span class="k">def</span> <span class="nf">linear_solve_pardiso</span><span class="p">(</span><span class="n">mat</span><span class="p">,</span> <span class="n">rhs</span><span class="p">,</span> <span class="n">solver</span><span class="p">,</span> <span class="n">verbose</span><span class="p">,</span> <span class="n">free_dofs</span><span class="p">):</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Solve a linear system using the PARDISO solver (requires Intel MKL and pypardiso(&#39;lu&#39;) or sparse_dot_mkl(&#39;qr&#39;) to be installed).</span>
+
+<span class="sd">  This function solves a linear system using PARDISO, with options for different </span>
+<span class="sd">  solver types. The input matrix is first converted to a SciPy CSR matrix, and </span>
+<span class="sd">  rows and columns corresponding to Dirichlet DOFs are optionally removed.</span>
+
+<span class="sd">  Args:</span>
+<span class="sd">    mat (jax.experimental.sparse.BCOO): The input matrix in JAX BCOO format.</span>
+<span class="sd">    rhs (jnp.ndarray): The right-hand side vector.</span>
+<span class="sd">    solver (str): The type of solver to use (&#39;lu&#39; or &#39;qr&#39;).</span>
+<span class="sd">    verbose (int): Verbosity level. If &gt;= 2, timing information is printed.</span>
+<span class="sd">    free_dofs (array or None): Boolean array indicating which degrees of freedom are free.</span>
+
+<span class="sd">  Returns:</span>
+<span class="sd">    jax.numpy.array: The solution vector.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="c1"># Transform matrix to csr format and sum duplicates</span>
+  <span class="n">tangent_csr</span> <span class="o">=</span> <span class="n">scipy_assembling</span><span class="p">(</span><span class="n">mat</span><span class="p">,</span> <span class="n">verbose</span><span class="p">,</span> <span class="n">free_dofs</span><span class="p">)</span>
+  <span class="k">if</span> <span class="n">verbose</span><span class="o">&gt;=</span><span class="mi">2</span><span class="p">:</span>
+    <span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+
+  <span class="c1"># Prepare right hand side</span>
+  <span class="n">b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">rhs</span><span class="p">)</span>
+
+  <span class="k">if</span> <span class="n">solver</span> <span class="o">==</span> <span class="s1">&#39;lu&#39;</span><span class="p">:</span>
+    <span class="k">try</span><span class="p">:</span>
+      <span class="kn">import</span> <span class="nn">pypardiso</span>
+    <span class="k">except</span> <span class="ne">ModuleNotFoundError</span><span class="p">:</span>
+      <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Linear solver requires the installation of pypardiso.&#39;</span><span class="p">)</span>
+
+    <span class="c1"># ToDo: make use of symmetries and other settings available#, msglvl=verbose, iparm=iparm</span>
+    <span class="c1"># pypardiso_solver = pypardiso.PyPardisoSolver(mtype=11)</span>
+    <span class="c1"># x = pypardiso.spsolve(tangent_csr, b, solver=pypardiso_solver)</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">pypardiso</span><span class="o">.</span><span class="n">spsolve</span><span class="p">(</span><span class="n">tangent_csr</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+  <span class="k">elif</span> <span class="n">solver</span> <span class="o">==</span> <span class="s1">&#39;qr&#39;</span><span class="p">:</span>
+    <span class="k">try</span><span class="p">:</span>
+      <span class="kn">import</span> <span class="nn">sparse_dot_mkl</span>
+    <span class="k">except</span> <span class="ne">ModuleNotFoundError</span><span class="p">:</span>
+      <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Linear solver requires the installation of sparse_dot_mkl.&#39;</span><span class="p">)</span>
+
+    <span class="n">x</span> <span class="o">=</span> <span class="n">sparse_dot_mkl</span><span class="o">.</span><span class="n">sparse_qr_solve_mkl</span><span class="p">(</span><span class="n">tangent_csr</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+  <span class="k">else</span><span class="p">:</span>
+      <span class="k">assert</span> <span class="kc">False</span><span class="p">,</span> <span class="s1">&#39;Type of solver not supported. Choose </span><span class="se">\&#39;</span><span class="s1">lu</span><span class="se">\&#39;</span><span class="s1"> or </span><span class="se">\&#39;</span><span class="s1">qr</span><span class="se">\&#39;</span><span class="s1">&#39;</span>
+
+  <span class="n">sol</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+  <span class="k">if</span> <span class="n">verbose</span><span class="o">&gt;=</span><span class="mi">2</span><span class="p">:</span>
+    <span class="n">residual</span> <span class="o">=</span> <span class="n">b</span> <span class="o">-</span> <span class="n">tangent_csr</span> <span class="o">*</span> <span class="n">x</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;The relative residual after linear solve is: </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">residual</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">b</span><span class="p">)</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Linear solver time: &#39;</span><span class="p">,</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start</span><span class="p">)</span>
+  <span class="k">return</span> <span class="n">sol</span></div>
+
+
+<div class="viewcode-block" id="linear_solve_pyamg">
+<a class="viewcode-back" href="../../_autosummary/autopdex.solver.linear_solve_pyamg.html#autopdex.solver.linear_solve_pyamg">[docs]</a>
+<span class="k">def</span> <span class="nf">linear_solve_pyamg</span><span class="p">(</span><span class="n">mat</span><span class="p">,</span> <span class="n">rhs</span><span class="p">,</span> <span class="n">solver</span><span class="p">,</span> <span class="n">pc_type</span><span class="p">,</span> <span class="n">verbose</span><span class="p">,</span> <span class="n">free_dofs</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Solve a linear system using the PyAMG solver (requires pyamg to be installed).</span>
+
+<span class="sd">  This function solves a linear system using PyAMG, an algebraic multi-grid solver with options </span>
+<span class="sd">  for different solvers and preconditioners. The input matrix is first converted to a SciPy </span>
+<span class="sd">  CSR matrix, and rows and columns corresponding to Dirichlet DOFs are optionally </span>
+<span class="sd">  removed.</span>
+
+<span class="sd">  Args:</span>
+<span class="sd">    mat (jax.experimental.sparse.BCOO): The input matrix in JAX BCOO format.</span>
+<span class="sd">    rhs (jnp.ndarray): The right-hand side vector.</span>
+<span class="sd">    solver (str): The type of solver to use (&#39;cg&#39;, &#39;bcgs&#39;, or &#39;gmres&#39;).</span>
+<span class="sd">    pc_type (str): The type of preconditioner to use (&#39;ruge stuben&#39; or &#39;smoothed aggregation&#39;).</span>
+<span class="sd">    verbose (int): Verbosity level. If &gt;= 1, timing and solver information is printed.</span>
+<span class="sd">    free_dofs (array or None): Boolean array indicating which degrees of freedom are free.</span>
+<span class="sd">    **kwargs: Additional keyword arguments for the solver.</span>
+
+<span class="sd">  Returns:</span>
+<span class="sd">    jax.numpy.array: The solution vector.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="c1"># Transform matrix to csr format and sum duplicates</span>
+  <span class="n">pyamg_tangent</span> <span class="o">=</span> <span class="n">scipy_assembling</span><span class="p">(</span><span class="n">mat</span><span class="p">,</span> <span class="n">verbose</span><span class="p">,</span> <span class="n">free_dofs</span><span class="p">)</span>
+
+  <span class="k">if</span> <span class="n">verbose</span><span class="o">&gt;=</span><span class="mi">2</span><span class="p">:</span>
+    <span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+
+  <span class="c1"># Set up solver</span>
+  <span class="k">try</span><span class="p">:</span>
+    <span class="kn">import</span> <span class="nn">pyamg</span>
+  <span class="k">except</span> <span class="ne">ModuleNotFoundError</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Linear solver requires the installation of pyamg.&#39;</span><span class="p">)</span>
+
+  <span class="k">if</span> <span class="n">pc_type</span> <span class="o">==</span> <span class="s1">&#39;ruge stuben&#39;</span><span class="p">:</span>
+    <span class="n">ml</span> <span class="o">=</span> <span class="n">pyamg</span><span class="o">.</span><span class="n">ruge_stuben_solver</span><span class="p">(</span><span class="n">A</span><span class="o">=</span><span class="n">pyamg_tangent</span><span class="p">)</span>
+  <span class="k">elif</span> <span class="n">pc_type</span> <span class="o">==</span> <span class="s1">&#39;smoothed aggregation&#39;</span><span class="p">:</span>
+    <span class="n">ml</span> <span class="o">=</span> <span class="n">pyamg</span><span class="o">.</span><span class="n">smoothed_aggregation_solver</span><span class="p">(</span><span class="n">A</span><span class="o">=</span><span class="n">pyamg_tangent</span><span class="p">)</span>
+  <span class="k">else</span><span class="p">:</span>
+      <span class="k">assert</span> <span class="kc">False</span><span class="p">,</span> <span class="s1">&#39;Type of preconditioner not supported. Choose </span><span class="se">\&#39;</span><span class="s1">ruge stuben</span><span class="se">\&#39;</span><span class="s1"> or \`smoothed aggregation</span><span class="se">\&#39;</span><span class="s1">&#39;</span>
+  <span class="n">M</span> <span class="o">=</span> <span class="n">ml</span><span class="o">.</span><span class="n">aspreconditioner</span><span class="p">(</span><span class="n">cycle</span><span class="o">=</span><span class="s1">&#39;V&#39;</span><span class="p">)</span>
+
+  <span class="k">if</span> <span class="n">verbose</span><span class="o">&gt;=</span><span class="mi">2</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">ml</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Time for setting up multigrid preconditioner: &quot;</span><span class="p">,</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start</span><span class="p">)</span>
+    <span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+
+  <span class="c1"># Prepare right hand side</span>
+  <span class="n">b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">rhs</span><span class="p">)</span>
+  
+  <span class="c1"># Solving</span>
+  <span class="k">if</span> <span class="n">solver</span> <span class="o">==</span> <span class="s1">&#39;cg&#39;</span><span class="p">:</span>
+    <span class="n">x</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">pyamg</span><span class="o">.</span><span class="n">krylov</span><span class="o">.</span><span class="n">cg</span><span class="p">(</span><span class="n">A</span><span class="o">=</span><span class="n">pyamg_tangent</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="n">b</span><span class="p">,</span> <span class="n">M</span><span class="o">=</span><span class="n">M</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+  <span class="k">elif</span> <span class="n">solver</span> <span class="o">==</span> <span class="s1">&#39;bcgs&#39;</span><span class="p">:</span>
+    <span class="n">x</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">pyamg</span><span class="o">.</span><span class="n">krylov</span><span class="o">.</span><span class="n">bicgstab</span><span class="p">(</span><span class="n">A</span><span class="o">=</span><span class="n">pyamg_tangent</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="n">b</span><span class="p">,</span> <span class="n">M</span><span class="o">=</span><span class="n">M</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+  <span class="k">elif</span> <span class="n">solver</span> <span class="o">==</span> <span class="s1">&#39;gmres&#39;</span><span class="p">:</span>
+    <span class="n">x</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">pyamg</span><span class="o">.</span><span class="n">krylov</span><span class="o">.</span><span class="n">gmres</span><span class="p">(</span><span class="n">A</span><span class="o">=</span><span class="n">pyamg_tangent</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="n">b</span><span class="p">,</span> <span class="n">M</span><span class="o">=</span><span class="n">M</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+  <span class="k">else</span><span class="p">:</span>
+      <span class="k">assert</span> <span class="kc">False</span><span class="p">,</span> <span class="s1">&#39;Type of solver not supported. Choose </span><span class="se">\&#39;</span><span class="s1">cg</span><span class="se">\&#39;</span><span class="s1">, </span><span class="se">\&#39;</span><span class="s1">bcgs</span><span class="se">\&#39;</span><span class="s1"> or \`gmres</span><span class="se">\&#39;</span><span class="s1">&#39;</span>
+  
+  <span class="n">sol</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+  <span class="k">if</span> <span class="n">verbose</span><span class="o">&gt;=</span><span class="mi">2</span><span class="p">:</span>
+    <span class="n">residual</span> <span class="o">=</span> <span class="n">b</span> <span class="o">-</span> <span class="n">pyamg_tangent</span> <span class="o">*</span> <span class="n">x</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;The relative residual is: </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">residual</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">b</span><span class="p">)</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Itterative linear solver time: &#39;</span><span class="p">,</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start</span><span class="p">)</span>
+  <span class="k">return</span> <span class="n">sol</span></div>
+
+
+<div class="viewcode-block" id="linear_solve_scipy">
+<a class="viewcode-back" href="../../_autosummary/autopdex.solver.linear_solve_scipy.html#autopdex.solver.linear_solve_scipy">[docs]</a>
+<span class="k">def</span> <span class="nf">linear_solve_scipy</span><span class="p">(</span><span class="n">mat</span><span class="p">,</span> <span class="n">rhs</span><span class="p">,</span> <span class="n">solver</span><span class="p">,</span> <span class="n">verbose</span><span class="p">,</span> <span class="n">free_dofs</span><span class="p">):</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Solves a linear system using a specified SciPy solver.</span>
+
+<span class="sd">  Parameters:</span>
+<span class="sd">    mat (bcoo): JAX BCOO matrix representing the system&#39;s tangent matrix.</span>
+<span class="sd">    rhs (jnp.ndarray): Right-hand side vector of the linear system.</span>
+<span class="sd">    solver (str): Type of solver to use. Options are &#39;lapack&#39; or &#39;umfpack&#39;.</span>
+<span class="sd">    verbose (int): Verbosity level for logging.</span>
+<span class="sd">    free_dofs (jnp.ndarray): Boolean array indicating free degrees of freedom for Dirichlet boundary conditions.</span>
+
+<span class="sd">  Returns:</span>
+<span class="sd">    sol (jnp.ndarray): Solution vector to the linear system.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="c1"># Transform matrix to csr format and sum duplicates</span>
+  <span class="n">tangent_csr</span> <span class="o">=</span> <span class="n">scipy_assembling</span><span class="p">(</span><span class="n">mat</span><span class="p">,</span> <span class="n">verbose</span><span class="p">,</span> <span class="n">free_dofs</span><span class="p">)</span>
+
+  <span class="k">if</span> <span class="n">verbose</span><span class="o">&gt;=</span><span class="mi">2</span><span class="p">:</span>
+    <span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+
+  <span class="c1"># Prepare right hand side</span>
+  <span class="n">b</span> <span class="o">=</span> <span class="n">rhs</span>
+
+  <span class="k">if</span> <span class="n">solver</span> <span class="o">==</span> <span class="s1">&#39;lapack&#39;</span><span class="p">:</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">scp</span><span class="o">.</span><span class="n">sparse</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">spsolve</span><span class="p">(</span><span class="n">tangent_csr</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+  <span class="k">elif</span> <span class="n">solver</span> <span class="o">==</span> <span class="s1">&#39;umfpack&#39;</span><span class="p">:</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">scp</span><span class="o">.</span><span class="n">sparse</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">spsolve</span><span class="p">(</span><span class="n">tangent_csr</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">use_umfpack</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+  <span class="k">else</span><span class="p">:</span>
+      <span class="k">assert</span> <span class="kc">False</span><span class="p">,</span> <span class="s1">&#39;Type of solver not supported. Choose </span><span class="se">\&#39;</span><span class="s1">lapack</span><span class="se">\&#39;</span><span class="s1"> or </span><span class="se">\&#39;</span><span class="s1">umfpack</span><span class="se">\&#39;</span><span class="s1">&#39;</span>
+  
+  <span class="n">sol</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+  <span class="k">if</span> <span class="n">verbose</span> <span class="o">&gt;=</span><span class="mi">2</span><span class="p">:</span>
+    <span class="n">residual</span> <span class="o">=</span> <span class="n">b</span> <span class="o">-</span> <span class="n">tangent_csr</span> <span class="o">*</span> <span class="n">x</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;The relative residual is: </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">residual</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">b</span><span class="p">)</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Direct solver time: &#39;</span><span class="p">,</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start</span><span class="p">)</span>
+  <span class="k">return</span> <span class="n">sol</span></div>
+
+
+
+<span class="c1">### Iterative solvers/smoothers</span>
+<div class="viewcode-block" id="jacobi_method">
+<a class="viewcode-back" href="../../_autosummary/autopdex.solver.jacobi_method.html#autopdex.solver.jacobi_method">[docs]</a>
+<span class="k">def</span> <span class="nf">jacobi_method</span><span class="p">(</span><span class="n">hvp_fun</span><span class="p">,</span> <span class="n">diag</span><span class="p">,</span> <span class="n">x_0</span><span class="p">,</span> <span class="n">rhs</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">,</span> <span class="n">atol</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">,</span> <span class="n">maxiter</span><span class="o">=</span><span class="mi">1000</span><span class="p">):</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Solve Ax = b using Jacobi iterations (experimental).</span>
+
+<span class="sd">  Parameters:</span>
+<span class="sd">    hvp_fun (function): Hessian vector product function.</span>
+<span class="sd">    diag (jnp.ndarray): Diagonal of the Hessian matrix.</span>
+<span class="sd">    x_0 (jnp.ndarray): Initial guess for the solution.</span>
+<span class="sd">    rhs (jnp.ndarray): Right-hand side vector of the linear system.</span>
+<span class="sd">    tol (float): Relative tolerance for convergence.</span>
+<span class="sd">    atol (float): Absolute tolerance for convergence.</span>
+<span class="sd">    maxiter (int): Maximum number of iterations.</span>
+
+<span class="sd">  Returns:</span>
+<span class="sd">    array: Solution vector x.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="c1"># Initialization</span>
+  <span class="n">inverse_diag</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">diag</span>
+  <span class="n">scaled_rhs</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">multiply</span><span class="p">(</span><span class="n">inverse_diag</span><span class="p">,</span> <span class="n">rhs</span><span class="p">)</span>
+  <span class="n">rhs_squared</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">vdot</span><span class="p">(</span><span class="n">rhs</span><span class="p">,</span> <span class="n">rhs</span><span class="p">)</span>
+  
+  <span class="c1"># Itterations</span>
+  <span class="k">def</span> <span class="nf">body_fun</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
+    <span class="n">x_k</span><span class="p">,</span> <span class="n">k</span> <span class="o">=</span> <span class="n">value</span>
+    <span class="n">dx_k1</span> <span class="o">=</span> <span class="n">scaled_rhs</span> <span class="o">-</span> <span class="n">jnp</span><span class="o">.</span><span class="n">multiply</span><span class="p">(</span><span class="n">inverse_diag</span><span class="p">,</span> <span class="n">hvp_fun</span><span class="p">(</span><span class="n">x_k</span><span class="p">))</span>
+    <span class="n">x_k1</span> <span class="o">=</span> <span class="n">x_k</span> <span class="o">+</span> <span class="n">dx_k1</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">x_k1</span><span class="p">,</span> <span class="n">k</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+
+  <span class="k">def</span> <span class="nf">cond_fun</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
+    <span class="n">x_k</span><span class="p">,</span> <span class="n">k</span> <span class="o">=</span> <span class="n">value</span>
+    <span class="n">r_k</span> <span class="o">=</span> <span class="n">rhs</span> <span class="o">-</span> <span class="n">hvp_fun</span><span class="p">(</span><span class="n">x_k</span><span class="p">)</span>    
+    <span class="n">r_k_squared</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">vdot</span><span class="p">(</span><span class="n">r_k</span><span class="p">,</span> <span class="n">r_k</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">k</span> <span class="o">&lt;</span> <span class="n">maxiter</span> <span class="c1">#and r_k_squared &gt; jnp.max(tol**2 * rhs_squared, atol**2)</span>
+
+  <span class="n">x_final</span><span class="p">,</span> <span class="o">*</span><span class="n">_</span> <span class="o">=</span> <span class="n">lax</span><span class="o">.</span><span class="n">while_loop</span><span class="p">(</span><span class="n">cond_fun</span><span class="p">,</span> <span class="n">body_fun</span><span class="p">,</span> <span class="p">(</span><span class="n">x_0</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+
+  <span class="k">return</span> <span class="n">x_final</span></div>
+
+
+<div class="viewcode-block" id="damped_jacobi_relaxation">
+<a class="viewcode-back" href="../../_autosummary/autopdex.solver.damped_jacobi_relaxation.html#autopdex.solver.damped_jacobi_relaxation">[docs]</a>
+<span class="k">def</span> <span class="nf">damped_jacobi_relaxation</span><span class="p">(</span><span class="n">hvp_fun</span><span class="p">,</span> <span class="n">diag</span><span class="p">,</span> <span class="n">x_0</span><span class="p">,</span> <span class="n">rhs</span><span class="p">,</span> <span class="n">damping_factor</span><span class="o">=</span><span class="mf">0.3333333</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Damped Jacobi smoother (experimental).</span>
+
+<span class="sd">  Parameters:</span>
+<span class="sd">    hvp_fun (callable): Hessian vector product function.</span>
+<span class="sd">    diag (jnp.ndarray): Diagonal of the Hessian matrix.</span>
+<span class="sd">    x_0 (jnp.ndarray): Initial guess for the solution.</span>
+<span class="sd">    rhs (jnp.ndarray): Right-hand side vector of the linear system.</span>
+<span class="sd">    damping_factor (float): Damping factor for the iterations (&lt;=0.5 guarantees a good smoother).</span>
+<span class="sd">    **kwargs (dict): Additional keyword arguments for customization.</span>
+
+<span class="sd">  Returns:</span>
+<span class="sd">    array: Solution vector x.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="c1"># Initialization</span>
+  <span class="n">inverse_diag</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">diag</span>
+  <span class="n">scaled_rhs</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">multiply</span><span class="p">(</span><span class="n">inverse_diag</span><span class="p">,</span> <span class="n">rhs</span><span class="p">)</span>
+  
+  <span class="c1"># Itterations</span>
+  <span class="k">def</span> <span class="nf">body_fun</span><span class="p">(</span><span class="n">x_k</span><span class="p">,</span> <span class="n">idx</span><span class="p">):</span>
+    <span class="n">dx_k1</span> <span class="o">=</span> <span class="n">scaled_rhs</span> <span class="o">-</span> <span class="n">jnp</span><span class="o">.</span><span class="n">multiply</span><span class="p">(</span><span class="n">inverse_diag</span><span class="p">,</span> <span class="n">hvp_fun</span><span class="p">(</span><span class="n">x_k</span><span class="p">))</span>
+    <span class="n">x_k1</span> <span class="o">=</span> <span class="n">x_k</span> <span class="o">+</span> <span class="n">damping_factor</span> <span class="o">*</span> <span class="n">dx_k1</span>
+    <span class="k">return</span> <span class="n">x_k1</span><span class="p">,</span> <span class="kc">None</span>
+
+  <span class="n">iterations</span> <span class="o">=</span> <span class="mi">20</span>
+  <span class="n">x_final</span><span class="p">,</span> <span class="o">*</span><span class="n">_</span> <span class="o">=</span> <span class="n">lax</span><span class="o">.</span><span class="n">scan</span><span class="p">(</span><span class="n">body_fun</span><span class="p">,</span> <span class="n">init</span><span class="o">=</span><span class="n">x_0</span><span class="p">,</span> <span class="n">xs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="n">iterations</span><span class="p">)</span>
+  <span class="k">return</span> <span class="n">x_final</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Tobias Bode.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

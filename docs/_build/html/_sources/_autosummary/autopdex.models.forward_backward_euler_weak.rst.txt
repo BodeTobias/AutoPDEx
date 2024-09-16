@@ -1,0 +1,6 @@
+﻿autopdex.models.forward\_backward\_euler\_weak
+==============================================
+
+.. currentmodule:: autopdex.models
+
+.. autofunction:: forward_backward_euler_weak

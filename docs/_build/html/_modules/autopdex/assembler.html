@@ -1,0 +1,1053 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>autopdex.assembler &mdash; AutoPDEx 0.0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../../_static/jupyter-sphinx.css?v=572af1d6" />
+      <link rel="stylesheet" type="text/css" href="../../_static/thebelab.css" />
+      <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=acfd50eb" />
+      <link rel="stylesheet" type="text/css" href="../../_static/dark_mode_css/general.css?v=c0a7eb24" />
+      <link rel="stylesheet" type="text/css" href="../../_static/dark_mode_css/dark.css?v=70edf1c7" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../_static/documentation_options.js?v=d45e8c67"></script>
+        <script src="../../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="../../_static/copybutton.js?v=f281be69"></script>
+        <script src="../../_static/thebelab-helper.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script src="../../_static/dark_mode_js/default_light.js?v=c2e647ce"></script>
+        <script src="../../_static/dark_mode_js/theme_switcher.js?v=358d3910"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            AutoPDEx
+              <img src="../../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">High level operations</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../solver.html">Solver</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../models.html">Models</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Settings</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../settings.html">Settings and static_settings</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../example_notebooks.html">Example notebooks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../examples.html">Examplary input files</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Lower level operations</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../assembler.html">Assembler</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../implicit_diff.html">Implicit_diff</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../spaces.html">Spaces</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../solution_structures.html">Solution_structures</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../variational_schemes.html">Variational_schemes</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Pre- and postprocessing</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../geometry.html">Geometry</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../seeder.html">Seeder</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../utility.html">Utility</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../plotter.html">Plotter</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">AutoPDEx</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">autopdex.assembler</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for autopdex.assembler</h1><div class="highlight"><pre>
+<span></span><span class="c1"># assembler.py</span>
+<span class="c1"># Copyright (C) 2024 Tobias Bode</span>
+<span class="c1">#</span>
+<span class="c1"># This program is free software: you can redistribute it and/or modify</span>
+<span class="c1"># it under the terms of the GNU Affero General Public License as published by</span>
+<span class="c1"># the Free Software Foundation, either version 3 of the License, or</span>
+<span class="c1"># (at your option) any later version.</span>
+<span class="c1">#</span>
+<span class="c1"># This program is distributed in the hope that it will be useful,</span>
+<span class="c1"># but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+<span class="c1"># MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the</span>
+<span class="c1"># GNU Affero General Public License for more details.</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Module for assembling and integrating functionals, residuals and tangents, supporting both &#39;sparse&#39; and &#39;dense&#39; modes and &#39;user potentials&#39;, &#39;user residuals&#39; and &#39;user elements&#39;.</span>
+
+<span class="sd">The assembly modes &#39;dense&#39; and &#39;sparse&#39; use JAX&#39;s automatic differentiation capabilities to determine the global residual and the tangent for the given values of the degrees of freedom and the models and variational schemes specified in static_settings.</span>
+<span class="sd">In the &#39;dense&#39; mode, the tangent matrix is returned as a jnp.ndarray, while in the &#39;sparse&#39; mode, it is returned as a jax.experimental.BCOO matrix with duplicates. </span>
+<span class="sd">In the &#39;user potential&#39;, &#39;user residual&#39; and &#39;user element&#39; modes, the global residual and tangent can be assembled based on user-defined element-wise contributions. </span>
+<span class="sd">Depending on the execution location, the entries are calculated on CPU or GPU. </span>
+<span class="sd">For an efficient calculation, JAX&#39;s automatic vectorization transformation (vmap) is used.</span>
+<span class="sd">The summation of duplicates is then carried out within the solver module. Currently, SciPy is used for this on the CPU.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">jax</span>
+<span class="kn">import</span> <span class="nn">jax.experimental</span>
+<span class="kn">import</span> <span class="nn">jax.experimental.pjit</span>
+<span class="kn">import</span> <span class="nn">jax.experimental.shard_map</span>
+<span class="kn">import</span> <span class="nn">jax.numpy</span> <span class="k">as</span> <span class="nn">jnp</span>
+<span class="kn">from</span> <span class="nn">jax.experimental</span> <span class="kn">import</span> <span class="n">sparse</span>
+<span class="kn">import</span> <span class="nn">sparsejac</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="kn">from</span> <span class="nn">autopdex</span> <span class="kn">import</span> <span class="n">variational_schemes</span>
+<span class="kn">from</span> <span class="nn">autopdex.utility</span> <span class="kn">import</span> <span class="n">jit_with_docstring</span>
+
+
+<span class="c1">### Assembling switches: sparse/dense</span>
+<div class="viewcode-block" id="integrate_functional">
+<a class="viewcode-back" href="../../_autosummary/autopdex.assembler.integrate_functional.html#autopdex.assembler.integrate_functional">[docs]</a>
+<span class="nd">@jit_with_docstring</span><span class="p">(</span><span class="n">static_argnames</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;static_settings&#39;</span><span class="p">])</span>
+<span class="k">def</span> <span class="nf">integrate_functional</span><span class="p">(</span><span class="n">dofs</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">):</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Integrate functional as sum over set of domains.</span>
+<span class="sd">  </span>
+<span class="sd">  Parameters:</span>
+<span class="sd">    dofs (jnp.ndarray): Degrees of freedom.</span>
+<span class="sd">    settings (dict): Settings for the integration.</span>
+<span class="sd">    static_settings (flax.core.FrozenDict): Static settings including assembling modes.</span>
+<span class="sd">  </span>
+<span class="sd">  Returns:</span>
+<span class="sd">    float: The integrated functional value for current dofs.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="c1"># ToDo: add a function that checks the entries of settings and static_settings for inconsistencies</span>
+
+  <span class="c1"># Loop over all sets of integration points/ domains</span>
+  <span class="n">num_sets</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">static_settings</span><span class="p">[</span><span class="s1">&#39;assembling mode&#39;</span><span class="p">])</span>
+  <span class="n">integrated_functional</span> <span class="o">=</span> <span class="mi">0</span>
+  <span class="k">for</span> <span class="nb">set</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_sets</span><span class="p">):</span>
+    <span class="n">assembling_mode</span> <span class="o">=</span> <span class="n">static_settings</span><span class="p">[</span><span class="s1">&#39;assembling mode&#39;</span><span class="p">][</span><span class="nb">set</span><span class="p">]</span>
+
+    <span class="k">if</span> <span class="n">assembling_mode</span> <span class="o">==</span> <span class="s1">&#39;dense&#39;</span><span class="p">:</span>
+      <span class="n">integrated_functional</span> <span class="o">+=</span> <span class="n">dense_integrate_functional</span><span class="p">(</span><span class="n">dofs</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">,</span> <span class="nb">set</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">assembling_mode</span> <span class="o">==</span> <span class="s1">&#39;sparse&#39;</span><span class="p">:</span>
+      <span class="n">integrated_functional</span> <span class="o">+=</span> <span class="n">sparse_integrate_functional</span><span class="p">(</span><span class="n">dofs</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">,</span> <span class="nb">set</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">assembling_mode</span> <span class="o">==</span> <span class="s1">&#39;user potential&#39;</span><span class="p">:</span>
+      <span class="n">integrated_functional</span> <span class="o">+=</span> <span class="n">user_potential_integrate_functional</span><span class="p">(</span><span class="n">dofs</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">,</span> <span class="nb">set</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+      <span class="k">assert</span> <span class="kc">False</span><span class="p">,</span> <span class="s1">&#39;Assembling mode can be either </span><span class="se">\&#39;</span><span class="s1">sparse</span><span class="se">\&#39;</span><span class="s1"> or </span><span class="se">\&#39;</span><span class="s1">dense</span><span class="se">\&#39;</span><span class="s1"> in integrate_functional&#39;</span>
+
+  <span class="k">return</span> <span class="n">integrated_functional</span></div>
+
+
+<div class="viewcode-block" id="assemble_residual">
+<a class="viewcode-back" href="../../_autosummary/autopdex.assembler.assemble_residual.html#autopdex.assembler.assemble_residual">[docs]</a>
+<span class="nd">@jit_with_docstring</span><span class="p">(</span><span class="n">static_argnames</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;static_settings&#39;</span><span class="p">])</span>
+<span class="k">def</span> <span class="nf">assemble_residual</span><span class="p">(</span><span class="n">dofs</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">):</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Assemble residuals over set of domains.</span>
+<span class="sd">  </span>
+<span class="sd">  Parameters:</span>
+<span class="sd">    dofs (jnp.ndarray): Degrees of freedom.</span>
+<span class="sd">    settings (dict): Settings for the integration.</span>
+<span class="sd">    static_settings (flax.core.FrozenDict): Static settings including assembling modes.</span>
+<span class="sd">  </span>
+<span class="sd">  Returns:</span>
+<span class="sd">    jnp.ndarray: The assembled residual.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="c1"># Loop over all sets of integration points/ domains</span>
+  <span class="n">num_sets</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">static_settings</span><span class="p">[</span><span class="s1">&#39;assembling mode&#39;</span><span class="p">])</span>
+  <span class="n">integrated_residual</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">dofs</span><span class="p">)</span>
+  <span class="k">for</span> <span class="nb">set</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_sets</span><span class="p">):</span>
+    <span class="n">assembling_mode</span> <span class="o">=</span> <span class="n">static_settings</span><span class="p">[</span><span class="s1">&#39;assembling mode&#39;</span><span class="p">][</span><span class="nb">set</span><span class="p">]</span>
+
+    <span class="k">if</span> <span class="n">assembling_mode</span> <span class="o">==</span> <span class="s1">&#39;dense&#39;</span><span class="p">:</span>
+      <span class="n">integrated_residual</span> <span class="o">+=</span> <span class="n">dense_assemble_residual</span><span class="p">(</span><span class="n">dofs</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">,</span> <span class="nb">set</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">assembling_mode</span> <span class="o">==</span> <span class="s1">&#39;sparse&#39;</span><span class="p">:</span>
+      <span class="n">integrated_residual</span> <span class="o">+=</span> <span class="n">sparse_assemble_residual</span><span class="p">(</span><span class="n">dofs</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">,</span> <span class="nb">set</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">assembling_mode</span> <span class="o">==</span> <span class="s1">&#39;user potential&#39;</span><span class="p">:</span>
+      <span class="n">integrated_residual</span> <span class="o">+=</span> <span class="n">user_potential_assemble_residual</span><span class="p">(</span><span class="n">dofs</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">,</span> <span class="nb">set</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">assembling_mode</span> <span class="o">==</span> <span class="s1">&#39;user residual&#39;</span><span class="p">:</span>
+      <span class="n">integrated_residual</span> <span class="o">+=</span> <span class="n">user_residual_assemble_residual</span><span class="p">(</span><span class="n">dofs</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">,</span> <span class="nb">set</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">assembling_mode</span> <span class="o">==</span> <span class="s1">&#39;user element&#39;</span><span class="p">:</span>
+      <span class="n">integrated_residual</span> <span class="o">+=</span> <span class="n">user_element_assemble_residual</span><span class="p">(</span><span class="n">dofs</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">,</span> <span class="nb">set</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+      <span class="k">assert</span> <span class="kc">False</span><span class="p">,</span> <span class="s1">&#39;Assembling mode can be either </span><span class="se">\&#39;</span><span class="s1">sparse</span><span class="se">\&#39;</span><span class="s1">, </span><span class="se">\&#39;</span><span class="s1">dense</span><span class="se">\&#39;</span><span class="s1"> or </span><span class="se">\&#39;</span><span class="s1">user element</span><span class="se">\&#39;</span><span class="s1">&#39;</span>
+
+  <span class="k">return</span> <span class="n">integrated_residual</span></div>
+
+
+<div class="viewcode-block" id="assemble_tangent_diagonal">
+<a class="viewcode-back" href="../../_autosummary/autopdex.assembler.assemble_tangent_diagonal.html#autopdex.assembler.assemble_tangent_diagonal">[docs]</a>
+<span class="nd">@jit_with_docstring</span><span class="p">(</span><span class="n">static_argnames</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;static_settings&#39;</span><span class="p">])</span>
+<span class="k">def</span> <span class="nf">assemble_tangent_diagonal</span><span class="p">(</span><span class="n">dofs</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">):</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Assemble the diagonal of the tangent matrix.</span>
+<span class="sd">  </span>
+<span class="sd">  Parameters:</span>
+<span class="sd">    dofs (jnp.ndarray): Degrees of freedom.</span>
+<span class="sd">    settings (dict): Settings for the integration.</span>
+<span class="sd">    static_settings (flax.core.FrozenDict): Static settings including assembling modes.</span>
+<span class="sd">  </span>
+<span class="sd">  Returns:</span>
+<span class="sd">    jnp.ndarray: The diagonal of the assembled tangent matrix.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="c1"># Loop over all sets of integration points/ domains</span>
+  <span class="n">num_sets</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">static_settings</span><span class="p">[</span><span class="s1">&#39;assembling mode&#39;</span><span class="p">])</span>
+  <span class="n">tangent_diagonal</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">dofs</span><span class="o">.</span><span class="n">flatten</span><span class="p">())</span>
+  <span class="k">for</span> <span class="nb">set</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_sets</span><span class="p">):</span>
+    <span class="n">assembling_mode</span> <span class="o">=</span> <span class="n">static_settings</span><span class="p">[</span><span class="s1">&#39;assembling mode&#39;</span><span class="p">][</span><span class="nb">set</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">assembling_mode</span> <span class="o">==</span> <span class="s1">&#39;sparse&#39;</span><span class="p">:</span>
+      <span class="n">tangent_diagonal</span> <span class="o">+=</span> <span class="n">sparse_assemble_tangent_diagonal</span><span class="p">(</span><span class="n">dofs</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">,</span> <span class="nb">set</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">assembling_mode</span> <span class="o">==</span> <span class="s1">&#39;user potential&#39;</span><span class="p">:</span>
+      <span class="n">tangent_diagonal</span> <span class="o">+=</span> <span class="n">user_potential_assemble_tangent_diagonal</span><span class="p">(</span><span class="n">dofs</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">,</span> <span class="nb">set</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">assembling_mode</span> <span class="o">==</span> <span class="s1">&#39;user residual&#39;</span><span class="p">:</span>
+      <span class="n">tangent_diagonal</span> <span class="o">+=</span> <span class="n">user_residual_assemble_tangent_diagonal</span><span class="p">(</span><span class="n">dofs</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">,</span> <span class="nb">set</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">assembling_mode</span> <span class="o">==</span> <span class="s1">&#39;user element&#39;</span><span class="p">:</span>
+      <span class="n">tangent_diagonal</span> <span class="o">+=</span> <span class="n">user_element_assemble_tangent_diagonal</span><span class="p">(</span><span class="n">dofs</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">,</span> <span class="nb">set</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+      <span class="k">assert</span> <span class="kc">False</span><span class="p">,</span> <span class="s1">&#39;Assembling mode for assembling tangent diagonal supports currently only </span><span class="se">\&#39;</span><span class="s1">sparse</span><span class="se">\&#39;</span><span class="s1"> and </span><span class="se">\&#39;</span><span class="s1">user element</span><span class="se">\&#39;</span><span class="s1">&#39;</span>
+  <span class="k">return</span> <span class="n">tangent_diagonal</span></div>
+
+
+<div class="viewcode-block" id="assemble_tangent">
+<a class="viewcode-back" href="../../_autosummary/autopdex.assembler.assemble_tangent.html#autopdex.assembler.assemble_tangent">[docs]</a>
+<span class="nd">@jit_with_docstring</span><span class="p">(</span><span class="n">static_argnames</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;static_settings&#39;</span><span class="p">])</span>
+<span class="k">def</span> <span class="nf">assemble_tangent</span><span class="p">(</span><span class="n">dofs</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">):</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Assemble the full (possibly sparse) tangent matrix.</span>
+<span class="sd">  </span>
+<span class="sd">  Parameters:</span>
+<span class="sd">    dofs (jnp.ndarray): Degrees of freedom.</span>
+<span class="sd">    settings (dict): Settings for the integration.</span>
+<span class="sd">    static_settings (flax.core.FrozenDict): Static settings including assembling modes.</span>
+<span class="sd">  </span>
+<span class="sd">  Returns:</span>
+<span class="sd">    jnp.ndarray or sparse matrix: The assembled tangent matrix.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="c1"># ToDo: add symmetric mode</span>
+
+  <span class="n">num_sets</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">static_settings</span><span class="p">[</span><span class="s1">&#39;assembling mode&#39;</span><span class="p">])</span>
+  <span class="n">one_dense</span> <span class="o">=</span> <span class="s1">&#39;dense&#39;</span> <span class="ow">in</span> <span class="n">static_settings</span><span class="p">[</span><span class="s1">&#39;assembling mode&#39;</span><span class="p">]</span>
+  <span class="n">num_dofs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">prod</span><span class="p">(</span><span class="n">dofs</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+  <span class="k">try</span><span class="p">:</span>
+    <span class="n">sparsity_pattern</span> <span class="o">=</span> <span class="n">static_settings</span><span class="p">[</span><span class="s1">&#39;known sparsity pattern&#39;</span><span class="p">]</span>
+  <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+    <span class="n">sparsity_pattern</span> <span class="o">=</span> <span class="s1">&#39;none&#39;</span>
+
+  <span class="k">match</span> <span class="n">sparsity_pattern</span><span class="p">:</span>
+    <span class="k">case</span> <span class="s1">&#39;none&#39;</span><span class="p">:</span>
+      <span class="k">if</span> <span class="n">one_dense</span><span class="p">:</span>
+        <span class="n">integrated_tangent</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">num_dofs</span><span class="p">,</span> <span class="n">num_dofs</span><span class="p">))</span>
+      <span class="k">else</span><span class="p">:</span>
+        <span class="n">integrated_tangent</span> <span class="o">=</span> <span class="n">sparse</span><span class="o">.</span><span class="n">empty</span><span class="p">((</span><span class="n">num_dofs</span><span class="p">,</span> <span class="n">num_dofs</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">jnp</span><span class="o">.</span><span class="n">float_</span><span class="p">,</span> <span class="n">index_dtype</span><span class="o">=</span><span class="n">jnp</span><span class="o">.</span><span class="n">int_</span><span class="p">)</span>
+
+      <span class="c1"># Loop over all sets of integration points/ domains</span>
+      <span class="k">for</span> <span class="nb">set</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_sets</span><span class="p">):</span>
+        <span class="n">assembling_mode</span> <span class="o">=</span> <span class="n">static_settings</span><span class="p">[</span><span class="s1">&#39;assembling mode&#39;</span><span class="p">][</span><span class="nb">set</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="n">assembling_mode</span> <span class="o">==</span> <span class="s1">&#39;dense&#39;</span><span class="p">:</span>
+          <span class="n">integrated_tangent</span> <span class="o">+=</span> <span class="n">dense_assemble_tangent</span><span class="p">(</span><span class="n">dofs</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">,</span> <span class="nb">set</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+          <span class="k">if</span> <span class="n">assembling_mode</span> <span class="o">==</span> <span class="s1">&#39;sparse&#39;</span><span class="p">:</span>
+            <span class="n">add</span> <span class="o">=</span> <span class="n">sparse_assemble_tangent</span><span class="p">(</span><span class="n">dofs</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">,</span> <span class="nb">set</span><span class="p">)</span>
+          <span class="k">elif</span> <span class="n">assembling_mode</span> <span class="o">==</span> <span class="s1">&#39;user potential&#39;</span><span class="p">:</span>
+            <span class="n">add</span> <span class="o">=</span> <span class="n">user_potential_assemble_tangent</span><span class="p">(</span><span class="n">dofs</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">,</span> <span class="nb">set</span><span class="p">)</span>
+          <span class="k">elif</span> <span class="n">assembling_mode</span> <span class="o">==</span> <span class="s1">&#39;user residual&#39;</span><span class="p">:</span>
+            <span class="n">add</span> <span class="o">=</span> <span class="n">user_residual_assemble_tangent</span><span class="p">(</span><span class="n">dofs</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">,</span> <span class="nb">set</span><span class="p">)</span>
+          <span class="k">elif</span> <span class="n">assembling_mode</span> <span class="o">==</span> <span class="s1">&#39;user element&#39;</span><span class="p">:</span>
+            <span class="n">add</span> <span class="o">=</span> <span class="n">user_element_assemble_tangent</span><span class="p">(</span><span class="n">dofs</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">,</span> <span class="nb">set</span><span class="p">)</span>
+          <span class="k">else</span><span class="p">:</span>
+            <span class="k">assert</span> <span class="kc">False</span><span class="p">,</span> <span class="s1">&#39;Assembling mode can be either </span><span class="se">\&#39;</span><span class="s1">sparse</span><span class="se">\&#39;</span><span class="s1">, </span><span class="se">\&#39;</span><span class="s1">dense</span><span class="se">\&#39;</span><span class="s1"> or </span><span class="se">\&#39;</span><span class="s1">user element</span><span class="se">\&#39;</span><span class="s1">&#39;</span>
+
+          <span class="k">if</span> <span class="n">one_dense</span><span class="p">:</span>
+            <span class="n">integrated_tangent</span> <span class="o">+=</span> <span class="n">add</span><span class="o">.</span><span class="n">todense</span><span class="p">()</span>
+          <span class="k">else</span><span class="p">:</span>
+            <span class="n">integrated_tangent</span> <span class="o">+=</span> <span class="n">add</span>
+    <span class="k">case</span> <span class="s1">&#39;diagonal&#39;</span><span class="p">:</span>
+      <span class="c1"># Compute the diagonal tangent (not the diagonal of a tangent that is not diagonal)</span>
+      <span class="n">residual_fun</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">flat_dofs</span><span class="p">:</span> <span class="n">assemble_residual</span><span class="p">(</span><span class="n">flat_dofs</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">dofs</span><span class="o">.</span><span class="n">shape</span><span class="p">),</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">)</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+      <span class="k">with</span> <span class="n">jax</span><span class="o">.</span><span class="n">ensure_compile_time_eval</span><span class="p">():</span>
+        <span class="n">data_and_indices</span> <span class="o">=</span> <span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="n">num_dofs</span><span class="p">,)),</span>
+                            <span class="n">jax</span><span class="o">.</span><span class="n">vmap</span><span class="p">(</span><span class="k">lambda</span> <span class="n">i</span><span class="p">:</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">([</span><span class="n">i</span><span class="p">,</span> <span class="n">i</span><span class="p">]))(</span><span class="n">jnp</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">num_dofs</span><span class="p">)))</span>
+        <span class="n">mat_shape</span> <span class="o">=</span> <span class="p">(</span><span class="n">num_dofs</span><span class="p">,</span><span class="n">num_dofs</span><span class="p">)</span>
+        <span class="n">sparsity</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">experimental</span><span class="o">.</span><span class="n">sparse</span><span class="o">.</span><span class="n">BCOO</span><span class="p">(</span><span class="n">data_and_indices</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="n">mat_shape</span><span class="p">)</span> <span class="c1"># ToDo: with unique and sorted indices more efficient?</span>
+        <span class="n">sparse_diag_fun</span> <span class="o">=</span> <span class="n">sparsejac</span><span class="o">.</span><span class="n">jacfwd</span><span class="p">(</span><span class="n">residual_fun</span><span class="p">,</span> <span class="n">sparsity</span><span class="o">=</span><span class="n">sparsity</span><span class="p">)</span>
+      <span class="n">diag</span> <span class="o">=</span> <span class="n">sparse_diag_fun</span><span class="p">(</span><span class="n">dofs</span><span class="o">.</span><span class="n">flatten</span><span class="p">())</span>
+      <span class="k">return</span> <span class="n">diag</span>
+
+    <span class="k">case</span><span class="w"> </span><span class="k">_</span><span class="p">:</span>
+      <span class="k">assert</span> <span class="kc">False</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\&#39;</span><span class="s1">known sparsity pattern</span><span class="se">\&#39;</span><span class="s1"> mode is not implemented.&#39;</span>
+
+  <span class="k">return</span> <span class="n">integrated_tangent</span></div>
+
+
+
+<span class="c1">### Dense assembling</span>
+<div class="viewcode-block" id="dense_integrate_functional">
+<a class="viewcode-back" href="../../_autosummary/autopdex.assembler.dense_integrate_functional.html#autopdex.assembler.dense_integrate_functional">[docs]</a>
+<span class="nd">@jit_with_docstring</span><span class="p">(</span><span class="n">static_argnames</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;static_settings&#39;</span><span class="p">,</span> <span class="s1">&#39;set&#39;</span><span class="p">])</span>
+<span class="k">def</span> <span class="nf">dense_integrate_functional</span><span class="p">(</span><span class="n">dofs</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">,</span> <span class="nb">set</span><span class="p">):</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Dense integration of functional of specified set.</span>
+<span class="sd">  </span>
+<span class="sd">  Parameters:</span>
+<span class="sd">    dofs (jnp.ndarray): Degrees of freedom.</span>
+<span class="sd">    settings (dict): Settings for the integration.</span>
+<span class="sd">    static_settings (flax.core.FrozenDict): Static settings including assembling modes.</span>
+<span class="sd">    set (int): The set index.</span>
+<span class="sd">  </span>
+<span class="sd">  Returns:</span>
+<span class="sd">    float: The integrated functional value.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="n">x_int</span> <span class="o">=</span> <span class="n">settings</span><span class="p">[</span><span class="s1">&#39;integration coordinates&#39;</span><span class="p">][</span><span class="nb">set</span><span class="p">]</span>
+  <span class="n">w_int</span> <span class="o">=</span> <span class="n">settings</span><span class="p">[</span><span class="s1">&#39;integration weights&#39;</span><span class="p">][</span><span class="nb">set</span><span class="p">]</span>
+
+  <span class="n">functional_at_int_point_vj</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">vmap</span><span class="p">(</span><span class="n">variational_schemes</span><span class="o">.</span><span class="n">functional_at_int_point</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="kc">None</span><span class="p">,</span><span class="kc">None</span><span class="p">,</span><span class="kc">None</span><span class="p">,</span><span class="kc">None</span><span class="p">),</span> <span class="mi">0</span><span class="p">)</span>
+  <span class="n">int_point_numbers</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">x_int</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">1</span><span class="p">)</span>
+  <span class="n">integrated_functional</span> <span class="o">=</span> <span class="n">functional_at_int_point_vj</span><span class="p">(</span><span class="n">x_int</span><span class="p">,</span> <span class="n">w_int</span><span class="p">,</span> <span class="n">int_point_numbers</span><span class="p">,</span> <span class="n">dofs</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">,</span> <span class="nb">set</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+
+  <span class="k">return</span> <span class="n">integrated_functional</span></div>
+
+
+<div class="viewcode-block" id="dense_assemble_residual">
+<a class="viewcode-back" href="../../_autosummary/autopdex.assembler.dense_assemble_residual.html#autopdex.assembler.dense_assemble_residual">[docs]</a>
+<span class="nd">@jit_with_docstring</span><span class="p">(</span><span class="n">static_argnames</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;static_settings&#39;</span><span class="p">,</span> <span class="s1">&#39;set&#39;</span><span class="p">])</span>
+<span class="k">def</span> <span class="nf">dense_assemble_residual</span><span class="p">(</span><span class="n">dofs</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">,</span> <span class="nb">set</span><span class="p">):</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Dense assembly of residual of specified set.</span>
+<span class="sd">  </span>
+<span class="sd">  Parameters:</span>
+<span class="sd">    dofs (jnp.ndarray): Degrees of freedom.</span>
+<span class="sd">    settings (dict): Settings for the integration.</span>
+<span class="sd">    static_settings (flax.core.FrozenDict): Static settings including assembling modes.</span>
+<span class="sd">    set (int): The set index.</span>
+<span class="sd">  </span>
+<span class="sd">  Returns:</span>
+<span class="sd">    jnp.ndarray: The assembled residual.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="n">grad</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">grad</span><span class="p">(</span><span class="n">dense_integrate_functional</span><span class="p">,</span> <span class="nb">set</span><span class="p">)</span>
+  <span class="k">return</span> <span class="n">grad</span><span class="p">(</span><span class="n">dofs</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">)</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="dense_assemble_tangent">
+<a class="viewcode-back" href="../../_autosummary/autopdex.assembler.dense_assemble_tangent.html#autopdex.assembler.dense_assemble_tangent">[docs]</a>
+<span class="nd">@jit_with_docstring</span><span class="p">(</span><span class="n">static_argnames</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;static_settings&#39;</span><span class="p">,</span> <span class="s1">&#39;set&#39;</span><span class="p">])</span>
+<span class="k">def</span> <span class="nf">dense_assemble_tangent</span><span class="p">(</span><span class="n">dofs</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">,</span> <span class="nb">set</span><span class="p">):</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Dense assembly of tangent of specified set.</span>
+<span class="sd">  </span>
+<span class="sd">  Parameters:</span>
+<span class="sd">    dofs (jnp.ndarray): Degrees of freedom.</span>
+<span class="sd">    settings (dict): Settings for the integration.</span>
+<span class="sd">    static_settings (flax.core.FrozenDict): Static settings including assembling modes.</span>
+<span class="sd">    set (int): The set index.</span>
+<span class="sd">  </span>
+<span class="sd">  Returns:</span>
+<span class="sd">    jnp.ndarray: The assembled tangent matrix.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="n">hessian</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">hessian</span><span class="p">(</span><span class="n">dense_integrate_functional</span><span class="p">)</span>
+  <span class="k">return</span> <span class="n">jnp</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">hessian</span><span class="p">(</span><span class="n">dofs</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">,</span> <span class="nb">set</span><span class="p">),</span>
+                      <span class="p">(</span><span class="n">dofs</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="n">dofs</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="n">dofs</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="n">dofs</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span></div>
+
+
+
+<span class="c1">### Sparse assembling</span>
+<div class="viewcode-block" id="sparse_integrate_functional">
+<a class="viewcode-back" href="../../_autosummary/autopdex.assembler.sparse_integrate_functional.html#autopdex.assembler.sparse_integrate_functional">[docs]</a>
+<span class="nd">@jit_with_docstring</span><span class="p">(</span><span class="n">static_argnames</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;static_settings&#39;</span><span class="p">,</span> <span class="s1">&#39;set&#39;</span><span class="p">])</span>
+<span class="k">def</span> <span class="nf">sparse_integrate_functional</span><span class="p">(</span><span class="n">dofs</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">,</span> <span class="nb">set</span><span class="p">):</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Sparse integration of functional of specified set.</span>
+<span class="sd">  </span>
+<span class="sd">  Parameters:</span>
+<span class="sd">    dofs (jnp.ndarray): Degrees of freedom.</span>
+<span class="sd">    settings (dict): Settings for the integration.</span>
+<span class="sd">    static_settings (flax.core.FrozenDict): Static settings including assembling modes.</span>
+<span class="sd">    set (int): The set index.</span>
+<span class="sd">  </span>
+<span class="sd">  Returns:</span>
+<span class="sd">    float: The integrated functional value.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="n">neighbor_list</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">static_settings</span><span class="p">[</span><span class="s1">&#39;connectivity&#39;</span><span class="p">][</span><span class="nb">set</span><span class="p">])</span>
+  <span class="n">local_dofs</span> <span class="o">=</span> <span class="n">dofs</span><span class="p">[</span><span class="n">neighbor_list</span><span class="p">]</span>
+  <span class="n">x_int</span> <span class="o">=</span> <span class="n">settings</span><span class="p">[</span><span class="s1">&#39;integration coordinates&#39;</span><span class="p">][</span><span class="nb">set</span><span class="p">]</span>
+  <span class="n">w_int</span> <span class="o">=</span> <span class="n">settings</span><span class="p">[</span><span class="s1">&#39;integration weights&#39;</span><span class="p">][</span><span class="nb">set</span><span class="p">]</span>
+
+  <span class="n">functional_at_int_point_vj</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">vmap</span><span class="p">(</span><span class="n">variational_schemes</span><span class="o">.</span><span class="n">functional_at_int_point</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="kc">None</span><span class="p">,</span><span class="kc">None</span><span class="p">,</span><span class="kc">None</span><span class="p">),</span> <span class="mi">0</span><span class="p">)</span>
+  <span class="n">int_point_numbers</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">x_int</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">1</span><span class="p">)</span>
+  <span class="k">return</span> <span class="n">functional_at_int_point_vj</span><span class="p">(</span><span class="n">x_int</span><span class="p">,</span> <span class="n">w_int</span><span class="p">,</span> <span class="n">int_point_numbers</span><span class="p">,</span> <span class="n">local_dofs</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">,</span> <span class="nb">set</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="sparse_assemble_residual">
+<a class="viewcode-back" href="../../_autosummary/autopdex.assembler.sparse_assemble_residual.html#autopdex.assembler.sparse_assemble_residual">[docs]</a>
+<span class="nd">@jit_with_docstring</span><span class="p">(</span><span class="n">static_argnames</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;static_settings&#39;</span><span class="p">,</span> <span class="s1">&#39;set&#39;</span><span class="p">])</span>
+<span class="k">def</span> <span class="nf">sparse_assemble_residual</span><span class="p">(</span><span class="n">dofs</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">,</span> <span class="nb">set</span><span class="p">):</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Sparse assembly of residual of specified set.</span>
+<span class="sd">  </span>
+<span class="sd">  Parameters:</span>
+<span class="sd">    dofs (jnp.ndarray): Degrees of freedom.</span>
+<span class="sd">    settings (dict): Settings for the integration.</span>
+<span class="sd">    static_settings (flax.core.FrozenDict): Static settings including assembling modes.</span>
+<span class="sd">    set (int): The set index.</span>
+<span class="sd">  </span>
+<span class="sd">  Returns:</span>
+<span class="sd">    jnp.ndarray: The assembled residual.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="n">neighbor_list</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">static_settings</span><span class="p">[</span><span class="s1">&#39;connectivity&#39;</span><span class="p">][</span><span class="nb">set</span><span class="p">])</span>
+  <span class="n">local_dofs</span> <span class="o">=</span> <span class="n">dofs</span><span class="p">[</span><span class="n">neighbor_list</span><span class="p">]</span>
+  <span class="n">variational_scheme</span> <span class="o">=</span> <span class="n">static_settings</span><span class="p">[</span><span class="s1">&#39;variational scheme&#39;</span><span class="p">][</span><span class="nb">set</span><span class="p">]</span>
+  <span class="n">n_fields</span> <span class="o">=</span> <span class="n">static_settings</span><span class="p">[</span><span class="s1">&#39;number of fields&#39;</span><span class="p">][</span><span class="nb">set</span><span class="p">]</span>
+  <span class="n">x_int</span> <span class="o">=</span> <span class="n">settings</span><span class="p">[</span><span class="s1">&#39;integration coordinates&#39;</span><span class="p">][</span><span class="nb">set</span><span class="p">]</span>
+  <span class="n">w_int</span> <span class="o">=</span> <span class="n">settings</span><span class="p">[</span><span class="s1">&#39;integration weights&#39;</span><span class="p">][</span><span class="nb">set</span><span class="p">]</span>
+
+  <span class="n">int_point_numbers</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">x_int</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">1</span><span class="p">)</span>
+
+  <span class="k">if</span> <span class="n">variational_scheme</span> <span class="o">==</span> <span class="s1">&#39;least square pde loss&#39;</span> <span class="ow">or</span> <span class="n">variational_scheme</span> <span class="o">==</span> <span class="s1">&#39;least square function approximation&#39;</span><span class="p">:</span>
+    <span class="n">grad</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">jacrev</span><span class="p">(</span><span class="n">sparse_integrate_functional</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">grad</span><span class="p">(</span><span class="n">dofs</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">,</span> <span class="nb">set</span><span class="p">)</span>
+
+  <span class="k">elif</span> <span class="n">variational_scheme</span> <span class="o">==</span> <span class="s1">&#39;strong form galerkin&#39;</span><span class="p">:</span>
+    <span class="c1"># Direct implementation of residual, e.g. for Galerkin method</span>
+    <span class="n">residual_at_int_point_vj</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">vmap</span><span class="p">(</span><span class="n">variational_schemes</span><span class="o">.</span><span class="n">direct_residual_at_int_point</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="kc">None</span><span class="p">,</span><span class="kc">None</span><span class="p">,</span><span class="kc">None</span><span class="p">),</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="n">residual_contributions</span> <span class="o">=</span> <span class="n">residual_at_int_point_vj</span><span class="p">(</span><span class="n">x_int</span><span class="p">,</span> <span class="n">w_int</span><span class="p">,</span> <span class="n">int_point_numbers</span><span class="p">,</span> <span class="n">local_dofs</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">,</span> <span class="nb">set</span><span class="p">)</span>
+
+    <span class="n">flat_neighbors</span> <span class="o">=</span> <span class="n">neighbor_list</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+    <span class="n">tmp</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">outer</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">flat_neighbors</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">jnp</span><span class="o">.</span><span class="n">int_</span><span class="p">),</span> <span class="n">jnp</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">n_fields</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">jnp</span><span class="o">.</span><span class="n">int_</span><span class="p">))</span>
+    <span class="n">indices</span> <span class="o">=</span> <span class="n">tmp</span> <span class="o">+</span> <span class="n">jnp</span><span class="o">.</span><span class="n">outer</span><span class="p">(</span><span class="n">flat_neighbors</span><span class="p">,</span> <span class="n">n_fields</span> <span class="o">*</span> <span class="n">jnp</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">n_fields</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">jnp</span><span class="o">.</span><span class="n">int_</span><span class="p">))</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">int_</span><span class="p">)</span>
+
+    <span class="n">res</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">dofs</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="n">at</span><span class="p">[</span><span class="n">indices</span><span class="o">.</span><span class="n">flatten</span><span class="p">()]</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">residual_contributions</span><span class="o">.</span><span class="n">flatten</span><span class="p">())</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">dofs</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+  <span class="k">elif</span> <span class="n">variational_scheme</span> <span class="o">==</span> <span class="s1">&#39;weak form galerkin&#39;</span><span class="p">:</span>
+    <span class="c1"># Pass local_dofs twice (assuming Bubnov Galerkin...)</span>
+    <span class="n">residual_at_int_point_vj</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">vmap</span><span class="p">(</span><span class="n">variational_schemes</span><span class="o">.</span><span class="n">residual_from_deriv_at_int_point</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="kc">None</span><span class="p">,</span><span class="kc">None</span><span class="p">,</span><span class="kc">None</span><span class="p">),</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="n">residual_contributions</span> <span class="o">=</span> <span class="n">residual_at_int_point_vj</span><span class="p">(</span><span class="n">x_int</span><span class="p">,</span> <span class="n">w_int</span><span class="p">,</span> <span class="n">int_point_numbers</span><span class="p">,</span> <span class="n">local_dofs</span><span class="p">,</span> <span class="n">local_dofs</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">,</span> <span class="nb">set</span><span class="p">)</span>
+
+    <span class="c1"># Remaining stuff like for strong form galerkin</span>
+    <span class="n">flat_neighbors</span> <span class="o">=</span> <span class="n">neighbor_list</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+    <span class="n">tmp</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">outer</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">flat_neighbors</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">jnp</span><span class="o">.</span><span class="n">int_</span><span class="p">),</span> <span class="n">jnp</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">n_fields</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">jnp</span><span class="o">.</span><span class="n">int_</span><span class="p">))</span>
+    <span class="n">indices</span> <span class="o">=</span> <span class="n">tmp</span> <span class="o">+</span> <span class="n">jnp</span><span class="o">.</span><span class="n">outer</span><span class="p">(</span><span class="n">flat_neighbors</span><span class="p">,</span> <span class="n">n_fields</span> <span class="o">*</span> <span class="n">jnp</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">n_fields</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">jnp</span><span class="o">.</span><span class="n">int_</span><span class="p">))</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">int_</span><span class="p">)</span>
+
+    <span class="n">res</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">dofs</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="n">at</span><span class="p">[</span><span class="n">indices</span><span class="o">.</span><span class="n">flatten</span><span class="p">()]</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">residual_contributions</span><span class="o">.</span><span class="n">flatten</span><span class="p">())</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">dofs</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">res</span><span class="p">,</span> <span class="n">dofs</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+  <span class="k">else</span><span class="p">:</span>
+    <span class="k">assert</span> <span class="kc">False</span><span class="p">,</span> <span class="s1">&#39;Residual mode not or wrongly specified!&#39;</span>
+
+  <span class="c1"># Assembled residual</span>
+  <span class="k">return</span> <span class="n">res</span></div>
+
+
+<div class="viewcode-block" id="sparse_assemble_tangent_diagonal">
+<a class="viewcode-back" href="../../_autosummary/autopdex.assembler.sparse_assemble_tangent_diagonal.html#autopdex.assembler.sparse_assemble_tangent_diagonal">[docs]</a>
+<span class="nd">@jit_with_docstring</span><span class="p">(</span><span class="n">static_argnames</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;static_settings&#39;</span><span class="p">,</span> <span class="s1">&#39;set&#39;</span><span class="p">])</span>
+<span class="k">def</span> <span class="nf">sparse_assemble_tangent_diagonal</span><span class="p">(</span><span class="n">dofs</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">,</span> <span class="nb">set</span><span class="p">):</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Sparse assembly of the diagonal of the tangent matrix for specified set.</span>
+<span class="sd">  </span>
+<span class="sd">  Parameters:</span>
+<span class="sd">    dofs (jnp.ndarray): Degrees of freedom.</span>
+<span class="sd">    settings (dict): Settings for the integration.</span>
+<span class="sd">    static_settings (flax.core.FrozenDict): Static settings including assembling modes.</span>
+<span class="sd">    set (int): The set index.</span>
+<span class="sd">  </span>
+<span class="sd">  Returns:</span>
+<span class="sd">    jnp.ndarray: The diagonal of the assembled tangent matrix.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+
+  <span class="n">neighbor_list</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">static_settings</span><span class="p">[</span><span class="s1">&#39;connectivity&#39;</span><span class="p">][</span><span class="nb">set</span><span class="p">])</span>
+  <span class="n">local_dofs</span> <span class="o">=</span> <span class="n">dofs</span><span class="p">[</span><span class="n">neighbor_list</span><span class="p">]</span>
+  <span class="n">maximum</span> <span class="o">=</span> <span class="n">static_settings</span><span class="p">[</span><span class="s1">&#39;maximal number of neighbors&#39;</span><span class="p">][</span><span class="nb">set</span><span class="p">]</span>
+  <span class="n">n_fields</span> <span class="o">=</span> <span class="n">static_settings</span><span class="p">[</span><span class="s1">&#39;number of fields&#39;</span><span class="p">][</span><span class="nb">set</span><span class="p">]</span>
+  <span class="n">variational_scheme</span> <span class="o">=</span> <span class="n">static_settings</span><span class="p">[</span><span class="s1">&#39;variational scheme&#39;</span><span class="p">][</span><span class="nb">set</span><span class="p">]</span>
+  <span class="n">x_int</span> <span class="o">=</span> <span class="n">settings</span><span class="p">[</span><span class="s1">&#39;integration coordinates&#39;</span><span class="p">][</span><span class="nb">set</span><span class="p">]</span>
+  <span class="n">w_int</span> <span class="o">=</span> <span class="n">settings</span><span class="p">[</span><span class="s1">&#39;integration weights&#39;</span><span class="p">][</span><span class="nb">set</span><span class="p">]</span>
+
+  <span class="c1"># Compute tangent contributions</span>
+  <span class="k">if</span> <span class="n">variational_scheme</span> <span class="o">==</span> <span class="s1">&#39;least square pde loss&#39;</span> <span class="ow">or</span> <span class="n">variational_scheme</span> <span class="o">==</span> <span class="s1">&#39;least square function approximation&#39;</span><span class="p">:</span>
+    <span class="n">tangent_at_int_point</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">jacfwd</span><span class="p">(</span><span class="n">jax</span><span class="o">.</span><span class="n">jacrev</span><span class="p">(</span><span class="n">variational_schemes</span><span class="o">.</span><span class="n">functional_at_int_point</span><span class="p">,</span> <span class="n">argnums</span><span class="o">=</span><span class="mi">3</span><span class="p">),</span> <span class="n">argnums</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span> <span class="c1"># argnum=3 are unknowns with local support</span>
+  <span class="k">elif</span> <span class="n">variational_scheme</span> <span class="o">==</span> <span class="s1">&#39;strong form galerkin&#39;</span><span class="p">:</span>
+    <span class="n">tangent_at_int_point</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">jacfwd</span><span class="p">(</span><span class="n">variational_schemes</span><span class="o">.</span><span class="n">direct_residual_at_int_point</span><span class="p">,</span> <span class="n">argnums</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+  <span class="k">elif</span> <span class="n">variational_scheme</span> <span class="o">==</span> <span class="s1">&#39;weak form galerkin&#39;</span><span class="p">:</span>
+    <span class="n">tangent_at_int_point</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">jacfwd</span><span class="p">(</span><span class="n">variational_schemes</span><span class="o">.</span><span class="n">residual_from_deriv_at_int_point</span><span class="p">,</span> <span class="n">argnums</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+  <span class="k">else</span><span class="p">:</span>
+    <span class="k">assert</span> <span class="kc">False</span><span class="p">,</span> <span class="s1">&#39;Residual mode not or wrongly specified!&#39;</span>
+
+  <span class="n">int_point_numbers</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">x_int</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">1</span><span class="p">)</span>
+
+  <span class="c1"># Same as for assembling the whole matrix, but just take the diagonal on the local level</span>
+  <span class="k">if</span> <span class="n">variational_scheme</span> <span class="o">==</span> <span class="s1">&#39;weak form galerkin&#39;</span><span class="p">:</span>
+    <span class="n">tangent_at_int_point_vj</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">vmap</span><span class="p">(</span><span class="n">tangent_at_int_point</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="kc">None</span><span class="p">,</span><span class="kc">None</span><span class="p">,</span><span class="kc">None</span><span class="p">),</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="n">tangent_contributions</span> <span class="o">=</span> <span class="n">tangent_at_int_point_vj</span><span class="p">(</span><span class="n">x_int</span><span class="p">,</span> <span class="n">w_int</span><span class="p">,</span> <span class="n">int_point_numbers</span><span class="p">,</span> <span class="n">local_dofs</span><span class="p">,</span> <span class="n">local_dofs</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">,</span> <span class="nb">set</span><span class="p">)</span>
+  <span class="k">else</span><span class="p">:</span>
+    <span class="n">tangent_at_int_point_vj</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">vmap</span><span class="p">(</span><span class="n">tangent_at_int_point</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="kc">None</span><span class="p">,</span><span class="kc">None</span><span class="p">,</span><span class="kc">None</span><span class="p">),</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="n">tangent_contributions</span> <span class="o">=</span> <span class="n">tangent_at_int_point_vj</span><span class="p">(</span><span class="n">x_int</span><span class="p">,</span> <span class="n">w_int</span><span class="p">,</span> <span class="n">int_point_numbers</span><span class="p">,</span> <span class="n">local_dofs</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">,</span> <span class="nb">set</span><span class="p">)</span>
+  <span class="n">tangent_contributions</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">tangent_contributions</span><span class="p">,</span> <span class="p">(</span><span class="n">x_int</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">maximum</span><span class="o">*</span><span class="n">n_fields</span><span class="p">,</span> <span class="n">maximum</span><span class="o">*</span><span class="n">n_fields</span><span class="p">))</span>
+  <span class="n">diagonal_contributions</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">diagonal</span><span class="p">(</span><span class="n">tangent_contributions</span><span class="p">,</span> <span class="n">axis1</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">axis2</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+
+  <span class="c1"># Assemble diagonal entries like a residual</span>
+  <span class="n">flat_neighbors</span> <span class="o">=</span> <span class="n">neighbor_list</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+  <span class="n">tmp</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">outer</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">flat_neighbors</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">jnp</span><span class="o">.</span><span class="n">int_</span><span class="p">),</span> <span class="n">jnp</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">n_fields</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">jnp</span><span class="o">.</span><span class="n">int_</span><span class="p">))</span>
+  <span class="n">indices</span> <span class="o">=</span> <span class="n">tmp</span> <span class="o">+</span> <span class="n">jnp</span><span class="o">.</span><span class="n">outer</span><span class="p">(</span><span class="n">flat_neighbors</span><span class="p">,</span> <span class="n">n_fields</span> <span class="o">*</span> <span class="n">jnp</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">n_fields</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">jnp</span><span class="o">.</span><span class="n">int_</span><span class="p">))</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">int_</span><span class="p">)</span>
+  <span class="n">diag</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">dofs</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+  <span class="n">diag</span> <span class="o">=</span> <span class="n">diag</span><span class="o">.</span><span class="n">at</span><span class="p">[</span><span class="n">indices</span><span class="o">.</span><span class="n">flatten</span><span class="p">()]</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">diagonal_contributions</span><span class="o">.</span><span class="n">flatten</span><span class="p">())</span>
+  <span class="k">return</span> <span class="n">diag</span></div>
+
+
+<span class="c1"># ToDo: Try row-wise assembling with automatic treatment of duplicates (maybe with sparsejac and pre-calculation of sparsity pattern with ints)</span>
+<div class="viewcode-block" id="sparse_assemble_tangent">
+<a class="viewcode-back" href="../../_autosummary/autopdex.assembler.sparse_assemble_tangent.html#autopdex.assembler.sparse_assemble_tangent">[docs]</a>
+<span class="nd">@jit_with_docstring</span><span class="p">(</span><span class="n">static_argnames</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;static_settings&#39;</span><span class="p">,</span> <span class="s1">&#39;set&#39;</span><span class="p">])</span>
+<span class="k">def</span> <span class="nf">sparse_assemble_tangent</span><span class="p">(</span><span class="n">dofs</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">,</span> <span class="nb">set</span><span class="p">):</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Sparse assembly of the full tangent matrix of specified set.</span>
+<span class="sd">  </span>
+<span class="sd">  Parameters:</span>
+<span class="sd">    dofs (jnp.ndarray): Degrees of freedom.</span>
+<span class="sd">    settings (dict): Settings for the integration.</span>
+<span class="sd">    static_settings (flax.core.FrozenDict): Static settings including assembling modes.</span>
+<span class="sd">    set (int): The set index.</span>
+<span class="sd">  </span>
+<span class="sd">  Returns:</span>
+<span class="sd">    jax.experimental.sparse.BCOO: The assembled tangent matrix.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="n">neighbor_list</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">static_settings</span><span class="p">[</span><span class="s1">&#39;connectivity&#39;</span><span class="p">][</span><span class="nb">set</span><span class="p">])</span>
+  <span class="n">local_dofs</span> <span class="o">=</span> <span class="n">dofs</span><span class="p">[</span><span class="n">neighbor_list</span><span class="p">]</span>
+  <span class="n">maximum</span> <span class="o">=</span> <span class="n">static_settings</span><span class="p">[</span><span class="s1">&#39;maximal number of neighbors&#39;</span><span class="p">][</span><span class="nb">set</span><span class="p">]</span>
+  <span class="n">n_fields</span> <span class="o">=</span> <span class="n">static_settings</span><span class="p">[</span><span class="s1">&#39;number of fields&#39;</span><span class="p">][</span><span class="nb">set</span><span class="p">]</span>
+  <span class="n">variational_scheme</span> <span class="o">=</span> <span class="n">static_settings</span><span class="p">[</span><span class="s1">&#39;variational scheme&#39;</span><span class="p">][</span><span class="nb">set</span><span class="p">]</span>
+  <span class="n">x_int</span> <span class="o">=</span> <span class="n">settings</span><span class="p">[</span><span class="s1">&#39;integration coordinates&#39;</span><span class="p">][</span><span class="nb">set</span><span class="p">]</span>
+  <span class="n">w_int</span> <span class="o">=</span> <span class="n">settings</span><span class="p">[</span><span class="s1">&#39;integration weights&#39;</span><span class="p">][</span><span class="nb">set</span><span class="p">]</span>
+
+  <span class="c1"># Compute tangent contributions</span>
+  <span class="k">if</span> <span class="n">variational_scheme</span> <span class="o">==</span> <span class="s1">&#39;least square pde loss&#39;</span> <span class="ow">or</span> <span class="n">variational_scheme</span> <span class="o">==</span> <span class="s1">&#39;least square function approximation&#39;</span><span class="p">:</span>
+    <span class="n">tangent_at_int_point</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">jacfwd</span><span class="p">(</span><span class="n">jax</span><span class="o">.</span><span class="n">jacrev</span><span class="p">(</span><span class="n">variational_schemes</span><span class="o">.</span><span class="n">functional_at_int_point</span><span class="p">,</span> <span class="n">argnums</span><span class="o">=</span><span class="mi">3</span><span class="p">),</span> <span class="n">argnums</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span> <span class="c1"># argnum=3 are unknowns with local support</span>
+  <span class="k">elif</span> <span class="n">variational_scheme</span> <span class="o">==</span> <span class="s1">&#39;strong form galerkin&#39;</span><span class="p">:</span>
+    <span class="n">tangent_at_int_point</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">jacfwd</span><span class="p">(</span><span class="n">variational_schemes</span><span class="o">.</span><span class="n">direct_residual_at_int_point</span><span class="p">,</span> <span class="n">argnums</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+  <span class="k">elif</span> <span class="n">variational_scheme</span> <span class="o">==</span> <span class="s1">&#39;weak form galerkin&#39;</span><span class="p">:</span>
+    <span class="n">tangent_at_int_point</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">jacfwd</span><span class="p">(</span><span class="n">variational_schemes</span><span class="o">.</span><span class="n">residual_from_deriv_at_int_point</span><span class="p">,</span> <span class="n">argnums</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+  <span class="k">else</span><span class="p">:</span>
+    <span class="k">assert</span> <span class="kc">False</span><span class="p">,</span> <span class="s1">&#39;Residual mode not or wrongly specified!&#39;</span>
+    
+  <span class="n">int_point_numbers</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">x_int</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">1</span><span class="p">)</span>
+  <span class="k">if</span> <span class="n">variational_scheme</span> <span class="o">==</span> <span class="s1">&#39;weak form galerkin&#39;</span><span class="p">:</span>
+    <span class="n">tangent_at_int_point_vj</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">vmap</span><span class="p">(</span><span class="n">tangent_at_int_point</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="kc">None</span><span class="p">,</span><span class="kc">None</span><span class="p">,</span><span class="kc">None</span><span class="p">),</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="n">tangent_contributions</span> <span class="o">=</span> <span class="n">tangent_at_int_point_vj</span><span class="p">(</span><span class="n">x_int</span><span class="p">,</span> <span class="n">w_int</span><span class="p">,</span> <span class="n">int_point_numbers</span><span class="p">,</span> <span class="n">local_dofs</span><span class="p">,</span> <span class="n">local_dofs</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">,</span> <span class="nb">set</span><span class="p">)</span>
+  <span class="k">else</span><span class="p">:</span>
+    <span class="n">tangent_at_int_point_vj</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">vmap</span><span class="p">(</span><span class="n">tangent_at_int_point</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="kc">None</span><span class="p">,</span><span class="kc">None</span><span class="p">,</span><span class="kc">None</span><span class="p">),</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="n">tangent_contributions</span> <span class="o">=</span> <span class="n">tangent_at_int_point_vj</span><span class="p">(</span><span class="n">x_int</span><span class="p">,</span> <span class="n">w_int</span><span class="p">,</span> <span class="n">int_point_numbers</span><span class="p">,</span> <span class="n">local_dofs</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">,</span> <span class="nb">set</span><span class="p">)</span>
+  <span class="n">tangent_contributions</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">tangent_contributions</span><span class="p">,</span> <span class="p">(</span><span class="n">x_int</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">maximum</span><span class="o">*</span><span class="n">n_fields</span><span class="p">,</span> <span class="n">maximum</span><span class="o">*</span><span class="n">n_fields</span><span class="p">))</span>
+
+  <span class="c1"># Assembling (without summing duplicates)</span>
+  <span class="k">def</span> <span class="nf">get_indices</span><span class="p">(</span><span class="nb">list</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">one_elem_idx</span><span class="p">(</span><span class="n">neighb</span><span class="p">):</span>
+      <span class="k">def</span> <span class="nf">row_indices</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">row</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">([[</span><span class="n">a</span><span class="p">,</span><span class="n">row</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">row</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])])</span>
+      <span class="n">colrow</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">vmap</span><span class="p">(</span><span class="n">row_indices</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span> <span class="mi">0</span><span class="p">)</span>
+      <span class="n">tmp</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">outer</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">neighb</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">jnp</span><span class="o">.</span><span class="n">int_</span><span class="p">),</span> <span class="n">jnp</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">n_fields</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">jnp</span><span class="o">.</span><span class="n">int_</span><span class="p">))</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">int_</span><span class="p">)</span>
+      <span class="n">indices</span> <span class="o">=</span> <span class="n">tmp</span> <span class="o">+</span> <span class="n">jnp</span><span class="o">.</span><span class="n">outer</span><span class="p">(</span><span class="n">neighb</span><span class="p">,</span> <span class="n">n_fields</span> <span class="o">*</span> <span class="n">jnp</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">n_fields</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">jnp</span><span class="o">.</span><span class="n">int_</span><span class="p">))</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">int_</span><span class="p">)</span>
+      <span class="n">flat_indices</span> <span class="o">=</span> <span class="n">indices</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+      <span class="k">return</span> <span class="n">colrow</span><span class="p">(</span><span class="n">flat_indices</span><span class="p">,</span><span class="n">flat_indices</span><span class="p">)</span>
+    <span class="n">all_elem_idx</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">vmap</span><span class="p">(</span><span class="n">one_elem_idx</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">jnp</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">all_elem_idx</span><span class="p">(</span><span class="nb">list</span><span class="p">),</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="nb">list</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="p">(</span><span class="n">maximum</span><span class="o">*</span><span class="n">n_fields</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">))</span>
+  <span class="n">indices</span> <span class="o">=</span> <span class="n">get_indices</span><span class="p">(</span><span class="n">neighbor_list</span><span class="p">)</span>
+  <span class="n">data</span> <span class="o">=</span> <span class="n">tangent_contributions</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+  <span class="n">n_dofs</span> <span class="o">=</span> <span class="n">n_fields</span> <span class="o">*</span> <span class="n">dofs</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+  <span class="n">tangent</span> <span class="o">=</span> <span class="n">sparse</span><span class="o">.</span><span class="n">BCOO</span><span class="p">((</span><span class="n">data</span><span class="p">,</span> <span class="n">indices</span><span class="p">),</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">n_dofs</span><span class="p">,</span><span class="n">n_dofs</span><span class="p">))</span>
+  <span class="k">return</span> <span class="n">tangent</span></div>
+
+
+
+<span class="c1">### Assembling for user potentials</span>
+<span class="nd">@jit_with_docstring</span><span class="p">(</span><span class="n">static_argnames</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;static_settings&#39;</span><span class="p">,</span> <span class="s1">&#39;set&#39;</span><span class="p">])</span>
+<span class="k">def</span> <span class="nf">user_potential_integrate_functional</span><span class="p">(</span><span class="n">dofs</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">,</span> <span class="nb">set</span><span class="p">):</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Assembly of potential for custom user definition of specified set.</span>
+<span class="sd">  </span>
+<span class="sd">  Parameters:</span>
+<span class="sd">    dofs (jnp.ndarray): Degrees of freedom.</span>
+<span class="sd">    settings (dict): Settings for the integration.</span>
+<span class="sd">    static_settings (flax.core.FrozenDict): Static settings including assembling modes.</span>
+<span class="sd">    set (int): The set index.</span>
+<span class="sd">  </span>
+<span class="sd">  Returns:</span>
+<span class="sd">    float: value of functional integrated over set of elements</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+
+  <span class="n">user_elem_fun</span> <span class="o">=</span> <span class="n">static_settings</span><span class="p">[</span><span class="s1">&#39;model&#39;</span><span class="p">][</span><span class="nb">set</span><span class="p">]</span>
+  <span class="n">connectivity_list</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">static_settings</span><span class="p">[</span><span class="s1">&#39;connectivity&#39;</span><span class="p">][</span><span class="nb">set</span><span class="p">])</span>
+  <span class="n">x_nodes</span> <span class="o">=</span> <span class="n">settings</span><span class="p">[</span><span class="s1">&#39;node coordinates&#39;</span><span class="p">]</span>
+  <span class="n">local_dofs</span> <span class="o">=</span> <span class="n">dofs</span><span class="p">[</span><span class="n">connectivity_list</span><span class="p">]</span>
+  <span class="n">local_node_coor</span> <span class="o">=</span> <span class="n">x_nodes</span><span class="p">[</span><span class="n">connectivity_list</span><span class="p">]</span>
+  <span class="n">elem_numbers</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">connectivity_list</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">1</span><span class="p">)</span>
+
+  <span class="c1"># For each element call user element routine (as the one in pde-module with mode=&#39;residual&#39;) and get contributions</span>
+  <span class="n">functional_contributions</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">vmap</span><span class="p">(</span><span class="n">user_elem_fun</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+                                      <span class="p">)(</span><span class="n">local_dofs</span><span class="p">,</span> <span class="n">local_node_coor</span><span class="p">,</span> <span class="n">elem_numbers</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">,</span> <span class="nb">set</span><span class="p">)</span>
+
+  <span class="k">return</span> <span class="n">functional_contributions</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+
+<div class="viewcode-block" id="user_potential_assemble_residual">
+<a class="viewcode-back" href="../../_autosummary/autopdex.assembler.user_potential_assemble_residual.html#autopdex.assembler.user_potential_assemble_residual">[docs]</a>
+<span class="nd">@jit_with_docstring</span><span class="p">(</span><span class="n">static_argnames</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;static_settings&#39;</span><span class="p">,</span> <span class="s1">&#39;set&#39;</span><span class="p">])</span>
+<span class="k">def</span> <span class="nf">user_potential_assemble_residual</span><span class="p">(</span><span class="n">dofs</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">,</span> <span class="nb">set</span><span class="p">):</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Assembly of residual for custom user potential of specified set.</span>
+<span class="sd">  </span>
+<span class="sd">  Parameters:</span>
+<span class="sd">    dofs (jnp.ndarray): Degrees of freedom.</span>
+<span class="sd">    settings (dict): Settings for the integration.</span>
+<span class="sd">    static_settings (flax.core.FrozenDict): Static settings including assembling modes.</span>
+<span class="sd">    set (int): The set index.</span>
+<span class="sd">  </span>
+<span class="sd">  Returns:</span>
+<span class="sd">    jnp.ndarray: The assembled residual.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="n">n_fields</span> <span class="o">=</span> <span class="n">static_settings</span><span class="p">[</span><span class="s1">&#39;number of fields&#39;</span><span class="p">][</span><span class="nb">set</span><span class="p">]</span>
+  <span class="n">user_potential_fun</span> <span class="o">=</span> <span class="n">static_settings</span><span class="p">[</span><span class="s1">&#39;model&#39;</span><span class="p">][</span><span class="nb">set</span><span class="p">]</span>
+  <span class="n">connectivity_list</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">static_settings</span><span class="p">[</span><span class="s1">&#39;connectivity&#39;</span><span class="p">][</span><span class="nb">set</span><span class="p">])</span>
+  <span class="n">x_nodes</span> <span class="o">=</span> <span class="n">settings</span><span class="p">[</span><span class="s1">&#39;node coordinates&#39;</span><span class="p">]</span>
+  <span class="n">local_dofs</span> <span class="o">=</span> <span class="n">dofs</span><span class="p">[</span><span class="n">connectivity_list</span><span class="p">]</span>
+  <span class="n">local_node_coor</span> <span class="o">=</span> <span class="n">x_nodes</span><span class="p">[</span><span class="n">connectivity_list</span><span class="p">]</span>
+  <span class="n">elem_numbers</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">connectivity_list</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">1</span><span class="p">)</span>
+
+  <span class="c1"># For each element call user residual routine (as the one in pde-module with mode=&#39;residual&#39;) and get contributions</span>
+  <span class="n">residual_contributions</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">vmap</span><span class="p">(</span><span class="n">jax</span><span class="o">.</span><span class="n">jacrev</span><span class="p">(</span><span class="n">user_potential_fun</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">))(</span><span class="n">local_dofs</span><span class="p">,</span> <span class="n">local_node_coor</span><span class="p">,</span> <span class="n">elem_numbers</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">,</span> <span class="nb">set</span><span class="p">)</span>
+
+  <span class="c1"># Assembling</span>
+  <span class="n">flat_neighbors</span> <span class="o">=</span> <span class="n">connectivity_list</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+  <span class="n">tmp</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">outer</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">flat_neighbors</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">jnp</span><span class="o">.</span><span class="n">int_</span><span class="p">),</span> <span class="n">jnp</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">n_fields</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">jnp</span><span class="o">.</span><span class="n">int_</span><span class="p">))</span>
+  <span class="n">indices</span> <span class="o">=</span> <span class="n">tmp</span> <span class="o">+</span> <span class="n">jnp</span><span class="o">.</span><span class="n">outer</span><span class="p">(</span><span class="n">flat_neighbors</span><span class="p">,</span> <span class="n">n_fields</span> <span class="o">*</span> <span class="n">jnp</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">n_fields</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">jnp</span><span class="o">.</span><span class="n">int_</span><span class="p">))</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">int_</span><span class="p">)</span>
+
+  <span class="n">res</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">dofs</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+  <span class="n">res</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="n">at</span><span class="p">[</span><span class="n">indices</span><span class="o">.</span><span class="n">flatten</span><span class="p">()]</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">residual_contributions</span><span class="o">.</span><span class="n">flatten</span><span class="p">())</span>
+  <span class="n">res</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">dofs</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+  <span class="n">res</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">res</span><span class="p">,</span> <span class="n">dofs</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+  <span class="k">return</span> <span class="n">res</span></div>
+
+
+<div class="viewcode-block" id="user_potential_assemble_tangent_diagonal">
+<a class="viewcode-back" href="../../_autosummary/autopdex.assembler.user_potential_assemble_tangent_diagonal.html#autopdex.assembler.user_potential_assemble_tangent_diagonal">[docs]</a>
+<span class="nd">@jit_with_docstring</span><span class="p">(</span><span class="n">static_argnames</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;static_settings&#39;</span><span class="p">,</span> <span class="s1">&#39;set&#39;</span><span class="p">])</span>
+<span class="k">def</span> <span class="nf">user_potential_assemble_tangent_diagonal</span><span class="p">(</span><span class="n">dofs</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">,</span> <span class="nb">set</span><span class="p">):</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Assembly of the diagonal of the tangent matrix for custom user potential of specified set.</span>
+<span class="sd">  </span>
+<span class="sd">  Parameters:</span>
+<span class="sd">    dofs (jnp.ndarray): Degrees of freedom.</span>
+<span class="sd">    settings (dict): Settings for the integration.</span>
+<span class="sd">    static_settings (flax.core.FrozenDict): Static settings including assembling modes.</span>
+<span class="sd">    set (int): The set index.</span>
+<span class="sd">  </span>
+<span class="sd">  Returns:</span>
+<span class="sd">    jnp.ndarray: The diagonal of the assembled tangent matrix.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="n">n_fields</span> <span class="o">=</span> <span class="n">static_settings</span><span class="p">[</span><span class="s1">&#39;number of fields&#39;</span><span class="p">][</span><span class="nb">set</span><span class="p">]</span>
+  <span class="n">user_potential_fun</span> <span class="o">=</span> <span class="n">static_settings</span><span class="p">[</span><span class="s1">&#39;model&#39;</span><span class="p">][</span><span class="nb">set</span><span class="p">]</span>
+  <span class="n">connectivity_list</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">static_settings</span><span class="p">[</span><span class="s1">&#39;connectivity&#39;</span><span class="p">][</span><span class="nb">set</span><span class="p">])</span>
+  <span class="n">x_nodes</span> <span class="o">=</span> <span class="n">settings</span><span class="p">[</span><span class="s1">&#39;node coordinates&#39;</span><span class="p">]</span>
+  <span class="n">local_dofs</span> <span class="o">=</span> <span class="n">dofs</span><span class="p">[</span><span class="n">connectivity_list</span><span class="p">]</span>
+  <span class="n">local_node_coor</span> <span class="o">=</span> <span class="n">x_nodes</span><span class="p">[</span><span class="n">connectivity_list</span><span class="p">]</span>
+  <span class="n">elem_numbers</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">connectivity_list</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">1</span><span class="p">)</span>
+
+  <span class="c1"># For each element call user element routine (as the one in pde-module with mode=&#39;residual&#39;) and get contributions</span>
+  <span class="n">tangent_contributions</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">vmap</span><span class="p">(</span><span class="n">jax</span><span class="o">.</span><span class="n">jacfwd</span><span class="p">(</span><span class="n">jax</span><span class="o">.</span><span class="n">jacrev</span><span class="p">(</span><span class="n">user_potential_fun</span><span class="p">)),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">))(</span><span class="n">local_dofs</span><span class="p">,</span> <span class="n">local_node_coor</span><span class="p">,</span> <span class="n">elem_numbers</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">,</span> <span class="nb">set</span><span class="p">)</span>
+  <span class="n">diagonal_contributions</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">diagonal</span><span class="p">(</span><span class="n">tangent_contributions</span><span class="p">,</span> <span class="n">axis1</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">axis2</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+
+  <span class="c1"># Assemble diagonal entries like a residual</span>
+  <span class="n">flat_neighbors</span> <span class="o">=</span> <span class="n">connectivity_list</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+  <span class="n">tmp</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">outer</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">flat_neighbors</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">jnp</span><span class="o">.</span><span class="n">int_</span><span class="p">),</span> <span class="n">jnp</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">n_fields</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">jnp</span><span class="o">.</span><span class="n">int_</span><span class="p">))</span>
+  <span class="n">indices</span> <span class="o">=</span> <span class="n">tmp</span> <span class="o">+</span> <span class="n">jnp</span><span class="o">.</span><span class="n">outer</span><span class="p">(</span><span class="n">flat_neighbors</span><span class="p">,</span> <span class="n">n_fields</span> <span class="o">*</span> <span class="n">jnp</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">n_fields</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">jnp</span><span class="o">.</span><span class="n">int_</span><span class="p">))</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">int_</span><span class="p">)</span>
+  <span class="n">diag</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">dofs</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+  <span class="n">diag</span> <span class="o">=</span> <span class="n">diag</span><span class="o">.</span><span class="n">at</span><span class="p">[</span><span class="n">indices</span><span class="o">.</span><span class="n">flatten</span><span class="p">()]</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">diagonal_contributions</span><span class="o">.</span><span class="n">flatten</span><span class="p">())</span>
+  <span class="k">return</span> <span class="n">diag</span></div>
+
+
+<div class="viewcode-block" id="user_potential_assemble_tangent">
+<a class="viewcode-back" href="../../_autosummary/autopdex.assembler.user_potential_assemble_tangent.html#autopdex.assembler.user_potential_assemble_tangent">[docs]</a>
+<span class="nd">@jit_with_docstring</span><span class="p">(</span><span class="n">static_argnames</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;static_settings&#39;</span><span class="p">,</span> <span class="s1">&#39;set&#39;</span><span class="p">])</span>
+<span class="k">def</span> <span class="nf">user_potential_assemble_tangent</span><span class="p">(</span><span class="n">dofs</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">,</span> <span class="nb">set</span><span class="p">):</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Assembly of the full (sparse) tangent matrix for custom user potential of specified set.</span>
+<span class="sd">  </span>
+<span class="sd">  Parameters:</span>
+<span class="sd">    dofs (jnp.ndarray): Degrees of freedom.</span>
+<span class="sd">    settings (dict): Settings for the integration.</span>
+<span class="sd">    static_settings (flax.core.FrozenDict): Static settings including assembling modes.</span>
+<span class="sd">    set (int): The set index.</span>
+<span class="sd">  </span>
+<span class="sd">  Returns:</span>
+<span class="sd">    jax.experimental.sparse.BCOO: The assembled tangent matrix.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="n">n_fields</span> <span class="o">=</span> <span class="n">static_settings</span><span class="p">[</span><span class="s1">&#39;number of fields&#39;</span><span class="p">][</span><span class="nb">set</span><span class="p">]</span>
+  <span class="n">user_potential_fun</span> <span class="o">=</span> <span class="n">static_settings</span><span class="p">[</span><span class="s1">&#39;model&#39;</span><span class="p">][</span><span class="nb">set</span><span class="p">]</span>
+  <span class="n">connectivity_list</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">static_settings</span><span class="p">[</span><span class="s1">&#39;connectivity&#39;</span><span class="p">][</span><span class="nb">set</span><span class="p">])</span>
+  <span class="n">x_nodes</span> <span class="o">=</span> <span class="n">settings</span><span class="p">[</span><span class="s1">&#39;node coordinates&#39;</span><span class="p">]</span>
+  <span class="n">local_dofs</span> <span class="o">=</span> <span class="n">dofs</span><span class="p">[</span><span class="n">connectivity_list</span><span class="p">]</span>
+  <span class="n">local_node_coor</span> <span class="o">=</span> <span class="n">x_nodes</span><span class="p">[</span><span class="n">connectivity_list</span><span class="p">]</span>
+  <span class="n">dofs_per_elem</span> <span class="o">=</span> <span class="n">local_dofs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+  <span class="n">elem_numbers</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">connectivity_list</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">1</span><span class="p">)</span>
+
+  <span class="c1"># For each element call user element routine (as the one in pde-module with mode=&#39;residual&#39;) and get contributions</span>
+  <span class="n">tangent_contributions</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">vmap</span><span class="p">(</span><span class="n">jax</span><span class="o">.</span><span class="n">jacfwd</span><span class="p">(</span><span class="n">jax</span><span class="o">.</span><span class="n">jacrev</span><span class="p">(</span><span class="n">user_potential_fun</span><span class="p">)),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+                                   <span class="p">)(</span><span class="n">local_dofs</span><span class="p">,</span> <span class="n">local_node_coor</span><span class="p">,</span> <span class="n">elem_numbers</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">,</span> <span class="nb">set</span><span class="p">)</span>
+
+  <span class="c1"># Assembling (without summing duplicates)</span>
+  <span class="k">def</span> <span class="nf">get_indices</span><span class="p">(</span><span class="nb">list</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">one_elem_idx</span><span class="p">(</span><span class="n">neighb</span><span class="p">):</span>
+      <span class="k">def</span> <span class="nf">row_indices</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">row</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">([[</span><span class="n">a</span><span class="p">,</span><span class="n">row</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">row</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])])</span>
+      <span class="n">colrow</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">vmap</span><span class="p">(</span><span class="n">row_indices</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span> <span class="mi">0</span><span class="p">)</span>
+      <span class="n">tmp</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">outer</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">neighb</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">jnp</span><span class="o">.</span><span class="n">int_</span><span class="p">),</span> <span class="n">jnp</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">n_fields</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">jnp</span><span class="o">.</span><span class="n">int_</span><span class="p">))</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">int_</span><span class="p">)</span>
+      <span class="n">indices</span> <span class="o">=</span> <span class="n">tmp</span> <span class="o">+</span> <span class="n">jnp</span><span class="o">.</span><span class="n">outer</span><span class="p">(</span><span class="n">neighb</span><span class="p">,</span> <span class="n">n_fields</span> <span class="o">*</span> <span class="n">jnp</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">n_fields</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">jnp</span><span class="o">.</span><span class="n">int_</span><span class="p">))</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">int_</span><span class="p">)</span>
+      <span class="n">flat_indices</span> <span class="o">=</span> <span class="n">indices</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+      <span class="k">return</span> <span class="n">colrow</span><span class="p">(</span><span class="n">flat_indices</span><span class="p">,</span><span class="n">flat_indices</span><span class="p">)</span>
+    <span class="n">all_elem_idx</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">vmap</span><span class="p">(</span><span class="n">one_elem_idx</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">jnp</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">all_elem_idx</span><span class="p">(</span><span class="nb">list</span><span class="p">),</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="nb">list</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="p">(</span><span class="n">dofs_per_elem</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">))</span>
+  
+  <span class="n">indices</span> <span class="o">=</span> <span class="n">get_indices</span><span class="p">(</span><span class="n">connectivity_list</span><span class="p">)</span>
+  <span class="n">data</span> <span class="o">=</span> <span class="n">tangent_contributions</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+  <span class="n">n_dofs</span> <span class="o">=</span> <span class="n">n_fields</span> <span class="o">*</span> <span class="n">dofs</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+  <span class="n">tangent</span> <span class="o">=</span> <span class="n">sparse</span><span class="o">.</span><span class="n">BCOO</span><span class="p">((</span><span class="n">data</span><span class="p">,</span> <span class="n">indices</span><span class="p">),</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">n_dofs</span><span class="p">,</span><span class="n">n_dofs</span><span class="p">))</span>
+  <span class="k">return</span> <span class="n">tangent</span></div>
+
+
+
+<span class="c1">### Assembling for user residuals</span>
+<div class="viewcode-block" id="user_residual_assemble_residual">
+<a class="viewcode-back" href="../../_autosummary/autopdex.assembler.user_residual_assemble_residual.html#autopdex.assembler.user_residual_assemble_residual">[docs]</a>
+<span class="nd">@jit_with_docstring</span><span class="p">(</span><span class="n">static_argnames</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;static_settings&#39;</span><span class="p">,</span> <span class="s1">&#39;set&#39;</span><span class="p">])</span>
+<span class="k">def</span> <span class="nf">user_residual_assemble_residual</span><span class="p">(</span><span class="n">dofs</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">,</span> <span class="nb">set</span><span class="p">):</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Assembly of residual for custom user residual of specified set.</span>
+<span class="sd">  </span>
+<span class="sd">  Parameters:</span>
+<span class="sd">    dofs (jnp.ndarray): Degrees of freedom.</span>
+<span class="sd">    settings (dict): Settings for the integration.</span>
+<span class="sd">    static_settings (flax.core.FrozenDict): Static settings including assembling modes.</span>
+<span class="sd">    set (int): The set index.</span>
+<span class="sd">  </span>
+<span class="sd">  Returns:</span>
+<span class="sd">    jnp.ndarray: The assembled residual.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="n">n_fields</span> <span class="o">=</span> <span class="n">static_settings</span><span class="p">[</span><span class="s1">&#39;number of fields&#39;</span><span class="p">][</span><span class="nb">set</span><span class="p">]</span>
+  <span class="n">user_residual_fun</span> <span class="o">=</span> <span class="n">static_settings</span><span class="p">[</span><span class="s1">&#39;model&#39;</span><span class="p">][</span><span class="nb">set</span><span class="p">]</span>
+  <span class="n">connectivity_list</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">static_settings</span><span class="p">[</span><span class="s1">&#39;connectivity&#39;</span><span class="p">][</span><span class="nb">set</span><span class="p">])</span>
+  <span class="n">x_nodes</span> <span class="o">=</span> <span class="n">settings</span><span class="p">[</span><span class="s1">&#39;node coordinates&#39;</span><span class="p">]</span>
+  <span class="n">local_dofs</span> <span class="o">=</span> <span class="n">dofs</span><span class="p">[</span><span class="n">connectivity_list</span><span class="p">]</span>
+  <span class="n">local_node_coor</span> <span class="o">=</span> <span class="n">x_nodes</span><span class="p">[</span><span class="n">connectivity_list</span><span class="p">]</span>
+  <span class="n">elem_numbers</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">connectivity_list</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">1</span><span class="p">)</span>
+
+  <span class="c1"># For each element call user residual routine (as the one in pde-module with mode=&#39;residual&#39;) and get contributions</span>
+  <span class="n">residual_contributions</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">vmap</span><span class="p">(</span><span class="n">user_residual_fun</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">))(</span><span class="n">local_dofs</span><span class="p">,</span> <span class="n">local_node_coor</span><span class="p">,</span> <span class="n">elem_numbers</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">,</span> <span class="nb">set</span><span class="p">)</span>
+
+  <span class="c1"># Assembling</span>
+  <span class="n">flat_neighbors</span> <span class="o">=</span> <span class="n">connectivity_list</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+  <span class="n">tmp</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">outer</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">flat_neighbors</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">jnp</span><span class="o">.</span><span class="n">int_</span><span class="p">),</span> <span class="n">jnp</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">n_fields</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">jnp</span><span class="o">.</span><span class="n">int_</span><span class="p">))</span>
+  <span class="n">indices</span> <span class="o">=</span> <span class="n">tmp</span> <span class="o">+</span> <span class="n">jnp</span><span class="o">.</span><span class="n">outer</span><span class="p">(</span><span class="n">flat_neighbors</span><span class="p">,</span> <span class="n">n_fields</span> <span class="o">*</span> <span class="n">jnp</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">n_fields</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">jnp</span><span class="o">.</span><span class="n">int_</span><span class="p">))</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">int_</span><span class="p">)</span>
+
+  <span class="n">res</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">dofs</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+  <span class="n">res</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="n">at</span><span class="p">[</span><span class="n">indices</span><span class="o">.</span><span class="n">flatten</span><span class="p">()]</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">residual_contributions</span><span class="o">.</span><span class="n">flatten</span><span class="p">())</span>
+  <span class="n">res</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">dofs</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+  <span class="n">res</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">res</span><span class="p">,</span> <span class="n">dofs</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+  <span class="k">return</span> <span class="n">res</span></div>
+
+
+<div class="viewcode-block" id="user_residual_assemble_tangent_diagonal">
+<a class="viewcode-back" href="../../_autosummary/autopdex.assembler.user_residual_assemble_tangent_diagonal.html#autopdex.assembler.user_residual_assemble_tangent_diagonal">[docs]</a>
+<span class="nd">@jit_with_docstring</span><span class="p">(</span><span class="n">static_argnames</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;static_settings&#39;</span><span class="p">,</span> <span class="s1">&#39;set&#39;</span><span class="p">])</span>
+<span class="k">def</span> <span class="nf">user_residual_assemble_tangent_diagonal</span><span class="p">(</span><span class="n">dofs</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">,</span> <span class="nb">set</span><span class="p">):</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Assembly of the diagonal of the tangent matrix for custom user residual of specified set.</span>
+<span class="sd">  </span>
+<span class="sd">  Parameters:</span>
+<span class="sd">    dofs (jnp.ndarray): Degrees of freedom.</span>
+<span class="sd">    settings (dict): Settings for the integration.</span>
+<span class="sd">    static_settings (flax.core.FrozenDict): Static settings including assembling modes.</span>
+<span class="sd">    set (int): The set index.</span>
+<span class="sd">  </span>
+<span class="sd">  Returns:</span>
+<span class="sd">    jnp.ndarray: The diagonal of the assembled tangent matrix.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="n">n_fields</span> <span class="o">=</span> <span class="n">static_settings</span><span class="p">[</span><span class="s1">&#39;number of fields&#39;</span><span class="p">][</span><span class="nb">set</span><span class="p">]</span>
+  <span class="n">user_residual_fun</span> <span class="o">=</span> <span class="n">static_settings</span><span class="p">[</span><span class="s1">&#39;model&#39;</span><span class="p">][</span><span class="nb">set</span><span class="p">]</span>
+  <span class="n">connectivity_list</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">static_settings</span><span class="p">[</span><span class="s1">&#39;connectivity&#39;</span><span class="p">][</span><span class="nb">set</span><span class="p">])</span>
+  <span class="n">x_nodes</span> <span class="o">=</span> <span class="n">settings</span><span class="p">[</span><span class="s1">&#39;node coordinates&#39;</span><span class="p">]</span>
+  <span class="n">local_dofs</span> <span class="o">=</span> <span class="n">dofs</span><span class="p">[</span><span class="n">connectivity_list</span><span class="p">]</span>
+  <span class="n">local_node_coor</span> <span class="o">=</span> <span class="n">x_nodes</span><span class="p">[</span><span class="n">connectivity_list</span><span class="p">]</span>
+  <span class="n">elem_numbers</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">connectivity_list</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">1</span><span class="p">)</span>
+
+  <span class="c1"># For each element call user element routine (as the one in pde-module with mode=&#39;residual&#39;) and get contributions</span>
+  <span class="n">tangent_contributions</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">vmap</span><span class="p">(</span><span class="n">jax</span><span class="o">.</span><span class="n">jacfwd</span><span class="p">(</span><span class="n">user_residual_fun</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">))(</span><span class="n">local_dofs</span><span class="p">,</span> <span class="n">local_node_coor</span><span class="p">,</span> <span class="n">elem_numbers</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">,</span> <span class="nb">set</span><span class="p">)</span>
+  <span class="n">diagonal_contributions</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">diagonal</span><span class="p">(</span><span class="n">tangent_contributions</span><span class="p">,</span> <span class="n">axis1</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">axis2</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+
+  <span class="c1"># Assemble diagonal entries like a residual</span>
+  <span class="n">flat_neighbors</span> <span class="o">=</span> <span class="n">connectivity_list</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+  <span class="n">tmp</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">outer</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">flat_neighbors</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">jnp</span><span class="o">.</span><span class="n">int_</span><span class="p">),</span> <span class="n">jnp</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">n_fields</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">jnp</span><span class="o">.</span><span class="n">int_</span><span class="p">))</span>
+  <span class="n">indices</span> <span class="o">=</span> <span class="n">tmp</span> <span class="o">+</span> <span class="n">jnp</span><span class="o">.</span><span class="n">outer</span><span class="p">(</span><span class="n">flat_neighbors</span><span class="p">,</span> <span class="n">n_fields</span> <span class="o">*</span> <span class="n">jnp</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">n_fields</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">jnp</span><span class="o">.</span><span class="n">int_</span><span class="p">))</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">int_</span><span class="p">)</span>
+  <span class="n">diag</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">dofs</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+  <span class="n">diag</span> <span class="o">=</span> <span class="n">diag</span><span class="o">.</span><span class="n">at</span><span class="p">[</span><span class="n">indices</span><span class="o">.</span><span class="n">flatten</span><span class="p">()]</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">diagonal_contributions</span><span class="o">.</span><span class="n">flatten</span><span class="p">())</span>
+  <span class="k">return</span> <span class="n">diag</span></div>
+
+
+<div class="viewcode-block" id="user_residual_assemble_tangent">
+<a class="viewcode-back" href="../../_autosummary/autopdex.assembler.user_residual_assemble_tangent.html#autopdex.assembler.user_residual_assemble_tangent">[docs]</a>
+<span class="nd">@jit_with_docstring</span><span class="p">(</span><span class="n">static_argnames</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;static_settings&#39;</span><span class="p">,</span> <span class="s1">&#39;set&#39;</span><span class="p">])</span>
+<span class="k">def</span> <span class="nf">user_residual_assemble_tangent</span><span class="p">(</span><span class="n">dofs</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">,</span> <span class="nb">set</span><span class="p">):</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Assembly of the full (sparse) tangent matrix for custom user residual of specified set.</span>
+<span class="sd">  </span>
+<span class="sd">  Parameters:</span>
+<span class="sd">    dofs (jnp.ndarray): Degrees of freedom.</span>
+<span class="sd">    settings (dict): Settings for the integration.</span>
+<span class="sd">    static_settings (flax.core.FrozenDict): Static settings including assembling modes.</span>
+<span class="sd">    set (int): The set index.</span>
+<span class="sd">  </span>
+<span class="sd">  Returns:</span>
+<span class="sd">    jax.experimental.sparse.BCOO: The assembled tangent matrix.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="n">n_fields</span> <span class="o">=</span> <span class="n">static_settings</span><span class="p">[</span><span class="s1">&#39;number of fields&#39;</span><span class="p">][</span><span class="nb">set</span><span class="p">]</span>
+  <span class="n">user_residual_fun</span> <span class="o">=</span> <span class="n">static_settings</span><span class="p">[</span><span class="s1">&#39;model&#39;</span><span class="p">][</span><span class="nb">set</span><span class="p">]</span>
+  <span class="n">connectivity_list</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">static_settings</span><span class="p">[</span><span class="s1">&#39;connectivity&#39;</span><span class="p">][</span><span class="nb">set</span><span class="p">])</span>
+  <span class="n">x_nodes</span> <span class="o">=</span> <span class="n">settings</span><span class="p">[</span><span class="s1">&#39;node coordinates&#39;</span><span class="p">]</span>
+  <span class="n">local_dofs</span> <span class="o">=</span> <span class="n">dofs</span><span class="p">[</span><span class="n">connectivity_list</span><span class="p">]</span>
+  <span class="n">local_node_coor</span> <span class="o">=</span> <span class="n">x_nodes</span><span class="p">[</span><span class="n">connectivity_list</span><span class="p">]</span>
+  <span class="n">dofs_per_elem</span> <span class="o">=</span> <span class="n">local_dofs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+  <span class="n">elem_numbers</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">connectivity_list</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">1</span><span class="p">)</span>
+
+  <span class="c1"># For each element call user element routine (as the one in pde-module with mode=&#39;residual&#39;) and get contributions</span>
+  <span class="n">tangent_contributions</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">vmap</span><span class="p">(</span><span class="n">jax</span><span class="o">.</span><span class="n">jacfwd</span><span class="p">(</span><span class="n">user_residual_fun</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+                                   <span class="p">)(</span><span class="n">local_dofs</span><span class="p">,</span> <span class="n">local_node_coor</span><span class="p">,</span> <span class="n">elem_numbers</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">,</span> <span class="nb">set</span><span class="p">)</span>
+
+  <span class="c1"># Assembling (without summing duplicates)</span>
+  <span class="k">def</span> <span class="nf">get_indices</span><span class="p">(</span><span class="nb">list</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">one_elem_idx</span><span class="p">(</span><span class="n">neighb</span><span class="p">):</span>
+      <span class="k">def</span> <span class="nf">row_indices</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">row</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">([[</span><span class="n">a</span><span class="p">,</span><span class="n">row</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">row</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])])</span>
+      <span class="n">colrow</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">vmap</span><span class="p">(</span><span class="n">row_indices</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span> <span class="mi">0</span><span class="p">)</span>
+      <span class="n">tmp</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">outer</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">neighb</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">jnp</span><span class="o">.</span><span class="n">int_</span><span class="p">),</span> <span class="n">jnp</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">n_fields</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">jnp</span><span class="o">.</span><span class="n">int_</span><span class="p">))</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">int_</span><span class="p">)</span>
+      <span class="n">indices</span> <span class="o">=</span> <span class="n">tmp</span> <span class="o">+</span> <span class="n">jnp</span><span class="o">.</span><span class="n">outer</span><span class="p">(</span><span class="n">neighb</span><span class="p">,</span> <span class="n">n_fields</span> <span class="o">*</span> <span class="n">jnp</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">n_fields</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">jnp</span><span class="o">.</span><span class="n">int_</span><span class="p">))</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">int_</span><span class="p">)</span>
+      <span class="n">flat_indices</span> <span class="o">=</span> <span class="n">indices</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+      <span class="k">return</span> <span class="n">colrow</span><span class="p">(</span><span class="n">flat_indices</span><span class="p">,</span><span class="n">flat_indices</span><span class="p">)</span>
+    <span class="n">all_elem_idx</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">vmap</span><span class="p">(</span><span class="n">one_elem_idx</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">jnp</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">all_elem_idx</span><span class="p">(</span><span class="nb">list</span><span class="p">),</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="nb">list</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="p">(</span><span class="n">dofs_per_elem</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">))</span>
+  
+  <span class="n">indices</span> <span class="o">=</span> <span class="n">get_indices</span><span class="p">(</span><span class="n">connectivity_list</span><span class="p">)</span>
+  <span class="n">data</span> <span class="o">=</span> <span class="n">tangent_contributions</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+  <span class="n">n_dofs</span> <span class="o">=</span> <span class="n">n_fields</span> <span class="o">*</span> <span class="n">dofs</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+  <span class="n">tangent</span> <span class="o">=</span> <span class="n">sparse</span><span class="o">.</span><span class="n">BCOO</span><span class="p">((</span><span class="n">data</span><span class="p">,</span> <span class="n">indices</span><span class="p">),</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">n_dofs</span><span class="p">,</span><span class="n">n_dofs</span><span class="p">))</span>
+  <span class="k">return</span> <span class="n">tangent</span></div>
+
+
+
+<span class="c1">### Assembling for user elements</span>
+<div class="viewcode-block" id="user_element_assemble_residual">
+<a class="viewcode-back" href="../../_autosummary/autopdex.assembler.user_element_assemble_residual.html#autopdex.assembler.user_element_assemble_residual">[docs]</a>
+<span class="nd">@jit_with_docstring</span><span class="p">(</span><span class="n">static_argnames</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;static_settings&#39;</span><span class="p">,</span> <span class="s1">&#39;set&#39;</span><span class="p">])</span>
+<span class="k">def</span> <span class="nf">user_element_assemble_residual</span><span class="p">(</span><span class="n">dofs</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">,</span> <span class="nb">set</span><span class="p">):</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Assembly of residual for custom user element of specified set.</span>
+<span class="sd">  </span>
+<span class="sd">  Parameters:</span>
+<span class="sd">    dofs (jnp.ndarray): Degrees of freedom.</span>
+<span class="sd">    settings (dict): Settings for the integration.</span>
+<span class="sd">    static_settings (flax.core.FrozenDict): Static settings including assembling modes.</span>
+<span class="sd">    set (int): The set index.</span>
+<span class="sd">  </span>
+<span class="sd">  Returns:</span>
+<span class="sd">    jnp.ndarray: The assembled residual.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+
+  <span class="n">n_fields</span> <span class="o">=</span> <span class="n">static_settings</span><span class="p">[</span><span class="s1">&#39;number of fields&#39;</span><span class="p">][</span><span class="nb">set</span><span class="p">]</span>
+  <span class="n">user_elem_fun</span> <span class="o">=</span> <span class="n">static_settings</span><span class="p">[</span><span class="s1">&#39;model&#39;</span><span class="p">][</span><span class="nb">set</span><span class="p">]</span>
+  <span class="n">connectivity_list</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">static_settings</span><span class="p">[</span><span class="s1">&#39;connectivity&#39;</span><span class="p">][</span><span class="nb">set</span><span class="p">])</span>
+  <span class="n">x_nodes</span> <span class="o">=</span> <span class="n">settings</span><span class="p">[</span><span class="s1">&#39;node coordinates&#39;</span><span class="p">]</span>
+  <span class="n">local_dofs</span> <span class="o">=</span> <span class="n">dofs</span><span class="p">[</span><span class="n">connectivity_list</span><span class="p">]</span>
+  <span class="n">local_node_coor</span> <span class="o">=</span> <span class="n">x_nodes</span><span class="p">[</span><span class="n">connectivity_list</span><span class="p">]</span>
+  <span class="n">elem_numbers</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">connectivity_list</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">1</span><span class="p">)</span>
+
+
+  <span class="c1"># For each element call user element routine (as the one in pde-module with mode=&#39;residual&#39;) and get contributions</span>
+  <span class="n">residual_contributions</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">vmap</span><span class="p">(</span><span class="n">user_elem_fun</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">))(</span><span class="n">local_dofs</span><span class="p">,</span> <span class="n">local_node_coor</span><span class="p">,</span> <span class="n">elem_numbers</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">,</span> <span class="s1">&#39;residual&#39;</span><span class="p">,</span> <span class="nb">set</span><span class="p">)</span>
+
+  <span class="c1"># Assembling</span>
+  <span class="n">flat_neighbors</span> <span class="o">=</span> <span class="n">connectivity_list</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+  <span class="n">tmp</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">outer</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">flat_neighbors</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">jnp</span><span class="o">.</span><span class="n">int_</span><span class="p">),</span> <span class="n">jnp</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">n_fields</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">jnp</span><span class="o">.</span><span class="n">int_</span><span class="p">))</span>
+  <span class="n">indices</span> <span class="o">=</span> <span class="n">tmp</span> <span class="o">+</span> <span class="n">jnp</span><span class="o">.</span><span class="n">outer</span><span class="p">(</span><span class="n">flat_neighbors</span><span class="p">,</span> <span class="n">n_fields</span> <span class="o">*</span> <span class="n">jnp</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">n_fields</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">jnp</span><span class="o">.</span><span class="n">int_</span><span class="p">))</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">int_</span><span class="p">)</span>
+
+  <span class="n">res</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">dofs</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+  <span class="n">res</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="n">at</span><span class="p">[</span><span class="n">indices</span><span class="o">.</span><span class="n">flatten</span><span class="p">()]</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">residual_contributions</span><span class="o">.</span><span class="n">flatten</span><span class="p">())</span>
+  <span class="n">res</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">dofs</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+  <span class="n">res</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">res</span><span class="p">,</span> <span class="n">dofs</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+
+  <span class="k">return</span> <span class="n">res</span></div>
+
+
+<div class="viewcode-block" id="user_element_assemble_tangent_diagonal">
+<a class="viewcode-back" href="../../_autosummary/autopdex.assembler.user_element_assemble_tangent_diagonal.html#autopdex.assembler.user_element_assemble_tangent_diagonal">[docs]</a>
+<span class="nd">@jit_with_docstring</span><span class="p">(</span><span class="n">static_argnames</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;static_settings&#39;</span><span class="p">,</span> <span class="s1">&#39;set&#39;</span><span class="p">])</span>
+<span class="k">def</span> <span class="nf">user_element_assemble_tangent_diagonal</span><span class="p">(</span><span class="n">dofs</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">,</span> <span class="nb">set</span><span class="p">):</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Assembly of the diagonal of the tangent matrix for custom user element of specified set.</span>
+<span class="sd">  </span>
+<span class="sd">  Parameters:</span>
+<span class="sd">    dofs (jnp.ndarray): Degrees of freedom.</span>
+<span class="sd">    settings (dict): Settings for the integration.</span>
+<span class="sd">    static_settings (flax.core.FrozenDict): Static settings including assembling modes.</span>
+<span class="sd">    set (int): The set index.</span>
+<span class="sd">  </span>
+<span class="sd">  Returns:</span>
+<span class="sd">    jnp.ndarray: The diagonal of the assembled tangent matrix.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+
+  <span class="n">n_fields</span> <span class="o">=</span> <span class="n">static_settings</span><span class="p">[</span><span class="s1">&#39;number of fields&#39;</span><span class="p">][</span><span class="nb">set</span><span class="p">]</span>
+  <span class="n">user_elem_fun</span> <span class="o">=</span> <span class="n">static_settings</span><span class="p">[</span><span class="s1">&#39;model&#39;</span><span class="p">][</span><span class="nb">set</span><span class="p">]</span>
+  <span class="n">connectivity_list</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">static_settings</span><span class="p">[</span><span class="s1">&#39;connectivity&#39;</span><span class="p">][</span><span class="nb">set</span><span class="p">])</span>
+  <span class="n">x_nodes</span> <span class="o">=</span> <span class="n">settings</span><span class="p">[</span><span class="s1">&#39;node coordinates&#39;</span><span class="p">]</span>
+  <span class="n">local_dofs</span> <span class="o">=</span> <span class="n">dofs</span><span class="p">[</span><span class="n">connectivity_list</span><span class="p">]</span>
+  <span class="n">local_node_coor</span> <span class="o">=</span> <span class="n">x_nodes</span><span class="p">[</span><span class="n">connectivity_list</span><span class="p">]</span>
+  <span class="n">elem_numbers</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">connectivity_list</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">1</span><span class="p">)</span>
+
+  <span class="c1"># For each element call user element routine (as the one in pde-module with mode=&#39;residual&#39;) and get contributions</span>
+  <span class="n">tangent_contributions</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">vmap</span><span class="p">(</span><span class="n">user_elem_fun</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">))(</span><span class="n">local_dofs</span><span class="p">,</span> <span class="n">local_node_coor</span><span class="p">,</span> <span class="n">elem_numbers</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">,</span> <span class="s1">&#39;tangent&#39;</span><span class="p">,</span> <span class="nb">set</span><span class="p">)</span>
+  <span class="n">diagonal_contributions</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">diagonal</span><span class="p">(</span><span class="n">tangent_contributions</span><span class="p">,</span> <span class="n">axis1</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">axis2</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+
+  <span class="c1"># Assemble diagonal entries like a residual</span>
+  <span class="n">flat_neighbors</span> <span class="o">=</span> <span class="n">connectivity_list</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+  <span class="n">tmp</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">outer</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">flat_neighbors</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">jnp</span><span class="o">.</span><span class="n">int_</span><span class="p">),</span> <span class="n">jnp</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">n_fields</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">jnp</span><span class="o">.</span><span class="n">int_</span><span class="p">))</span>
+  <span class="n">indices</span> <span class="o">=</span> <span class="n">tmp</span> <span class="o">+</span> <span class="n">jnp</span><span class="o">.</span><span class="n">outer</span><span class="p">(</span><span class="n">flat_neighbors</span><span class="p">,</span> <span class="n">n_fields</span> <span class="o">*</span> <span class="n">jnp</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">n_fields</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">jnp</span><span class="o">.</span><span class="n">int_</span><span class="p">))</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">int_</span><span class="p">)</span>
+  <span class="n">diag</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">dofs</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+  <span class="n">diag</span> <span class="o">=</span> <span class="n">diag</span><span class="o">.</span><span class="n">at</span><span class="p">[</span><span class="n">indices</span><span class="o">.</span><span class="n">flatten</span><span class="p">()]</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">diagonal_contributions</span><span class="o">.</span><span class="n">flatten</span><span class="p">())</span>
+  <span class="k">return</span> <span class="n">diag</span></div>
+
+
+<div class="viewcode-block" id="user_element_assemble_tangent">
+<a class="viewcode-back" href="../../_autosummary/autopdex.assembler.user_element_assemble_tangent.html#autopdex.assembler.user_element_assemble_tangent">[docs]</a>
+<span class="nd">@jit_with_docstring</span><span class="p">(</span><span class="n">static_argnames</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;static_settings&#39;</span><span class="p">,</span> <span class="s1">&#39;set&#39;</span><span class="p">])</span>
+<span class="k">def</span> <span class="nf">user_element_assemble_tangent</span><span class="p">(</span><span class="n">dofs</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">,</span> <span class="nb">set</span><span class="p">):</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Assembly of the full (sparse) tangent matrix for custom user element of specified set.</span>
+<span class="sd">  </span>
+<span class="sd">  Parameters:</span>
+<span class="sd">    dofs (jnp.ndarray): Degrees of freedom.</span>
+<span class="sd">    settings (dict): Settings for the integration.</span>
+<span class="sd">    static_settings (flax.core.FrozenDict): Static settings including assembling modes.</span>
+<span class="sd">    set (int): The set index.</span>
+<span class="sd">  </span>
+<span class="sd">  Returns:</span>
+<span class="sd">    jax.experimental.sparse.BCOO: The assembled tangent matrix.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  
+  <span class="n">n_fields</span> <span class="o">=</span> <span class="n">static_settings</span><span class="p">[</span><span class="s1">&#39;number of fields&#39;</span><span class="p">][</span><span class="nb">set</span><span class="p">]</span>
+  <span class="n">user_elem_fun</span> <span class="o">=</span> <span class="n">static_settings</span><span class="p">[</span><span class="s1">&#39;model&#39;</span><span class="p">][</span><span class="nb">set</span><span class="p">]</span>
+  <span class="n">connectivity_list</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">static_settings</span><span class="p">[</span><span class="s1">&#39;connectivity&#39;</span><span class="p">][</span><span class="nb">set</span><span class="p">])</span>
+  <span class="n">x_nodes</span> <span class="o">=</span> <span class="n">settings</span><span class="p">[</span><span class="s1">&#39;node coordinates&#39;</span><span class="p">]</span>
+  <span class="n">local_dofs</span> <span class="o">=</span> <span class="n">dofs</span><span class="p">[</span><span class="n">connectivity_list</span><span class="p">]</span>
+  <span class="n">local_node_coor</span> <span class="o">=</span> <span class="n">x_nodes</span><span class="p">[</span><span class="n">connectivity_list</span><span class="p">]</span>
+  <span class="n">dofs_per_elem</span> <span class="o">=</span> <span class="n">local_dofs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+  <span class="n">elem_numbers</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">connectivity_list</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">1</span><span class="p">)</span>
+
+  <span class="c1"># For each element call user element routine (as the one in pde-module with mode=&#39;residual&#39;) and get contributions</span>
+  <span class="n">tangent_contributions</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">vmap</span><span class="p">(</span><span class="n">user_elem_fun</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+                                   <span class="p">)(</span><span class="n">local_dofs</span><span class="p">,</span> <span class="n">local_node_coor</span><span class="p">,</span> <span class="n">elem_numbers</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">,</span> <span class="s1">&#39;tangent&#39;</span><span class="p">,</span> <span class="nb">set</span><span class="p">)</span>
+
+  <span class="c1"># Assembling (without summing duplicates)</span>
+  <span class="k">def</span> <span class="nf">get_indices</span><span class="p">(</span><span class="nb">list</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">one_elem_idx</span><span class="p">(</span><span class="n">neighb</span><span class="p">):</span>
+      <span class="k">def</span> <span class="nf">row_indices</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">row</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">([[</span><span class="n">a</span><span class="p">,</span><span class="n">row</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">row</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])])</span>
+      <span class="n">colrow</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">vmap</span><span class="p">(</span><span class="n">row_indices</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span> <span class="mi">0</span><span class="p">)</span>
+      <span class="n">tmp</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">outer</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">neighb</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">jnp</span><span class="o">.</span><span class="n">int_</span><span class="p">),</span> <span class="n">jnp</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">n_fields</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">jnp</span><span class="o">.</span><span class="n">int_</span><span class="p">))</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">int_</span><span class="p">)</span>
+      <span class="n">indices</span> <span class="o">=</span> <span class="n">tmp</span> <span class="o">+</span> <span class="n">jnp</span><span class="o">.</span><span class="n">outer</span><span class="p">(</span><span class="n">neighb</span><span class="p">,</span> <span class="n">n_fields</span> <span class="o">*</span> <span class="n">jnp</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">n_fields</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">jnp</span><span class="o">.</span><span class="n">int_</span><span class="p">))</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">int_</span><span class="p">)</span>
+      <span class="n">flat_indices</span> <span class="o">=</span> <span class="n">indices</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+      <span class="k">return</span> <span class="n">colrow</span><span class="p">(</span><span class="n">flat_indices</span><span class="p">,</span><span class="n">flat_indices</span><span class="p">)</span>
+    <span class="n">all_elem_idx</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">vmap</span><span class="p">(</span><span class="n">one_elem_idx</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">jnp</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">all_elem_idx</span><span class="p">(</span><span class="nb">list</span><span class="p">),</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="nb">list</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="p">(</span><span class="n">dofs_per_elem</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">))</span>
+  
+  <span class="n">indices</span> <span class="o">=</span> <span class="n">get_indices</span><span class="p">(</span><span class="n">connectivity_list</span><span class="p">)</span>
+  <span class="n">data</span> <span class="o">=</span> <span class="n">tangent_contributions</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+  <span class="n">n_dofs</span> <span class="o">=</span> <span class="n">n_fields</span> <span class="o">*</span> <span class="n">dofs</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+  <span class="n">tangent</span> <span class="o">=</span> <span class="n">sparse</span><span class="o">.</span><span class="n">BCOO</span><span class="p">((</span><span class="n">data</span><span class="p">,</span> <span class="n">indices</span><span class="p">),</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">n_dofs</span><span class="p">,</span><span class="n">n_dofs</span><span class="p">))</span>
+  <span class="k">return</span> <span class="n">tangent</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Tobias Bode.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

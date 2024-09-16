@@ -1,0 +1,6 @@
+﻿autopdex.solution\_structures.precompute\_coupled\_boundary
+===========================================================
+
+.. currentmodule:: autopdex.solution_structures
+
+.. autofunction:: precompute_coupled_boundary

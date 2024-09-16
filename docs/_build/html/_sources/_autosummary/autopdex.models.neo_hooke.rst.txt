@@ -1,0 +1,6 @@
+﻿autopdex.models.neo\_hooke
+==========================
+
+.. currentmodule:: autopdex.models
+
+.. autofunction:: neo_hooke

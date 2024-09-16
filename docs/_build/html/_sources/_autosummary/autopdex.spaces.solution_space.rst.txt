@@ -1,0 +1,6 @@
+﻿autopdex.spaces.solution\_space
+===============================
+
+.. currentmodule:: autopdex.spaces
+
+.. autofunction:: solution_space

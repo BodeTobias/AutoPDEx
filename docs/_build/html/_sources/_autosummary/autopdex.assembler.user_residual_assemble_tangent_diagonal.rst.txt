@@ -1,0 +1,6 @@
+﻿autopdex.assembler.user\_residual\_assemble\_tangent\_diagonal
+==============================================================
+
+.. currentmodule:: autopdex.assembler
+
+.. autofunction:: user_residual_assemble_tangent_diagonal

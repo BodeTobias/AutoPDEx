@@ -1,0 +1,6 @@
+﻿autopdex.assembler.user\_residual\_assemble\_residual
+=====================================================
+
+.. currentmodule:: autopdex.assembler
+
+.. autofunction:: user_residual_assemble_residual

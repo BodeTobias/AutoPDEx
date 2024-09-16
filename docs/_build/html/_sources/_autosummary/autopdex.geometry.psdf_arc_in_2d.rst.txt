@@ -1,0 +1,6 @@
+﻿autopdex.geometry.psdf\_arc\_in\_2d
+===================================
+
+.. currentmodule:: autopdex.geometry
+
+.. autofunction:: psdf_arc_in_2d

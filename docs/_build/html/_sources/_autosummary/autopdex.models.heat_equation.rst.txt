@@ -1,0 +1,6 @@
+﻿autopdex.models.heat\_equation
+==============================
+
+.. currentmodule:: autopdex.models
+
+.. autofunction:: heat_equation

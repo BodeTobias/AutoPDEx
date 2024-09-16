@@ -1,0 +1,6 @@
+﻿autopdex.solver.solve\_diagonal\_linear
+=======================================
+
+.. currentmodule:: autopdex.solver
+
+.. autofunction:: solve_diagonal_linear

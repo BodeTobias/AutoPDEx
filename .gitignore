@@ -24,7 +24,6 @@ ENV/
 Thumbs.db
 
 # Sphinx documentation
-docs/_build/
 docs/_autosummary/
 
 # Python egg caches

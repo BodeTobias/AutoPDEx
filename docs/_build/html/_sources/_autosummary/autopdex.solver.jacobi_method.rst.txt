@@ -1,0 +1,6 @@
+﻿autopdex.solver.jacobi\_method
+==============================
+
+.. currentmodule:: autopdex.solver
+
+.. autofunction:: jacobi_method

@@ -1,0 +1,6 @@
+﻿autopdex.solver.solve\_damped\_newton
+=====================================
+
+.. currentmodule:: autopdex.solver
+
+.. autofunction:: solve_damped_newton

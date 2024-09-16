@@ -1,0 +1,6 @@
+﻿autopdex.geometry.sdf\_cylinder\_extruded
+=========================================
+
+.. currentmodule:: autopdex.geometry
+
+.. autofunction:: sdf_cylinder_extruded

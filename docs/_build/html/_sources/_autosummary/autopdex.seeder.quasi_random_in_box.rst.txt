@@ -1,0 +1,6 @@
+﻿autopdex.seeder.quasi\_random\_in\_box
+======================================
+
+.. currentmodule:: autopdex.seeder
+
+.. autofunction:: quasi_random_in_box

@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>autopdex.solution_structures &mdash; AutoPDEx 0.0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../../_static/jupyter-sphinx.css?v=572af1d6" />
+      <link rel="stylesheet" type="text/css" href="../../_static/thebelab.css" />
+      <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=acfd50eb" />
+      <link rel="stylesheet" type="text/css" href="../../_static/dark_mode_css/general.css?v=c0a7eb24" />
+      <link rel="stylesheet" type="text/css" href="../../_static/dark_mode_css/dark.css?v=70edf1c7" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../_static/documentation_options.js?v=d45e8c67"></script>
+        <script src="../../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="../../_static/copybutton.js?v=f281be69"></script>
+        <script src="../../_static/thebelab-helper.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script src="../../_static/dark_mode_js/default_light.js?v=c2e647ce"></script>
+        <script src="../../_static/dark_mode_js/theme_switcher.js?v=358d3910"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            AutoPDEx
+              <img src="../../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../notebooks/quickstart.html">Quickstart to AutoPDEx</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">High level operations</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../solver.html">Solver</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../models.html">Models</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Settings</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../settings.html">Settings and static_settings</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../example_notebooks.html">Example notebooks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../examples.html">Examplary input files</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Lower level operations</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../assembler.html">Assembler</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../implicit_diff.html">Implicit_diff</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../spaces.html">Spaces</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../solution_structures.html">Solution_structures</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../variational_schemes.html">Variational_schemes</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Pre- and postprocessing</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../geometry.html">Geometry</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../seeder.html">Seeder</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../utility.html">Utility</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../plotter.html">Plotter</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">AutoPDEx</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">autopdex.solution_structures</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for autopdex.solution_structures</h1><div class="highlight"><pre>
+<span></span><span class="c1"># solution_structures.py</span>
+<span class="c1"># Copyright (C) 2024 Tobias Bode</span>
+<span class="c1">#</span>
+<span class="c1"># This program is free software: you can redistribute it and/or modify</span>
+<span class="c1"># it under the terms of the GNU Affero General Public License as published by</span>
+<span class="c1"># the Free Software Foundation, either version 3 of the License, or</span>
+<span class="c1"># (at your option) any later version.</span>
+<span class="c1">#</span>
+<span class="c1"># This program is distributed in the hope that it will be useful,</span>
+<span class="c1"># but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+<span class="c1"># MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the</span>
+<span class="c1"># GNU Affero General Public License for more details.</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">In solving boundary or initial value problems, one generally seeks a function</span>
+<span class="sd">that satisfies both certain boundary conditions and differential equations.</span>
+<span class="sd">In solution structures, the boundary conditions (or at least part of them)</span>
+<span class="sd">are already incorporated into the solution space. This provides greater flexibility</span>
+<span class="sd">in the choice of variational methods and, depending on the approach, allows for</span>
+<span class="sd">exact satisfaction of the boundary conditions.</span>
+
+<span class="sd">This module provides functions to compute the solution structure at a given</span>
+<span class="sd">integration point using different modes, as well as to precompile and evaluate discrete</span>
+<span class="sd">solution structures by evaluating and storing shape functions, boundary conditions,</span>
+<span class="sd">and projection operators. Precompilation can improve the efficiency,</span>
+<span class="sd">but one has to consider how many discrete derivatives need to be evaluated for the given solution structure and pde.</span>
+
+<span class="sd">The idea of the RFM (Rvachev-function method) solution structures is basically to multiply the solution space :math:`\phi`</span>
+<span class="sd">with a smooth function :math:`\omega` that vanishes on the boundary and to add subsequently a function</span>
+<span class="sd">:math:`b` that satisfies the boundary conditions: :math:`\\tilde{\phi} = \omega \phi + b`.</span>
+<span class="sd">The initial approximation :math:`\phi` can e.g. be a finite element ansatz, but also some approach in which boundary conditions</span>
+<span class="sd">can not simply nodally imposed, such as smooth meshfree shape functions or a neural network.</span>
+<span class="sd">The global weighting function :math:`\omega` can be constructed for example based on Rvachev functions </span>
+<span class="sd">that can be used as smooth distance functions to certain primitive elements. The boundary function :math:`b` can be set up</span>
+<span class="sd">via transfinite interpolation in case there are different conditions on different segments of the boundary. </span>
+<span class="sd">The above procedure works well e.g. for a Laplace equation with Dirichlet conditions, but special techniques have to be used for </span>
+<span class="sd">more complex problems, see e.g. `Rvachev and Sheiko (1995) &lt;https://doi.org/10.1115/1.3005099&gt;`_. These kind of solution structures </span>
+<span class="sd">may be implemented as a user-specific solution structure &#39;user&#39; (see the source code for examples). </span>
+
+<span class="sd">Here, a general technique is implemented with the solution structure type &#39;first order set&#39; which can handle </span>
+<span class="sd">arbitrary order PDEs with multiple coupled boundary conditions. </span>
+<span class="sd">However, the prerequisite is that the problem is reformulated into a set of first-order problems and that a suitable variational </span>
+<span class="sd">method is used, such as a norm-equivalent first-order least square formulation </span>
+<span class="sd">(see, e.g., `Gunzburger and Bochev (2009) &lt;https://link.springer.com/book/10.1007/b13382&gt;`_). </span>
+<span class="sd">This means that not only, for example, the temperature field :math:`\\theta` serves as a primary variable, but also its derivatives, such as</span>
+<span class="sd">:math:`\\theta_{,X}` and :math:`\\theta_{,t}`. If we gather all the primary fields into the vector :math:`\\boldsymbol{\\phi}`, </span>
+<span class="sd">boundary conditions of the form :math:`\\boldsymbol{a}_i \cdot \\boldsymbol{\\phi} = b_i` can be imposed by the following approach:</span>
+<span class="sd">:math:`\\tilde{\\boldsymbol{\\phi}} = \\boldsymbol{P} \\cdot \\boldsymbol{\\phi} + \\tilde{\\boldsymbol{b}}`</span>
+<span class="sd">with the projector field :math:`\\boldsymbol{P} = \\boldsymbol{I} - \\sum_i (1 - \omega_i) \\boldsymbol{a}_i \\otimes \\boldsymbol{a}_i`,</span>
+<span class="sd">where :math:`\\boldsymbol{I}` is the identity matrix, :math:`\omega_i` is a boundary segment selector as a smooth distance funcion and the </span>
+<span class="sd">set of :math:`\\boldsymbol{a}_i` have to be orthogonal to each other at the boundary segments with each having a length of 1. </span>
+<span class="sd">The boundary function can be set up based on transfinite interpolations based on </span>
+<span class="sd">:math:`\\tilde{\\boldsymbol{b}} = \sum_i b_i \\boldsymbol{a}_i`. An example can be found e.g. in </span>
+<span class="sd">`space_time_fos_dirichlet_neumann_robin.py &lt;../../../examples/heat_conduction/space_time_fos_dirichlet_neumann_robin.py&gt;`_</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+
+<span class="kn">import</span> <span class="nn">jax</span>
+<span class="kn">import</span> <span class="nn">jax.numpy</span> <span class="k">as</span> <span class="nn">jnp</span>
+
+<span class="kn">from</span> <span class="nn">autopdex</span> <span class="kn">import</span> <span class="n">spaces</span>
+<span class="kn">from</span> <span class="nn">autopdex.utility</span> <span class="kn">import</span> <span class="n">jit_with_docstring</span>
+
+
+<div class="viewcode-block" id="solution_structure">
+<a class="viewcode-back" href="../../_autosummary/autopdex.solution_structures.solution_structure.html#autopdex.solution_structures.solution_structure">[docs]</a>
+<span class="nd">@jit_with_docstring</span><span class="p">(</span><span class="n">static_argnames</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;static_settings&#39;</span><span class="p">,</span> <span class="s1">&#39;set&#39;</span><span class="p">])</span>
+<span class="k">def</span> <span class="nf">solution_structure</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">int_point_number</span><span class="p">,</span> <span class="n">local_dofs</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">,</span> <span class="nb">set</span><span class="p">):</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Computes the solution structure at a given integration point using various predefined schemes.</span>
+
+<span class="sd">  Args:</span>
+<span class="sd">    x (jnp.ndarray): Coordinates of the integration point.</span>
+<span class="sd">    int_point_number (int): Integration point number.</span>
+<span class="sd">    local_dofs (jnp.ndarray): Local degrees of freedom.</span>
+<span class="sd">    settings (dict): Settings for the computation.</span>
+<span class="sd">    static_settings (dict): Static settings for the computation.</span>
+<span class="sd">    set (str): Identifier for the current set.</span>
+
+<span class="sd">  Returns:</span>
+<span class="sd">    array: Computed solution structure.</span>
+<span class="sd">  </span>
+<span class="sd">  Notes:</span>
+<span class="sd">    This function supports different solution structures, including &#39;dirichlet&#39;, &#39;first order set&#39;,</span>
+<span class="sd">    &#39;second order set&#39;, &#39;nodal imposition&#39;, and &#39;off&#39;. Depending on the shape function mode (&#39;direct&#39;</span>
+<span class="sd">    or &#39;compiled&#39;), it evaluates shape functions and computes the solution structure accordingly.</span>
+<span class="sd">    </span>
+<span class="sd">    For &#39;dirichlet&#39;, &#39;first order set&#39;, and &#39;second order set&#39; structures, boundary conditions and </span>
+<span class="sd">    projections are applied to the space. The function uses either direct evaluation or precomputed </span>
+<span class="sd">    shape functions and their derivatives based on the shape function mode.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="k">try</span><span class="p">:</span>
+    <span class="n">structure_type</span> <span class="o">=</span> <span class="n">static_settings</span><span class="p">[</span><span class="s1">&#39;solution structure&#39;</span><span class="p">][</span><span class="nb">set</span><span class="p">]</span>
+  <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;The solution structure was not set. Continuing with </span><span class="se">\&#39;</span><span class="s1">off</span><span class="se">\&#39;</span><span class="s1">... &#39;</span><span class="p">)</span>
+    <span class="n">structure_type</span> <span class="o">=</span> <span class="s1">&#39;off&#39;</span>
+
+  <span class="n">shp_fun_mode</span> <span class="o">=</span> <span class="n">static_settings</span><span class="p">[</span><span class="s1">&#39;shape function mode&#39;</span><span class="p">]</span>
+
+  <span class="k">if</span> <span class="n">structure_type</span> <span class="o">==</span> <span class="s1">&#39;dirichlet&#39;</span><span class="p">:</span><span class="c1">###Todo: obsolet?</span>
+    <span class="c1"># Direct evaluation of shape functions</span>
+    <span class="k">if</span> <span class="n">shp_fun_mode</span> <span class="o">==</span> <span class="s1">&#39;direct&#39;</span><span class="p">:</span>
+      <span class="n">space</span> <span class="o">=</span> <span class="n">spaces</span><span class="o">.</span><span class="n">solution_space</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">int_point_number</span><span class="p">,</span> <span class="n">local_dofs</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">,</span> <span class="nb">set</span><span class="p">)</span>
+      <span class="n">b_condition</span> <span class="o">=</span> <span class="n">static_settings</span><span class="p">[</span><span class="s1">&#39;boundary conditions&#39;</span><span class="p">][</span><span class="nb">set</span><span class="p">](</span><span class="n">x</span><span class="p">)</span>
+      <span class="n">psdf_d</span> <span class="o">=</span> <span class="n">static_settings</span><span class="p">[</span><span class="s1">&#39;psdf&#39;</span><span class="p">][</span><span class="nb">set</span><span class="p">](</span><span class="n">x</span><span class="p">)</span>
+      <span class="k">return</span> <span class="n">psdf_d</span> <span class="o">*</span> <span class="n">space</span> <span class="o">+</span> <span class="n">b_condition</span>
+
+    <span class="c1"># Evaluation with precomputed shape functions -&gt; shape function mode</span>
+    <span class="k">elif</span> <span class="n">shp_fun_mode</span> <span class="o">==</span> <span class="s1">&#39;compiled&#39;</span><span class="p">:</span>
+      <span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">dx</span><span class="p">,</span> <span class="n">ddx</span><span class="p">)</span> <span class="o">=</span> <span class="n">settings</span><span class="p">[</span><span class="s1">&#39;compiled shape functions&#39;</span><span class="p">][</span><span class="nb">set</span><span class="p">]</span>
+      <span class="p">(</span><span class="n">bc</span><span class="p">,</span> <span class="n">dbc</span><span class="p">,</span> <span class="n">ddbc</span><span class="p">)</span> <span class="o">=</span> <span class="n">settings</span><span class="p">[</span><span class="s1">&#39;compiled bc&#39;</span><span class="p">][</span><span class="nb">set</span><span class="p">]</span>
+      <span class="p">(</span><span class="n">psdf</span><span class="p">,</span> <span class="n">dpsdf</span><span class="p">,</span> <span class="n">ddpsdf</span><span class="p">)</span> <span class="o">=</span> <span class="n">settings</span><span class="p">[</span><span class="s1">&#39;compiled projection&#39;</span><span class="p">][</span><span class="nb">set</span><span class="p">]</span>
+      <span class="n">shps</span> <span class="o">=</span> <span class="n">compiled_function_2</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">f</span><span class="p">[</span><span class="n">int_point_number</span><span class="p">],</span> <span class="n">dx</span><span class="p">[</span><span class="n">int_point_number</span><span class="p">],</span> <span class="n">ddx</span><span class="p">[</span><span class="n">int_point_number</span><span class="p">])</span>
+      <span class="n">space</span> <span class="o">=</span> <span class="p">(</span><span class="n">shps</span> <span class="o">@</span> <span class="n">local_dofs</span><span class="p">)</span>
+      <span class="n">bc_x</span><span class="o">=</span> <span class="n">_compiled_function_2</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">bc</span><span class="p">[</span><span class="n">int_point_number</span><span class="p">],</span> <span class="n">dbc</span><span class="p">[</span><span class="n">int_point_number</span><span class="p">],</span> <span class="n">ddbc</span><span class="p">[</span><span class="n">int_point_number</span><span class="p">])</span>
+      <span class="n">psdf_x</span> <span class="o">=</span> <span class="n">_compiled_function_2</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">psdf</span><span class="p">[</span><span class="n">int_point_number</span><span class="p">],</span> <span class="n">dpsdf</span><span class="p">[</span><span class="n">int_point_number</span><span class="p">],</span> <span class="n">ddpsdf</span><span class="p">[</span><span class="n">int_point_number</span><span class="p">])</span>
+      <span class="k">return</span> <span class="n">psdf_x</span> <span class="o">*</span> <span class="n">space</span> <span class="o">+</span> <span class="n">bc_x</span>
+    <span class="k">else</span><span class="p">:</span>
+      <span class="k">assert</span> <span class="kc">False</span><span class="p">,</span> <span class="s1">&#39;Shape function mode neither specified as </span><span class="se">\&#39;</span><span class="s1">direct</span><span class="se">\&#39;</span><span class="s1"> nor </span><span class="se">\&#39;</span><span class="s1">compiled</span><span class="se">\&#39;</span><span class="s1">!&#39;</span>
+
+  <span class="k">elif</span> <span class="n">structure_type</span> <span class="o">==</span> <span class="s1">&#39;first order set&#39;</span> <span class="ow">or</span> <span class="n">structure_type</span> <span class="o">==</span> <span class="s1">&#39;second order set&#39;</span><span class="p">:</span>
+    <span class="c1"># alpha has to be normalized at boundaries</span>
+    <span class="c1"># consider only orthogonal alphas</span>
+    <span class="c1"># Direct evaluation of shape functions</span>
+    <span class="k">if</span> <span class="n">shp_fun_mode</span> <span class="o">==</span> <span class="s1">&#39;direct&#39;</span><span class="p">:</span>
+      <span class="n">space</span> <span class="o">=</span> <span class="n">spaces</span><span class="o">.</span><span class="n">solution_space</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">int_point_number</span><span class="p">,</span> <span class="n">local_dofs</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">,</span> <span class="nb">set</span><span class="p">)</span>
+      <span class="n">phi_0</span> <span class="o">=</span> <span class="n">static_settings</span><span class="p">[</span><span class="s1">&#39;boundary conditions&#39;</span><span class="p">][</span><span class="nb">set</span><span class="p">](</span><span class="n">x</span><span class="p">)</span>
+      <span class="n">alpha</span> <span class="o">=</span> <span class="n">static_settings</span><span class="p">[</span><span class="s1">&#39;boundary coefficients&#39;</span><span class="p">][</span><span class="nb">set</span><span class="p">](</span><span class="n">x</span><span class="p">)</span>
+      <span class="n">omega</span> <span class="o">=</span> <span class="n">static_settings</span><span class="p">[</span><span class="s1">&#39;psdf&#39;</span><span class="p">][</span><span class="nb">set</span><span class="p">](</span><span class="n">x</span><span class="p">)</span>
+      <span class="n">n_fields</span> <span class="o">=</span> <span class="n">static_settings</span><span class="p">[</span><span class="s1">&#39;number of fields&#39;</span><span class="p">][</span><span class="nb">set</span><span class="p">]</span>
+
+      <span class="c1"># Boundary function</span>
+      <span class="n">phi</span> <span class="o">=</span> <span class="n">phi_0</span> <span class="o">@</span> <span class="n">alpha</span>
+
+      <span class="c1"># Projections deletes the influence of space where omega_i are zero in the direction of alpha_i</span>
+      <span class="k">def</span> <span class="nf">project_i</span><span class="p">(</span><span class="n">omega_i</span><span class="p">,</span> <span class="n">alpha_i</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">omega_i</span><span class="p">)</span> <span class="o">*</span> <span class="n">jnp</span><span class="o">.</span><span class="n">outer</span><span class="p">(</span><span class="n">alpha_i</span><span class="p">,</span> <span class="n">alpha_i</span><span class="p">)</span>
+      <span class="n">projection</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">identity</span><span class="p">(</span><span class="n">n_fields</span><span class="p">)</span> <span class="o">-</span> <span class="n">jax</span><span class="o">.</span><span class="n">vmap</span><span class="p">(</span><span class="n">project_i</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">),</span> <span class="mi">0</span><span class="p">)(</span><span class="n">omega</span><span class="p">,</span> <span class="n">alpha</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+      <span class="n">structure</span> <span class="o">=</span> <span class="n">projection</span> <span class="o">@</span> <span class="n">space</span> <span class="o">+</span> <span class="n">phi</span>
+      <span class="k">return</span> <span class="n">structure</span>
+
+    <span class="c1"># Evaluation with precomputed shape functions -&gt; shape function mode</span>
+    <span class="k">elif</span> <span class="n">shp_fun_mode</span> <span class="o">==</span> <span class="s1">&#39;compiled&#39;</span><span class="p">:</span>
+      <span class="k">if</span> <span class="n">structure_type</span> <span class="o">==</span> <span class="s1">&#39;first order set&#39;</span><span class="p">:</span>
+        <span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">dx</span><span class="p">)</span> <span class="o">=</span> <span class="n">settings</span><span class="p">[</span><span class="s1">&#39;compiled shape functions&#39;</span><span class="p">][</span><span class="nb">set</span><span class="p">]</span>
+        <span class="p">(</span><span class="n">bc</span><span class="p">,</span> <span class="n">dbc</span><span class="p">)</span> <span class="o">=</span> <span class="n">settings</span><span class="p">[</span><span class="s1">&#39;compiled bc&#39;</span><span class="p">][</span><span class="nb">set</span><span class="p">]</span>
+        <span class="p">(</span><span class="n">proj</span><span class="p">,</span> <span class="n">dproj</span><span class="p">)</span> <span class="o">=</span> <span class="n">settings</span><span class="p">[</span><span class="s1">&#39;compiled projection&#39;</span><span class="p">][</span><span class="nb">set</span><span class="p">]</span>
+
+        <span class="n">shps</span> <span class="o">=</span> <span class="n">compiled_function_1</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">f</span><span class="p">[</span><span class="n">int_point_number</span><span class="p">],</span> <span class="n">dx</span><span class="p">[</span><span class="n">int_point_number</span><span class="p">])</span>
+        <span class="n">bc_x</span> <span class="o">=</span> <span class="n">_compiled_function_1</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">bc</span><span class="p">[</span><span class="n">int_point_number</span><span class="p">],</span> <span class="n">dbc</span><span class="p">[</span><span class="n">int_point_number</span><span class="p">])</span>
+        <span class="n">proj_x</span> <span class="o">=</span> <span class="n">_compiled_function_1</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">proj</span><span class="p">[</span><span class="n">int_point_number</span><span class="p">],</span> <span class="n">dproj</span><span class="p">[</span><span class="n">int_point_number</span><span class="p">])</span>
+      <span class="k">elif</span> <span class="n">structure_type</span> <span class="o">==</span> <span class="s1">&#39;second order set&#39;</span><span class="p">:</span>
+        <span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">dx</span><span class="p">,</span> <span class="n">ddx</span><span class="p">)</span> <span class="o">=</span> <span class="n">settings</span><span class="p">[</span><span class="s1">&#39;compiled shape functions&#39;</span><span class="p">][</span><span class="nb">set</span><span class="p">]</span>
+        <span class="p">(</span><span class="n">bc</span><span class="p">,</span> <span class="n">dbc</span><span class="p">,</span> <span class="n">ddbc</span><span class="p">)</span> <span class="o">=</span> <span class="n">settings</span><span class="p">[</span><span class="s1">&#39;compiled bc&#39;</span><span class="p">][</span><span class="nb">set</span><span class="p">]</span>
+        <span class="p">(</span><span class="n">proj</span><span class="p">,</span> <span class="n">dproj</span><span class="p">,</span> <span class="n">ddproj</span><span class="p">)</span> <span class="o">=</span> <span class="n">settings</span><span class="p">[</span><span class="s1">&#39;compiled projection&#39;</span><span class="p">][</span><span class="nb">set</span><span class="p">]</span>
+
+        <span class="n">shps</span> <span class="o">=</span> <span class="n">compiled_function_2</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">f</span><span class="p">[</span><span class="n">int_point_number</span><span class="p">],</span> <span class="n">dx</span><span class="p">[</span><span class="n">int_point_number</span><span class="p">],</span> <span class="n">ddx</span><span class="p">[</span><span class="n">int_point_number</span><span class="p">])</span>
+        <span class="n">bc_x</span> <span class="o">=</span> <span class="n">_compiled_function_2</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">bc</span><span class="p">[</span><span class="n">int_point_number</span><span class="p">],</span> <span class="n">dbc</span><span class="p">[</span><span class="n">int_point_number</span><span class="p">],</span> <span class="n">ddbc</span><span class="p">[</span><span class="n">int_point_number</span><span class="p">])</span>
+        <span class="n">proj_x</span> <span class="o">=</span> <span class="n">_compiled_function_2</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">proj</span><span class="p">[</span><span class="n">int_point_number</span><span class="p">],</span> <span class="n">dproj</span><span class="p">[</span><span class="n">int_point_number</span><span class="p">],</span> <span class="n">ddproj</span><span class="p">[</span><span class="n">int_point_number</span><span class="p">])</span>
+
+      <span class="n">space</span> <span class="o">=</span> <span class="p">(</span><span class="n">shps</span> <span class="o">@</span> <span class="n">local_dofs</span><span class="p">)</span>
+      <span class="n">structure</span> <span class="o">=</span> <span class="n">proj_x</span> <span class="o">@</span> <span class="n">space</span> <span class="o">+</span> <span class="n">bc_x</span>
+      <span class="k">return</span> <span class="n">structure</span>
+    <span class="k">else</span><span class="p">:</span>
+      <span class="k">assert</span> <span class="kc">False</span><span class="p">,</span> <span class="s1">&#39;Shape function mode neither specified as </span><span class="se">\&#39;</span><span class="s1">direct</span><span class="se">\&#39;</span><span class="s1"> nor </span><span class="se">\&#39;</span><span class="s1">compiled</span><span class="se">\&#39;</span><span class="s1">!&#39;</span>
+  
+  <span class="k">elif</span> <span class="n">structure_type</span> <span class="o">==</span> <span class="s1">&#39;nodal imposition&#39;</span> <span class="ow">or</span> <span class="n">structure_type</span> <span class="o">==</span> <span class="s1">&#39;off&#39;</span><span class="p">:</span>
+     <span class="c1"># Just forward the space</span>
+    <span class="k">if</span> <span class="n">shp_fun_mode</span> <span class="o">==</span> <span class="s1">&#39;direct&#39;</span><span class="p">:</span>
+      <span class="k">return</span> <span class="n">spaces</span><span class="o">.</span><span class="n">solution_space</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">int_point_number</span><span class="p">,</span> <span class="n">local_dofs</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">,</span> <span class="nb">set</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">shp_fun_mode</span> <span class="o">==</span> <span class="s1">&#39;compiled&#39;</span><span class="p">:</span>
+      <span class="c1">#ToDo: max derivative order should be set in static settings...!</span>
+      <span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">dx</span><span class="p">)</span> <span class="o">=</span> <span class="n">settings</span><span class="p">[</span><span class="s1">&#39;compiled shape functions&#39;</span><span class="p">][</span><span class="nb">set</span><span class="p">]</span>
+      <span class="n">shps</span> <span class="o">=</span> <span class="n">compiled_function_1</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">f</span><span class="p">[</span><span class="n">int_point_number</span><span class="p">],</span> <span class="n">dx</span><span class="p">[</span><span class="n">int_point_number</span><span class="p">])</span>
+      <span class="n">space</span> <span class="o">=</span> <span class="p">(</span><span class="n">shps</span> <span class="o">@</span> <span class="n">local_dofs</span><span class="p">)</span>
+      <span class="k">return</span> <span class="n">space</span>
+    <span class="k">else</span><span class="p">:</span>
+      <span class="k">assert</span> <span class="kc">False</span><span class="p">,</span> <span class="s1">&#39;Shape function mode neither specified as </span><span class="se">\&#39;</span><span class="s1">direct</span><span class="se">\&#39;</span><span class="s1"> nor </span><span class="se">\&#39;</span><span class="s1">compiled</span><span class="se">\&#39;</span><span class="s1">!&#39;</span>
+  <span class="k">elif</span> <span class="n">structure_type</span> <span class="o">==</span> <span class="s1">&#39;user&#39;</span><span class="p">:</span>
+    <span class="k">return</span> <span class="n">static_settings</span><span class="p">[</span><span class="s1">&#39;user solution structure&#39;</span><span class="p">][</span><span class="nb">set</span><span class="p">](</span><span class="n">x</span><span class="p">,</span> <span class="n">int_point_number</span><span class="p">,</span> <span class="n">local_dofs</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">,</span> <span class="nb">set</span><span class="p">)</span>
+  <span class="k">else</span><span class="p">:</span>
+    <span class="k">assert</span> <span class="kc">False</span><span class="p">,</span> <span class="s1">&#39;Solution structure type not available.&#39;</span></div>
+
+
+<div class="viewcode-block" id="precompile">
+<a class="viewcode-back" href="../../_autosummary/autopdex.solution_structures.precompile.html#autopdex.solution_structures.precompile">[docs]</a>
+<span class="nd">@jit_with_docstring</span><span class="p">(</span><span class="n">static_argnames</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;static_settings&#39;</span><span class="p">])</span>
+<span class="k">def</span> <span class="nf">precompile</span><span class="p">(</span><span class="n">dofs0</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">,</span> <span class="n">max_diff_order</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Manually precompiles solution structures by evaluating and storing shape functions, boundary conditions, </span>
+<span class="sd">  and projection operators for different integration points and domains.</span>
+
+<span class="sd">  Args:</span>
+<span class="sd">    dofs0 (jnp.ndarray): Initial degrees of freedom.</span>
+<span class="sd">    settings (dict): Settings for the computation.</span>
+<span class="sd">    static_settings (dict): Static settings for the computation.</span>
+<span class="sd">    max_diff_order (int, optional): Maximum order of derivatives to precompute. Default is 1.</span>
+
+<span class="sd">  Returns:</span>
+<span class="sd">    dict: Updated settings with precomputed shape functions, boundary conditions, and projections.</span>
+
+<span class="sd">  Notes:</span>
+<span class="sd">    This function loops over all sets of integration points or domains and compiles the necessary </span>
+<span class="sd">    components for different solution structures. The supported solution structures include:</span>
+<span class="sd">    </span>
+<span class="sd">    - &#39;first order set&#39;: Compiles shape functions, boundary conditions, and projection operators with first derivatives.</span>
+<span class="sd">    - &#39;second order set&#39;: Compiles shape functions, boundary conditions, and projection operators with second derivatives.</span>
+<span class="sd">    - &#39;dirichlet&#39;: Compiles shape functions, boundary conditions, and projection operators with second derivatives.</span>
+<span class="sd">    - &#39;nodal imposition&#39; or &#39;off&#39;: Compiles shape functions with derivatives up to max_diff_order.</span>
+<span class="sd">    </span>
+<span class="sd">    The precomputed components are stored in the settings dictionary under &#39;compiled shape functions&#39;, </span>
+<span class="sd">    &#39;compiled bc&#39;, and &#39;compiled projection&#39;.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="c1"># Loop over all sets of integration points/ domains</span>
+  <span class="n">num_sets</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">static_settings</span><span class="p">[</span><span class="s1">&#39;assembling mode&#39;</span><span class="p">])</span>
+  <span class="n">compiled_shps</span> <span class="o">=</span> <span class="p">()</span>
+  <span class="n">compiled_bcs</span> <span class="o">=</span> <span class="p">()</span>
+  <span class="n">compiled_proj</span> <span class="o">=</span> <span class="p">()</span>
+  <span class="k">for</span> <span class="nb">set</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_sets</span><span class="p">):</span>
+
+    <span class="c1"># Compilation of different terms in solution structures </span>
+    <span class="n">mode</span> <span class="o">=</span> <span class="n">static_settings</span><span class="p">[</span><span class="s1">&#39;solution structure&#39;</span><span class="p">][</span><span class="nb">set</span><span class="p">]</span>
+
+    <span class="k">if</span> <span class="n">mode</span> <span class="o">==</span> <span class="s1">&#39;first order set&#39;</span><span class="p">:</span>
+      <span class="n">b_cond</span> <span class="o">=</span> <span class="n">static_settings</span><span class="p">[</span><span class="s1">&#39;boundary conditions&#39;</span><span class="p">][</span><span class="nb">set</span><span class="p">]</span>
+      <span class="n">psdf</span> <span class="o">=</span> <span class="n">static_settings</span><span class="p">[</span><span class="s1">&#39;psdf&#39;</span><span class="p">][</span><span class="nb">set</span><span class="p">]</span>
+      <span class="n">x_int</span> <span class="o">=</span> <span class="n">settings</span><span class="p">[</span><span class="s1">&#39;integration coordinates&#39;</span><span class="p">][</span><span class="nb">set</span><span class="p">]</span>
+      <span class="n">b_coeff</span> <span class="o">=</span> <span class="n">static_settings</span><span class="p">[</span><span class="s1">&#39;boundary coefficients&#39;</span><span class="p">][</span><span class="nb">set</span><span class="p">]</span>
+
+      <span class="n">compiled_shps</span> <span class="o">+=</span> <span class="p">(</span><span class="n">spaces</span><span class="o">.</span><span class="n">precompute_shape_functions</span><span class="p">(</span><span class="n">dofs0</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">,</span> <span class="nb">set</span><span class="p">,</span> <span class="n">num_diff</span><span class="o">=</span><span class="mi">1</span><span class="p">),)</span>
+      <span class="n">compiled_bcs</span> <span class="o">+=</span> <span class="p">(</span><span class="n">precompute_coupled_boundary</span><span class="p">(</span><span class="n">b_cond</span><span class="p">,</span> <span class="n">b_coeff</span><span class="p">,</span> <span class="n">x_int</span><span class="p">),)</span>
+      <span class="n">compiled_proj</span> <span class="o">+=</span> <span class="p">(</span><span class="n">precompute_projection</span><span class="p">(</span><span class="n">psdf</span><span class="p">,</span> <span class="n">b_coeff</span><span class="p">,</span> <span class="n">x_int</span><span class="p">),)</span>
+
+    <span class="k">elif</span> <span class="n">mode</span> <span class="o">==</span> <span class="s1">&#39;nodal imposition&#39;</span> <span class="ow">or</span> <span class="n">mode</span> <span class="o">==</span> <span class="s1">&#39;off&#39;</span><span class="p">:</span>
+      <span class="n">compiled_shps</span> <span class="o">+=</span> <span class="p">(</span><span class="n">spaces</span><span class="o">.</span><span class="n">precompute_shape_functions</span><span class="p">(</span><span class="n">dofs0</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">,</span> <span class="nb">set</span><span class="p">,</span> <span class="n">num_diff</span><span class="o">=</span><span class="n">max_diff_order</span><span class="p">),)</span>
+      <span class="n">compiled_bcs</span> <span class="o">+=</span> <span class="p">(</span><span class="kc">None</span><span class="p">,)</span>
+      <span class="n">compiled_proj</span> <span class="o">+=</span> <span class="p">(</span><span class="kc">None</span><span class="p">,)</span>
+
+    <span class="k">elif</span> <span class="n">mode</span> <span class="o">==</span> <span class="s1">&#39;second order set&#39;</span><span class="p">:</span>
+      <span class="n">b_cond</span> <span class="o">=</span> <span class="n">static_settings</span><span class="p">[</span><span class="s1">&#39;boundary conditions&#39;</span><span class="p">][</span><span class="nb">set</span><span class="p">]</span>
+      <span class="n">psdf</span> <span class="o">=</span> <span class="n">static_settings</span><span class="p">[</span><span class="s1">&#39;psdf&#39;</span><span class="p">][</span><span class="nb">set</span><span class="p">]</span>
+      <span class="n">x_int</span> <span class="o">=</span> <span class="n">settings</span><span class="p">[</span><span class="s1">&#39;integration coordinates&#39;</span><span class="p">][</span><span class="nb">set</span><span class="p">]</span>
+      <span class="n">b_coeff</span> <span class="o">=</span> <span class="n">static_settings</span><span class="p">[</span><span class="s1">&#39;boundary coefficients&#39;</span><span class="p">][</span><span class="nb">set</span><span class="p">]</span>
+
+      <span class="n">compiled_shps</span> <span class="o">+=</span> <span class="p">(</span><span class="n">spaces</span><span class="o">.</span><span class="n">precompute_shape_functions</span><span class="p">(</span><span class="n">dofs0</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">,</span> <span class="nb">set</span><span class="p">,</span> <span class="n">num_diff</span><span class="o">=</span><span class="mi">2</span><span class="p">),)</span>
+      <span class="n">compiled_bcs</span> <span class="o">+=</span> <span class="p">(</span><span class="n">precompute_coupled_boundary</span><span class="p">(</span><span class="n">b_cond</span><span class="p">,</span> <span class="n">b_coeff</span><span class="p">,</span> <span class="n">x_int</span><span class="p">,</span> <span class="n">num_diff</span><span class="o">=</span><span class="mi">2</span><span class="p">),)</span>
+      <span class="n">compiled_proj</span> <span class="o">+=</span> <span class="p">(</span><span class="n">precompute_projection</span><span class="p">(</span><span class="n">psdf</span><span class="p">,</span> <span class="n">b_coeff</span><span class="p">,</span> <span class="n">x_int</span><span class="p">,</span> <span class="n">num_diff</span><span class="o">=</span><span class="mi">2</span><span class="p">),)</span>
+
+    <span class="k">elif</span> <span class="n">mode</span> <span class="o">==</span> <span class="s1">&#39;dirichlet&#39;</span><span class="p">:</span>
+      <span class="n">b_cond</span> <span class="o">=</span> <span class="n">static_settings</span><span class="p">[</span><span class="s1">&#39;boundary conditions&#39;</span><span class="p">][</span><span class="nb">set</span><span class="p">]</span>
+      <span class="n">psdf</span> <span class="o">=</span> <span class="n">static_settings</span><span class="p">[</span><span class="s1">&#39;psdf&#39;</span><span class="p">][</span><span class="nb">set</span><span class="p">]</span>
+      <span class="n">x_int</span> <span class="o">=</span> <span class="n">settings</span><span class="p">[</span><span class="s1">&#39;integration coordinates&#39;</span><span class="p">][</span><span class="nb">set</span><span class="p">]</span>
+
+      <span class="n">compiled_shps</span> <span class="o">+=</span> <span class="p">(</span><span class="n">spaces</span><span class="o">.</span><span class="n">precompute_shape_functions</span><span class="p">(</span><span class="n">dofs0</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">,</span> <span class="nb">set</span><span class="p">,</span> <span class="n">num_diff</span><span class="o">=</span><span class="mi">2</span><span class="p">),)</span>
+      <span class="n">compiled_bcs</span> <span class="o">+=</span> <span class="p">(</span><span class="n">precompute_function_and_derivatives</span><span class="p">(</span><span class="n">b_cond</span><span class="p">,</span> <span class="n">x_int</span><span class="p">,</span> <span class="n">num_diff</span><span class="o">=</span><span class="mi">2</span><span class="p">),)</span>
+      <span class="n">compiled_proj</span> <span class="o">+=</span> <span class="p">(</span><span class="n">precompute_function_and_derivatives</span><span class="p">(</span><span class="n">psdf</span><span class="p">,</span> <span class="n">x_int</span><span class="p">,</span> <span class="n">num_diff</span><span class="o">=</span><span class="mi">2</span><span class="p">),)</span>
+   
+    <span class="k">else</span><span class="p">:</span> 
+      <span class="k">assert</span> <span class="kc">False</span><span class="p">,</span> <span class="s1">&#39;There is no default compilation defined for the specified solution structure!&#39;</span>
+
+  <span class="n">settings</span><span class="p">[</span><span class="s1">&#39;compiled shape functions&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">compiled_shps</span>
+  <span class="n">settings</span><span class="p">[</span><span class="s1">&#39;compiled bc&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">compiled_bcs</span>
+  <span class="n">settings</span><span class="p">[</span><span class="s1">&#39;compiled projection&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">compiled_proj</span>
+
+  <span class="n">jax</span><span class="o">.</span><span class="n">debug</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s1">&#39;Compilation of solution structure finished.&#39;</span><span class="p">)</span>
+  <span class="k">return</span> <span class="n">settings</span></div>
+
+
+<div class="viewcode-block" id="precompute_function_and_derivatives">
+<a class="viewcode-back" href="../../_autosummary/autopdex.solution_structures.precompute_function_and_derivatives.html#autopdex.solution_structures.precompute_function_and_derivatives">[docs]</a>
+<span class="nd">@jit_with_docstring</span><span class="p">(</span><span class="n">static_argnames</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;fun&#39;</span><span class="p">,</span><span class="s1">&#39;num_diff&#39;</span><span class="p">])</span>
+<span class="k">def</span> <span class="nf">precompute_function_and_derivatives</span><span class="p">(</span><span class="n">fun</span><span class="p">,</span> <span class="n">x_int</span><span class="p">,</span> <span class="n">num_diff</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Precomputes a function and its derivatives up to a specified order at given integration points.</span>
+
+<span class="sd">  Args:</span>
+<span class="sd">    fun (callable): The function to precompute.</span>
+<span class="sd">    x_int (jnp.ndarray): Integration points.</span>
+<span class="sd">    num_diff (int, optional): Number of derivatives to compute (0, 1, or 2). Default is 1.</span>
+
+<span class="sd">  Returns:</span>
+<span class="sd">    tuple: Precomputed function values and derivatives.</span>
+<span class="sd">      - If num_diff == 0: (fun_i,)</span>
+<span class="sd">      - If num_diff == 1: (fun_i, dfun_i)</span>
+<span class="sd">      - If num_diff == 2: (fun_i, dfun_i, ddfun_i)</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="n">fun_i</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">jit</span><span class="p">(</span><span class="n">jax</span><span class="o">.</span><span class="n">vmap</span><span class="p">(</span><span class="n">fun</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="mi">0</span><span class="p">))(</span><span class="n">x_int</span><span class="p">)</span>
+  <span class="k">if</span> <span class="n">num_diff</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">fun_i</span><span class="p">)</span>
+
+  <span class="n">dfun_i</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">jit</span><span class="p">(</span><span class="n">jax</span><span class="o">.</span><span class="n">vmap</span><span class="p">(</span><span class="n">jax</span><span class="o">.</span><span class="n">jacrev</span><span class="p">(</span><span class="n">fun</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="mi">0</span><span class="p">))(</span><span class="n">x_int</span><span class="p">)</span>
+  <span class="k">if</span> <span class="n">num_diff</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">fun_i</span><span class="p">,</span> <span class="n">dfun_i</span><span class="p">)</span>
+
+  <span class="n">ddfun_i</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">jit</span><span class="p">(</span><span class="n">jax</span><span class="o">.</span><span class="n">vmap</span><span class="p">(</span><span class="n">jax</span><span class="o">.</span><span class="n">jacfwd</span><span class="p">(</span><span class="n">jax</span><span class="o">.</span><span class="n">jacrev</span><span class="p">(</span><span class="n">fun</span><span class="p">)),</span> <span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="mi">0</span><span class="p">))(</span><span class="n">x_int</span><span class="p">)</span>
+  <span class="k">if</span> <span class="n">num_diff</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">fun_i</span><span class="p">,</span> <span class="n">dfun_i</span><span class="p">,</span> <span class="n">ddfun_i</span><span class="p">)</span>
+
+  <span class="k">assert</span> <span class="kc">False</span><span class="p">,</span> <span class="s1">&#39;Number of differentiations not implemented!&#39;</span></div>
+
+
+<div class="viewcode-block" id="precompute_coupled_boundary">
+<a class="viewcode-back" href="../../_autosummary/autopdex.solution_structures.precompute_coupled_boundary.html#autopdex.solution_structures.precompute_coupled_boundary">[docs]</a>
+<span class="nd">@jit_with_docstring</span><span class="p">(</span><span class="n">static_argnames</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;phi_0_fun&#39;</span><span class="p">,</span><span class="s1">&#39;alpha_fun&#39;</span><span class="p">,</span><span class="s1">&#39;num_diff&#39;</span><span class="p">])</span>
+<span class="k">def</span> <span class="nf">precompute_coupled_boundary</span><span class="p">(</span><span class="n">phi_0_fun</span><span class="p">,</span> <span class="n">alpha_fun</span><span class="p">,</span> <span class="n">x_int</span><span class="p">,</span> <span class="n">num_diff</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Precomputes coupled boundary conditions and their derivatives up to a specified order at given integration points.</span>
+
+<span class="sd">  Args:</span>
+<span class="sd">    phi_0_fun (callable): Boundary condition function.</span>
+<span class="sd">    alpha_fun (callable): Coefficient function.</span>
+<span class="sd">    x_int (jnp.ndarray): Integration points.</span>
+<span class="sd">    num_diff (int, optional): Number of derivatives to compute (0, 1, or 2). Default is 1.</span>
+
+<span class="sd">  Returns:</span>
+<span class="sd">    tuple: Precomputed boundary condition values and derivatives.</span>
+<span class="sd">      - If num_diff == 0: (fun_i,)</span>
+<span class="sd">      - If num_diff == 1: (fun_i, dfun_i)</span>
+<span class="sd">      - If num_diff == 2: (fun_i, dfun_i, ddfun_i)</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="k">def</span> <span class="nf">phi</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="n">phi_0</span> <span class="o">=</span> <span class="n">phi_0_fun</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">alpha</span> <span class="o">=</span> <span class="n">alpha_fun</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">phi_0</span> <span class="o">@</span> <span class="n">alpha</span>
+
+  <span class="n">fun</span> <span class="o">=</span> <span class="n">phi</span>
+  <span class="n">fun_i</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">jit</span><span class="p">(</span><span class="n">jax</span><span class="o">.</span><span class="n">vmap</span><span class="p">(</span><span class="n">fun</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="mi">0</span><span class="p">))(</span><span class="n">x_int</span><span class="p">)</span>
+  <span class="k">if</span> <span class="n">num_diff</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">fun_i</span><span class="p">)</span>
+  
+  <span class="n">dfun_i</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">jit</span><span class="p">(</span><span class="n">jax</span><span class="o">.</span><span class="n">vmap</span><span class="p">(</span><span class="n">jax</span><span class="o">.</span><span class="n">jacrev</span><span class="p">(</span><span class="n">fun</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="mi">0</span><span class="p">))(</span><span class="n">x_int</span><span class="p">)</span>
+  <span class="k">if</span> <span class="n">num_diff</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">fun_i</span><span class="p">,</span> <span class="n">dfun_i</span><span class="p">)</span>
+
+  <span class="n">ddfun_i</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">jit</span><span class="p">(</span><span class="n">jax</span><span class="o">.</span><span class="n">vmap</span><span class="p">(</span><span class="n">jax</span><span class="o">.</span><span class="n">jacfwd</span><span class="p">(</span><span class="n">jax</span><span class="o">.</span><span class="n">jacrev</span><span class="p">(</span><span class="n">fun</span><span class="p">)),</span> <span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="mi">0</span><span class="p">))(</span><span class="n">x_int</span><span class="p">)</span>
+  <span class="k">if</span> <span class="n">num_diff</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">fun_i</span><span class="p">,</span> <span class="n">dfun_i</span><span class="p">,</span> <span class="n">ddfun_i</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="precompute_projection">
+<a class="viewcode-back" href="../../_autosummary/autopdex.solution_structures.precompute_projection.html#autopdex.solution_structures.precompute_projection">[docs]</a>
+<span class="nd">@jit_with_docstring</span><span class="p">(</span><span class="n">static_argnames</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;psdf_fun&#39;</span><span class="p">,</span><span class="s1">&#39;alpha_fun&#39;</span><span class="p">,</span><span class="s1">&#39;num_diff&#39;</span><span class="p">])</span>
+<span class="k">def</span> <span class="nf">precompute_projection</span><span class="p">(</span><span class="n">psdf_fun</span><span class="p">,</span> <span class="n">alpha_fun</span><span class="p">,</span> <span class="n">x_int</span><span class="p">,</span> <span class="n">num_diff</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Precomputes the projection operator and its derivatives up to a specified order at given integration points.</span>
+
+<span class="sd">  Args:</span>
+<span class="sd">    psdf_fun (callable): Projection function.</span>
+<span class="sd">    alpha_fun (callable): Coefficient function.</span>
+<span class="sd">    x_int (jnp.ndarray): Integration points.</span>
+<span class="sd">    num_diff (int, optional): Number of derivatives to compute (0, 1, or 2). Default is 1.</span>
+
+<span class="sd">  Returns:</span>
+<span class="sd">    tuple: Precomputed projection values and derivatives.</span>
+<span class="sd">      - If num_diff == 0: (fun_i,)</span>
+<span class="sd">      - If num_diff == 1: (fun_i, dfun_i)</span>
+<span class="sd">      - If num_diff == 2: (fun_i, dfun_i, ddfun_i)</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="k">def</span> <span class="nf">projection</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="n">alpha</span> <span class="o">=</span> <span class="n">alpha_fun</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">omega</span> <span class="o">=</span> <span class="n">psdf_fun</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">n_fields</span> <span class="o">=</span> <span class="n">alpha</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">project_i</span><span class="p">(</span><span class="n">omega_i</span><span class="p">,</span> <span class="n">alpha_i</span><span class="p">):</span>
+      <span class="k">return</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">omega_i</span><span class="p">)</span> <span class="o">*</span> <span class="n">jnp</span><span class="o">.</span><span class="n">outer</span><span class="p">(</span><span class="n">alpha_i</span><span class="p">,</span> <span class="n">alpha_i</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">jnp</span><span class="o">.</span><span class="n">identity</span><span class="p">(</span><span class="n">n_fields</span><span class="p">)</span> <span class="o">-</span> <span class="n">jax</span><span class="o">.</span><span class="n">vmap</span><span class="p">(</span><span class="n">project_i</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">),</span> <span class="mi">0</span><span class="p">)(</span><span class="n">omega</span><span class="p">,</span> <span class="n">alpha</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+  <span class="n">fun</span> <span class="o">=</span> <span class="n">projection</span>
+  <span class="n">fun_i</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">vmap</span><span class="p">(</span><span class="n">fun</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="mi">0</span><span class="p">)(</span><span class="n">x_int</span><span class="p">)</span>
+  <span class="k">if</span> <span class="n">num_diff</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">fun_i</span><span class="p">)</span>
+  
+  <span class="n">dfun_i</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">jit</span><span class="p">(</span><span class="n">jax</span><span class="o">.</span><span class="n">vmap</span><span class="p">(</span><span class="n">jax</span><span class="o">.</span><span class="n">jacrev</span><span class="p">(</span><span class="n">fun</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="mi">0</span><span class="p">))(</span><span class="n">x_int</span><span class="p">)</span>
+  <span class="k">if</span> <span class="n">num_diff</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">fun_i</span><span class="p">,</span> <span class="n">dfun_i</span><span class="p">)</span>
+  
+  <span class="n">ddfun_i</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">jit</span><span class="p">(</span><span class="n">jax</span><span class="o">.</span><span class="n">vmap</span><span class="p">(</span><span class="n">jax</span><span class="o">.</span><span class="n">jacfwd</span><span class="p">(</span><span class="n">jax</span><span class="o">.</span><span class="n">jacrev</span><span class="p">(</span><span class="n">fun</span><span class="p">)),</span> <span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="mi">0</span><span class="p">))(</span><span class="n">x_int</span><span class="p">)</span>
+  <span class="k">if</span> <span class="n">num_diff</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">fun_i</span><span class="p">,</span> <span class="n">dfun_i</span><span class="p">,</span> <span class="n">ddfun_i</span><span class="p">)</span></div>
+
+
+<span class="c1">### Remaining functions use discrete precomputed values and derivatives in order to make function that are more efficiently traceable for JAX. Can require a lot of memory, if the max-derivative-order is high.</span>
+
+<span class="nd">@jax</span><span class="o">.</span><span class="n">custom_jvp</span>
+<span class="k">def</span> <span class="nf">_compiled_function_1</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">df</span><span class="p">):</span>
+  <span class="k">return</span> <span class="n">f</span>
+
+<span class="nd">@_compiled_function_1</span><span class="o">.</span><span class="n">defjvp</span>
+<span class="k">def</span> <span class="nf">_compiled_function_1_jvp</span><span class="p">(</span><span class="n">primals</span><span class="p">,</span> <span class="n">tangents</span><span class="p">):</span>
+  <span class="n">x</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">df</span> <span class="o">=</span> <span class="n">primals</span>
+  <span class="n">x_dot</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">tangents</span>
+  <span class="n">primal_out</span> <span class="o">=</span> <span class="n">_compiled_function_1</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">df</span><span class="p">)</span>
+  <span class="n">tangent_out</span> <span class="o">=</span> <span class="n">df</span> <span class="o">@</span> <span class="n">x_dot</span>
+  <span class="k">return</span> <span class="n">primal_out</span><span class="p">,</span> <span class="n">tangent_out</span>
+<span class="n">compiled_function_1</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">jit</span><span class="p">(</span><span class="n">jax</span><span class="o">.</span><span class="n">vmap</span><span class="p">(</span><span class="n">_compiled_function_1</span><span class="p">,</span> <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="mi">0</span><span class="p">))</span>
+
+<span class="nd">@jax</span><span class="o">.</span><span class="n">custom_jvp</span>
+<span class="k">def</span> <span class="nf">_compiled_function_2</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">df</span><span class="p">,</span> <span class="n">ddf</span><span class="p">):</span>
+  <span class="k">return</span> <span class="n">f</span>
+
+<span class="nd">@_compiled_function_2</span><span class="o">.</span><span class="n">defjvp</span>
+<span class="k">def</span> <span class="nf">_compiled_function_2_jvp</span><span class="p">(</span><span class="n">primals</span><span class="p">,</span> <span class="n">tangents</span><span class="p">):</span>
+  <span class="n">x</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">df</span><span class="p">,</span> <span class="n">ddf</span> <span class="o">=</span> <span class="n">primals</span>
+  <span class="n">x_dot</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">tangents</span>
+  <span class="n">primal_out</span> <span class="o">=</span> <span class="n">_compiled_function_2</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">df</span><span class="p">,</span> <span class="n">ddf</span><span class="p">)</span>
+  <span class="n">tangent_out</span> <span class="o">=</span> <span class="n">df</span> <span class="o">@</span> <span class="n">x_dot</span> <span class="o">+</span> <span class="p">(</span><span class="n">ddf</span> <span class="o">@</span> <span class="n">x</span><span class="p">)</span> <span class="o">@</span> <span class="n">x_dot</span>
+  <span class="k">return</span> <span class="n">primal_out</span><span class="p">,</span> <span class="n">tangent_out</span>
+<span class="n">compiled_function_2</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">jit</span><span class="p">(</span><span class="n">jax</span><span class="o">.</span><span class="n">vmap</span><span class="p">(</span><span class="n">_compiled_function_2</span><span class="p">,</span> <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="mi">0</span><span class="p">))</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Tobias Bode.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

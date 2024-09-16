@@ -1,0 +1,6 @@
+﻿autopdex.geometry.sdf\_cuboid
+=============================
+
+.. currentmodule:: autopdex.geometry
+
+.. autofunction:: sdf_cuboid

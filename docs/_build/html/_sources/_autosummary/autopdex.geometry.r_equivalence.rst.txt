@@ -1,0 +1,6 @@
+﻿autopdex.geometry.r\_equivalence
+================================
+
+.. currentmodule:: autopdex.geometry
+
+.. autofunction:: r_equivalence

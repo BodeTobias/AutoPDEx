@@ -1,0 +1,6 @@
+﻿autopdex.variational\_schemes.least\_square\_pde\_loss
+======================================================
+
+.. currentmodule:: autopdex.variational_schemes
+
+.. autofunction:: least_square_pde_loss

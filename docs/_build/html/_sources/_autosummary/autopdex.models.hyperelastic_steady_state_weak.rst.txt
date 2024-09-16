@@ -1,0 +1,6 @@
+﻿autopdex.models.hyperelastic\_steady\_state\_weak
+=================================================
+
+.. currentmodule:: autopdex.models
+
+.. autofunction:: hyperelastic_steady_state_weak

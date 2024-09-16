@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Examplary input files &mdash; AutoPDEx 0.0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="_static/jupyter-sphinx.css?v=572af1d6" />
+      <link rel="stylesheet" type="text/css" href="_static/thebelab.css" />
+      <link rel="stylesheet" type="text/css" href="_static/custom.css?v=acfd50eb" />
+      <link rel="stylesheet" type="text/css" href="_static/dark_mode_css/general.css?v=c0a7eb24" />
+      <link rel="stylesheet" type="text/css" href="_static/dark_mode_css/dark.css?v=70edf1c7" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=d45e8c67"></script>
+        <script src="_static/doctools.js?v=9a2dae69"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="_static/copybutton.js?v=f281be69"></script>
+        <script src="_static/thebelab-helper.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+        <script defer="defer" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script src="_static/dark_mode_js/default_light.js?v=c2e647ce"></script>
+        <script src="_static/dark_mode_js/theme_switcher.js?v=358d3910"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Assembler" href="assembler.html" />
+    <link rel="prev" title="Example notebooks" href="example_notebooks.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            AutoPDEx
+              <img src="_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/quickstart.html">Quickstart to AutoPDEx</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">High level operations</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="solver.html">Solver</a></li>
+<li class="toctree-l1"><a class="reference internal" href="models.html">Models</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Settings</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="settings.html">Settings and static_settings</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Examples</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="example_notebooks.html">Example notebooks</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Examplary input files</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#example-1-cook-s-membrane-quadrilaterals-in-hyperelasticity">Example 1: Cook’s membrane (Quadrilaterals in Hyperelasticity)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#example-2-transient-heat-conduction-forward-and-backward-euler">Example 2: Transient heat conduction (forward- and backward-Euler)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#example-3-wave-equation-least-square-method-of-first-order-system">Example 3: Wave equation (least square method of first order system)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#example-4-steady-state-navier-stokes-equations-adaptive-load-stepping-and-nonlinear-minimization">Example 4: Steady-state Navier-Stokes equations (adaptive load stepping and nonlinear minimization)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#example-5-implicit-differentiation-uncertainty-estimation">Example 5: Implicit differentiation (uncertainty estimation)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#example-6-further-examples">Example 6: Further examples</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Lower level operations</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="assembler.html">Assembler</a></li>
+<li class="toctree-l1"><a class="reference internal" href="implicit_diff.html">Implicit_diff</a></li>
+<li class="toctree-l1"><a class="reference internal" href="spaces.html">Spaces</a></li>
+<li class="toctree-l1"><a class="reference internal" href="solution_structures.html">Solution_structures</a></li>
+<li class="toctree-l1"><a class="reference internal" href="variational_schemes.html">Variational_schemes</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Pre- and postprocessing</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="geometry.html">Geometry</a></li>
+<li class="toctree-l1"><a class="reference internal" href="seeder.html">Seeder</a></li>
+<li class="toctree-l1"><a class="reference internal" href="utility.html">Utility</a></li>
+<li class="toctree-l1"><a class="reference internal" href="plotter.html">Plotter</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">AutoPDEx</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Examplary input files</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/examples.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="examplary-input-files">
+<h1>Examplary input files<a class="headerlink" href="#examplary-input-files" title="Link to this heading"></a></h1>
+<p>Here is a list of examples demonstrating the functionality of AutoPDEx.</p>
+<section id="example-1-cook-s-membrane-quadrilaterals-in-hyperelasticity">
+<h2>Example 1: Cook’s membrane (Quadrilaterals in Hyperelasticity)<a class="headerlink" href="#example-1-cook-s-membrane-quadrilaterals-in-hyperelasticity" title="Link to this heading"></a></h2>
+<p><strong>Link:</strong> <a class="reference external" href="../../../examples/cooks_membrane/quadrilaterals_autopdex_and_acegen.py">quadrilaterals_autopdex_and_acegen.py</a></p>
+<p>This example demonstrates the solution of Cook’s membrane problem using custom elements from
+the <cite>autopdex.models</cite> library and an exemplary external AceGen-generated C routine.</p>
+<dl class="simple">
+<dt>The main steps include:</dt><dd><ol class="arabic simple">
+<li><p>Definition of geometry and boundary conditions.</p></li>
+<li><p>Mesh generation using <cite>pygmsh</cite> and conversion to JAX arrays.</p></li>
+<li><p>Selection of nodes for boundary conditions and setup of Dirichlet conditions.</p></li>
+<li><p>Definition of material properties for the neo-Hookean model.</p></li>
+<li><p>Optional use of an AceGen-generated shared library for custom element computation.</p></li>
+<li><p>Element definition for hyperelastic steady-state weak form.</p></li>
+<li><p>Element definition for imposition of Neumann boundary conditions.</p></li>
+<li><p>Solver settings and configuration using <cite>flax.core.FrozenDict</cite>.</p></li>
+<li><p>Adaptive load stepping solver for nonlinear analysis.</p></li>
+<li><p>Export results in VTK format for ParaView.</p></li>
+</ol>
+</dd>
+</dl>
+<p><strong>Figure:</strong> Here is a picture generated with ParaView from the output file of the above code that shows the initial configuration as a wireframe and the deformed configuration with colored horizontal displacements.</p>
+<a class="reference internal image-reference" href="_images/cooks_membrane.png"><img alt="_images/cooks_membrane.png" class="align-center" src="_images/cooks_membrane.png" style="height: 400px;" /></a>
+<p><strong>Further examples, based on the Cook’s membrane include:</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li><p><a class="reference external" href="../../../examples/cooks_membrane/triangles_h_refinement.py">triangles_h_refinement.py</a>: Simplex-shaped elements based on least squares, integrated in the initial configuration.</p></li>
+<li><p><a class="reference external" href="../../../examples/cooks_membrane/non-homogeneous_dirichlet_conditions.py">non-homogeneous_dirichlet_conditions.py</a>: Nodal imposition of non-homogeneous Dirichlet conditions.</p></li>
+<li><p><a class="reference external" href="../../../examples/cooks_membrane/quadrilaterals_p_refinement.py">quadrilaterals_p_refinement.py</a>: A p-refinement with isoparametric quadrilateral elements.</p></li>
+<li><p><a class="reference external" href="../../../examples/cooks_membrane/least_square_fem_rvachev_structure.py">least_square_fem_rvachev_structure.py</a>: First order system least square Finite Elements as a Rvachev solution structure.</p></li>
+<li><p><a class="reference external" href="../../../examples/cooks_membrane/moving_least_squares_least_square_fos.py">moving_least_squares_least_square_fos.py</a>: Moving Least Square solution structure based on a first order system.</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="example-2-transient-heat-conduction-forward-and-backward-euler">
+<h2>Example 2: Transient heat conduction (forward- and backward-Euler)<a class="headerlink" href="#example-2-transient-heat-conduction-forward-and-backward-euler" title="Link to this heading"></a></h2>
+<p><strong>Link:</strong> <a class="reference external" href="../../../examples/heat_conduction/maze_forward_euler.py">maze_forward_euler.py</a></p>
+<p>The example demonstrates how to implement an explicit time integration of the
+transient heat conduction equation in AutoPDEx. Three domains are introduced.
+The first domain includes the virtual work of the internal driving forces or
+the weak form of the Laplace equation. The second domain covers the surface
+integral over the Neumann boundary (an edge of the maze in the upper left area).
+The third domain encompasses the transient term (forward Euler), integrated by
+collocation. The resulting system of equations for a time step is diagonal and
+can be efficiently solved locally. An analogous version with backward Euler,
+which is not subject to the Courant-Friedrichs-Lewy time step restriction,
+can be found in the example maze_backward_euler.py.</p>
+<p><strong>Figure:</strong> The image shows a snapshot of the temperature distribution within the maze visualized with ParaView</p>
+<a class="reference internal image-reference" href="_images/maze_t64.png"><img alt="_images/maze_t64.png" class="align-center" src="_images/maze_t64.png" style="height: 400px;" /></a>
+<p><strong>Further examples related to transient heat transfer:</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li><p><a class="reference external" href="../../../examples/heat_conduction/maze_backward_euler.py">maze_backward_euler.py</a>: Same as above, but with implicit backward Euler time discretization.</p></li>
+<li><p><a class="reference external" href="../../../examples/heat_conduction/space_time_fos_dirichlet_neumann_robin.py">space_time_fos_dirichlet_neumann_robin.py</a>: Space-time solution of transient heat conduction as first order system with combined Dirichlet, Neumann and Robin conditions.</p></li>
+<li><p><a class="reference external" href="../../../examples/heat_conduction/space_time_different_solvers.py">space_time_different_solvers.py</a>: Comparison of different solver backends.</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="example-3-wave-equation-least-square-method-of-first-order-system">
+<h2>Example 3: Wave equation (least square method of first order system)<a class="headerlink" href="#example-3-wave-equation-least-square-method-of-first-order-system" title="Link to this heading"></a></h2>
+<p><strong>Link:</strong> <a class="reference external" href="../../../examples/miscellaneous/wave_equation.py">wave_equation.py</a></p>
+<p>In this example, the wave equation is solved on the square domain
+<span class="math notranslate nohighlight">\((x, t)\)</span> with <span class="math notranslate nohighlight">\(x \in (0, 1)\)</span> and <span class="math notranslate nohighlight">\(t \in (0, 1)\)</span>.
+The problem is formulated as a first-order system, and the solution
+is searched using a least-squares variational method. For the solution space,
+meshfree moving least squares (MLS) shape functions of second order are used,
+with integration performed on a background grid (as in the Element-Free
+Galerkin (EFG) method) using Gaussian quadrature. The application of boundary
+conditions is achieved through the solution structure for first-order
+systems using Rvachev distance functions to the respective boundary segments.</p>
+<p><strong>Figure:</strong> The gauss-point quantities for the field (left), its spatial derivative (middle) and its temporal rate (right) are depicted. One can clearly see the effects of wave propagation, superposition and reflection at the free and clamped end.</p>
+<a class="reference internal image-reference" href="_images/wave_equation.png"><img alt="_images/wave_equation.png" class="align-center" src="_images/wave_equation.png" style="height: 400px;" /></a>
+</section>
+<section id="example-4-steady-state-navier-stokes-equations-adaptive-load-stepping-and-nonlinear-minimization">
+<h2>Example 4: Steady-state Navier-Stokes equations (adaptive load stepping and nonlinear minimization)<a class="headerlink" href="#example-4-steady-state-navier-stokes-equations-adaptive-load-stepping-and-nonlinear-minimization" title="Link to this heading"></a></h2>
+<p><strong>Link:</strong> <a class="reference external" href="../../../examples/navier_stokes/circle_in_channel.py">circle_in_channel.py</a></p>
+<p>For this example, the model problem described in
+<a class="reference external" href="https://docs.nvidia.com/deeplearning/modulus/modulus-sym/user_guide/theory/advanced_schemes.html#exact-boundary-condition-imposition">nvidia/modulus/examples/annular_ring</a>
+is used. The stationary Navier-Stokes equations are treated here using a Galerkin method
+in the strong form or a least-squares method. A moving least squares solution structure
+is used as the solution space. The nonlinear equations are solved by incrementally
+increasing the inlet velocity using the Newton-Raphson method. Alternatively, for the
+least squares variational method, a nonlinear minimizer such as the Limited Memory
+Broyden–Fletcher–Goldfarb–Shanno (L-BFGS) algorithm can be applied.</p>
+<p><strong>Figure:</strong> Steady-state flow field of a Moving Least Squares Galerkin solution.</p>
+<a class="reference internal image-reference" href="_images/navier_stokes.png"><img alt="_images/navier_stokes.png" class="align-center" src="_images/navier_stokes.png" style="height: 400px;" /></a>
+<p><strong>Related examples:</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li><p><a class="reference external" href="../../../examples/navier_stokes/lid_driven_cavity.py">lid_driven_cavity.py</a>: Comparison of Galerkin and least square variational schemes.</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="example-5-implicit-differentiation-uncertainty-estimation">
+<h2>Example 5: Implicit differentiation (uncertainty estimation)<a class="headerlink" href="#example-5-implicit-differentiation-uncertainty-estimation" title="Link to this heading"></a></h2>
+<p><strong>Link:</strong> <a class="reference external" href="../../../examples/cooks_membrane/uncertainty_estimation_hyperelastic.py">uncertainty_estimation_hyperelastic.py</a></p>
+<p>This example addresses Cook’s membrane problem where the Young’s modulus
+and Poisson’s ratio follow a multivariate normal distribution. The goal
+is to compute the expectation and standard deviation of the displacement
+field. Two approaches are compared: the Monte Carlo method and an approach
+based on a Taylor series expansion. For the Taylor series expansion,
+the derivatives of the displacement degrees of freedom with respect to
+Young’s modulus and Poisson’s ratio are required. These sensitivities
+are calculated using automatic implicit differentiation based on the
+implicit function theorem.</p>
+<p><strong>Figure:</strong> The three wireframes represent the scaled standard deviation of the displacement field for three Monte Carlo simulations. With 10,000 samples, the Monte Carlo solution aligns visually with the black nodes of the solution calculated using the Taylor expansion. The coloring represents the sensitivity of the vertical displacement field with respect to Poisson’s ratio.</p>
+<a class="reference internal image-reference" href="_images/uncertainty_estimation.png"><img alt="_images/uncertainty_estimation.png" class="align-center" src="_images/uncertainty_estimation.png" style="height: 400px;" /></a>
+</section>
+<section id="example-6-further-examples">
+<h2>Example 6: Further examples<a class="headerlink" href="#example-6-further-examples" title="Link to this heading"></a></h2>
+<p><strong>List of further examples:</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li><p><a class="reference external" href="../../../examples/laplace/mls_rfm.py">mls_rfm.py</a>: Dirichlet problem of the Laplace equation in 2d: [0,1]x[0,1] with cutout circle (midpoint=[0.5,0.5], radius=0.25). Demonstration of quasi-random sampling in regions defined by signed distance functions.</p></li>
+<li><p><a class="reference external" href="../../../examples/laplace/pinn_rfm.py">pinn_rfm.py</a>: Neural network as user-defined solution space, boundary conditions through R functions.</p></li>
+<li><p><a class="reference external" href="../../../examples/laplace/fos_coupled_neumann_boundary.py">fos_coupled_neumann_boundary.py</a>: First order least square system of Laplace equation with coupled Neumann boundary conditions on circular cutout.</p></li>
+<li><p><a class="reference external" href="../../../examples/miscellaneous/poisson.py">poisson.py</a>: Demonstration of compile time reduction by manually pre-compiling solution structures.</p></li>
+<li><p><a class="reference external" href="../../../examples/miscellaneous/transport.py">transport.py</a>: Transport equation as moving least square solution structure with least square variational method.</p></li>
+<li><p><a class="reference external" href="../../../examples/miscellaneous/burgers_equation.py">burgers_equation.py</a>: Solution of the Burgers equation using moving least squares.</p></li>
+<li><p><a class="reference external" href="../../../examples/miscellaneous/geometry_examples.py">geometry_examples.py</a>: Interactive visualization of smooth distance functions.</p></li>
+</ul>
+</div></blockquote>
+<p><strong>Figure:</strong> Exemplary result of solving the Laplace equation with a Moving Least Square solution structure on a square-shaped domain with cutout (<a class="reference external" href="../../../examples/laplace/mls_rfm.py">mls_rfm.py</a>).</p>
+<a class="reference internal image-reference" href="_images/laplace.png"><img alt="_images/laplace.png" class="align-center" src="_images/laplace.png" style="height: 400px;" /></a>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="example_notebooks.html" class="btn btn-neutral float-left" title="Example notebooks" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="assembler.html" class="btn btn-neutral float-right" title="Assembler" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Tobias Bode.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

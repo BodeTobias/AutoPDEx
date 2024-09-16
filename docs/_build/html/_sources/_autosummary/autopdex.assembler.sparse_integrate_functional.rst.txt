@@ -1,0 +1,6 @@
+﻿autopdex.assembler.sparse\_integrate\_functional
+================================================
+
+.. currentmodule:: autopdex.assembler
+
+.. autofunction:: sparse_integrate_functional

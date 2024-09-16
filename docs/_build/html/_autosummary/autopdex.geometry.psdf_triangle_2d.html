@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>autopdex.geometry.psdf_triangle_2d &mdash; AutoPDEx 0.0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../_static/jupyter-sphinx.css?v=572af1d6" />
+      <link rel="stylesheet" type="text/css" href="../_static/thebelab.css" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=acfd50eb" />
+      <link rel="stylesheet" type="text/css" href="../_static/dark_mode_css/general.css?v=c0a7eb24" />
+      <link rel="stylesheet" type="text/css" href="../_static/dark_mode_css/dark.css?v=70edf1c7" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=d45e8c67"></script>
+        <script src="../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="../_static/copybutton.js?v=f281be69"></script>
+        <script src="../_static/thebelab-helper.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script src="../_static/dark_mode_js/default_light.js?v=c2e647ce"></script>
+        <script src="../_static/dark_mode_js/theme_switcher.js?v=358d3910"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="autopdex.geometry.psdf_infinite_triprism_3d" href="autopdex.geometry.psdf_infinite_triprism_3d.html" />
+    <link rel="prev" title="autopdex.geometry.psdf_cylinder_extruded" href="autopdex.geometry.psdf_cylinder_extruded.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            AutoPDEx
+              <img src="../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../notebooks/quickstart.html">Quickstart to AutoPDEx</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">High level operations</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../solver.html">Solver</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../models.html">Models</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Settings</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../settings.html">Settings and static_settings</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../example_notebooks.html">Example notebooks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples.html">Examplary input files</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Lower level operations</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../assembler.html">Assembler</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../implicit_diff.html">Implicit_diff</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spaces.html">Spaces</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../solution_structures.html">Solution_structures</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../variational_schemes.html">Variational_schemes</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Pre- and postprocessing</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../geometry.html">Geometry</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../geometry.html#rvachev-function-operations">Rvachev function operations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../geometry.html#signed-distance-functions">Signed distance functions</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../geometry.html#positive-smooth-distance-functions">Positive smooth distance functions</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="autopdex.geometry.psdf_infinite_line.html">autopdex.geometry.psdf_infinite_line</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autopdex.geometry.psdf_trimmed_line.html">autopdex.geometry.psdf_trimmed_line</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autopdex.geometry.psdf_nd_sphere.html">autopdex.geometry.psdf_nd_sphere</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autopdex.geometry.psdf_nd_sphere_cutout.html">autopdex.geometry.psdf_nd_sphere_cutout</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autopdex.geometry.psdf_infinite_cylinder.html">autopdex.geometry.psdf_infinite_cylinder</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autopdex.geometry.psdf_cylinder.html">autopdex.geometry.psdf_cylinder</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autopdex.geometry.psdf_cylinder_extruded.html">autopdex.geometry.psdf_cylinder_extruded</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">autopdex.geometry.psdf_triangle_2d</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#autopdex.geometry.psdf_triangle_2d"><code class="docutils literal notranslate"><span class="pre">psdf_triangle_2d()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="autopdex.geometry.psdf_infinite_triprism_3d.html">autopdex.geometry.psdf_infinite_triprism_3d</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autopdex.geometry.psdf_parallelogram.html">autopdex.geometry.psdf_parallelogram</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autopdex.geometry.psdf_arc_in_2d.html">autopdex.geometry.psdf_arc_in_2d</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autopdex.geometry.psdf_polygon.html">autopdex.geometry.psdf_polygon</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../geometry.html#helper-functions">Helper functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../geometry.html#mesh-related-functions">Mesh-related functions</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../seeder.html">Seeder</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../utility.html">Utility</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../plotter.html">Plotter</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">AutoPDEx</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../geometry.html">Geometry</a></li>
+      <li class="breadcrumb-item active">autopdex.geometry.psdf_triangle_2d</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/_autosummary/autopdex.geometry.psdf_triangle_2d.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="autopdex-geometry-psdf-triangle-2d">
+<h1>autopdex.geometry.psdf_triangle_2d<a class="headerlink" href="#autopdex-geometry-psdf-triangle-2d" title="Link to this heading"></a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="autopdex.geometry.psdf_triangle_2d">
+<span class="sig-prename descclassname"><span class="pre">autopdex.geometry.</span></span><span class="sig-name descname"><span class="pre">psdf_triangle_2d</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_p1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_p2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_p3</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/autopdex/geometry.html#psdf_triangle_2d"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#autopdex.geometry.psdf_triangle_2d" title="Link to this definition"></a></dt>
+<dd><p>Interior positive normalized smooth distance function of a triangle in 2D and a tri-prism in 3D.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<em>jnp.ndarray</em>) – The point where the distance is evaluated.</p></li>
+<li><p><strong>x_p1</strong> (<em>jnp.ndarray</em>) – First vertex of the triangle.</p></li>
+<li><p><strong>x_p2</strong> (<em>jnp.ndarray</em>) – Second vertex of the triangle.</p></li>
+<li><p><strong>x_p3</strong> (<em>jnp.ndarray</em>) – Third vertex of the triangle.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The positive distance from the point x to the region outside of the triangle or tri-prism.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="autopdex.geometry.psdf_cylinder_extruded.html" class="btn btn-neutral float-left" title="autopdex.geometry.psdf_cylinder_extruded" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="autopdex.geometry.psdf_infinite_triprism_3d.html" class="btn btn-neutral float-right" title="autopdex.geometry.psdf_infinite_triprism_3d" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Tobias Bode.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Geometry &mdash; AutoPDEx 0.0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="_static/jupyter-sphinx.css?v=572af1d6" />
+      <link rel="stylesheet" type="text/css" href="_static/thebelab.css" />
+      <link rel="stylesheet" type="text/css" href="_static/custom.css?v=acfd50eb" />
+      <link rel="stylesheet" type="text/css" href="_static/dark_mode_css/general.css?v=c0a7eb24" />
+      <link rel="stylesheet" type="text/css" href="_static/dark_mode_css/dark.css?v=70edf1c7" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=d45e8c67"></script>
+        <script src="_static/doctools.js?v=9a2dae69"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="_static/copybutton.js?v=f281be69"></script>
+        <script src="_static/thebelab-helper.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script src="_static/dark_mode_js/default_light.js?v=c2e647ce"></script>
+        <script src="_static/dark_mode_js/theme_switcher.js?v=358d3910"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="autopdex.geometry.r_equivalence" href="_autosummary/autopdex.geometry.r_equivalence.html" />
+    <link rel="prev" title="autopdex.variational_schemes.residual_from_deriv_at_int_point" href="_autosummary/autopdex.variational_schemes.residual_from_deriv_at_int_point.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            AutoPDEx
+              <img src="_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/quickstart.html">Quickstart to AutoPDEx</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">High level operations</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="solver.html">Solver</a></li>
+<li class="toctree-l1"><a class="reference internal" href="models.html">Models</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Settings</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="settings.html">Settings and static_settings</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="example_notebooks.html">Example notebooks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Examplary input files</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Lower level operations</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="assembler.html">Assembler</a></li>
+<li class="toctree-l1"><a class="reference internal" href="implicit_diff.html">Implicit_diff</a></li>
+<li class="toctree-l1"><a class="reference internal" href="spaces.html">Spaces</a></li>
+<li class="toctree-l1"><a class="reference internal" href="solution_structures.html">Solution_structures</a></li>
+<li class="toctree-l1"><a class="reference internal" href="variational_schemes.html">Variational_schemes</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Pre- and postprocessing</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Geometry</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#rvachev-function-operations">Rvachev function operations</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="_autosummary/autopdex.geometry.r_equivalence.html">autopdex.geometry.r_equivalence</a></li>
+<li class="toctree-l3"><a class="reference internal" href="_autosummary/autopdex.geometry.r_conjunction.html">autopdex.geometry.r_conjunction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="_autosummary/autopdex.geometry.r_disjunction.html">autopdex.geometry.r_disjunction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="_autosummary/autopdex.geometry.r_trimming.html">autopdex.geometry.r_trimming</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#signed-distance-functions">Signed distance functions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="_autosummary/autopdex.geometry.sdf_infinite_line.html">autopdex.geometry.sdf_infinite_line</a></li>
+<li class="toctree-l3"><a class="reference internal" href="_autosummary/autopdex.geometry.sdf_nd_sphere.html">autopdex.geometry.sdf_nd_sphere</a></li>
+<li class="toctree-l3"><a class="reference internal" href="_autosummary/autopdex.geometry.sdf_nd_planes.html">autopdex.geometry.sdf_nd_planes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="_autosummary/autopdex.geometry.sdf_normal_to_direction.html">autopdex.geometry.sdf_normal_to_direction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="_autosummary/autopdex.geometry.sdf_infinite_cylinder.html">autopdex.geometry.sdf_infinite_cylinder</a></li>
+<li class="toctree-l3"><a class="reference internal" href="_autosummary/autopdex.geometry.sdf_cylinder.html">autopdex.geometry.sdf_cylinder</a></li>
+<li class="toctree-l3"><a class="reference internal" href="_autosummary/autopdex.geometry.sdf_cylinder_extruded.html">autopdex.geometry.sdf_cylinder_extruded</a></li>
+<li class="toctree-l3"><a class="reference internal" href="_autosummary/autopdex.geometry.sdf_triangle_2d.html">autopdex.geometry.sdf_triangle_2d</a></li>
+<li class="toctree-l3"><a class="reference internal" href="_autosummary/autopdex.geometry.sdf_convex_polygon_2d.html">autopdex.geometry.sdf_convex_polygon_2d</a></li>
+<li class="toctree-l3"><a class="reference internal" href="_autosummary/autopdex.geometry.sdf_infinite_triprism_3d.html">autopdex.geometry.sdf_infinite_triprism_3d</a></li>
+<li class="toctree-l3"><a class="reference internal" href="_autosummary/autopdex.geometry.sdf_parallelogram_2d.html">autopdex.geometry.sdf_parallelogram_2d</a></li>
+<li class="toctree-l3"><a class="reference internal" href="_autosummary/autopdex.geometry.sdf_cuboid.html">autopdex.geometry.sdf_cuboid</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#positive-smooth-distance-functions">Positive smooth distance functions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="_autosummary/autopdex.geometry.psdf_infinite_line.html">autopdex.geometry.psdf_infinite_line</a></li>
+<li class="toctree-l3"><a class="reference internal" href="_autosummary/autopdex.geometry.psdf_trimmed_line.html">autopdex.geometry.psdf_trimmed_line</a></li>
+<li class="toctree-l3"><a class="reference internal" href="_autosummary/autopdex.geometry.psdf_nd_sphere.html">autopdex.geometry.psdf_nd_sphere</a></li>
+<li class="toctree-l3"><a class="reference internal" href="_autosummary/autopdex.geometry.psdf_nd_sphere_cutout.html">autopdex.geometry.psdf_nd_sphere_cutout</a></li>
+<li class="toctree-l3"><a class="reference internal" href="_autosummary/autopdex.geometry.psdf_infinite_cylinder.html">autopdex.geometry.psdf_infinite_cylinder</a></li>
+<li class="toctree-l3"><a class="reference internal" href="_autosummary/autopdex.geometry.psdf_cylinder.html">autopdex.geometry.psdf_cylinder</a></li>
+<li class="toctree-l3"><a class="reference internal" href="_autosummary/autopdex.geometry.psdf_cylinder_extruded.html">autopdex.geometry.psdf_cylinder_extruded</a></li>
+<li class="toctree-l3"><a class="reference internal" href="_autosummary/autopdex.geometry.psdf_triangle_2d.html">autopdex.geometry.psdf_triangle_2d</a></li>
+<li class="toctree-l3"><a class="reference internal" href="_autosummary/autopdex.geometry.psdf_infinite_triprism_3d.html">autopdex.geometry.psdf_infinite_triprism_3d</a></li>
+<li class="toctree-l3"><a class="reference internal" href="_autosummary/autopdex.geometry.psdf_parallelogram.html">autopdex.geometry.psdf_parallelogram</a></li>
+<li class="toctree-l3"><a class="reference internal" href="_autosummary/autopdex.geometry.psdf_arc_in_2d.html">autopdex.geometry.psdf_arc_in_2d</a></li>
+<li class="toctree-l3"><a class="reference internal" href="_autosummary/autopdex.geometry.psdf_polygon.html">autopdex.geometry.psdf_polygon</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#helper-functions">Helper functions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="_autosummary/autopdex.geometry.centroid.html">autopdex.geometry.centroid</a></li>
+<li class="toctree-l3"><a class="reference internal" href="_autosummary/autopdex.geometry.normal.html">autopdex.geometry.normal</a></li>
+<li class="toctree-l3"><a class="reference internal" href="_autosummary/autopdex.geometry.project.html">autopdex.geometry.project</a></li>
+<li class="toctree-l3"><a class="reference internal" href="_autosummary/autopdex.geometry.project_on_line.html">autopdex.geometry.project_on_line</a></li>
+<li class="toctree-l3"><a class="reference internal" href="_autosummary/autopdex.geometry.first_order_normalization.html">autopdex.geometry.first_order_normalization</a></li>
+<li class="toctree-l3"><a class="reference internal" href="_autosummary/autopdex.geometry.signed_to_positive.html">autopdex.geometry.signed_to_positive</a></li>
+<li class="toctree-l3"><a class="reference internal" href="_autosummary/autopdex.geometry.only_positive.html">autopdex.geometry.only_positive</a></li>
+<li class="toctree-l3"><a class="reference internal" href="_autosummary/autopdex.geometry.normals_from_normalized_sdf.html">autopdex.geometry.normals_from_normalized_sdf</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#mesh-related-functions">Mesh-related functions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="_autosummary/autopdex.geometry.triangle_area.html">autopdex.geometry.triangle_area</a></li>
+<li class="toctree-l3"><a class="reference internal" href="_autosummary/autopdex.geometry.triangle_areas.html">autopdex.geometry.triangle_areas</a></li>
+<li class="toctree-l3"><a class="reference internal" href="_autosummary/autopdex.geometry.in_sdf.html">autopdex.geometry.in_sdf</a></li>
+<li class="toctree-l3"><a class="reference internal" href="_autosummary/autopdex.geometry.in_sdfs.html">autopdex.geometry.in_sdfs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="_autosummary/autopdex.geometry.select_in_sdfs.html">autopdex.geometry.select_in_sdfs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="_autosummary/autopdex.geometry.in_plane.html">autopdex.geometry.in_plane</a></li>
+<li class="toctree-l3"><a class="reference internal" href="_autosummary/autopdex.geometry.in_planes.html">autopdex.geometry.in_planes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="_autosummary/autopdex.geometry.select_in_plane.html">autopdex.geometry.select_in_plane</a></li>
+<li class="toctree-l3"><a class="reference internal" href="_autosummary/autopdex.geometry.on_point.html">autopdex.geometry.on_point</a></li>
+<li class="toctree-l3"><a class="reference internal" href="_autosummary/autopdex.geometry.select_point.html">autopdex.geometry.select_point</a></li>
+<li class="toctree-l3"><a class="reference internal" href="_autosummary/autopdex.geometry.on_line.html">autopdex.geometry.on_line</a></li>
+<li class="toctree-l3"><a class="reference internal" href="_autosummary/autopdex.geometry.on_lines.html">autopdex.geometry.on_lines</a></li>
+<li class="toctree-l3"><a class="reference internal" href="_autosummary/autopdex.geometry.select_on_line.html">autopdex.geometry.select_on_line</a></li>
+<li class="toctree-l3"><a class="reference internal" href="_autosummary/autopdex.geometry.elem_in_plane.html">autopdex.geometry.elem_in_plane</a></li>
+<li class="toctree-l3"><a class="reference internal" href="_autosummary/autopdex.geometry.select_elements_in_plane.html">autopdex.geometry.select_elements_in_plane</a></li>
+<li class="toctree-l3"><a class="reference internal" href="_autosummary/autopdex.geometry.elem_on_line.html">autopdex.geometry.elem_on_line</a></li>
+<li class="toctree-l3"><a class="reference internal" href="_autosummary/autopdex.geometry.select_elements_on_line.html">autopdex.geometry.select_elements_on_line</a></li>
+<li class="toctree-l3"><a class="reference internal" href="_autosummary/autopdex.geometry.subelem_in_elem.html">autopdex.geometry.subelem_in_elem</a></li>
+<li class="toctree-l3"><a class="reference internal" href="_autosummary/autopdex.geometry.subelem_in_elems.html">autopdex.geometry.subelem_in_elems</a></li>
+<li class="toctree-l3"><a class="reference internal" href="_autosummary/autopdex.geometry.subelems_in_elems.html">autopdex.geometry.subelems_in_elems</a></li>
+<li class="toctree-l3"><a class="reference internal" href="_autosummary/autopdex.geometry.select_in_sdfs.html">autopdex.geometry.select_in_sdfs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="_autosummary/autopdex.geometry.select_in_plane.html">autopdex.geometry.select_in_plane</a></li>
+<li class="toctree-l3"><a class="reference internal" href="_autosummary/autopdex.geometry.select_point.html">autopdex.geometry.select_point</a></li>
+<li class="toctree-l3"><a class="reference internal" href="_autosummary/autopdex.geometry.select_on_line.html">autopdex.geometry.select_on_line</a></li>
+<li class="toctree-l3"><a class="reference internal" href="_autosummary/autopdex.geometry.select_elements_in_plane.html">autopdex.geometry.select_elements_in_plane</a></li>
+<li class="toctree-l3"><a class="reference internal" href="_autosummary/autopdex.geometry.select_elements_on_line.html">autopdex.geometry.select_elements_on_line</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="seeder.html">Seeder</a></li>
+<li class="toctree-l1"><a class="reference internal" href="utility.html">Utility</a></li>
+<li class="toctree-l1"><a class="reference internal" href="plotter.html">Plotter</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">AutoPDEx</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Geometry</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/geometry.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="geometry">
+<h1>Geometry<a class="headerlink" href="#geometry" title="Link to this heading"></a></h1>
+<p>This module contains geometry related functions that can be used for seeding nodes and integration points, impose boundary conditions and to select nodes and elements.
+The main functionality relies on distance functions. Zur Konstruktion von benutzerspezifischen distance functions gibt es die Rvachev-Operationen,
+es gibt aber auch einige vorgefertigte signed distance functions und positive signed distance functions. Die Distanzfunktionen eignen sich zum Beispiel,
+um zu überprüfen, ob Knoten innerhalb bestimmter Regionen oder auf spezifizierten Oberflächen liegen. Die glatten Abstandsfunktionen eigenen sich außerdem zur
+Konstruktion von Lösungsstrukturen.</p>
+<section id="rvachev-function-operations">
+<h2>Rvachev function operations<a class="headerlink" href="#rvachev-function-operations" title="Link to this heading"></a></h2>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/autopdex.geometry.r_equivalence.html#autopdex.geometry.r_equivalence" title="autopdex.geometry.r_equivalence"><code class="xref py py-obj docutils literal notranslate"><span class="pre">r_equivalence</span></code></a>(o1, o2)</p></td>
+<td><p>Computes the logical NOT XOR operation by combining two positively evaluated smooth distance functions.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/autopdex.geometry.r_conjunction.html#autopdex.geometry.r_conjunction" title="autopdex.geometry.r_conjunction"><code class="xref py py-obj docutils literal notranslate"><span class="pre">r_conjunction</span></code></a>(o1, o2)</p></td>
+<td><p>Computes the logical AND operation using smooth distance functions.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/autopdex.geometry.r_disjunction.html#autopdex.geometry.r_disjunction" title="autopdex.geometry.r_disjunction"><code class="xref py py-obj docutils literal notranslate"><span class="pre">r_disjunction</span></code></a>(o1, o2)</p></td>
+<td><p>Computes the logical OR operation using smooth distance functions.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/autopdex.geometry.r_trimming.html#autopdex.geometry.r_trimming" title="autopdex.geometry.r_trimming"><code class="xref py py-obj docutils literal notranslate"><span class="pre">r_trimming</span></code></a>(o, t)</p></td>
+<td><p>Trimming operations.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="signed-distance-functions">
+<h2>Signed distance functions<a class="headerlink" href="#signed-distance-functions" title="Link to this heading"></a></h2>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/autopdex.geometry.sdf_infinite_line.html#autopdex.geometry.sdf_infinite_line" title="autopdex.geometry.sdf_infinite_line"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sdf_infinite_line</span></code></a>(x, x_p1, x_p2)</p></td>
+<td><p>Normalized signed smooth distance function of an infinite line going through x_p1 and x_p2.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/autopdex.geometry.sdf_nd_sphere.html#autopdex.geometry.sdf_nd_sphere" title="autopdex.geometry.sdf_nd_sphere"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sdf_nd_sphere</span></code></a>(x, xc, r)</p></td>
+<td><p>Normalized signed distance function to n-dimensional sphere, positive in the interior.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/autopdex.geometry.sdf_nd_planes.html#autopdex.geometry.sdf_nd_planes" title="autopdex.geometry.sdf_nd_planes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sdf_nd_planes</span></code></a>(x, x_p1, x_p2)</p></td>
+<td><p>Normalized signed smooth distance function, positive between points (1D), lines (2D), and n-dimensional planes (nD).</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/autopdex.geometry.sdf_normal_to_direction.html#autopdex.geometry.sdf_normal_to_direction" title="autopdex.geometry.sdf_normal_to_direction"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sdf_normal_to_direction</span></code></a>(x, x_p1, normal)</p></td>
+<td><p>Normalized signed smooth distance function to a plane defined by one point and a normal vector, positive in the direction of the normal vector.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/autopdex.geometry.sdf_infinite_cylinder.html#autopdex.geometry.sdf_infinite_cylinder" title="autopdex.geometry.sdf_infinite_cylinder"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sdf_infinite_cylinder</span></code></a>(x, x_p1, normal, radius)</p></td>
+<td><p>Normalized signed smooth distance function, positive within an infinite cylinder in 3D.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/autopdex.geometry.sdf_cylinder.html#autopdex.geometry.sdf_cylinder" title="autopdex.geometry.sdf_cylinder"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sdf_cylinder</span></code></a>(x, x_0, normal, radius, length)</p></td>
+<td><p>Normalized signed smooth distance function, positive within a cylinder in 3D.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/autopdex.geometry.sdf_cylinder_extruded.html#autopdex.geometry.sdf_cylinder_extruded" title="autopdex.geometry.sdf_cylinder_extruded"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sdf_cylinder_extruded</span></code></a>(x, x_0, normal, ...)</p></td>
+<td><p>Normalized signed smooth distance function of a cylinder that is extruded in time (fourth dimension).</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/autopdex.geometry.sdf_triangle_2d.html#autopdex.geometry.sdf_triangle_2d" title="autopdex.geometry.sdf_triangle_2d"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sdf_triangle_2d</span></code></a>(x, x_p1, x_p2, x_p3)</p></td>
+<td><p>Normalized signed smooth distance function to a triangle (2D) or infinite triprism (3D), positive in the interior.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/autopdex.geometry.sdf_convex_polygon_2d.html#autopdex.geometry.sdf_convex_polygon_2d" title="autopdex.geometry.sdf_convex_polygon_2d"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sdf_convex_polygon_2d</span></code></a>(x, x_p_list)</p></td>
+<td><p>Normalized signed smooth distance function to a convex polygon (2D), positive in the interior.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/autopdex.geometry.sdf_infinite_triprism_3d.html#autopdex.geometry.sdf_infinite_triprism_3d" title="autopdex.geometry.sdf_infinite_triprism_3d"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sdf_infinite_triprism_3d</span></code></a>(x, x_p1, x_p2, x_p3)</p></td>
+<td><p>Normalized signed smooth distance function to a triangle (2D) or infinite triprism (3D), positive in the interior.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/autopdex.geometry.sdf_parallelogram_2d.html#autopdex.geometry.sdf_parallelogram_2d" title="autopdex.geometry.sdf_parallelogram_2d"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sdf_parallelogram_2d</span></code></a>(x, x_p1, x_p2, x_p3)</p></td>
+<td><p>Normalized signed smooth distance function to a parallelogram, positive in the interior.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/autopdex.geometry.sdf_cuboid.html#autopdex.geometry.sdf_cuboid" title="autopdex.geometry.sdf_cuboid"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sdf_cuboid</span></code></a>(x, x_p1, x_p2)</p></td>
+<td><p>Normalized signed smooth distance function to a cuboid, positive in the interior.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="positive-smooth-distance-functions">
+<h2>Positive smooth distance functions<a class="headerlink" href="#positive-smooth-distance-functions" title="Link to this heading"></a></h2>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/autopdex.geometry.psdf_infinite_line.html#autopdex.geometry.psdf_infinite_line" title="autopdex.geometry.psdf_infinite_line"><code class="xref py py-obj docutils literal notranslate"><span class="pre">psdf_infinite_line</span></code></a>(x, x_p1, x_p2)</p></td>
+<td><p>Positive normalized smooth distance function of an infinite line going through x_p1 and x_p2.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/autopdex.geometry.psdf_trimmed_line.html#autopdex.geometry.psdf_trimmed_line" title="autopdex.geometry.psdf_trimmed_line"><code class="xref py py-obj docutils literal notranslate"><span class="pre">psdf_trimmed_line</span></code></a>(x, x_p1, x_p2)</p></td>
+<td><p>Positive normalized smooth distance function of a line segment going from x_p1 to x_p2.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/autopdex.geometry.psdf_nd_sphere.html#autopdex.geometry.psdf_nd_sphere" title="autopdex.geometry.psdf_nd_sphere"><code class="xref py py-obj docutils literal notranslate"><span class="pre">psdf_nd_sphere</span></code></a>(x, xc, r)</p></td>
+<td><p>Interior positive normalized smooth distance function of an n-dimensional sphere.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/autopdex.geometry.psdf_nd_sphere_cutout.html#autopdex.geometry.psdf_nd_sphere_cutout" title="autopdex.geometry.psdf_nd_sphere_cutout"><code class="xref py py-obj docutils literal notranslate"><span class="pre">psdf_nd_sphere_cutout</span></code></a>(x, xc, r)</p></td>
+<td><p>Exterior positive normalized smooth distance function of an n-dimensional sphere.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/autopdex.geometry.psdf_infinite_cylinder.html#autopdex.geometry.psdf_infinite_cylinder" title="autopdex.geometry.psdf_infinite_cylinder"><code class="xref py py-obj docutils literal notranslate"><span class="pre">psdf_infinite_cylinder</span></code></a>(x, x_p1, normal, radius)</p></td>
+<td><p>Positive normalized smooth distance function to an infinite cylinder in 3D.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/autopdex.geometry.psdf_cylinder.html#autopdex.geometry.psdf_cylinder" title="autopdex.geometry.psdf_cylinder"><code class="xref py py-obj docutils literal notranslate"><span class="pre">psdf_cylinder</span></code></a>(x, x_0, normal, radius, length)</p></td>
+<td><p>Positive normalized smooth distance function to a cylinder in 3D.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/autopdex.geometry.psdf_cylinder_extruded.html#autopdex.geometry.psdf_cylinder_extruded" title="autopdex.geometry.psdf_cylinder_extruded"><code class="xref py py-obj docutils literal notranslate"><span class="pre">psdf_cylinder_extruded</span></code></a>(x, x_0, normal, ...)</p></td>
+<td><p>Positive normalized smooth distance function of a cylinder that is extruded in time.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/autopdex.geometry.psdf_triangle_2d.html#autopdex.geometry.psdf_triangle_2d" title="autopdex.geometry.psdf_triangle_2d"><code class="xref py py-obj docutils literal notranslate"><span class="pre">psdf_triangle_2d</span></code></a>(x, x_p1, x_p2, x_p3)</p></td>
+<td><p>Interior positive normalized smooth distance function of a triangle in 2D and a tri-prism in 3D.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/autopdex.geometry.psdf_infinite_triprism_3d.html#autopdex.geometry.psdf_infinite_triprism_3d" title="autopdex.geometry.psdf_infinite_triprism_3d"><code class="xref py py-obj docutils literal notranslate"><span class="pre">psdf_infinite_triprism_3d</span></code></a>(x, x_p1, x_p2, x_p3)</p></td>
+<td><p>Interior positive normalized smooth distance function of a triangle in 2D and a tri-prism in 3D.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/autopdex.geometry.psdf_parallelogram.html#autopdex.geometry.psdf_parallelogram" title="autopdex.geometry.psdf_parallelogram"><code class="xref py py-obj docutils literal notranslate"><span class="pre">psdf_parallelogram</span></code></a>(x, x_p1, x_p2, x_p3)</p></td>
+<td><p>Positive normalized smooth distance function to a parallelogram, positive in the interior.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/autopdex.geometry.psdf_arc_in_2d.html#autopdex.geometry.psdf_arc_in_2d" title="autopdex.geometry.psdf_arc_in_2d"><code class="xref py py-obj docutils literal notranslate"><span class="pre">psdf_arc_in_2d</span></code></a>(x, xc, x_p1, x_p2)</p></td>
+<td><p>First order normalized positive smooth distance function of a circular arc in 2D.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/autopdex.geometry.psdf_polygon.html#autopdex.geometry.psdf_polygon" title="autopdex.geometry.psdf_polygon"><code class="xref py py-obj docutils literal notranslate"><span class="pre">psdf_polygon</span></code></a>(x, x_p_list)</p></td>
+<td><p>Positive normalized smooth distance function for a polygon in 2D.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="helper-functions">
+<h2>Helper functions<a class="headerlink" href="#helper-functions" title="Link to this heading"></a></h2>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/autopdex.geometry.centroid.html#autopdex.geometry.centroid" title="autopdex.geometry.centroid"><code class="xref py py-obj docutils literal notranslate"><span class="pre">centroid</span></code></a>(x_p1, x_p2)</p></td>
+<td><p>Mean of two points in n-dimensions:</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/autopdex.geometry.normal.html#autopdex.geometry.normal" title="autopdex.geometry.normal"><code class="xref py py-obj docutils literal notranslate"><span class="pre">normal</span></code></a>(x_p1, x_p2)</p></td>
+<td><p>Normalized vector showing from x_p1 to x_p2.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/autopdex.geometry.project.html#autopdex.geometry.project" title="autopdex.geometry.project"><code class="xref py py-obj docutils literal notranslate"><span class="pre">project</span></code></a>(x, normal)</p></td>
+<td><p>Projects vector x in the direction of vector normal.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/autopdex.geometry.project_on_line.html#autopdex.geometry.project_on_line" title="autopdex.geometry.project_on_line"><code class="xref py py-obj docutils literal notranslate"><span class="pre">project_on_line</span></code></a>(x_p1, x_p2, x_p3)</p></td>
+<td><p>Projects x_p1 on the line going through x_p2 and x_p3.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/autopdex.geometry.first_order_normalization.html#autopdex.geometry.first_order_normalization" title="autopdex.geometry.first_order_normalization"><code class="xref py py-obj docutils literal notranslate"><span class="pre">first_order_normalization</span></code></a>(o, grad)</p></td>
+<td><p>Normalizes an unnormalized distance function o with its gradient grad.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/autopdex.geometry.signed_to_positive.html#autopdex.geometry.signed_to_positive" title="autopdex.geometry.signed_to_positive"><code class="xref py py-obj docutils literal notranslate"><span class="pre">signed_to_positive</span></code></a>(o)</p></td>
+<td><p>Absolute value using the formula jnp.sqrt(o**2).</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/autopdex.geometry.only_positive.html#autopdex.geometry.only_positive" title="autopdex.geometry.only_positive"><code class="xref py py-obj docutils literal notranslate"><span class="pre">only_positive</span></code></a>(o)</p></td>
+<td><p>Set negative regions to zero by manipulating values using the formula (o + jnp.sqrt(o**2)) / 2.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/autopdex.geometry.normals_from_normalized_sdf.html#autopdex.geometry.normals_from_normalized_sdf" title="autopdex.geometry.normals_from_normalized_sdf"><code class="xref py py-obj docutils literal notranslate"><span class="pre">normals_from_normalized_sdf</span></code></a>(x, sdf)</p></td>
+<td><p>Returns a smooth vector field that equals the surface normals where the normalized smooth distance function sdf equals 0</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="mesh-related-functions">
+<h2>Mesh-related functions<a class="headerlink" href="#mesh-related-functions" title="Link to this heading"></a></h2>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/autopdex.geometry.triangle_area.html#autopdex.geometry.triangle_area" title="autopdex.geometry.triangle_area"><code class="xref py py-obj docutils literal notranslate"><span class="pre">triangle_area</span></code></a>(x_edges)</p></td>
+<td><p>Compute the area of a triangle given its vertices (jitted).</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/autopdex.geometry.triangle_areas.html#autopdex.geometry.triangle_areas" title="autopdex.geometry.triangle_areas"><code class="xref py py-obj docutils literal notranslate"><span class="pre">triangle_areas</span></code></a>(x_nodes, elements)</p></td>
+<td><p>Compute the areas of multiple triangles given their vertices and connectivity (jitted).</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/autopdex.geometry.in_sdf.html#autopdex.geometry.in_sdf" title="autopdex.geometry.in_sdf"><code class="xref py py-obj docutils literal notranslate"><span class="pre">in_sdf</span></code></a>(x, sdf_fun)</p></td>
+<td><p>Check if a point lies on the surface defined by a positive or signed distance function.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/autopdex.geometry.in_sdfs.html#autopdex.geometry.in_sdfs" title="autopdex.geometry.in_sdfs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">in_sdfs</span></code></a>(x, sdf_fun)</p></td>
+<td><p>Check if multiple points lie on the surface defined by a positive or signed distance function.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/autopdex.geometry.select_in_sdfs.html#autopdex.geometry.select_in_sdfs" title="autopdex.geometry.select_in_sdfs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">select_in_sdfs</span></code></a>(x, sdf_fun)</p></td>
+<td><p>Select the indices of points that lie on the surface defined by a positive or signed distance function.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/autopdex.geometry.in_plane.html#autopdex.geometry.in_plane" title="autopdex.geometry.in_plane"><code class="xref py py-obj docutils literal notranslate"><span class="pre">in_plane</span></code></a>(x, x_p1, normal)</p></td>
+<td><p>Check if a point lies in a plane defined by a point and a normal vector (jitted).</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/autopdex.geometry.in_planes.html#autopdex.geometry.in_planes" title="autopdex.geometry.in_planes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">in_planes</span></code></a>(x_q, x_p1, normal)</p></td>
+<td><p>Check if multiple points lie in a plane defined by a point and a normal vector (jitted).</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/autopdex.geometry.select_in_plane.html#autopdex.geometry.select_in_plane" title="autopdex.geometry.select_in_plane"><code class="xref py py-obj docutils literal notranslate"><span class="pre">select_in_plane</span></code></a>(x_q, x_p1, normal)</p></td>
+<td><p>Select the indices of points that lie in a plane (non-jittable).</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/autopdex.geometry.on_point.html#autopdex.geometry.on_point" title="autopdex.geometry.on_point"><code class="xref py py-obj docutils literal notranslate"><span class="pre">on_point</span></code></a>(x_q, x_p1)</p></td>
+<td><p>Check if points are close to a given point (jitted).</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/autopdex.geometry.select_point.html#autopdex.geometry.select_point" title="autopdex.geometry.select_point"><code class="xref py py-obj docutils literal notranslate"><span class="pre">select_point</span></code></a>(x_q, x_p1)</p></td>
+<td><p>Select the index of a point that is close to a given point (non-jittable).</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/autopdex.geometry.on_line.html#autopdex.geometry.on_line" title="autopdex.geometry.on_line"><code class="xref py py-obj docutils literal notranslate"><span class="pre">on_line</span></code></a>(x, x_p1, x_p2)</p></td>
+<td><p>Check if a point lies on a line segment defined by two points (jitted).</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/autopdex.geometry.on_lines.html#autopdex.geometry.on_lines" title="autopdex.geometry.on_lines"><code class="xref py py-obj docutils literal notranslate"><span class="pre">on_lines</span></code></a>(x_q, x_p1, x_p2)</p></td>
+<td><p>Check if multiple points lie on a line segment defined by two points (jitted).</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/autopdex.geometry.select_on_line.html#autopdex.geometry.select_on_line" title="autopdex.geometry.select_on_line"><code class="xref py py-obj docutils literal notranslate"><span class="pre">select_on_line</span></code></a>(x_q, x_p1, x_p2)</p></td>
+<td><p>Select the indices of points that lie on a line segment defined by two points (non-jittable).</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/autopdex.geometry.elem_in_plane.html#autopdex.geometry.elem_in_plane" title="autopdex.geometry.elem_in_plane"><code class="xref py py-obj docutils literal notranslate"><span class="pre">elem_in_plane</span></code></a>(x_nodes, x_p1, normal)</p></td>
+<td><p>Check if an element lies in a plane defined by a point and a normal vector.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/autopdex.geometry.select_elements_in_plane.html#autopdex.geometry.select_elements_in_plane" title="autopdex.geometry.select_elements_in_plane"><code class="xref py py-obj docutils literal notranslate"><span class="pre">select_elements_in_plane</span></code></a>(x_nodes, ...)</p></td>
+<td><p>Select the indices of elements that lie in a plane.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/autopdex.geometry.elem_on_line.html#autopdex.geometry.elem_on_line" title="autopdex.geometry.elem_on_line"><code class="xref py py-obj docutils literal notranslate"><span class="pre">elem_on_line</span></code></a>(x_nodes, x_p1, x_p2)</p></td>
+<td><p>Check if an element lies on a line segment defined by two points.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/autopdex.geometry.select_elements_on_line.html#autopdex.geometry.select_elements_on_line" title="autopdex.geometry.select_elements_on_line"><code class="xref py py-obj docutils literal notranslate"><span class="pre">select_elements_on_line</span></code></a>(x_nodes, ...)</p></td>
+<td><p>Select the indices of elements that lie on a line segment defined by two points.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/autopdex.geometry.subelem_in_elem.html#autopdex.geometry.subelem_in_elem" title="autopdex.geometry.subelem_in_elem"><code class="xref py py-obj docutils literal notranslate"><span class="pre">subelem_in_elem</span></code></a>(subelem_to_find, in_elem)</p></td>
+<td><p>Check if a sub-element (e.g. a line element) is contained within an element (e.g. triangular element) (jitted).</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/autopdex.geometry.subelem_in_elems.html#autopdex.geometry.subelem_in_elems" title="autopdex.geometry.subelem_in_elems"><code class="xref py py-obj docutils literal notranslate"><span class="pre">subelem_in_elems</span></code></a>(subelem_to_find, in_elems)</p></td>
+<td><p>Find the element that contains a given sub-element.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/autopdex.geometry.subelems_in_elems.html#autopdex.geometry.subelems_in_elems" title="autopdex.geometry.subelems_in_elems"><code class="xref py py-obj docutils literal notranslate"><span class="pre">subelems_in_elems</span></code></a>(subelems_to_find, in_elems)</p></td>
+<td><p>Find the elements that contain given sub-elements (one elem per sub_elem).</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/autopdex.geometry.select_in_sdfs.html#autopdex.geometry.select_in_sdfs" title="autopdex.geometry.select_in_sdfs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">select_in_sdfs</span></code></a>(x, sdf_fun)</p></td>
+<td><p>Select the indices of points that lie on the surface defined by a positive or signed distance function.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/autopdex.geometry.select_in_plane.html#autopdex.geometry.select_in_plane" title="autopdex.geometry.select_in_plane"><code class="xref py py-obj docutils literal notranslate"><span class="pre">select_in_plane</span></code></a>(x_q, x_p1, normal)</p></td>
+<td><p>Select the indices of points that lie in a plane (non-jittable).</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/autopdex.geometry.select_point.html#autopdex.geometry.select_point" title="autopdex.geometry.select_point"><code class="xref py py-obj docutils literal notranslate"><span class="pre">select_point</span></code></a>(x_q, x_p1)</p></td>
+<td><p>Select the index of a point that is close to a given point (non-jittable).</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/autopdex.geometry.select_on_line.html#autopdex.geometry.select_on_line" title="autopdex.geometry.select_on_line"><code class="xref py py-obj docutils literal notranslate"><span class="pre">select_on_line</span></code></a>(x_q, x_p1, x_p2)</p></td>
+<td><p>Select the indices of points that lie on a line segment defined by two points (non-jittable).</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/autopdex.geometry.select_elements_in_plane.html#autopdex.geometry.select_elements_in_plane" title="autopdex.geometry.select_elements_in_plane"><code class="xref py py-obj docutils literal notranslate"><span class="pre">select_elements_in_plane</span></code></a>(x_nodes, ...)</p></td>
+<td><p>Select the indices of elements that lie in a plane.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/autopdex.geometry.select_elements_on_line.html#autopdex.geometry.select_elements_on_line" title="autopdex.geometry.select_elements_on_line"><code class="xref py py-obj docutils literal notranslate"><span class="pre">select_elements_on_line</span></code></a>(x_nodes, ...)</p></td>
+<td><p>Select the indices of elements that lie on a line segment defined by two points.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="_autosummary/autopdex.variational_schemes.residual_from_deriv_at_int_point.html" class="btn btn-neutral float-left" title="autopdex.variational_schemes.residual_from_deriv_at_int_point" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="_autosummary/autopdex.geometry.r_equivalence.html" class="btn btn-neutral float-right" title="autopdex.geometry.r_equivalence" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Tobias Bode.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

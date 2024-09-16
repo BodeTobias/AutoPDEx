@@ -1,0 +1,6 @@
+﻿autopdex.geometry.r\_disjunction
+================================
+
+.. currentmodule:: autopdex.geometry
+
+.. autofunction:: r_disjunction

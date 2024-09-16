@@ -1,0 +1,6 @@
+﻿autopdex.assembler.user\_element\_assemble\_tangent
+===================================================
+
+.. currentmodule:: autopdex.assembler
+
+.. autofunction:: user_element_assemble_tangent

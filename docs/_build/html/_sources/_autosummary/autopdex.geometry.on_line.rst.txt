@@ -1,0 +1,6 @@
+﻿autopdex.geometry.on\_line
+==========================
+
+.. currentmodule:: autopdex.geometry
+
+.. autofunction:: on_line

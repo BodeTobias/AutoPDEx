@@ -1,0 +1,6 @@
+﻿autopdex.models.isoparametric\_surface\_element\_galerkin
+=========================================================
+
+.. currentmodule:: autopdex.models
+
+.. autofunction:: isoparametric_surface_element_galerkin

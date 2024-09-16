@@ -1,0 +1,6 @@
+﻿autopdex.utility.get\_condition\_number
+=======================================
+
+.. currentmodule:: autopdex.utility
+
+.. autofunction:: get_condition_number

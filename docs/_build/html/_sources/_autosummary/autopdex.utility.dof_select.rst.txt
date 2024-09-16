@@ -1,0 +1,6 @@
+﻿autopdex.utility.dof\_select
+============================
+
+.. currentmodule:: autopdex.utility
+
+.. autofunction:: dof_select

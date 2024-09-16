@@ -1,0 +1,6 @@
+﻿autopdex.spaces.precompute\_shape\_functions
+============================================
+
+.. currentmodule:: autopdex.spaces
+
+.. autofunction:: precompute_shape_functions

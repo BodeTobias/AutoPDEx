@@ -1,0 +1,6 @@
+﻿autopdex.variational\_schemes.strong\_form\_galerkin
+====================================================
+
+.. currentmodule:: autopdex.variational_schemes
+
+.. autofunction:: strong_form_galerkin

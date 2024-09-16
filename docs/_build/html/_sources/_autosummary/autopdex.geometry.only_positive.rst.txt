@@ -1,0 +1,6 @@
+﻿autopdex.geometry.only\_positive
+================================
+
+.. currentmodule:: autopdex.geometry
+
+.. autofunction:: only_positive

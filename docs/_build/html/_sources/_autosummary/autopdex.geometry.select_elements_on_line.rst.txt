@@ -1,0 +1,6 @@
+﻿autopdex.geometry.select\_elements\_on\_line
+============================================
+
+.. currentmodule:: autopdex.geometry
+
+.. autofunction:: select_elements_on_line

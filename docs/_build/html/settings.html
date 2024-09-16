@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Settings and static_settings &mdash; AutoPDEx 0.0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="_static/jupyter-sphinx.css?v=572af1d6" />
+      <link rel="stylesheet" type="text/css" href="_static/thebelab.css" />
+      <link rel="stylesheet" type="text/css" href="_static/custom.css?v=acfd50eb" />
+      <link rel="stylesheet" type="text/css" href="_static/dark_mode_css/general.css?v=c0a7eb24" />
+      <link rel="stylesheet" type="text/css" href="_static/dark_mode_css/dark.css?v=70edf1c7" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=d45e8c67"></script>
+        <script src="_static/doctools.js?v=9a2dae69"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="_static/copybutton.js?v=f281be69"></script>
+        <script src="_static/thebelab-helper.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script src="_static/dark_mode_js/default_light.js?v=c2e647ce"></script>
+        <script src="_static/dark_mode_js/theme_switcher.js?v=358d3910"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Example notebooks" href="example_notebooks.html" />
+    <link rel="prev" title="autopdex.models.forward_backward_euler_weak" href="_autosummary/autopdex.models.forward_backward_euler_weak.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            AutoPDEx
+              <img src="_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/quickstart.html">Quickstart to AutoPDEx</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">High level operations</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="solver.html">Solver</a></li>
+<li class="toctree-l1"><a class="reference internal" href="models.html">Models</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Settings</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Settings and static_settings</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#configuration-options-for-static-settings">Configuration Options for <cite>static_settings</cite></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#configuration-options-for-settings">Configuration Options for <cite>settings</cite></a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="example_notebooks.html">Example notebooks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Examplary input files</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Lower level operations</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="assembler.html">Assembler</a></li>
+<li class="toctree-l1"><a class="reference internal" href="implicit_diff.html">Implicit_diff</a></li>
+<li class="toctree-l1"><a class="reference internal" href="spaces.html">Spaces</a></li>
+<li class="toctree-l1"><a class="reference internal" href="solution_structures.html">Solution_structures</a></li>
+<li class="toctree-l1"><a class="reference internal" href="variational_schemes.html">Variational_schemes</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Pre- and postprocessing</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="geometry.html">Geometry</a></li>
+<li class="toctree-l1"><a class="reference internal" href="seeder.html">Seeder</a></li>
+<li class="toctree-l1"><a class="reference internal" href="utility.html">Utility</a></li>
+<li class="toctree-l1"><a class="reference internal" href="plotter.html">Plotter</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">AutoPDEx</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Settings and static_settings</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/settings.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="settings-and-static-settings">
+<h1>Settings and static_settings<a class="headerlink" href="#settings-and-static-settings" title="Link to this heading"></a></h1>
+<p>In many of the functions, both <cite>settings</cite> and <cite>static_settings</cite> are required as inputs. The specific keywords that need to be defined
+within these settings depend on the particular problem being addressed. Some options necessitate the definition of specific keywords
+to ensure proper function.</p>
+<p>Below is an overview of the possible keywords for <cite>settings</cite> and <cite>static_settings</cite>. Most of these keywords are optional, and the
+exact ones to use can be determined from the examples provided. If a keyword is not defined, either a default value will be used,
+or an error will be generated. In the case of tuples, each entry stands for one domain.</p>
+<p>In the Examples column, there are links to the source code of examples in which the keywords are used. In addition, user-specific
+keywords can be introduced, which can then be called within a user element, for example.</p>
+<p>There are basically two ways to define a model. Firstly, by defining the PDE in strong or weak form (depending on the variational scheme)
+and specifying the variational scheme, the solution space and the integration point coordinates and weights. Secondly, by directly
+providing already integrated element contributions to the total potential, total residual or also the tangent matrix. The latter
+option can be used, for example, for elements that are integrated in a reference configuration.</p>
+<section id="configuration-options-for-static-settings">
+<h2>Configuration Options for <cite>static_settings</cite><a class="headerlink" href="#configuration-options-for-static-settings" title="Link to this heading"></a></h2>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 15.0%" />
+<col style="width: 12.0%" />
+<col style="width: 55.0%" />
+<col style="width: 18.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Keyword</p></th>
+<th class="head"><p>Type</p></th>
+<th class="head"><p>Description</p></th>
+<th class="head"><p>Example</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>‘assembling mode’</p></td>
+<td><p>Tuple (String)</p></td>
+<td><p><strong>‘sparse’</strong>: Expects the model functions to return a weak or strong form of the pde</p>
+<p><strong>‘dense’</strong>: Like sparse, but results in a dense tangent matrix</p>
+<p><strong>‘user potential’</strong>: Expects the model functions to return the element contribution of a potential.</p>
+<p>The residual and tangent is then computed automatically.</p>
+<p><strong>‘user residual’</strong>: Expects the model functions to return the element residual.</p>
+<p>The tangent is computed automatically, if needed.</p>
+<p><strong>‘user element’</strong>: Expects the model functions to return the element residual and tangent</p>
+</td>
+<td><p><a class="reference external" href="../../../examples/miscellaneous/transport.py">transport.py</a></p>
+<p><a class="reference external" href="../../../examples/laplace/pinn_rfm.py">pinn_rfm.py</a></p>
+<p><a class="reference external" href="../../../examples/cooks_membrane/quadrilaterals_p_refinement.py">quadrilaterals_p_refinement.py</a></p>
+</td>
+</tr>
+<tr class="row-odd"><td><p>‘solution space’</p>
+<p>(for assembling modes</p>
+<p>‘sparse’ or ‘dense’)</p>
+</td>
+<td><p>Tuple (String)</p></td>
+<td><p><strong>‘mls’</strong>: moving least squares</p>
+<p><strong>‘fem simplex’</strong>: triangles, tetrahedrons</p>
+<p><strong>‘nodal values’</strong>: see example</p>
+<p><strong>‘user’</strong>: static_settings[‘user solution space function’]</p>
+</td>
+<td><p><a class="reference external" href="../../../examples/laplace/mls_rfm.py">mls_rfm.py</a></p>
+<p><a class="reference external" href="../../../examples/laplace/pinn_rfm.py">pinn_rfm.py</a></p>
+<p><a class="reference external" href="../../../examples/cooks_membrane/triangles_h_refinement.py">triangles_h_refinement.py</a></p>
+<p><a class="reference external" href="../../../examples/heat_conduction/maze_forward_euler.py">maze_forward_euler.py</a></p>
+</td>
+</tr>
+<tr class="row-even"><td><p>‘shape function mode’</p>
+<p>(for assembling modes</p>
+<p>‘sparse’ or ‘dense’)</p>
+</td>
+<td><p>String</p></td>
+<td><p><strong>‘compiled’</strong>: uses a solution structure that is precompiled in preprocessing</p>
+<p><strong>‘direct’</strong>: no manual precompilation; can be considerably slower for complicated solution structures</p>
+</td>
+<td><p><a class="reference external" href="../../../examples/miscellaneous/poisson.py">poisson.py</a></p></td>
+</tr>
+<tr class="row-odd"><td><p>‘number of fields’</p></td>
+<td><p>Tuple (Integer)</p></td>
+<td><p><strong>Number of fields for the respective domain</strong>, e.g.:</p>
+<p>1 for models.poisson_weak</p>
+<p>2 for models.linear_elasticity_weak with plain strain</p>
+<p>6 for models.hyperelastic_steady_state_fos with plain strain</p>
+</td>
+<td><p><a class="reference external" href="../../../examples/miscellaneous/poisson.py">poisson.py</a></p>
+<p><a class="reference external" href="../../../examples/cooks_membrane/least_square_fem_rvachev_structure.py">least_square_fem_rvachev_structure.py</a></p>
+<p><a class="reference external" href="../../../examples/cooks_membrane/non-homogeneous_dirichlet_conditions.py">non-homogeneous_dirichlet_conditions.py</a></p>
+</td>
+</tr>
+<tr class="row-even"><td><p>‘maximal number of neighbors’</p></td>
+<td><p>Tuple (Integer)</p></td>
+<td><p><strong>Maximum number of neighbors for the respective domain</strong>, e.g.</p>
+<p>6 for second order triangle,</p>
+<p>max_neighbors for moving least squares</p>
+</td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>‘variational scheme’</p>
+<p>(for assembling modes</p>
+<p>‘sparse’ or ‘dense’)</p>
+</td>
+<td><p>Tuple (String)</p></td>
+<td><p><strong>‘least square pde loss’</strong>:</p>
+<p>requires special treatment of Neumann boundaries and higher smoothness;</p>
+<p>first-order systems should be norm-equivalent</p>
+<p><strong>‘strong form galerkin’</strong>:</p>
+<p>requires special treatment of Neumann boundaries and higher smoothness;</p>
+<p>may suffer from locking/ need to consider LBB conditions</p>
+<p><strong>‘weak form galerkin’</strong>:</p>
+<p>integration is subject to variational consistency conditions;</p>
+<p>may suffer from locking/ need to consider LBB conditions</p>
+</td>
+<td><p><a class="reference external" href="../../../examples/navier_stokes/lid_driven_cavity.py">lid_driven_cavity.py</a></p></td>
+</tr>
+<tr class="row-even"><td><p>‘model’</p></td>
+<td><p>Tuple (Function)</p></td>
+<td><p><strong>Jax-transformable functions</strong> that defines:</p>
+<p>strong form of pde, e.g. models.poisson,</p>
+<p>weak form of pde, e.g. models.poisson_weak,</p>
+<p>user-defined potenial, residual or tangent and residual, e.g. models.isoparametric_domain_element_galerkin</p>
+</td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>‘solution structure’</p></td>
+<td><p>Tuple (String)</p></td>
+<td><p><strong>‘nodal imposition’</strong>:</p>
+<p>boundary conditions are imposed nodally;</p>
+<p>requires static_settings[‘dirichlet dofs’] and settings[‘dirichlet conditions’]</p>
+<p><strong>‘first order set’</strong>:</p>
+<p>boundary conditions are imposed using distance functions;</p>
+<p>requires static_settings[‘boundary coefficients’, ‘boundary conditions’, ‘psdf’]</p>
+<p><strong>‘second order set’</strong>:</p>
+<p>like ‘first order set’, but with higher differentiability im compiled mode</p>
+<p><strong>‘off’</strong>:</p>
+<p>solution_space is forwarded</p>
+</td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>‘boundary coefficients’</p>
+<p>(not for solution structures</p>
+<p>‘nodal imposition’ or ‘off’)</p>
+</td>
+<td><p>Tuple (Callable)</p></td>
+<td><p>Functions for calculating boundary coefficients</p></td>
+<td><p><a class="reference external" href="../../../examples/heat_conduction/space_time_fos_dirichlet_neumann_robin.py">space_time_fos_dirichlet_neumann_robin.py</a></p></td>
+</tr>
+<tr class="row-odd"><td><p>‘boundary conditions’</p>
+<p>(not for solution structures</p>
+<p>‘nodal imposition’ or ‘off’)</p>
+</td>
+<td><p>Tuple (Callable)</p></td>
+<td><p>Functions for calculating boundary conditions</p></td>
+<td><p><a class="reference external" href="../../../examples/heat_conduction/space_time_fos_dirichlet_neumann_robin.py">space_time_fos_dirichlet_neumann_robin.py</a></p></td>
+</tr>
+<tr class="row-even"><td><p>‘psdf’</p>
+<p>(not for solution structures</p>
+<p>‘nodal imposition’ or ‘off’)</p>
+</td>
+<td><p>Tuple (Callable)</p></td>
+<td><p>Functions for calculating positive smooth distance functions</p></td>
+<td><p><a class="reference external" href="../../../examples/heat_conduction/space_time_fos_dirichlet_neumann_robin.py">space_time_fos_dirichlet_neumann_robin.py</a></p></td>
+</tr>
+<tr class="row-odd"><td><p>‘solver type’</p></td>
+<td><p>String</p></td>
+<td><p><strong>‘linear’</strong>, <strong>‘newton’</strong>, <strong>‘damped newton’</strong>, <strong>‘minimize’</strong></p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>‘solver backend’</p></td>
+<td><p>String</p></td>
+<td><p><strong>‘jax’</strong>, <strong>‘pardiso’</strong>, <strong>‘petsc’</strong>, <strong>‘scipy’</strong>, <strong>‘pyamg’</strong></p></td>
+<td><p><a class="reference external" href="../../../examples/heat_conduction/space_time_different_solvers.py">space_time_different_solvers.py</a></p></td>
+</tr>
+<tr class="row-odd"><td><p>‘solver’</p></td>
+<td><p>String</p></td>
+<td><p>depending on solver backend: <strong>‘cg’</strong>, <strong>‘lu’</strong>, <strong>‘qr’</strong>, <strong>‘lbfgs’</strong>, <strong>‘gradient descent’</strong>, <strong>‘bcgs’</strong></p></td>
+<td><p><a class="reference external" href="../../../examples/heat_conduction/space_time_different_solvers.py">space_time_different_solvers.py</a></p></td>
+</tr>
+<tr class="row-even"><td><p>‘type of preconditioner’</p>
+<p>(for solver backend ‘jax’)</p>
+</td>
+<td><p>String</p></td>
+<td><p>depending on solver backend: <strong>‘jacobi’</strong>, <strong>‘ilu’</strong>, <strong>‘none’</strong></p></td>
+<td><p><a class="reference external" href="../../../examples/heat_conduction/space_time_different_solvers.py">space_time_different_solvers.py</a></p></td>
+</tr>
+<tr class="row-odd"><td><p>‘hvp type’</p>
+<p>(for solver backend ‘jax’)</p>
+</td>
+<td><p>String</p></td>
+<td><p>Type of hessian vector product: <strong>‘fwdrev’</strong>, <strong>‘revrev’</strong>, <strong>‘linearize’</strong>, <strong>‘assemble’</strong></p></td>
+<td><p><a class="reference external" href="../../../examples/heat_conduction/space_time_different_solvers.py">space_time_different_solvers.py</a></p></td>
+</tr>
+<tr class="row-even"><td><p>‘verbose’</p></td>
+<td><p>Integer</p></td>
+<td><p>Level of verbosity of output (-1,0,1,2)</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>‘dirichlet dofs’</p>
+<p>(for solution structure</p>
+<p>‘nodal imposition’)</p>
+</td>
+<td><p>Tuple (Bool)</p></td>
+<td><p>Boolean tuple-Mask for selection DOFs for nodal Dirichlet boundary imposition</p></td>
+<td><p><a class="reference external" href="../../../examples/cooks_membrane/non-homogeneous_dirichlet_conditions.py">non-homogeneous_dirichlet_conditions.py</a></p></td>
+</tr>
+<tr class="row-even"><td><p>‘connectivity’</p></td>
+<td><p>Tuple (jnp.ndarray)</p></td>
+<td><p>List of node numbers for each element/neighborhood in a domain</p></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="configuration-options-for-settings">
+<h2>Configuration Options for <cite>settings</cite><a class="headerlink" href="#configuration-options-for-settings" title="Link to this heading"></a></h2>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 18.0%" />
+<col style="width: 12.0%" />
+<col style="width: 70.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Keyword</p></th>
+<th class="head"><p>Type</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>‘node coordinates’</p></td>
+<td><p>jnp.ndarray</p></td>
+<td><p>Coordinates of the nodes</p></td>
+</tr>
+<tr class="row-odd"><td><p>‘dirichlet conditions’</p>
+<p>(for solution structure</p>
+<p>‘nodal imposition’)</p>
+</td>
+<td><p>jnp.ndarray</p></td>
+<td><p>Dirichlet boundary conditions that shall be nodally imposed</p></td>
+</tr>
+<tr class="row-even"><td><p>‘integration coordinates’</p>
+<p>(for assembling modes</p>
+<p>‘sparse’ or ‘dense’)</p>
+</td>
+<td><p>Tuple (jnp.ndarray)</p></td>
+<td><p>Integration point coordinates for each domain (not necessarry for user elements)</p></td>
+</tr>
+<tr class="row-odd"><td><p>‘integration weights’</p>
+<p>(for assembling modes</p>
+<p>‘sparse’ or ‘dense’)</p>
+</td>
+<td><p>Tuple (jnp.ndarray)</p></td>
+<td><p>Weights of integration points for each domain (not necessarry for user elements)</p></td>
+</tr>
+<tr class="row-even"><td><p>‘compiled bc’,</p>
+<p>‘compiled shape functions’,</p>
+<p>‘compiled projection’</p>
+<p>(for shape function mode</p>
+<p>‘compiled’)</p>
+</td>
+<td><p>Tuple (Function)</p></td>
+<td><p>Precomputed values including spatial derivatives for construction of compiled solution structure</p></td>
+</tr>
+<tr class="row-odd"><td><p>e.g. ‘support radius’</p></td>
+<td><p>Tuple (Float)</p></td>
+<td><p>Support radius for moving least square shape functions</p></td>
+</tr>
+<tr class="row-even"><td><p>e.g. ‘beta’</p></td>
+<td><p>Tuple (Float)</p></td>
+<td><p>Parameter for moving least square shape functions</p></td>
+</tr>
+<tr class="row-odd"><td><p>e.g. ‘load multiplier’</p></td>
+<td><p>Float</p></td>
+<td><p>a multiplier that can be used within solver.adaptive_load_stepping</p></td>
+</tr>
+<tr class="row-even"><td><p>e.g. ‘youngs modulus’</p>
+<p>or ‘poisson ratio’</p>
+</td>
+<td><p>Float</p></td>
+<td><p>differentiable material parameters</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="_autosummary/autopdex.models.forward_backward_euler_weak.html" class="btn btn-neutral float-left" title="autopdex.models.forward_backward_euler_weak" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="example_notebooks.html" class="btn btn-neutral float-right" title="Example notebooks" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Tobias Bode.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

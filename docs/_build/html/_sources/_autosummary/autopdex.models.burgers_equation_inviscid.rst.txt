@@ -1,0 +1,6 @@
+﻿autopdex.models.burgers\_equation\_inviscid
+===========================================
+
+.. currentmodule:: autopdex.models
+
+.. autofunction:: burgers_equation_inviscid

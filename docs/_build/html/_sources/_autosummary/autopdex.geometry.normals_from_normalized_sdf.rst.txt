@@ -1,0 +1,6 @@
+﻿autopdex.geometry.normals\_from\_normalized\_sdf
+================================================
+
+.. currentmodule:: autopdex.geometry
+
+.. autofunction:: normals_from_normalized_sdf

@@ -1,0 +1,6 @@
+﻿autopdex.geometry.sdf\_nd\_sphere
+=================================
+
+.. currentmodule:: autopdex.geometry
+
+.. autofunction:: sdf_nd_sphere

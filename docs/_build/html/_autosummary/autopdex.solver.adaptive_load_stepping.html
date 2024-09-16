@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>autopdex.solver.adaptive_load_stepping &mdash; AutoPDEx 0.0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../_static/jupyter-sphinx.css?v=572af1d6" />
+      <link rel="stylesheet" type="text/css" href="../_static/thebelab.css" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=acfd50eb" />
+      <link rel="stylesheet" type="text/css" href="../_static/dark_mode_css/general.css?v=c0a7eb24" />
+      <link rel="stylesheet" type="text/css" href="../_static/dark_mode_css/dark.css?v=70edf1c7" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=d45e8c67"></script>
+        <script src="../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="../_static/copybutton.js?v=f281be69"></script>
+        <script src="../_static/thebelab-helper.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script src="../_static/dark_mode_js/default_light.js?v=c2e647ce"></script>
+        <script src="../_static/dark_mode_js/theme_switcher.js?v=358d3910"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="autopdex.solver.solver" href="autopdex.solver.solver.html" />
+    <link rel="prev" title="Solver" href="../solver.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            AutoPDEx
+              <img src="../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../notebooks/quickstart.html">Quickstart to AutoPDEx</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">High level operations</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../solver.html">Solver</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../solver.html#automatic-solvers">Automatic Solvers</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">autopdex.solver.adaptive_load_stepping</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#autopdex.solver.adaptive_load_stepping"><code class="docutils literal notranslate"><span class="pre">adaptive_load_stepping()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="autopdex.solver.solver.html">autopdex.solver.solver</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../solver.html#specific-solvers">Specific solvers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../solver.html#linear-solvers-for-different-backends">Linear Solvers for Different Backends</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../solver.html#iterative-solvers-smoothers">Iterative Solvers/Smoothers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../solver.html#utility-functions">Utility Functions</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../models.html">Models</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Settings</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../settings.html">Settings and static_settings</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../example_notebooks.html">Example notebooks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples.html">Examplary input files</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Lower level operations</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../assembler.html">Assembler</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../implicit_diff.html">Implicit_diff</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spaces.html">Spaces</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../solution_structures.html">Solution_structures</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../variational_schemes.html">Variational_schemes</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Pre- and postprocessing</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../geometry.html">Geometry</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../seeder.html">Seeder</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../utility.html">Utility</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../plotter.html">Plotter</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">AutoPDEx</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../solver.html">Solver</a></li>
+      <li class="breadcrumb-item active">autopdex.solver.adaptive_load_stepping</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/_autosummary/autopdex.solver.adaptive_load_stepping.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="autopdex-solver-adaptive-load-stepping">
+<h1>autopdex.solver.adaptive_load_stepping<a class="headerlink" href="#autopdex-solver-adaptive-load-stepping" title="Link to this heading"></a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="autopdex.solver.adaptive_load_stepping">
+<span class="sig-prename descclassname"><span class="pre">autopdex.solver.</span></span><span class="sig-name descname"><span class="pre">adaptive_load_stepping</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dofs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">settings</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">static_settings</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">multiplier_settings=&lt;function</span> <span class="pre">&lt;lambda&gt;&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path_dependent=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">implicit_diff_mode=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_multiplier=1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_increment=0.01</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_increment=1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">init_increment=0.2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_load_steps=1000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_num_newton_iter=7</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">newton_tol=1e-10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/autopdex/solver.html#adaptive_load_stepping"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#autopdex.solver.adaptive_load_stepping" title="Link to this definition"></a></dt>
+<dd><p>Performs adaptive load stepping to solve a nonlinear system of equations.</p>
+<p>This function iteratively adjusts the load increment to ensure convergence
+using a Newton-Raphson solver. The increment size is adaptively controlled
+based on the convergence behavior of the solver. Works currently only with
+solver types ‘newton’ and ‘damped newton’.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dofs</strong> (<em>jnp.ndarray</em>) – Initial degrees of freedom.</p></li>
+<li><p><strong>settings</strong> (<em>dict</em>) – Dictionary of problem settings.</p></li>
+<li><p><strong>static_settings</strong> (<em>dict</em>) – Dictionary of static settings that do not change during load steps.</p></li>
+<li><p><strong>multiplier_settings</strong> (<em>callable</em>) – Function to update settings based on the current load multiplier.</p></li>
+<li><p><strong>path_dependent</strong> (<em>bool</em>) – Specifies wether problem is path-dependent or not (has an influence on the implicit differentiation).</p></li>
+<li><p><strong>implicit_diff_mode</strong> (<em>string</em>) – Can be either ‘reverse’, ‘forward’ or None. In case of ‘reverse’, only reverse mode differentiation is supported (jacrev), in case of ‘forward’, only forward mode differentiation is supported (jacfwd).</p></li>
+<li><p><strong>max_multiplier</strong> (<em>float</em>) – Maximum value for the load multiplier.</p></li>
+<li><p><strong>min_increment</strong> (<em>float</em>) – Minimum allowable increment size.</p></li>
+<li><p><strong>max_increment</strong> (<em>float</em>) – Maximum allowable increment size.</p></li>
+<li><p><strong>init_increment</strong> (<em>float</em>) – Initial increment size.</p></li>
+<li><p><strong>max_load_steps</strong> (<em>int</em>) – Maximal number of load steps. Only used in case implicit_diff_mod is not None</p></li>
+<li><p><strong>target_num_newton_iter</strong> (<em>int</em>) – Target number of Newton iterations for each load step.</p></li>
+<li><p><strong>newton_tol</strong> (<em>float</em><em>, </em><em>optional</em>) – Tolerance for Newton solver convergence. Default is 1e-10.</p></li>
+<li><p><strong>**kwargs</strong> – Additional keyword arguments for the solver.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Solution degrees of freedom after load stepping.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><ul class="simple">
+<li><p>jnp.ndarray</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../solver.html" class="btn btn-neutral float-left" title="Solver" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="autopdex.solver.solver.html" class="btn btn-neutral float-right" title="autopdex.solver.solver" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Tobias Bode.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

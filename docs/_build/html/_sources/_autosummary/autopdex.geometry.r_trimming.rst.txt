@@ -1,0 +1,6 @@
+﻿autopdex.geometry.r\_trimming
+=============================
+
+.. currentmodule:: autopdex.geometry
+
+.. autofunction:: r_trimming

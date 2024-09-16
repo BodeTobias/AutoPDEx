@@ -1,0 +1,1385 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>autopdex.geometry &mdash; AutoPDEx 0.0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../../_static/jupyter-sphinx.css?v=572af1d6" />
+      <link rel="stylesheet" type="text/css" href="../../_static/thebelab.css" />
+      <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=acfd50eb" />
+      <link rel="stylesheet" type="text/css" href="../../_static/dark_mode_css/general.css?v=c0a7eb24" />
+      <link rel="stylesheet" type="text/css" href="../../_static/dark_mode_css/dark.css?v=70edf1c7" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../_static/documentation_options.js?v=d45e8c67"></script>
+        <script src="../../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="../../_static/copybutton.js?v=f281be69"></script>
+        <script src="../../_static/thebelab-helper.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script src="../../_static/dark_mode_js/default_light.js?v=c2e647ce"></script>
+        <script src="../../_static/dark_mode_js/theme_switcher.js?v=358d3910"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            AutoPDEx
+              <img src="../../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">High level operations</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../solver.html">Solver</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../models.html">Models</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Settings</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../settings.html">Settings and static_settings</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../example_notebooks.html">Example notebooks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../examples.html">Examplary input files</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Lower level operations</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../assembler.html">Assembler</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../implicit_diff.html">Implicit_diff</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../spaces.html">Spaces</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../solution_structures.html">Solution_structures</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../variational_schemes.html">Variational_schemes</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Pre- and postprocessing</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../geometry.html">Geometry</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../seeder.html">Seeder</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../utility.html">Utility</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../plotter.html">Plotter</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">AutoPDEx</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">autopdex.geometry</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for autopdex.geometry</h1><div class="highlight"><pre>
+<span></span><span class="c1"># geometry.py</span>
+<span class="c1"># Copyright (C) 2024 Tobias Bode</span>
+<span class="c1">#</span>
+<span class="c1"># This program is free software: you can redistribute it and/or modify</span>
+<span class="c1"># it under the terms of the GNU Affero General Public License as published by</span>
+<span class="c1"># the Free Software Foundation, either version 3 of the License, or</span>
+<span class="c1"># (at your option) any later version.</span>
+<span class="c1">#</span>
+<span class="c1"># This program is distributed in the hope that it will be useful,</span>
+<span class="c1"># but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+<span class="c1"># MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the</span>
+<span class="c1"># GNU Affero General Public License for more details.</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">This module contains geometry related functions that can be used for seeding nodes and integration points, impose boundary conditions and to select nodes and elements.</span>
+<span class="sd">The main functionality relies on distance functions. Zur Konstruktion von benutzerspezifischen distance functions gibt es die Rvachev-Operationen,</span>
+<span class="sd">es gibt aber auch einige vorgefertigte signed distance functions und positive signed distance functions. Die Distanzfunktionen eignen sich zum Beispiel, </span>
+<span class="sd">um zu überprüfen, ob Knoten innerhalb bestimmter Regionen oder auf spezifizierten Oberflächen liegen. Die glatten Abstandsfunktionen eigenen sich außerdem zur</span>
+<span class="sd">Konstruktion von Lösungsstrukturen.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">jax</span>
+<span class="kn">import</span> <span class="nn">jax.numpy</span> <span class="k">as</span> <span class="nn">jnp</span>
+
+<span class="kn">from</span> <span class="nn">autopdex.utility</span> <span class="kn">import</span> <span class="n">jit_with_docstring</span>
+
+<span class="c1"># ToDo:</span>
+<span class="c1"># - reader for stl data</span>
+
+<span class="c1">### R function operations that preserve firt order normalization</span>
+<div class="viewcode-block" id="r_equivalence">
+<a class="viewcode-back" href="../../_autosummary/autopdex.geometry.r_equivalence.html#autopdex.geometry.r_equivalence">[docs]</a>
+<span class="k">def</span> <span class="nf">r_equivalence</span><span class="p">(</span><span class="n">o1</span><span class="p">,</span> <span class="n">o2</span><span class="p">):</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Computes the logical NOT XOR operation by combining two positively evaluated smooth distance functions.</span>
+<span class="sd">  </span>
+<span class="sd">  Parameters:</span>
+<span class="sd">    o1 (float): The first operand for the logical &quot;not xor&quot; operation.</span>
+<span class="sd">    o2 (float): The second operand for the logical &quot;not xor&quot; operation.</span>
+
+<span class="sd">  Returns:</span>
+<span class="sd">    float: The result of the logical &quot;not xor&quot; operation, calculated using </span>
+<span class="sd">        the formula o1 * o2 / (o1 + o2).</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="k">return</span> <span class="n">o1</span> <span class="o">*</span> <span class="n">o2</span> <span class="o">/</span> <span class="p">(</span><span class="n">o1</span> <span class="o">+</span> <span class="n">o2</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="r_conjunction">
+<a class="viewcode-back" href="../../_autosummary/autopdex.geometry.r_conjunction.html#autopdex.geometry.r_conjunction">[docs]</a>
+<span class="k">def</span> <span class="nf">r_conjunction</span><span class="p">(</span><span class="n">o1</span><span class="p">,</span> <span class="n">o2</span><span class="p">):</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Computes the logical AND operation using smooth distance functions.</span>
+<span class="sd">  </span>
+<span class="sd">  Parameters:</span>
+<span class="sd">    o1 (float): The first operand for the logical &quot;and&quot; operation.</span>
+<span class="sd">    o2 (float): The second operand for the logical &quot;and&quot; operation.</span>
+
+<span class="sd">  Returns:</span>
+<span class="sd">    float: The result of the logical &quot;and&quot; operation, calculated using </span>
+<span class="sd">        the formula o1 + o2 - sqrt(o1**2 + o2**2).</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="k">return</span> <span class="n">o1</span> <span class="o">+</span> <span class="n">o2</span> <span class="o">-</span> <span class="n">jnp</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">o1</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">o2</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="r_disjunction">
+<a class="viewcode-back" href="../../_autosummary/autopdex.geometry.r_disjunction.html#autopdex.geometry.r_disjunction">[docs]</a>
+<span class="k">def</span> <span class="nf">r_disjunction</span><span class="p">(</span><span class="n">o1</span><span class="p">,</span> <span class="n">o2</span><span class="p">):</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Computes the logical OR operation using smooth distance functions.</span>
+<span class="sd">  </span>
+<span class="sd">  Parameters:</span>
+<span class="sd">    o1 (float): The first operand for the logical &quot;or&quot; operation.</span>
+<span class="sd">    o2 (float): The second operand for the logical &quot;or&quot; operation.</span>
+
+<span class="sd">  Returns:</span>
+<span class="sd">    float: The result of the logical &quot;or&quot; operation, calculated using </span>
+<span class="sd">        the formula o1 + o2 + sqrt(o1**2 + o2**2).</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="k">return</span> <span class="n">o1</span> <span class="o">+</span> <span class="n">o2</span> <span class="o">+</span> <span class="n">jnp</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">o1</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">o2</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="r_trimming">
+<a class="viewcode-back" href="../../_autosummary/autopdex.geometry.r_trimming.html#autopdex.geometry.r_trimming">[docs]</a>
+<span class="k">def</span> <span class="nf">r_trimming</span><span class="p">(</span><span class="n">o</span><span class="p">,</span> <span class="n">t</span><span class="p">):</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Trimming operations.</span>
+
+<span class="sd">  Parameters:</span>
+<span class="sd">    o (float): (Possibly signed) smooth distance function.</span>
+<span class="sd">    t (float): Trimming function.</span>
+
+<span class="sd">  Returns:</span>
+<span class="sd">    float: Positive smooth distance function with zero set </span>
+<span class="sd">        as intersection of zero set of o and positive part of t.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="k">return</span> <span class="n">jnp</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">o</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">t</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">o</span><span class="o">**</span><span class="mi">4</span><span class="p">)</span> <span class="o">-</span> <span class="n">t</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span> <span class="o">/</span> <span class="mi">4</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="signed_to_positive">
+<a class="viewcode-back" href="../../_autosummary/autopdex.geometry.signed_to_positive.html#autopdex.geometry.signed_to_positive">[docs]</a>
+<span class="k">def</span> <span class="nf">signed_to_positive</span><span class="p">(</span><span class="n">o</span><span class="p">):</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;Absolute value using the formula jnp.sqrt(o**2).&quot;&quot;&quot;</span>
+  <span class="k">return</span> <span class="n">jnp</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">o</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="only_positive">
+<a class="viewcode-back" href="../../_autosummary/autopdex.geometry.only_positive.html#autopdex.geometry.only_positive">[docs]</a>
+<span class="k">def</span> <span class="nf">only_positive</span><span class="p">(</span><span class="n">o</span><span class="p">):</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;Set negative regions to zero by manipulating values using the formula (o + jnp.sqrt(o**2)) / 2.&quot;&quot;&quot;</span>
+  <span class="k">return</span> <span class="p">(</span><span class="n">o</span> <span class="o">+</span> <span class="n">jnp</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">o</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span> <span class="o">/</span> <span class="mi">2</span></div>
+
+
+<div class="viewcode-block" id="first_order_normalization">
+<a class="viewcode-back" href="../../_autosummary/autopdex.geometry.first_order_normalization.html#autopdex.geometry.first_order_normalization">[docs]</a>
+<span class="k">def</span> <span class="nf">first_order_normalization</span><span class="p">(</span><span class="n">o</span><span class="p">,</span> <span class="n">grad</span><span class="p">):</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;Normalizes an unnormalized distance function o with its gradient grad.&quot;&quot;&quot;</span>
+  <span class="k">return</span> <span class="n">o</span> <span class="o">/</span> <span class="n">jnp</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">o</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">jnp</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">grad</span><span class="p">,</span><span class="n">grad</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="normals_from_normalized_sdf">
+<a class="viewcode-back" href="../../_autosummary/autopdex.geometry.normals_from_normalized_sdf.html#autopdex.geometry.normals_from_normalized_sdf">[docs]</a>
+<span class="k">def</span> <span class="nf">normals_from_normalized_sdf</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">sdf</span><span class="p">):</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Returns a smooth vector field that equals the surface normals where the normalized smooth distance function sdf equals 0</span>
+<span class="sd">  </span>
+<span class="sd">  Parameters:</span>
+<span class="sd">    x (jnp.ndarray): The position at which the vector field shall be evaluated</span>
+<span class="sd">    sdf (callable): The normalized smooth distance function with argument x</span>
+
+<span class="sd">  Returns:</span>
+<span class="sd">    jnp.ndarray</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="k">return</span> <span class="o">-</span> <span class="n">jax</span><span class="o">.</span><span class="n">jacrev</span><span class="p">(</span><span class="n">sdf</span><span class="p">)(</span><span class="n">x</span><span class="p">)</span></div>
+
+
+
+<span class="c1">### Some helper functions</span>
+<div class="viewcode-block" id="centroid">
+<a class="viewcode-back" href="../../_autosummary/autopdex.geometry.centroid.html#autopdex.geometry.centroid">[docs]</a>
+<span class="k">def</span> <span class="nf">centroid</span><span class="p">(</span><span class="n">x_p1</span><span class="p">,</span> <span class="n">x_p2</span><span class="p">):</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Mean of two points in n-dimensions:</span>
+<span class="sd">  </span>
+<span class="sd">  result = (x_p1 + x_p2) / 2</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="k">return</span> <span class="p">(</span><span class="n">x_p1</span> <span class="o">+</span> <span class="n">x_p2</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span></div>
+
+
+<div class="viewcode-block" id="normal">
+<a class="viewcode-back" href="../../_autosummary/autopdex.geometry.normal.html#autopdex.geometry.normal">[docs]</a>
+<span class="k">def</span> <span class="nf">normal</span><span class="p">(</span><span class="n">x_p1</span><span class="p">,</span> <span class="n">x_p2</span><span class="p">):</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Normalized vector showing from x_p1 to x_p2.</span>
+<span class="sd">  </span>
+<span class="sd">  result = (x_p2 - x_p1) / jnp.linalg.norm(x_p2 - x_p1)</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="k">return</span> <span class="p">(</span><span class="n">x_p2</span> <span class="o">-</span> <span class="n">x_p1</span><span class="p">)</span> <span class="o">/</span> <span class="n">jnp</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">x_p2</span> <span class="o">-</span> <span class="n">x_p1</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="project">
+<a class="viewcode-back" href="../../_autosummary/autopdex.geometry.project.html#autopdex.geometry.project">[docs]</a>
+<span class="k">def</span> <span class="nf">project</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">normal</span><span class="p">):</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Projects vector x in the direction of vector normal.</span>
+<span class="sd">  </span>
+<span class="sd">  result = jnp.dot(x,normal) * normal</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="k">return</span> <span class="n">jnp</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">normal</span><span class="p">)</span> <span class="o">*</span> <span class="n">normal</span></div>
+
+
+<div class="viewcode-block" id="project_on_line">
+<a class="viewcode-back" href="../../_autosummary/autopdex.geometry.project_on_line.html#autopdex.geometry.project_on_line">[docs]</a>
+<span class="k">def</span> <span class="nf">project_on_line</span><span class="p">(</span><span class="n">x_p1</span><span class="p">,</span> <span class="n">x_p2</span><span class="p">,</span> <span class="n">x_p3</span><span class="p">):</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Projects x_p1 on the line going through x_p2 and x_p3.</span>
+<span class="sd">  </span>
+<span class="sd">  result = x_p2 + project(x_p1 - x_p2, normal(x_p2, x_p3))</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="k">return</span> <span class="n">x_p2</span> <span class="o">+</span> <span class="n">project</span><span class="p">(</span><span class="n">x_p1</span> <span class="o">-</span> <span class="n">x_p2</span><span class="p">,</span> <span class="n">normal</span><span class="p">(</span><span class="n">x_p2</span><span class="p">,</span> <span class="n">x_p3</span><span class="p">))</span></div>
+
+
+
+<span class="c1">### First order normalized signed smooth distance function of primitives</span>
+<div class="viewcode-block" id="sdf_infinite_line">
+<a class="viewcode-back" href="../../_autosummary/autopdex.geometry.sdf_infinite_line.html#autopdex.geometry.sdf_infinite_line">[docs]</a>
+<span class="k">def</span> <span class="nf">sdf_infinite_line</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">x_p1</span><span class="p">,</span> <span class="n">x_p2</span><span class="p">):</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Normalized signed smooth distance function of an infinite line going through x_p1 and x_p2.</span>
+
+<span class="sd">  Parameters:</span>
+<span class="sd">    x (jnp.ndarray): The point where the distance is evaluated.</span>
+<span class="sd">    x_p1 (jnp.ndarray): First point on the infinite line.</span>
+<span class="sd">    x_p2 (jnp.ndarray): Second point on the infinite line.</span>
+
+<span class="sd">  Returns:</span>
+<span class="sd">    float: The signed distance from the point x to the infinite line defined by x_p1 and x_p2.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="n">x_p1</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">x_p1</span><span class="p">)</span>
+  <span class="n">x_p2</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">x_p2</span><span class="p">)</span>
+  <span class="n">line_length</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">x_p2</span> <span class="o">-</span> <span class="n">x_p1</span><span class="p">)</span>
+  <span class="k">return</span> <span class="p">((</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">-</span><span class="n">x_p1</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">*</span><span class="p">(</span><span class="n">x_p2</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="n">x_p1</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span><span class="o">-</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="n">x_p1</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span><span class="o">*</span><span class="p">(</span><span class="n">x_p2</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">-</span><span class="n">x_p1</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span> <span class="o">/</span> <span class="n">line_length</span></div>
+
+
+<div class="viewcode-block" id="sdf_nd_sphere">
+<a class="viewcode-back" href="../../_autosummary/autopdex.geometry.sdf_nd_sphere.html#autopdex.geometry.sdf_nd_sphere">[docs]</a>
+<span class="k">def</span> <span class="nf">sdf_nd_sphere</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">xc</span><span class="p">,</span> <span class="n">r</span><span class="p">):</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Normalized signed distance function to n-dimensional sphere, positive in the interior.</span>
+
+<span class="sd">  Parameters:</span>
+<span class="sd">    x (jnp.ndarray): The point where the distance is evaluated.</span>
+<span class="sd">    xc (jnp.ndarray): Center of the sphere.</span>
+<span class="sd">    r (float): Radius of the sphere.</span>
+
+<span class="sd">  Returns:</span>
+<span class="sd">    float: The normalized signed distance from the point x to the n-dimensional sphere defined by center xc and radius r.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="n">xc</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">xc</span><span class="p">)</span>
+  <span class="n">dxc</span> <span class="o">=</span> <span class="n">x</span> <span class="o">-</span> <span class="n">xc</span>
+  <span class="k">return</span> <span class="p">(</span><span class="n">r</span><span class="o">**</span><span class="mi">2</span> <span class="o">-</span> <span class="n">jnp</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">dxc</span><span class="p">,</span><span class="n">dxc</span><span class="p">))</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">r</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="sdf_nd_planes">
+<a class="viewcode-back" href="../../_autosummary/autopdex.geometry.sdf_nd_planes.html#autopdex.geometry.sdf_nd_planes">[docs]</a>
+<span class="k">def</span> <span class="nf">sdf_nd_planes</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">x_p1</span><span class="p">,</span> <span class="n">x_p2</span><span class="p">):</span> 
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Normalized signed smooth distance function, positive between points (1D), lines (2D), and n-dimensional planes (nD).</span>
+
+<span class="sd">  Parameters:</span>
+<span class="sd">    x (jnp.ndarray): The point where the distance is evaluated.</span>
+<span class="sd">    x_p1 (jnp.ndarray): Point on the first plane.</span>
+<span class="sd">    x_p2 (jnp.ndarray): Point on the second plane.</span>
+
+<span class="sd">  Returns:</span>
+<span class="sd">    float: The signed distance from the point x to the planes defined by x_p1 and x_p2.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="n">x_p1</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">x_p1</span><span class="p">)</span>
+  <span class="n">x_p2</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">x_p2</span><span class="p">)</span>
+
+  <span class="n">xc</span> <span class="o">=</span> <span class="n">centroid</span><span class="p">(</span><span class="n">x_p1</span><span class="p">,</span> <span class="n">x_p2</span><span class="p">)</span>
+  <span class="nb">len</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">x_p2</span> <span class="o">-</span> <span class="n">x_p1</span><span class="p">)</span>
+  <span class="n">dxc</span> <span class="o">=</span> <span class="n">x</span> <span class="o">-</span> <span class="n">xc</span>
+
+  <span class="n">n_plane</span> <span class="o">=</span> <span class="n">normal</span><span class="p">(</span><span class="n">x_p1</span><span class="p">,</span><span class="n">x_p2</span><span class="p">)</span>
+  <span class="n">dist_to_mid_plane</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">dxc</span><span class="p">,</span><span class="n">n_plane</span><span class="p">)</span>
+  
+  <span class="k">return</span> <span class="p">(</span><span class="nb">len</span><span class="o">**</span><span class="mi">2</span> <span class="o">/</span> <span class="mi">4</span> <span class="o">-</span> <span class="n">dist_to_mid_plane</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="nb">len</span></div>
+
+
+<div class="viewcode-block" id="sdf_normal_to_direction">
+<a class="viewcode-back" href="../../_autosummary/autopdex.geometry.sdf_normal_to_direction.html#autopdex.geometry.sdf_normal_to_direction">[docs]</a>
+<span class="k">def</span> <span class="nf">sdf_normal_to_direction</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">x_p1</span><span class="p">,</span> <span class="n">normal</span><span class="p">):</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Normalized signed smooth distance function to a plane defined by one point and a normal vector, positive in the direction of the normal vector.</span>
+
+<span class="sd">  Parameters:</span>
+<span class="sd">    x (jnp.ndarray): The point where the distance is evaluated.</span>
+<span class="sd">    x_p1 (jnp.ndarray): A point on the plane.</span>
+<span class="sd">    normal (jnp.ndarray): The normal vector of the plane.</span>
+
+<span class="sd">  Returns:</span>
+<span class="sd">    float: The distance from the point x to the plane defined by x_p1 and the normal vector.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="n">x_p1</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">x_p1</span><span class="p">)</span>
+  <span class="n">normal</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">normal</span><span class="p">)</span>
+
+  <span class="n">dist</span> <span class="o">=</span> <span class="n">x</span> <span class="o">-</span> <span class="n">x_p1</span>
+  <span class="k">return</span> <span class="n">jnp</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">dist</span><span class="p">,</span> <span class="n">normal</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="sdf_infinite_cylinder">
+<a class="viewcode-back" href="../../_autosummary/autopdex.geometry.sdf_infinite_cylinder.html#autopdex.geometry.sdf_infinite_cylinder">[docs]</a>
+<span class="k">def</span> <span class="nf">sdf_infinite_cylinder</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">x_p1</span><span class="p">,</span> <span class="n">normal</span><span class="p">,</span> <span class="n">radius</span><span class="p">):</span> 
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Normalized signed smooth distance function, positive within an infinite cylinder in 3D.</span>
+
+<span class="sd">  Parameters:</span>
+<span class="sd">    x (jnp.ndarray): The point where the distance is evaluated.</span>
+<span class="sd">    x_p1 (jnp.ndarray): A point on the center line of the cylinder.</span>
+<span class="sd">    normal (jnp.ndarray): The direction vector of the cylinder.</span>
+<span class="sd">    radius (float): The radius of the cylinder.</span>
+
+<span class="sd">  Returns:</span>
+<span class="sd">    float: The signed distance from the point x to the infinite cylinder.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="n">x_p1</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">x_p1</span><span class="p">)</span>
+  <span class="n">normal</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">normal</span><span class="p">)</span>
+
+  <span class="n">x_projected_on_centerline</span> <span class="o">=</span> <span class="n">project_on_line</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">x_p1</span><span class="p">,</span> <span class="n">x_p1</span><span class="o">+</span><span class="n">normal</span><span class="p">)</span>
+  <span class="n">d</span> <span class="o">=</span> <span class="n">x</span> <span class="o">-</span> <span class="n">x_projected_on_centerline</span>
+  <span class="k">return</span> <span class="p">(</span><span class="n">radius</span><span class="o">**</span><span class="mi">2</span> <span class="o">-</span> <span class="n">jnp</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">d</span><span class="p">,</span><span class="n">d</span><span class="p">))</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">radius</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="sdf_cylinder">
+<a class="viewcode-back" href="../../_autosummary/autopdex.geometry.sdf_cylinder.html#autopdex.geometry.sdf_cylinder">[docs]</a>
+<span class="k">def</span> <span class="nf">sdf_cylinder</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">x_0</span><span class="p">,</span> <span class="n">normal</span><span class="p">,</span> <span class="n">radius</span><span class="p">,</span> <span class="n">length</span><span class="p">):</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Normalized signed smooth distance function, positive within a cylinder in 3D.</span>
+
+<span class="sd">  Parameters:</span>
+<span class="sd">    x (jnp.ndarray): The point where the distance is evaluated.</span>
+<span class="sd">    x_0 (jnp.ndarray): The starting point on the center line of the cylinder.</span>
+<span class="sd">    normal (jnp.ndarray): The direction vector of the cylinder.</span>
+<span class="sd">    radius (float): The radius of the cylinder.</span>
+<span class="sd">    length (float): The length of the cylinder.</span>
+
+<span class="sd">  Returns:</span>
+<span class="sd">    float: The signed distance from the point x to the cylinder.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="n">x_0</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">x_0</span><span class="p">)</span>
+  <span class="n">normal</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">normal</span><span class="p">)</span>
+
+  <span class="n">inf_cylinder</span> <span class="o">=</span> <span class="n">sdf_infinite_cylinder</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">x_0</span><span class="p">,</span> <span class="n">normal</span><span class="p">,</span> <span class="n">radius</span><span class="p">)</span>
+  <span class="n">region_between_end_pts</span> <span class="o">=</span> <span class="n">sdf_nd_planes</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">x_0</span><span class="p">,</span> <span class="n">x_0</span> <span class="o">+</span> <span class="n">length</span> <span class="o">*</span> <span class="n">normal</span><span class="p">)</span>
+  <span class="k">return</span> <span class="n">r_conjunction</span><span class="p">(</span><span class="n">inf_cylinder</span><span class="p">,</span><span class="n">region_between_end_pts</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="sdf_cylinder_extruded">
+<a class="viewcode-back" href="../../_autosummary/autopdex.geometry.sdf_cylinder_extruded.html#autopdex.geometry.sdf_cylinder_extruded">[docs]</a>
+<span class="k">def</span> <span class="nf">sdf_cylinder_extruded</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">x_0</span><span class="p">,</span> <span class="n">normal</span><span class="p">,</span> <span class="n">radius</span><span class="p">,</span> <span class="n">length</span><span class="p">,</span> <span class="n">t0</span><span class="p">,</span> <span class="n">t1</span><span class="p">):</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Normalized signed smooth distance function of a cylinder that is extruded in time (fourth dimension).</span>
+
+<span class="sd">  Parameters:</span>
+<span class="sd">    x (jnp.ndarray): The point where the distance is evaluated.</span>
+<span class="sd">    x_0 (jnp.ndarray): The starting point on the center line of the cylinder.</span>
+<span class="sd">    normal (jnp.ndarray): The direction vector of the cylinder.</span>
+<span class="sd">    radius (float): The radius of the cylinder.</span>
+<span class="sd">    length (float): The length of the cylinder.</span>
+<span class="sd">    t0 (float): The starting time of the extrusion.</span>
+<span class="sd">    t1 (float): The ending time of the extrusion.</span>
+
+<span class="sd">  Returns:</span>
+<span class="sd">    float: The signed distance from the point x to the extruded cylinder.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="n">x_0</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">x_0</span><span class="p">)</span>
+  <span class="n">normal</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">normal</span><span class="p">)</span>
+
+  <span class="n">cylinder_in_3d</span> <span class="o">=</span> <span class="n">sdf_cylinder</span><span class="p">(</span><span class="n">x</span><span class="p">[:</span><span class="mi">3</span><span class="p">],</span> <span class="n">x_0</span><span class="p">,</span> <span class="n">normal</span><span class="p">,</span> <span class="n">radius</span><span class="p">,</span> <span class="n">length</span><span class="p">)</span>
+  <span class="n">region_between_t0_t1</span> <span class="o">=</span> <span class="n">sdf_nd_planes</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">([</span><span class="mf">0.</span><span class="p">,</span><span class="mf">0.</span><span class="p">,</span><span class="mf">0.</span><span class="p">,</span><span class="n">t0</span><span class="p">]),</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">([</span><span class="mf">0.</span><span class="p">,</span><span class="mf">0.</span><span class="p">,</span><span class="mf">0.</span><span class="p">,</span><span class="n">t1</span><span class="p">]))</span>
+  <span class="k">return</span> <span class="n">r_conjunction</span><span class="p">(</span><span class="n">cylinder_in_3d</span><span class="p">,</span> <span class="n">region_between_t0_t1</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="sdf_triangle_2d">
+<a class="viewcode-back" href="../../_autosummary/autopdex.geometry.sdf_triangle_2d.html#autopdex.geometry.sdf_triangle_2d">[docs]</a>
+<span class="k">def</span> <span class="nf">sdf_triangle_2d</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">x_p1</span><span class="p">,</span> <span class="n">x_p2</span><span class="p">,</span> <span class="n">x_p3</span><span class="p">):</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Normalized signed smooth distance function to a triangle (2D) or infinite triprism (3D), positive in the interior.</span>
+
+<span class="sd">  Parameters:</span>
+<span class="sd">    x (jnp.ndarray): The point where the distance is evaluated.</span>
+<span class="sd">    x_p1 (jnp.ndarray): First vertex of the triangle.</span>
+<span class="sd">    x_p2 (jnp.ndarray): Second vertex of the triangle.</span>
+<span class="sd">    x_p3 (jnp.ndarray): Third vertex of the triangle.</span>
+
+<span class="sd">  Returns:</span>
+<span class="sd">    float: The signed distance from the point x to the triangle or triprism.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="n">x_p1</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">x_p1</span><span class="p">)</span>
+  <span class="n">x_p2</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">x_p2</span><span class="p">)</span>
+  <span class="n">x_p3</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">x_p3</span><span class="p">)</span>  
+  
+  <span class="n">projected_1</span> <span class="o">=</span> <span class="n">project_on_line</span><span class="p">(</span><span class="n">x_p1</span><span class="p">,</span> <span class="n">x_p2</span><span class="p">,</span> <span class="n">x_p3</span><span class="p">)</span>
+  <span class="n">projected_2</span> <span class="o">=</span> <span class="n">project_on_line</span><span class="p">(</span><span class="n">x_p2</span><span class="p">,</span> <span class="n">x_p3</span><span class="p">,</span> <span class="n">x_p1</span><span class="p">)</span>
+  <span class="n">projected_3</span> <span class="o">=</span> <span class="n">project_on_line</span><span class="p">(</span><span class="n">x_p3</span><span class="p">,</span> <span class="n">x_p1</span><span class="p">,</span> <span class="n">x_p2</span><span class="p">)</span>
+  
+  <span class="n">o1</span> <span class="o">=</span> <span class="n">sdf_nd_planes</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">x_p1</span><span class="p">,</span> <span class="n">projected_1</span><span class="p">)</span>
+  <span class="n">o2</span> <span class="o">=</span> <span class="n">sdf_nd_planes</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">x_p2</span><span class="p">,</span> <span class="n">projected_2</span><span class="p">)</span>
+  <span class="n">o3</span> <span class="o">=</span> <span class="n">sdf_nd_planes</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">x_p3</span><span class="p">,</span> <span class="n">projected_3</span><span class="p">)</span>
+
+  <span class="k">return</span> <span class="n">r_conjunction</span><span class="p">(</span><span class="n">r_conjunction</span><span class="p">(</span><span class="n">o1</span><span class="p">,</span><span class="n">o2</span><span class="p">),</span><span class="n">o3</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="sdf_convex_polygon_2d">
+<a class="viewcode-back" href="../../_autosummary/autopdex.geometry.sdf_convex_polygon_2d.html#autopdex.geometry.sdf_convex_polygon_2d">[docs]</a>
+<span class="k">def</span> <span class="nf">sdf_convex_polygon_2d</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">x_p_list</span><span class="p">):</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Normalized signed smooth distance function to a convex polygon (2D), positive in the interior.</span>
+
+<span class="sd">  Parameters:</span>
+<span class="sd">    x (jnp.ndarray): The point where the distance is evaluated.</span>
+<span class="sd">    x_p_list (list of jnp.ndarray): List of vertices of the polygon in counter-clockwise order.</span>
+
+<span class="sd">  Returns:</span>
+<span class="sd">    float: The signed distance from the point x to the convex polygon.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="n">n_segments</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">x_p_list</span><span class="p">)</span>
+  <span class="n">psdf_d</span> <span class="o">=</span> <span class="p">(</span><span class="k">lambda</span> <span class="n">t</span><span class="p">:</span> <span class="n">sdf_infinite_line</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">x_p_list</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">x_p_list</span><span class="p">[</span><span class="mi">0</span><span class="p">]))(</span><span class="n">x</span><span class="p">)</span>
+  
+  <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_segments</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+    <span class="n">x_0</span> <span class="o">=</span> <span class="n">x_p_list</span><span class="p">[</span><span class="o">-</span><span class="n">i</span><span class="p">]</span>
+    <span class="n">x_1</span> <span class="o">=</span> <span class="n">x_p_list</span><span class="p">[</span><span class="o">-</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)]</span>
+    <span class="n">psdf_i</span> <span class="o">=</span> <span class="p">(</span><span class="k">lambda</span> <span class="n">t</span><span class="p">:</span> <span class="n">sdf_infinite_line</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">x_0</span><span class="p">,</span> <span class="n">x_1</span><span class="p">))(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">psdf_d</span> <span class="o">=</span> <span class="n">r_conjunction</span><span class="p">(</span><span class="n">psdf_d</span><span class="p">,</span> <span class="n">psdf_i</span><span class="p">)</span>
+  <span class="k">return</span> <span class="n">psdf_d</span></div>
+
+
+<div class="viewcode-block" id="sdf_infinite_triprism_3d">
+<a class="viewcode-back" href="../../_autosummary/autopdex.geometry.sdf_infinite_triprism_3d.html#autopdex.geometry.sdf_infinite_triprism_3d">[docs]</a>
+<span class="k">def</span> <span class="nf">sdf_infinite_triprism_3d</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">x_p1</span><span class="p">,</span> <span class="n">x_p2</span><span class="p">,</span> <span class="n">x_p3</span><span class="p">):</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Normalized signed smooth distance function to a triangle (2D) or infinite triprism (3D), positive in the interior.</span>
+
+<span class="sd">  Parameters:</span>
+<span class="sd">    x (jnp.ndarray): The point where the distance is evaluated.</span>
+<span class="sd">    x_p1 (jnp.ndarray): First vertex of the triangle.</span>
+<span class="sd">    x_p2 (jnp.ndarray): Second vertex of the triangle.</span>
+<span class="sd">    x_p3 (jnp.ndarray): Third vertex of the triangle.</span>
+
+<span class="sd">  Returns:</span>
+<span class="sd">    float: The signed distance from the point x to the triangle or triprism.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="k">return</span> <span class="n">sdf_triangle_2d</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">x_p1</span><span class="p">,</span> <span class="n">x_p2</span><span class="p">,</span> <span class="n">x_p3</span><span class="p">)</span></div>
+
+
+<span class="c1"># def sdf_triangle_3d(x, x_p1, x_p2, x_p3):</span>
+<span class="c1">#   x_p1 = jnp.asarray(x_p1)</span>
+<span class="c1">#   x_p2 = jnp.asarray(x_p2)</span>
+<span class="c1">#   x_p3 = jnp.asarray(x_p3) </span>
+<span class="c1">#   return #ToDo</span>
+
+<span class="c1"># def sdf_triprism(x, x_p1, x_p2, x_p3, length):</span>
+<span class="c1">#   x_p1 = jnp.asarray(x_p1)</span>
+<span class="c1">#   x_p2 = jnp.asarray(x_p2)</span>
+<span class="c1">#   x_p3 = jnp.asarray(x_p3) </span>
+<span class="c1">#   return #ToDo</span>
+
+<span class="c1"># def sdf_tetrahedron_3d(x, x_p1, x_p2, x_p3, x_p4):</span>
+<span class="c1">#   x_p1 = jnp.asarray(x_p1)</span>
+<span class="c1">#   x_p2 = jnp.asarray(x_p2)</span>
+<span class="c1">#   x_p3 = jnp.asarray(x_p3) </span>
+<span class="c1">#   x_p4 = jnp.asarray(x_p4) </span>
+<span class="c1">#   return #ToDo</span>
+
+<span class="c1"># def sdf_tetrahedron_extruded(x, x_p1, x_p2, x_p3, x_p4, t0, t1):</span>
+<span class="c1">#   x_p1 = jnp.asarray(x_p1)</span>
+<span class="c1">#   x_p2 = jnp.asarray(x_p2)</span>
+<span class="c1">#   x_p3 = jnp.asarray(x_p3) </span>
+<span class="c1">#   x_p4 = jnp.asarray(x_p4) </span>
+<span class="c1">#   return #ToDo</span>
+
+<div class="viewcode-block" id="sdf_parallelogram_2d">
+<a class="viewcode-back" href="../../_autosummary/autopdex.geometry.sdf_parallelogram_2d.html#autopdex.geometry.sdf_parallelogram_2d">[docs]</a>
+<span class="k">def</span> <span class="nf">sdf_parallelogram_2d</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">x_p1</span><span class="p">,</span> <span class="n">x_p2</span><span class="p">,</span> <span class="n">x_p3</span><span class="p">):</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Normalized signed smooth distance function to a parallelogram, positive in the interior.</span>
+
+<span class="sd">  Usage for rectangle with vertices [[0,0],[0,1],[1,1],[1,0]]:</span>
+<span class="sd">  sdf_parallelogram(x, [0,0], [0,1], [1,0])</span>
+
+<span class="sd">  Parameters:</span>
+<span class="sd">    x (jnp.ndarray): The point where the distance is evaluated.</span>
+<span class="sd">    x_p1 (jnp.ndarray): First vertex of the parallelogram.</span>
+<span class="sd">    x_p2 (jnp.ndarray): Second vertex of the parallelogram.</span>
+<span class="sd">    x_p3 (jnp.ndarray): Third vertex of the parallelogram.</span>
+
+<span class="sd">  Returns:</span>
+<span class="sd">    float: The signed distance from the point x to the parallelogram.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="n">x_p1</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">x_p1</span><span class="p">)</span>
+  <span class="n">x_p2</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">x_p2</span><span class="p">)</span>
+  <span class="n">x_p3</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">x_p3</span><span class="p">)</span> 
+
+  <span class="n">projected_2</span> <span class="o">=</span> <span class="n">project_on_line</span><span class="p">(</span><span class="n">x_p2</span><span class="p">,</span> <span class="n">x_p3</span><span class="p">,</span> <span class="n">x_p1</span><span class="p">)</span>
+  <span class="n">projected_3</span> <span class="o">=</span> <span class="n">project_on_line</span><span class="p">(</span><span class="n">x_p3</span><span class="p">,</span> <span class="n">x_p1</span><span class="p">,</span> <span class="n">x_p2</span><span class="p">)</span>
+  
+  <span class="n">o2</span> <span class="o">=</span> <span class="n">sdf_nd_planes</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">x_p2</span><span class="p">,</span> <span class="n">projected_2</span><span class="p">)</span>
+  <span class="n">o3</span> <span class="o">=</span> <span class="n">sdf_nd_planes</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">x_p3</span><span class="p">,</span> <span class="n">projected_3</span><span class="p">)</span>
+
+  <span class="k">return</span> <span class="n">r_conjunction</span><span class="p">(</span><span class="n">o2</span><span class="p">,</span><span class="n">o3</span><span class="p">)</span></div>
+
+
+<span class="c1"># def sdf_infinite_parallelogram_prism(x, x_p1, x_p2, x_p3):</span>
+<span class="c1">#   x_p1 = jnp.asarray(x_p1)</span>
+<span class="c1">#   x_p2 = jnp.asarray(x_p2)</span>
+<span class="c1">#   x_p3 = jnp.asarray(x_p3) </span>
+<span class="c1">#   return #ToDo</span>
+
+<div class="viewcode-block" id="sdf_cuboid">
+<a class="viewcode-back" href="../../_autosummary/autopdex.geometry.sdf_cuboid.html#autopdex.geometry.sdf_cuboid">[docs]</a>
+<span class="k">def</span> <span class="nf">sdf_cuboid</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">x_p1</span><span class="p">,</span> <span class="n">x_p2</span><span class="p">):</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Normalized signed smooth distance function to a cuboid, positive in the interior.</span>
+
+<span class="sd">  Parameters:</span>
+<span class="sd">    x (jnp.ndarray): The point where the distance is evaluated.</span>
+<span class="sd">    x_p1 (jnp.ndarray): The point with minimum coordinates of the cuboid.</span>
+<span class="sd">    x_p2 (jnp.ndarray): The point with maximum coordinates of the cuboid.</span>
+
+<span class="sd">  Returns:</span>
+<span class="sd">    float: The signed distance from the point x to the cuboid.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="n">x_p1</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">x_p1</span><span class="p">)</span>
+  <span class="n">x_p2</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">x_p2</span><span class="p">)</span>
+
+  <span class="n">project_x</span> <span class="o">=</span> <span class="n">project_on_line</span><span class="p">(</span><span class="n">x_p2</span><span class="p">,</span> <span class="n">x_p1</span><span class="p">,</span> <span class="n">x_p1</span> <span class="o">+</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">([</span><span class="mf">1.</span><span class="p">,</span><span class="mf">0.</span><span class="p">,</span><span class="mf">0.</span><span class="p">]))</span>
+  <span class="n">project_y</span> <span class="o">=</span> <span class="n">project_on_line</span><span class="p">(</span><span class="n">x_p2</span><span class="p">,</span> <span class="n">x_p1</span><span class="p">,</span> <span class="n">x_p1</span> <span class="o">+</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">([</span><span class="mf">0.</span><span class="p">,</span><span class="mf">1.</span><span class="p">,</span><span class="mf">0.</span><span class="p">]))</span>
+  <span class="n">project_z</span> <span class="o">=</span> <span class="n">project_on_line</span><span class="p">(</span><span class="n">x_p2</span><span class="p">,</span> <span class="n">x_p1</span><span class="p">,</span> <span class="n">x_p1</span> <span class="o">+</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">([</span><span class="mf">0.</span><span class="p">,</span><span class="mf">0.</span><span class="p">,</span><span class="mf">1.</span><span class="p">]))</span>
+  
+  <span class="n">o1</span> <span class="o">=</span> <span class="n">sdf_nd_planes</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">x_p1</span><span class="p">,</span> <span class="n">project_x</span><span class="p">)</span>
+  <span class="n">o2</span> <span class="o">=</span> <span class="n">sdf_nd_planes</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">x_p1</span><span class="p">,</span> <span class="n">project_y</span><span class="p">)</span>
+  <span class="n">o3</span> <span class="o">=</span> <span class="n">sdf_nd_planes</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">x_p1</span><span class="p">,</span> <span class="n">project_z</span><span class="p">)</span>
+
+  <span class="k">return</span> <span class="n">r_conjunction</span><span class="p">(</span><span class="n">r_conjunction</span><span class="p">(</span><span class="n">o1</span><span class="p">,</span><span class="n">o2</span><span class="p">),</span><span class="n">o3</span><span class="p">)</span></div>
+
+
+<span class="c1"># def sdf_parallelepiped_extruded(x, x_p1, x_p2, x_p3, x_p4, t0, t1):</span>
+<span class="c1">#   x_p1 = jnp.asarray(x_p1)</span>
+<span class="c1">#   x_p2 = jnp.asarray(x_p2)</span>
+<span class="c1">#   x_p3 = jnp.asarray(x_p3) </span>
+<span class="c1">#   x_p4 = jnp.asarray(x_p4) </span>
+<span class="c1">#   return #ToDo</span>
+
+<span class="c1"># def sdf_3d_ball_extruded(x, xc, r):</span>
+<span class="c1">#   xc = jnp.asarray(xc)</span>
+<span class="c1">#   return #ToDo</span>
+
+
+<span class="c1">### Smooth positive distance function of primitives, first order normalized</span>
+<div class="viewcode-block" id="psdf_infinite_line">
+<a class="viewcode-back" href="../../_autosummary/autopdex.geometry.psdf_infinite_line.html#autopdex.geometry.psdf_infinite_line">[docs]</a>
+<span class="k">def</span> <span class="nf">psdf_infinite_line</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">x_p1</span><span class="p">,</span> <span class="n">x_p2</span><span class="p">):</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Positive normalized smooth distance function of an infinite line going through x_p1 and x_p2.</span>
+
+<span class="sd">  Parameters:</span>
+<span class="sd">    x (jnp.ndarray): The point where the distance is evaluated.</span>
+<span class="sd">    x_p1 (jnp.ndarray): First point on the infinite line.</span>
+<span class="sd">    x_p2 (jnp.ndarray): Second point on the infinite line.</span>
+
+<span class="sd">  Returns:</span>
+<span class="sd">    float: The positive distance from the point x to the infinite line defined by x_p1 and x_p2.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="n">x_p1</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">x_p1</span><span class="p">)</span>
+  <span class="n">x_p2</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">x_p2</span><span class="p">)</span>
+
+  <span class="n">dx1</span> <span class="o">=</span> <span class="n">x</span> <span class="o">-</span> <span class="n">x_p1</span>
+  <span class="n">normal_vector_in_line_direction</span> <span class="o">=</span> <span class="n">normal</span><span class="p">(</span><span class="n">x_p1</span><span class="p">,</span> <span class="n">x_p2</span><span class="p">)</span>
+  <span class="n">normal_component</span> <span class="o">=</span> <span class="n">dx1</span> <span class="o">-</span> <span class="n">project</span><span class="p">(</span><span class="n">dx1</span><span class="p">,</span> <span class="n">normal_vector_in_line_direction</span><span class="p">)</span>
+  <span class="k">return</span> <span class="n">jnp</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">normal_component</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="psdf_trimmed_line">
+<a class="viewcode-back" href="../../_autosummary/autopdex.geometry.psdf_trimmed_line.html#autopdex.geometry.psdf_trimmed_line">[docs]</a>
+<span class="k">def</span> <span class="nf">psdf_trimmed_line</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">x_p1</span><span class="p">,</span> <span class="n">x_p2</span><span class="p">):</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Positive normalized smooth distance function of a line segment going from x_p1 to x_p2.</span>
+
+<span class="sd">  Parameters:</span>
+<span class="sd">    x (jnp.ndarray): The point where the distance is evaluated.</span>
+<span class="sd">    x_p1 (jnp.ndarray): Starting point of the line segment.</span>
+<span class="sd">    x_p2 (jnp.ndarray): Ending point of the line segment.</span>
+
+<span class="sd">  Returns:</span>
+<span class="sd">    float: The positive distance from the point x to the line segment defined by x_p1 and x_p2.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="n">x_p1</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">x_p1</span><span class="p">)</span>
+  <span class="n">x_p2</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">x_p2</span><span class="p">)</span>
+
+  <span class="n">omega</span> <span class="o">=</span> <span class="n">sdf_infinite_line</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">x_p1</span><span class="p">,</span> <span class="n">x_p2</span><span class="p">)</span>
+
+  <span class="n">xc</span> <span class="o">=</span> <span class="n">centroid</span><span class="p">(</span><span class="n">x_p1</span><span class="p">,</span> <span class="n">x_p2</span><span class="p">)</span>
+  <span class="n">d</span> <span class="o">=</span> <span class="n">x_p2</span> <span class="o">-</span> <span class="n">x_p1</span>
+  <span class="nb">len</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
+  <span class="n">trim</span> <span class="o">=</span> <span class="n">sdf_nd_sphere</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">xc</span><span class="p">,</span> <span class="nb">len</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span>
+
+  <span class="k">return</span> <span class="n">r_trimming</span><span class="p">(</span><span class="n">omega</span><span class="p">,</span> <span class="n">trim</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="psdf_nd_sphere">
+<a class="viewcode-back" href="../../_autosummary/autopdex.geometry.psdf_nd_sphere.html#autopdex.geometry.psdf_nd_sphere">[docs]</a>
+<span class="k">def</span> <span class="nf">psdf_nd_sphere</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">xc</span><span class="p">,</span> <span class="n">r</span><span class="p">):</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Interior positive normalized smooth distance function of an n-dimensional sphere.</span>
+
+<span class="sd">  Parameters:</span>
+<span class="sd">    x (jnp.ndarray): The point where the distance is evaluated.</span>
+<span class="sd">    xc (jnp.ndarray): Center of the sphere.</span>
+<span class="sd">    r (float): Radius of the sphere.</span>
+
+<span class="sd">  Returns:</span>
+<span class="sd">    float: The positive distance from the point x to the region outside of a n-dimensional sphere.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="n">xc</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">xc</span><span class="p">)</span>
+  <span class="k">return</span> <span class="n">only_positive</span><span class="p">(</span><span class="n">sdf_nd_sphere</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">xc</span><span class="p">,</span> <span class="n">r</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="psdf_nd_sphere_cutout">
+<a class="viewcode-back" href="../../_autosummary/autopdex.geometry.psdf_nd_sphere_cutout.html#autopdex.geometry.psdf_nd_sphere_cutout">[docs]</a>
+<span class="k">def</span> <span class="nf">psdf_nd_sphere_cutout</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">xc</span><span class="p">,</span> <span class="n">r</span><span class="p">):</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Exterior positive normalized smooth distance function of an n-dimensional sphere.</span>
+
+<span class="sd">  Parameters:</span>
+<span class="sd">    x (jnp.ndarray): The point where the distance is evaluated.</span>
+<span class="sd">    xc (jnp.ndarray): Center of the sphere.</span>
+<span class="sd">    r (float): Radius of the sphere.</span>
+
+<span class="sd">  Returns:</span>
+<span class="sd">    float: The positive distance from the point x to the filled n-dimensional sphere.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="n">xc</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">xc</span><span class="p">)</span>
+  <span class="k">return</span> <span class="n">only_positive</span><span class="p">(</span><span class="o">-</span><span class="n">sdf_nd_sphere</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">xc</span><span class="p">,</span> <span class="n">r</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="psdf_infinite_cylinder">
+<a class="viewcode-back" href="../../_autosummary/autopdex.geometry.psdf_infinite_cylinder.html#autopdex.geometry.psdf_infinite_cylinder">[docs]</a>
+<span class="k">def</span> <span class="nf">psdf_infinite_cylinder</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">x_p1</span><span class="p">,</span> <span class="n">normal</span><span class="p">,</span> <span class="n">radius</span><span class="p">):</span> 
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Positive normalized smooth distance function to an infinite cylinder in 3D.</span>
+
+<span class="sd">  Parameters:</span>
+<span class="sd">    x (jnp.ndarray): The point where the distance is evaluated.</span>
+<span class="sd">    x_p1 (jnp.ndarray): A point on the center line of the cylinder.</span>
+<span class="sd">    normal (jnp.ndarray): The direction vector of the cylinder.</span>
+<span class="sd">    radius (float): The radius of the cylinder.</span>
+
+<span class="sd">  Returns:</span>
+<span class="sd">    float: The positive distance from the point x to the infinite cylinder. Zero outside of the cylinder.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="n">x_p1</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">x_p1</span><span class="p">)</span>
+  <span class="n">normal</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">normal</span><span class="p">)</span>
+  <span class="k">return</span> <span class="n">only_positive</span><span class="p">(</span><span class="n">sdf_infinite_cylinder</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">x_p1</span><span class="p">,</span> <span class="n">normal</span><span class="p">,</span> <span class="n">radius</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="psdf_cylinder">
+<a class="viewcode-back" href="../../_autosummary/autopdex.geometry.psdf_cylinder.html#autopdex.geometry.psdf_cylinder">[docs]</a>
+<span class="k">def</span> <span class="nf">psdf_cylinder</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">x_0</span><span class="p">,</span> <span class="n">normal</span><span class="p">,</span> <span class="n">radius</span><span class="p">,</span> <span class="n">length</span><span class="p">):</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Positive normalized smooth distance function to a cylinder in 3D.</span>
+
+<span class="sd">  Parameters:</span>
+<span class="sd">    x (jnp.ndarray): The point where the distance is evaluated.</span>
+<span class="sd">    x_0 (jnp.ndarray): The starting point on the center line of the cylinder.</span>
+<span class="sd">    normal (jnp.ndarray): The direction vector of the cylinder.</span>
+<span class="sd">    radius (float): The radius of the cylinder.</span>
+<span class="sd">    length (float): The length of the cylinder.</span>
+
+<span class="sd">  Returns:</span>
+<span class="sd">    float: The positive distance from the point x to the cylinder. Zero outside of the cylinder.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="n">x_0</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">x_0</span><span class="p">)</span>
+  <span class="n">normal</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">normal</span><span class="p">)</span>
+  <span class="k">return</span> <span class="n">only_positive</span><span class="p">(</span><span class="n">sdf_cylinder</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">x_0</span><span class="p">,</span> <span class="n">normal</span><span class="p">,</span> <span class="n">radius</span><span class="p">,</span> <span class="n">length</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="psdf_cylinder_extruded">
+<a class="viewcode-back" href="../../_autosummary/autopdex.geometry.psdf_cylinder_extruded.html#autopdex.geometry.psdf_cylinder_extruded">[docs]</a>
+<span class="k">def</span> <span class="nf">psdf_cylinder_extruded</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">x_0</span><span class="p">,</span> <span class="n">normal</span><span class="p">,</span> <span class="n">radius</span><span class="p">,</span> <span class="n">length</span><span class="p">,</span> <span class="n">t0</span><span class="p">,</span> <span class="n">t1</span><span class="p">):</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Positive normalized smooth distance function of a cylinder that is extruded in time.</span>
+
+<span class="sd">  Parameters:</span>
+<span class="sd">    x (jnp.ndarray): The point where the distance is evaluated.</span>
+<span class="sd">    x_0 (jnp.ndarray): The starting point on the center line of the cylinder.</span>
+<span class="sd">    normal (jnp.ndarray): The direction vector of the cylinder.</span>
+<span class="sd">    radius (float): The radius of the cylinder.</span>
+<span class="sd">    length (float): The length of the cylinder.</span>
+<span class="sd">    t0 (float): The starting time of the extrusion.</span>
+<span class="sd">    t1 (float): The ending time of the extrusion.</span>
+
+<span class="sd">  Returns:</span>
+<span class="sd">    float: The positive distance from the point x to the extruded cylinder. Zero outside of the cylinder.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="n">x_0</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">x_0</span><span class="p">)</span>
+  <span class="n">normal</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">normal</span><span class="p">)</span>
+  <span class="k">return</span> <span class="n">only_positive</span><span class="p">(</span><span class="n">sdf_cylinder_extruded</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">x_0</span><span class="p">,</span> <span class="n">normal</span><span class="p">,</span> <span class="n">radius</span><span class="p">,</span> <span class="n">length</span><span class="p">,</span> <span class="n">t0</span><span class="p">,</span> <span class="n">t1</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="psdf_triangle_2d">
+<a class="viewcode-back" href="../../_autosummary/autopdex.geometry.psdf_triangle_2d.html#autopdex.geometry.psdf_triangle_2d">[docs]</a>
+<span class="k">def</span> <span class="nf">psdf_triangle_2d</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">x_p1</span><span class="p">,</span> <span class="n">x_p2</span><span class="p">,</span> <span class="n">x_p3</span><span class="p">):</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Interior positive normalized smooth distance function of a triangle in 2D and a tri-prism in 3D.</span>
+
+<span class="sd">  Parameters:</span>
+<span class="sd">    x (jnp.ndarray): The point where the distance is evaluated.</span>
+<span class="sd">    x_p1 (jnp.ndarray): First vertex of the triangle.</span>
+<span class="sd">    x_p2 (jnp.ndarray): Second vertex of the triangle.</span>
+<span class="sd">    x_p3 (jnp.ndarray): Third vertex of the triangle.</span>
+
+<span class="sd">  Returns:</span>
+<span class="sd">    float: The positive distance from the point x to the region outside of the triangle or tri-prism.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="n">x_p1</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">x_p1</span><span class="p">)</span>
+  <span class="n">x_p2</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">x_p2</span><span class="p">)</span>
+  <span class="n">x_p3</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">x_p3</span><span class="p">)</span> 
+  <span class="k">return</span> <span class="n">only_positive</span><span class="p">(</span><span class="n">sdf_triangle_2d</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">x_p1</span><span class="p">,</span> <span class="n">x_p2</span><span class="p">,</span> <span class="n">x_p3</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="psdf_infinite_triprism_3d">
+<a class="viewcode-back" href="../../_autosummary/autopdex.geometry.psdf_infinite_triprism_3d.html#autopdex.geometry.psdf_infinite_triprism_3d">[docs]</a>
+<span class="k">def</span> <span class="nf">psdf_infinite_triprism_3d</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">x_p1</span><span class="p">,</span> <span class="n">x_p2</span><span class="p">,</span> <span class="n">x_p3</span><span class="p">):</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Interior positive normalized smooth distance function of a triangle in 2D and a tri-prism in 3D.</span>
+
+<span class="sd">  Parameters:</span>
+<span class="sd">    x (jnp.ndarray): The point where the distance is evaluated.</span>
+<span class="sd">    x_p1 (jnp.ndarray): First vertex of the triangle.</span>
+<span class="sd">    x_p2 (jnp.ndarray): Second vertex of the triangle.</span>
+<span class="sd">    x_p3 (jnp.ndarray): Third vertex of the triangle.</span>
+
+<span class="sd">  Returns:</span>
+<span class="sd">    float: The positive distance from the point x to the region outside of the triangle or tri-prism.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="n">x_p1</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">x_p1</span><span class="p">)</span>
+  <span class="n">x_p2</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">x_p2</span><span class="p">)</span>
+  <span class="n">x_p3</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">x_p3</span><span class="p">)</span> 
+  <span class="k">return</span> <span class="n">psdf_triangle_2d</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">x_p1</span><span class="p">,</span> <span class="n">x_p2</span><span class="p">,</span> <span class="n">x_p3</span><span class="p">)</span></div>
+
+
+<span class="c1"># def psdf_triprism(x, x_p1, x_p2, x_p3, length):</span>
+<span class="c1">#   x_p1 = jnp.asarray(x_p1)</span>
+<span class="c1">#   x_p2 = jnp.asarray(x_p2)</span>
+<span class="c1">#   x_p3 = jnp.asarray(x_p3) </span>
+<span class="c1">#   return #ToDo</span>
+
+<div class="viewcode-block" id="psdf_parallelogram">
+<a class="viewcode-back" href="../../_autosummary/autopdex.geometry.psdf_parallelogram.html#autopdex.geometry.psdf_parallelogram">[docs]</a>
+<span class="k">def</span> <span class="nf">psdf_parallelogram</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">x_p1</span><span class="p">,</span> <span class="n">x_p2</span><span class="p">,</span> <span class="n">x_p3</span><span class="p">):</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Positive normalized smooth distance function to a parallelogram, positive in the interior.</span>
+
+<span class="sd">  Usage for rectangle with vertices [[0,0],[0,1],[1,1],[1,0]]:</span>
+<span class="sd">  psdf_parallelogram(x, [0,0], [0,1], [1,0])</span>
+
+<span class="sd">  Parameters:</span>
+<span class="sd">    x (jnp.ndarray): The point where the distance is evaluated.</span>
+<span class="sd">    x_p1 (jnp.ndarray): First vertex of the parallelogram.</span>
+<span class="sd">    x_p2 (jnp.ndarray): Second vertex of the parallelogram.</span>
+<span class="sd">    x_p3 (jnp.ndarray): Third vertex of the parallelogram.</span>
+
+<span class="sd">  Returns:</span>
+<span class="sd">    float: The positive distance from the point x to the region outside of the parallelogram.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="n">x_p1</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">x_p1</span><span class="p">)</span>
+  <span class="n">x_p2</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">x_p2</span><span class="p">)</span>
+  <span class="n">x_p3</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">x_p3</span><span class="p">)</span> 
+  <span class="k">return</span> <span class="n">only_positive</span><span class="p">(</span><span class="n">sdf_parallelogram_2d</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">x_p1</span><span class="p">,</span> <span class="n">x_p2</span><span class="p">,</span> <span class="n">x_p3</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="psdf_arc_in_2d">
+<a class="viewcode-back" href="../../_autosummary/autopdex.geometry.psdf_arc_in_2d.html#autopdex.geometry.psdf_arc_in_2d">[docs]</a>
+<span class="k">def</span> <span class="nf">psdf_arc_in_2d</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">xc</span><span class="p">,</span> <span class="n">x_p1</span><span class="p">,</span> <span class="n">x_p2</span><span class="p">):</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  First order normalized positive smooth distance function of a circular arc in 2D.</span>
+
+<span class="sd">  Parameters:</span>
+<span class="sd">    xc (jnp.ndarray): Center of the arc.</span>
+<span class="sd">    x_p1 (jnp.ndarray): Start point of the arc.</span>
+<span class="sd">    x_p2 (jnp.ndarray): End point of the arc (counter-clockwise).</span>
+
+<span class="sd">  Returns:</span>
+<span class="sd">    float: The normalized smooth distance from the point x to the circular arc.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="n">x_p1</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">x_p1</span><span class="p">)</span>
+  <span class="n">x_p2</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">x_p2</span><span class="p">)</span>
+  <span class="n">xc</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">xc</span><span class="p">)</span>
+  <span class="p">[</span><span class="n">x1</span><span class="p">,</span> <span class="n">y1</span><span class="p">]</span> <span class="o">=</span> <span class="n">x_p1</span>
+  <span class="p">[</span><span class="n">x2</span><span class="p">,</span> <span class="n">y2</span><span class="p">]</span> <span class="o">=</span> <span class="n">x_p2</span>
+  <span class="n">radius</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">xc</span><span class="o">-</span><span class="n">x_p1</span><span class="p">)</span>
+
+  <span class="c1"># Distance and trimming function</span>
+  <span class="n">o</span> <span class="o">=</span> <span class="n">sdf_nd_sphere</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">xc</span><span class="p">,</span> <span class="n">radius</span><span class="p">)</span>
+  <span class="n">t</span> <span class="o">=</span> <span class="p">((</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">-</span><span class="n">x1</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">y2</span><span class="o">-</span><span class="n">y1</span><span class="p">)</span> <span class="o">-</span> <span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="n">y1</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">x2</span><span class="o">-</span><span class="n">x1</span><span class="p">))</span> <span class="o">/</span> <span class="n">jnp</span><span class="o">.</span><span class="n">sqrt</span><span class="p">((</span><span class="n">x2</span><span class="o">-</span><span class="n">x1</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="p">(</span><span class="n">y2</span><span class="o">-</span><span class="n">y1</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+
+  <span class="k">return</span> <span class="n">r_trimming</span><span class="p">(</span><span class="n">o</span><span class="p">,</span> <span class="n">t</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="psdf_polygon">
+<a class="viewcode-back" href="../../_autosummary/autopdex.geometry.psdf_polygon.html#autopdex.geometry.psdf_polygon">[docs]</a>
+<span class="k">def</span> <span class="nf">psdf_polygon</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">x_p_list</span><span class="p">):</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Positive normalized smooth distance function for a polygon in 2D.</span>
+
+<span class="sd">  Parameters:</span>
+<span class="sd">    x (jnp.ndarray): The point where the distance is evaluated.</span>
+<span class="sd">    x_p_list (list of jnp.ndarray): List of edge coordinates of the polygon.</span>
+
+<span class="sd">  Returns:</span>
+<span class="sd">    float: The positive distance from the point x to the polygon boundary. (Positive inside and outside)</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="n">x_p_list</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">x_p_list</span><span class="p">)</span>
+  <span class="n">n_segments</span> <span class="o">=</span> <span class="n">x_p_list</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+  <span class="n">psdf_d</span> <span class="o">=</span> <span class="p">(</span><span class="k">lambda</span> <span class="n">t</span><span class="p">:</span> <span class="n">psdf_trimmed_line</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">x_p_list</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">x_p_list</span><span class="p">[</span><span class="mi">1</span><span class="p">]))(</span><span class="n">x</span><span class="p">)</span>
+  
+  <span class="k">def</span> <span class="nf">body_fun</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">psdf_d</span><span class="p">):</span>
+    <span class="n">x_0</span> <span class="o">=</span> <span class="n">x_p_list</span><span class="p">[</span><span class="o">-</span><span class="n">i</span><span class="p">]</span>
+    <span class="n">x_1</span> <span class="o">=</span> <span class="n">x_p_list</span><span class="p">[</span><span class="o">-</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)]</span>
+    <span class="n">psdf_i</span> <span class="o">=</span> <span class="p">(</span><span class="k">lambda</span> <span class="n">t</span><span class="p">:</span> <span class="n">psdf_trimmed_line</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">x_0</span><span class="p">,</span> <span class="n">x_1</span><span class="p">))(</span><span class="n">x</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">r_equivalence</span><span class="p">(</span><span class="n">psdf_d</span><span class="p">,</span> <span class="n">psdf_i</span><span class="p">)</span>
+  <span class="k">return</span> <span class="n">jax</span><span class="o">.</span><span class="n">lax</span><span class="o">.</span><span class="n">fori_loop</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">n_segments</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">body_fun</span><span class="p">,</span> <span class="n">psdf_d</span><span class="p">)</span></div>
+
+
+
+<span class="c1">### Transfinite interpolation</span>
+<span class="k">def</span> <span class="nf">transfinite_interpolation</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">boundary_psdfs</span><span class="p">,</span> <span class="n">boundary_conditions</span><span class="p">):</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Transfinite interpolation using positive smooth distance functions (PSDFs) and boundary conditions.</span>
+
+<span class="sd">  Parameters:</span>
+<span class="sd">    x (jnp.ndarray): The point where the interpolation is evaluated.</span>
+<span class="sd">    boundary_psdfs (list of callable): List of PSDF functions, each defining a boundary.</span>
+<span class="sd">    boundary_conditions (list of callable): List of boundary condition functions corresponding to the PSDF functions.</span>
+
+<span class="sd">  Returns:</span>
+<span class="sd">    jnp.ndarray: The interpolated value at point x based on the boundary PSDFs and boundary conditions.</span>
+
+<span class="sd">  Notes:</span>
+<span class="sd">    This function uses an unstable version of transfinite interpolation at the boundary.</span>
+<span class="sd">    Usually one can simply delete all integration points (and in case of collocation also nodes) on the boundary.</span>
+<span class="sd">    A more stable but inefficient version (commented out) can be used if stability issues arise.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="n">psdf_evaluated</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">stack</span><span class="p">([</span><span class="n">psdf_i</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">psdf_i</span> <span class="ow">in</span> <span class="n">boundary_psdfs</span><span class="p">])</span>
+  <span class="n">bc_evaluated</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">stack</span><span class="p">([</span><span class="n">bc_i</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">bc_i</span> <span class="ow">in</span> <span class="n">boundary_conditions</span><span class="p">])</span>
+
+  <span class="c1"># Instable version (at boundary)</span>
+  <span class="n">psdf_inv</span> <span class="o">=</span> <span class="mf">1.</span> <span class="o">/</span> <span class="n">psdf_evaluated</span>
+  <span class="n">psdf_inv_sum</span> <span class="o">=</span> <span class="n">psdf_inv</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+  <span class="n">bc_d</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">psdf_inv</span><span class="p">,</span> <span class="n">bc_evaluated</span><span class="p">)</span> <span class="o">/</span> <span class="n">psdf_inv_sum</span>
+  <span class="k">return</span> <span class="n">bc_d</span>
+
+  <span class="c1"># # Stable version</span>
+  <span class="c1"># denom = 0</span>
+  <span class="c1"># for k in range(len(psdf_evaluated)):</span>
+  <span class="c1">#   wk = 1</span>
+  <span class="c1">#   for (j,psdf_j) in enumerate(psdf_evaluated):</span>
+  <span class="c1">#     if k != j:</span>
+  <span class="c1">#       wk = wk * psdf_j</span>
+  <span class="c1">#   denom = denom + wk</span>
+
+  <span class="c1"># interpolated = 0</span>
+  <span class="c1"># for i in range(len(psdf_evaluated)):</span>
+  <span class="c1">#   wi = 1</span>
+  <span class="c1">#   for (j,psdf_j) in enumerate(psdf_evaluated):</span>
+  <span class="c1">#     if i != j:</span>
+  <span class="c1">#       wi = wi * psdf_j</span>
+  <span class="c1">#   interpolated = interpolated + wi * bc_evaluated[i]</span>
+  <span class="c1"># return interpolated / denom</span>
+
+<span class="k">def</span> <span class="nf">psdf_unification</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">boundary_psdfs</span><span class="p">):</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Unification of multiple positive smooth distance functions (PSDFs).</span>
+
+<span class="sd">  Parameters:</span>
+<span class="sd">    x (jnp.ndarray): The point where the unification is evaluated.</span>
+<span class="sd">    boundary_psdfs (list of callable): List of PSDF functions to be unified.</span>
+
+<span class="sd">  Returns:</span>
+<span class="sd">    float: The unified PSDF value at point x.</span>
+
+<span class="sd">  Notes:</span>
+<span class="sd">    The unification process combines the PSDFs using the r_equivalence relation.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="n">psdf_d</span> <span class="o">=</span> <span class="n">boundary_psdfs</span><span class="p">[</span><span class="mi">0</span><span class="p">](</span><span class="n">x</span><span class="p">)</span>
+  <span class="k">for</span> <span class="n">psdf_i</span> <span class="ow">in</span> <span class="n">boundary_psdfs</span><span class="p">[</span><span class="mi">1</span><span class="p">:]:</span>
+    <span class="n">psdf_d</span> <span class="o">=</span> <span class="n">r_equivalence</span><span class="p">(</span><span class="n">psdf_d</span><span class="p">,</span> <span class="n">psdf_i</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+
+  <span class="k">return</span> <span class="n">psdf_d</span>
+
+
+<span class="c1">### Mesh related functions</span>
+<div class="viewcode-block" id="triangle_area">
+<a class="viewcode-back" href="../../_autosummary/autopdex.geometry.triangle_area.html#autopdex.geometry.triangle_area">[docs]</a>
+<span class="nd">@jit_with_docstring</span><span class="p">()</span>
+<span class="k">def</span> <span class="nf">triangle_area</span><span class="p">(</span><span class="n">x_edges</span><span class="p">):</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Compute the area of a triangle given its vertices (jitted).</span>
+
+<span class="sd">  Parameters:</span>
+<span class="sd">    x_edges (jnp.ndarray): Array of shape (3, 2) containing the coordinates of the triangle&#39;s vertices.</span>
+
+<span class="sd">  Returns:</span>
+<span class="sd">    float: The area of the triangle.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="n">x_0</span> <span class="o">=</span> <span class="n">x_edges</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+  <span class="n">x_1</span> <span class="o">=</span> <span class="n">x_edges</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+  <span class="n">x_2</span> <span class="o">=</span> <span class="n">x_edges</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+
+  <span class="n">x_2_projected</span> <span class="o">=</span> <span class="n">project_on_line</span><span class="p">(</span><span class="n">x_2</span><span class="p">,</span> <span class="n">x_0</span><span class="p">,</span> <span class="n">x_1</span><span class="p">)</span>
+  <span class="n">l</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">x_1</span><span class="o">-</span><span class="n">x_0</span><span class="p">)</span>
+  <span class="n">h</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">x_2</span> <span class="o">-</span> <span class="n">x_2_projected</span><span class="p">)</span>
+  <span class="n">area</span> <span class="o">=</span> <span class="n">h</span> <span class="o">*</span> <span class="n">l</span> <span class="o">/</span> <span class="mi">2</span>
+  <span class="k">return</span> <span class="n">area</span></div>
+
+
+<div class="viewcode-block" id="triangle_areas">
+<a class="viewcode-back" href="../../_autosummary/autopdex.geometry.triangle_areas.html#autopdex.geometry.triangle_areas">[docs]</a>
+<span class="nd">@jit_with_docstring</span><span class="p">()</span>
+<span class="k">def</span> <span class="nf">triangle_areas</span><span class="p">(</span><span class="n">x_nodes</span><span class="p">,</span> <span class="n">elements</span><span class="p">):</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Compute the areas of multiple triangles given their vertices and connectivity (jitted).</span>
+
+<span class="sd">  Parameters:</span>
+<span class="sd">    x_nodes (jnp.ndarray): Array of shape (n, 2) containing the coordinates of the nodes.</span>
+<span class="sd">    elements (jnp.ndarray): Array of shape (m, 3) containing the indices of the nodes forming each triangle.</span>
+
+<span class="sd">  Returns:</span>
+<span class="sd">    jnp.ndarray: Array of shape (m,) containing the areas of the triangles.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="n">areas</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">vmap</span><span class="p">(</span><span class="n">triangle_area</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="mi">0</span><span class="p">)(</span><span class="n">x_nodes</span><span class="p">[</span><span class="n">elements</span><span class="p">])</span>
+  <span class="k">return</span> <span class="n">areas</span></div>
+
+
+<div class="viewcode-block" id="in_sdf">
+<a class="viewcode-back" href="../../_autosummary/autopdex.geometry.in_sdf.html#autopdex.geometry.in_sdf">[docs]</a>
+<span class="k">def</span> <span class="nf">in_sdf</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">sdf_fun</span><span class="p">):</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Check if a point lies on the surface defined by a positive or signed distance function.</span>
+
+<span class="sd">  Parameters:</span>
+<span class="sd">    x (jnp.ndarray): The point to be checked.</span>
+<span class="sd">    sdf_fun (callable): The distance function.</span>
+
+<span class="sd">  Returns:</span>
+<span class="sd">    bool: True if the point lies on the surface, False otherwise.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="n">x</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+  <span class="n">sdf</span> <span class="o">=</span> <span class="n">sdf_fun</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+  <span class="k">return</span> <span class="n">jnp</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="n">sdf</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="in_sdfs">
+<a class="viewcode-back" href="../../_autosummary/autopdex.geometry.in_sdfs.html#autopdex.geometry.in_sdfs">[docs]</a>
+<span class="k">def</span> <span class="nf">in_sdfs</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">sdf_fun</span><span class="p">):</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Check if multiple points lie on the surface defined by a positive or signed distance function.</span>
+
+<span class="sd">  Parameters:</span>
+<span class="sd">    x (jnp.ndarray): Array of points to be checked.</span>
+<span class="sd">    sdf_fun (callable): The signed distance function.</span>
+
+<span class="sd">  Returns:</span>
+<span class="sd">      jnp.ndarray: Array of booleans indicating whether each point lies on the surface.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="n">x</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+  <span class="k">return</span> <span class="n">jax</span><span class="o">.</span><span class="n">vmap</span><span class="p">(</span><span class="n">in_sdf</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span> <span class="mi">0</span><span class="p">)(</span><span class="n">x</span><span class="p">,</span> <span class="n">sdf_fun</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="select_in_sdfs">
+<a class="viewcode-back" href="../../_autosummary/autopdex.geometry.select_in_sdfs.html#autopdex.geometry.select_in_sdfs">[docs]</a>
+<span class="k">def</span> <span class="nf">select_in_sdfs</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">sdf_fun</span><span class="p">):</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Select the indices of points that lie on the surface defined by a positive or signed distance function.</span>
+
+<span class="sd">  Parameters:</span>
+<span class="sd">    x (jnp.ndarray): Array of points to be checked.</span>
+<span class="sd">    sdf_fun (callable): The signed distance function.</span>
+
+<span class="sd">  Returns:</span>
+<span class="sd">    jnp.ndarray: Array of indices of points that lie on the surface.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="n">x</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+  <span class="k">return</span> <span class="n">jnp</span><span class="o">.</span><span class="n">compress</span><span class="p">(</span><span class="n">in_sdfs</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">sdf_fun</span><span class="p">),</span> <span class="n">jnp</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">jnp</span><span class="o">.</span><span class="n">int_</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="in_plane">
+<a class="viewcode-back" href="../../_autosummary/autopdex.geometry.in_plane.html#autopdex.geometry.in_plane">[docs]</a>
+<span class="nd">@jit_with_docstring</span><span class="p">()</span>
+<span class="k">def</span> <span class="nf">in_plane</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">x_p1</span><span class="p">,</span> <span class="n">normal</span><span class="p">):</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Check if a point lies in a plane defined by a point and a normal vector (jitted).</span>
+
+<span class="sd">  Parameters:</span>
+<span class="sd">    x (jnp.ndarray): The point to be checked.</span>
+<span class="sd">    x_p1 (jnp.ndarray): A point on the plane.</span>
+<span class="sd">    normal (jnp.ndarray): The normal vector of the plane.</span>
+
+<span class="sd">  Returns:</span>
+<span class="sd">    bool: True if the point lies in the plane, False otherwise.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="n">sdf_fun</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">sdf_normal_to_direction</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">x_p1</span><span class="p">,</span> <span class="n">normal</span><span class="p">)</span>
+  <span class="k">return</span> <span class="n">in_sdf</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">sdf_fun</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="in_planes">
+<a class="viewcode-back" href="../../_autosummary/autopdex.geometry.in_planes.html#autopdex.geometry.in_planes">[docs]</a>
+<span class="nd">@jit_with_docstring</span><span class="p">()</span>
+<span class="k">def</span> <span class="nf">in_planes</span><span class="p">(</span><span class="n">x_q</span><span class="p">,</span> <span class="n">x_p1</span><span class="p">,</span> <span class="n">normal</span><span class="p">):</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Check if multiple points lie in a plane defined by a point and a normal vector (jitted).</span>
+
+<span class="sd">  Parameters:</span>
+<span class="sd">    x_q (jnp.ndarray): Array of points to be checked.</span>
+<span class="sd">    x_p1 (jnp.ndarray): A point on the plane.</span>
+<span class="sd">    normal (jnp.ndarray): The normal vector of the plane.</span>
+
+<span class="sd">  Returns:</span>
+<span class="sd">    jnp.ndarray: Array of booleans indicating whether each point lies in the plane.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="k">return</span> <span class="n">jax</span><span class="o">.</span><span class="n">vmap</span><span class="p">(</span><span class="n">in_plane</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span> <span class="mi">0</span><span class="p">)(</span><span class="n">x_q</span><span class="p">,</span> <span class="n">x_p1</span><span class="p">,</span> <span class="n">normal</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="select_in_plane">
+<a class="viewcode-back" href="../../_autosummary/autopdex.geometry.select_in_plane.html#autopdex.geometry.select_in_plane">[docs]</a>
+<span class="k">def</span> <span class="nf">select_in_plane</span><span class="p">(</span><span class="n">x_q</span><span class="p">,</span> <span class="n">x_p1</span><span class="p">,</span> <span class="n">normal</span><span class="p">):</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Select the indices of points that lie in a plane (non-jittable).</span>
+
+<span class="sd">  Parameters:</span>
+<span class="sd">    x_q (jnp.ndarray): Array of points to be checked.</span>
+<span class="sd">    x_p1 (jnp.ndarray): A point on the plane.</span>
+<span class="sd">    normal (jnp.ndarray): The normal vector of the plane.</span>
+
+<span class="sd">  Returns:</span>
+<span class="sd">    jnp.ndarray: Array of indices of points that lie in the plane.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="k">return</span> <span class="n">jnp</span><span class="o">.</span><span class="n">compress</span><span class="p">(</span><span class="n">in_planes</span><span class="p">(</span><span class="n">x_q</span><span class="p">,</span> <span class="n">x_p1</span><span class="p">,</span> <span class="n">normal</span><span class="p">),</span> <span class="n">jnp</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">x_q</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">jnp</span><span class="o">.</span><span class="n">int_</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="on_point">
+<a class="viewcode-back" href="../../_autosummary/autopdex.geometry.on_point.html#autopdex.geometry.on_point">[docs]</a>
+<span class="nd">@jit_with_docstring</span><span class="p">()</span>
+<span class="k">def</span> <span class="nf">on_point</span><span class="p">(</span><span class="n">x_q</span><span class="p">,</span> <span class="n">x_p1</span><span class="p">):</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Check if points are close to a given point (jitted).</span>
+
+<span class="sd">  Parameters:</span>
+<span class="sd">    x_q (jnp.ndarray): Array of points to be checked.</span>
+<span class="sd">    x_p1 (jnp.ndarray): The reference point.</span>
+
+<span class="sd">  Returns:</span>
+<span class="sd">    jnp.ndarray: Array of booleans indicating whether each point is close to the reference point.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="n">x_p1</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">x_p1</span><span class="p">)</span>
+  <span class="n">x_q</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">x_q</span><span class="p">)</span>
+  
+  <span class="k">def</span> <span class="nf">one_check</span><span class="p">(</span><span class="n">x_q</span><span class="p">,</span> <span class="n">x_p1</span><span class="p">):</span>
+    <span class="n">sdf</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">x_q</span> <span class="o">-</span> <span class="n">x_p1</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">jnp</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="n">sdf</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+  
+  <span class="n">map_check</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x_q</span><span class="p">,</span> <span class="n">x_p1</span><span class="p">:</span> <span class="n">jax</span><span class="o">.</span><span class="n">jit</span><span class="p">(</span><span class="n">jax</span><span class="o">.</span><span class="n">vmap</span><span class="p">(</span><span class="n">one_check</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span> <span class="mi">0</span><span class="p">))(</span><span class="n">x_q</span><span class="p">,</span> <span class="n">x_p1</span><span class="p">)</span>
+  <span class="k">return</span> <span class="n">map_check</span><span class="p">(</span><span class="n">x_q</span><span class="p">,</span> <span class="n">x_p1</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="select_point">
+<a class="viewcode-back" href="../../_autosummary/autopdex.geometry.select_point.html#autopdex.geometry.select_point">[docs]</a>
+<span class="k">def</span> <span class="nf">select_point</span><span class="p">(</span><span class="n">x_q</span><span class="p">,</span> <span class="n">x_p1</span><span class="p">):</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Select the index of a point that is close to a given point (non-jittable).</span>
+
+<span class="sd">  Parameters:</span>
+<span class="sd">    x_q (jnp.ndarray): Array of points to be checked.</span>
+<span class="sd">    x_p1 (jnp.ndarray): The reference point.</span>
+
+<span class="sd">  Returns:</span>
+<span class="sd">    int: The index of the point that is close to the reference point.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="k">return</span> <span class="n">jnp</span><span class="o">.</span><span class="n">compress</span><span class="p">(</span><span class="n">on_point</span><span class="p">(</span><span class="n">x_q</span><span class="p">,</span> <span class="n">x_p1</span><span class="p">),</span> <span class="n">jnp</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">x_q</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">jnp</span><span class="o">.</span><span class="n">int_</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="on_line">
+<a class="viewcode-back" href="../../_autosummary/autopdex.geometry.on_line.html#autopdex.geometry.on_line">[docs]</a>
+<span class="nd">@jit_with_docstring</span><span class="p">()</span>
+<span class="k">def</span> <span class="nf">on_line</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">x_p1</span><span class="p">,</span> <span class="n">x_p2</span><span class="p">):</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Check if a point lies on a line segment defined by two points (jitted).</span>
+
+<span class="sd">  Parameters:</span>
+<span class="sd">    x (jnp.ndarray): The point to be checked.</span>
+<span class="sd">    x_p1 (jnp.ndarray): The starting point of the line segment.</span>
+<span class="sd">    x_p2 (jnp.ndarray): The ending point of the line segment.</span>
+
+<span class="sd">  Returns:</span>
+<span class="sd">    bool: True if the point lies on the line segment, False otherwise.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="n">sdf_fun</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">psdf_trimmed_line</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">x_p1</span><span class="p">,</span> <span class="n">x_p2</span><span class="p">)</span>
+  <span class="k">return</span> <span class="n">in_sdf</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">sdf_fun</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="on_lines">
+<a class="viewcode-back" href="../../_autosummary/autopdex.geometry.on_lines.html#autopdex.geometry.on_lines">[docs]</a>
+<span class="nd">@jit_with_docstring</span><span class="p">()</span>
+<span class="k">def</span> <span class="nf">on_lines</span><span class="p">(</span><span class="n">x_q</span><span class="p">,</span> <span class="n">x_p1</span><span class="p">,</span> <span class="n">x_p2</span><span class="p">):</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Check if multiple points lie on a line segment defined by two points (jitted).</span>
+
+<span class="sd">  Parameters:</span>
+<span class="sd">    x_q (jnp.ndarray): Array of points to be checked.</span>
+<span class="sd">    x_p1 (jnp.ndarray): The starting point of the line segment.</span>
+<span class="sd">    x_p2 (jnp.ndarray): The ending point of the line segment.</span>
+
+<span class="sd">  Returns:</span>
+<span class="sd">    jnp.ndarray: Array of booleans indicating whether each point lies on the line segment.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="k">return</span> <span class="n">jax</span><span class="o">.</span><span class="n">vmap</span><span class="p">(</span><span class="n">on_line</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span> <span class="mi">0</span><span class="p">)(</span><span class="n">x_q</span><span class="p">,</span> <span class="n">x_p1</span><span class="p">,</span> <span class="n">x_p2</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="select_on_line">
+<a class="viewcode-back" href="../../_autosummary/autopdex.geometry.select_on_line.html#autopdex.geometry.select_on_line">[docs]</a>
+<span class="k">def</span> <span class="nf">select_on_line</span><span class="p">(</span><span class="n">x_q</span><span class="p">,</span> <span class="n">x_p1</span><span class="p">,</span> <span class="n">x_p2</span><span class="p">):</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Select the indices of points that lie on a line segment defined by two points (non-jittable).</span>
+
+<span class="sd">  Parameters:</span>
+<span class="sd">    x_q (jnp.ndarray): Array of points to be checked.</span>
+<span class="sd">    x_p1 (jnp.ndarray): The starting point of the line segment.</span>
+<span class="sd">    x_p2 (jnp.ndarray): The ending point of the line segment.</span>
+
+<span class="sd">  Returns:</span>
+<span class="sd">    jnp.ndarray: Array of indices of points that lie on the line segment.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="k">return</span> <span class="n">jnp</span><span class="o">.</span><span class="n">compress</span><span class="p">(</span><span class="n">on_lines</span><span class="p">(</span><span class="n">x_q</span><span class="p">,</span> <span class="n">x_p1</span><span class="p">,</span> <span class="n">x_p2</span><span class="p">),</span> <span class="n">jnp</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">x_q</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">jnp</span><span class="o">.</span><span class="n">int_</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="elem_in_plane">
+<a class="viewcode-back" href="../../_autosummary/autopdex.geometry.elem_in_plane.html#autopdex.geometry.elem_in_plane">[docs]</a>
+<span class="k">def</span> <span class="nf">elem_in_plane</span><span class="p">(</span><span class="n">x_nodes</span><span class="p">,</span> <span class="n">x_p1</span><span class="p">,</span> <span class="n">normal</span><span class="p">):</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Check if an element lies in a plane defined by a point and a normal vector.</span>
+
+<span class="sd">  Parameters:</span>
+<span class="sd">    x_nodes (jnp.ndarray): Array of nodes of the element.</span>
+<span class="sd">    x_p1 (jnp.ndarray): A point on the plane.</span>
+<span class="sd">    normal (jnp.ndarray): The normal vector of the plane.</span>
+
+<span class="sd">  Returns:</span>
+<span class="sd">    bool: True if the element lies in the plane, False otherwise.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="n">x_nodes</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">x_nodes</span><span class="p">)</span>
+  <span class="n">x_p1</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">x_p1</span><span class="p">)</span>
+  <span class="n">normal</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">normal</span><span class="p">)</span>
+  <span class="k">return</span> <span class="n">in_planes</span><span class="p">(</span><span class="n">x_nodes</span><span class="p">,</span> <span class="n">x_p1</span><span class="p">,</span> <span class="n">normal</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="select_elements_in_plane">
+<a class="viewcode-back" href="../../_autosummary/autopdex.geometry.select_elements_in_plane.html#autopdex.geometry.select_elements_in_plane">[docs]</a>
+<span class="k">def</span> <span class="nf">select_elements_in_plane</span><span class="p">(</span><span class="n">x_nodes</span><span class="p">,</span> <span class="n">surface_elements</span><span class="p">,</span> <span class="n">x_p1</span><span class="p">,</span> <span class="n">normal</span><span class="p">):</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Select the indices of elements that lie in a plane.</span>
+
+<span class="sd">  Parameters:</span>
+<span class="sd">    x_nodes (jnp.ndarray): Array of nodes of the elements.</span>
+<span class="sd">    surface_elements (jnp.ndarray): Array of surface elements.</span>
+<span class="sd">    x_p1 (jnp.ndarray): A point on the plane.</span>
+<span class="sd">    normal (jnp.ndarray): The normal vector of the plane.</span>
+
+<span class="sd">  Returns:</span>
+<span class="sd">    jnp.ndarray: Array of indices of elements that lie in the plane.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="n">x_nodes</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">x_nodes</span><span class="p">)</span>
+  <span class="n">surface_elements</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">surface_elements</span><span class="p">)</span>
+  <span class="n">normal</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">normal</span><span class="p">)</span>
+  <span class="n">x_p1</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">x_p1</span><span class="p">)</span>
+  <span class="k">return</span> <span class="n">jax</span><span class="o">.</span><span class="n">vmap</span><span class="p">(</span><span class="n">elem_in_plane</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span> <span class="mi">0</span><span class="p">)(</span><span class="n">x_nodes</span><span class="p">[</span><span class="n">surface_elements</span><span class="p">],</span> <span class="n">x_p1</span><span class="p">,</span> <span class="n">normal</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="elem_on_line">
+<a class="viewcode-back" href="../../_autosummary/autopdex.geometry.elem_on_line.html#autopdex.geometry.elem_on_line">[docs]</a>
+<span class="k">def</span> <span class="nf">elem_on_line</span><span class="p">(</span><span class="n">x_nodes</span><span class="p">,</span> <span class="n">x_p1</span><span class="p">,</span> <span class="n">x_p2</span><span class="p">):</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Check if an element lies on a line segment defined by two points.</span>
+
+<span class="sd">  Parameters:</span>
+<span class="sd">    x_nodes (jnp.ndarray): Array of nodes of the element.</span>
+<span class="sd">    x_p1 (jnp.ndarray): The starting point of the line segment.</span>
+<span class="sd">    x_p2 (jnp.ndarray): The ending point of the line segment.</span>
+
+<span class="sd">  Returns:</span>
+<span class="sd">    bool: True if the element lies on the line segment, False otherwise.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="n">x_nodes</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">x_nodes</span><span class="p">)</span>
+  <span class="n">x_p1</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">x_p1</span><span class="p">)</span>
+  <span class="n">x_p2</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">x_p2</span><span class="p">)</span>
+  <span class="k">return</span> <span class="n">on_lines</span><span class="p">(</span><span class="n">x_nodes</span><span class="p">,</span> <span class="n">x_p1</span><span class="p">,</span> <span class="n">x_p2</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="select_elements_on_line">
+<a class="viewcode-back" href="../../_autosummary/autopdex.geometry.select_elements_on_line.html#autopdex.geometry.select_elements_on_line">[docs]</a>
+<span class="k">def</span> <span class="nf">select_elements_on_line</span><span class="p">(</span><span class="n">x_nodes</span><span class="p">,</span> <span class="n">surface_elements</span><span class="p">,</span> <span class="n">x_p1</span><span class="p">,</span> <span class="n">x_p2</span><span class="p">):</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Select the indices of elements that lie on a line segment defined by two points.</span>
+
+<span class="sd">  Parameters:</span>
+<span class="sd">    x_nodes (jnp.ndarray): Array of nodes of the elements.</span>
+<span class="sd">    surface_elements (jnp.ndarray): Array of surface elements.</span>
+<span class="sd">    x_p1 (jnp.ndarray): The starting point of the line segment.</span>
+<span class="sd">    x_p2 (jnp.ndarray): The ending point of the line segment.</span>
+
+<span class="sd">  Returns:</span>
+<span class="sd">    jnp.ndarray: Array of indices of elements that lie on the line segment.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="n">x_nodes</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">x_nodes</span><span class="p">)</span>
+  <span class="n">surface_elements</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">surface_elements</span><span class="p">)</span>
+  <span class="n">x_p1</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">x_p1</span><span class="p">)</span>
+  <span class="n">x_p2</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">x_p2</span><span class="p">)</span>
+  <span class="k">return</span> <span class="n">jax</span><span class="o">.</span><span class="n">vmap</span><span class="p">(</span><span class="n">elem_on_line</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span> <span class="mi">0</span><span class="p">)(</span><span class="n">x_nodes</span><span class="p">[</span><span class="n">surface_elements</span><span class="p">],</span> <span class="n">x_p1</span><span class="p">,</span> <span class="n">x_p2</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="subelem_in_elem">
+<a class="viewcode-back" href="../../_autosummary/autopdex.geometry.subelem_in_elem.html#autopdex.geometry.subelem_in_elem">[docs]</a>
+<span class="nd">@jit_with_docstring</span><span class="p">()</span>
+<span class="k">def</span> <span class="nf">subelem_in_elem</span><span class="p">(</span><span class="n">subelem_to_find</span><span class="p">,</span> <span class="n">in_elem</span><span class="p">):</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Check if a sub-element (e.g. a line element) is contained within an element (e.g. triangular element) (jitted).</span>
+
+<span class="sd">  Parameters:</span>
+<span class="sd">    subelem_to_find (jnp.ndarray): The sub-element to be checked.</span>
+<span class="sd">    in_elem (jnp.ndarray): The element to be checked against.</span>
+
+<span class="sd">  Returns:</span>
+<span class="sd">    bool: True if the sub-element is contained within the element, False otherwise.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="k">return</span> <span class="n">jnp</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">subelem_to_find</span><span class="p">,</span> <span class="n">in_elem</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="subelem_in_elems">
+<a class="viewcode-back" href="../../_autosummary/autopdex.geometry.subelem_in_elems.html#autopdex.geometry.subelem_in_elems">[docs]</a>
+<span class="k">def</span> <span class="nf">subelem_in_elems</span><span class="p">(</span><span class="n">subelem_to_find</span><span class="p">,</span> <span class="n">in_elems</span><span class="p">):</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Find the element that contains a given sub-element. Returns only one element (Only to be used for these cases).</span>
+
+<span class="sd">  Parameters:</span>
+<span class="sd">    subelem_to_find (jnp.ndarray): The sub-element to be found.</span>
+<span class="sd">    in_elems (jnp.ndarray): Array of elements to be checked.</span>
+
+<span class="sd">  Returns:</span>
+<span class="sd">    jnp.ndarray: The element that contains the sub-element.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="n">selection</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">jit</span><span class="p">(</span><span class="n">jax</span><span class="o">.</span><span class="n">vmap</span><span class="p">(</span><span class="n">subelem_in_elem</span><span class="p">,</span> <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="mi">0</span><span class="p">))(</span><span class="n">subelem_to_find</span><span class="p">,</span> <span class="n">in_elems</span><span class="p">)</span>
+  <span class="n">compression</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">compress</span><span class="p">(</span><span class="n">selection</span><span class="p">,</span> <span class="n">in_elems</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+  <span class="k">return</span> <span class="n">compression</span></div>
+
+
+<div class="viewcode-block" id="subelems_in_elems">
+<a class="viewcode-back" href="../../_autosummary/autopdex.geometry.subelems_in_elems.html#autopdex.geometry.subelems_in_elems">[docs]</a>
+<span class="k">def</span> <span class="nf">subelems_in_elems</span><span class="p">(</span><span class="n">subelems_to_find</span><span class="p">,</span> <span class="n">in_elems</span><span class="p">):</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Find the elements that contain given sub-elements (one elem per sub_elem). </span>
+<span class="sd">  </span>
+<span class="sd">  Can be used for detecting the domain elements that belong the given surface elements.</span>
+
+<span class="sd">  Parameters:</span>
+<span class="sd">    subelems_to_find (jnp.ndarray): Array of sub-elements to be found.</span>
+<span class="sd">    in_elems (jnp.ndarray): Array of elements to be checked.</span>
+
+<span class="sd">  Returns:</span>
+<span class="sd">    jnp.ndarray: Array of elements that contain the sub-elements.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="k">return</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">([</span><span class="n">subelem_in_elems</span><span class="p">(</span><span class="n">subelem</span><span class="p">,</span> <span class="n">in_elems</span><span class="p">)</span> <span class="k">for</span> <span class="n">subelem</span> <span class="ow">in</span> <span class="n">subelems_to_find</span><span class="p">])</span></div>
+
+  <span class="c1"># return jax.vmap(subelem_in_elems, (0, None), 0)(subelems_to_find, in_elems)</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Tobias Bode.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

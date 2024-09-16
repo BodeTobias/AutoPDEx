@@ -1,0 +1,6 @@
+﻿autopdex.models.isoparametric\_domain\_integrate\_potential
+===========================================================
+
+.. currentmodule:: autopdex.models
+
+.. autofunction:: isoparametric_domain_integrate_potential

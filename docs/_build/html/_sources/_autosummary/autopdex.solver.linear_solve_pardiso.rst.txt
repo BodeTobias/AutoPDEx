@@ -1,0 +1,6 @@
+﻿autopdex.solver.linear\_solve\_pardiso
+======================================
+
+.. currentmodule:: autopdex.solver
+
+.. autofunction:: linear_solve_pardiso

@@ -1,0 +1,15 @@
+.wy-nav-content, .rst-content {
+    max-width: 1200px; /* Passe diesen Wert nach Bedarf an */
+    margin: 0 auto; /* Zentriere den Inhalt */
+    width: 100%;
+}
+
+/* Begrenzung der Abbildungsgröße */
+figure {
+    max-width: 600px; /* Passe diesen Wert nach Bedarf an */
+    margin: 0 auto; /* Zentriere die Abbildung */
+}
+img {
+    max-width: 600px; /* Passe diesen Wert nach Bedarf an */
+    margin: 0 auto; /* Zentriere die Abbildung */
+}

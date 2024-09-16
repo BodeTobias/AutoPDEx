@@ -1,0 +1,6 @@
+﻿autopdex.geometry.signed\_to\_positive
+======================================
+
+.. currentmodule:: autopdex.geometry
+
+.. autofunction:: signed_to_positive

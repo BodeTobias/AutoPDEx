@@ -1,0 +1,6 @@
+﻿autopdex.spaces.fem\_ini\_simplex
+=================================
+
+.. currentmodule:: autopdex.spaces
+
+.. autofunction:: fem_ini_simplex

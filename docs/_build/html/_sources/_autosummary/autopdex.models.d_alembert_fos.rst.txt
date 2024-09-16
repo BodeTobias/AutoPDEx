@@ -1,0 +1,6 @@
+﻿autopdex.models.d\_alembert\_fos
+================================
+
+.. currentmodule:: autopdex.models
+
+.. autofunction:: d_alembert_fos

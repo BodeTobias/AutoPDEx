@@ -1,0 +1,6 @@
+﻿autopdex.solver.solve\_nonlinear\_minimization
+==============================================
+
+.. currentmodule:: autopdex.solver
+
+.. autofunction:: solve_nonlinear_minimization
