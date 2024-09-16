@@ -205,6 +205,9 @@ def precompile(dofs0, settings, static_settings, max_diff_order=1):
     
     The precomputed components are stored in the settings dictionary under 'compiled shape functions', 
     'compiled bc', and 'compiled projection'.
+
+    Warning: The compiled shape function mode does currently not support implicit differentiation, 
+    since only the derivatives with respect to the coordinates (and not other quantities in the settings) are set.
   """
   # Loop over all sets of integration points/ domains
   num_sets = len(static_settings['assembling mode'])

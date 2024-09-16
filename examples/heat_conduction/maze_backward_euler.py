@@ -306,6 +306,7 @@ max_neighbors_1 = domain_connectivity.shape[-1]
 surf_connectivity = geometry.subelems_in_elems(nods_of_surf_elem, elements)
 max_neighbors_2 = surf_connectivity.shape[-1]
 
+
 ### Definition of weak forms: 3 domains are used, one for stress power and external volume forces region, one for surface forces and one with collocation for transient part
 # Heat conduction
 laplace_fun = models.poisson_weak()
@@ -315,7 +316,7 @@ heat_inflow_fun = models.neumann_weak(lambda x: -1.0e3)
 
 # Dynamic part (with specified time discretization)
 heat_capacity = 1.0e-1
-transient_part = models.forward_backward_euler_weak(lambda x, settings: heat_capacity, set=2) 
+transient_part = models.forward_backward_euler_weak(lambda x, settings: heat_capacity) 
 
 
 ### Setting
@@ -372,7 +373,6 @@ def step_fun(itt, carry):
 start = time.time()
 dofs, post_data, _ = lax.fori_loop(0, n_steps, step_fun, (dofs_0, post_data, 0))
 print("Analysis time: ", time.time() - start)
-
 
 
 ### Paraview postprocessing

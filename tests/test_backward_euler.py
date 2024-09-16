@@ -10,47 +10,32 @@
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 # GNU Affero General Public License for more details.
 
-"""
-The example demonstrates how to implement an explicit time integration of the 
-transient heat conduction equation in AutoPDEx. Three domains are introduced. 
-The first domain includes the virtual work of the internal driving forces or 
-the weak form of the Laplace equation. The second domain covers the surface 
-integral over the Neumann boundary (an edge of the maze in the upper left area).
-The third domain encompasses the transient term (forward Euler), integrated by
-collocation. The resulting system of equations for a time step is diagonal and
-can be efficiently solved locally. An analogous version with backward Euler,
-which is not subject to the Courant-Friedrichs-Lewy time step restriction,
-can be found in the example maze_backward_euler.py.
-"""
 
-if __name__ == "__main__":
-  import time
-  import sys
-  import math
-  import os
+def test_example_backward_euler():
+    import time
+    import math
+    import os
 
-  import jax
-  from jax import lax, config
-  import jax.numpy as jnp
-  import flax
-  import pygmsh
-  import meshio
+    import jax
+    from jax import lax, config
+    import jax.numpy as jnp
+    import flax
+    import pygmsh
+    import meshio
 
-  from autopdex import seeder, geometry, solver, solution_structures, plotter, utility, models, spaces, assembler
+    from autopdex import seeder, geometry, solver, solution_structures, utility, models, assembler
 
-  config.update("jax_enable_x64", True)
-  config.update("jax_compilation_cache_dir", './cache')
+    config.update("jax_enable_x64", True)
 
 
+    ### Implicit time integration of the heat conduction in a maze
+    # First domain: full gauß integration of virtual work of inner fluxes
+    # Second domain: surface integration (heat inflow)
+    # Third domain: full gauß integration of transient part (backward Euler)
 
-  ### Explicit time integration of the heat conduction in a maze
-  # First domain: full gauß integration of virtual work of inner fluxes
-  # Second domain: surface integration (heat inflow)
-  # Third domain: collocation of transient part (forward Euler with diagonal tangent)
-  
 
-  ### Definition of geometry and boundary conditions
-  pts = [[0.94, 8.68], [0.22, 8.68], [0.22, 8.36], [0.64, 8.36], [0.64, 
+    ### Definition of geometry and boundary conditions
+    pts = [[0.94, 8.68], [0.22, 8.68], [0.22, 8.36], [0.64, 8.36], [0.64, 
     8.24], [0.22, 8.24], [0.22, 7.94], [1.06, 7.94], [1.06, 
     7.82], [0.64, 7.82], [0.64, 7.5], [1.06, 7.5], [1.06, 7.38], [0.52, 
     7.38], [0.52, 7.82], [0.22, 7.82], [0.22, 4.94], [0.52, 
@@ -293,144 +278,96 @@ if __name__ == "__main__":
     7.82], [2.22, 7.94], [2.66, 7.94], [2.66, 8.24], [1.5, 8.24], [1.5, 
     7.82], [1.38, 7.82], [1.38, 8.68], [1.06, 8.68], [1.06, 
     8.24], [0.94, 8.24]]
-  with pygmsh.geo.Geometry() as geom:
-      geom.add_polygon(pts,mesh_size=0.2)
-      mesh = geom.generate_mesh(order=1)
+    with pygmsh.geo.Geometry() as geom:
+        geom.add_polygon(pts,mesh_size=5.)
+        mesh = geom.generate_mesh(order=1)
 
-  # # Mesh debugging
-  # mesh.write("maze.vtk")
+    # Import mesh
+    n_dim = 2
+    x_nodes = jnp.asarray(mesh.points[:,:n_dim])
+    n_nodes = x_nodes.shape[0]
+    elements = jnp.asarray(mesh.cells_dict['triangle'])
+    surface_elements = jnp.asarray(mesh.cells_dict['line'])
 
-  # Import mesh
-  n_dim = 2
-  x_nodes = jnp.asarray(mesh.points[:,:n_dim])
-  n_nodes = x_nodes.shape[0]
-  elements = jnp.asarray(mesh.cells_dict['triangle'])
-  surface_elements = jnp.asarray(mesh.cells_dict['line'])
+    # Select elements for inhomogeneous Neumann boundary conditions
+    neumann_selection_1 = geometry.select_elements_on_line(x_nodes, surface_elements, pts[35], pts[36])
+    neumann_elements_1 = surface_elements[neumann_selection_1]
 
-  # Select elements for inhomogeneous Neumann boundary conditions
-  neumann_selection_1 = geometry.select_elements_on_line(x_nodes, surface_elements, pts[35], pts[36])
-  neumann_elements_1 = surface_elements[neumann_selection_1]
+    # Generate domain integration points in mesh
+    (x_int, w_int, n_int, domain_connectivity) = seeder.int_pts_in_tri_mesh(x_nodes, elements, order=2)
+    max_neighbors_1 = domain_connectivity.shape[-1]
 
-  # Generate domain integration points in mesh
-  (x_int, w_int, n_int, domain_connectivity) = seeder.int_pts_in_tri_mesh(x_nodes, elements, order=1)
-  max_neighbors_1 = domain_connectivity.shape[-1]
-
-  # Generate surface integration points on surface mesh and select domain elements that belong to the surface elements
-  (x_surf_int, w_surf_int, n_surf_int, nods_of_surf_elem) = seeder.int_pts_in_line_mesh(x_nodes, neumann_elements_1, order=1)
-  surf_connectivity = geometry.subelems_in_elems(nods_of_surf_elem, elements)
-  max_neighbors_2 = surf_connectivity.shape[-1]
-
-  # Collocation for T1 mesh
-  distribut_weights_to_nodes = jnp.outer(w_int, jnp.asarray([1/3, 1/3, 1/3]))
-  collocation_weights = jnp.zeros((x_nodes.shape[0],)).at[domain_connectivity].add(distribut_weights_to_nodes)
+    # Generate surface integration points on surface mesh and select domain elements that belong to the surface elements
+    (x_surf_int, w_surf_int, n_surf_int, nods_of_surf_elem) = seeder.int_pts_in_line_mesh(x_nodes, neumann_elements_1, order=1)
+    surf_connectivity = geometry.subelems_in_elems(nods_of_surf_elem, elements)
+    max_neighbors_2 = surf_connectivity.shape[-1]
 
 
-  ### Definition of weak forms: 3 domains are used, one for heat conduction in region, one for surface inflows and one with collocation for transient part
-  # Heat conduction
-  laplace_fun = models.poisson_weak()
+    ### Definition of weak forms: 3 domains are used, one for stress power and external volume forces region, one for surface forces and one with collocation for transient part
+    # Heat conduction
+    laplace_fun = models.poisson_weak()
 
-  # Heat flow over surface
-  heat_inflow_fun = models.neumann_weak(lambda x: -1.0e3)
+    # Heat flow over surface
+    heat_inflow_fun = models.neumann_weak(lambda x: -1.0e3)
 
-  # Wrapper around laplace_fun but with dofs from old timestep (for divergence of heat flow density)
-  def laplace_fun_n(x, ansatz, test_ansatz, settings, static_settings, int_point_number, set):
-      # Load old dofs from settings
-      dofs_n = settings['dofs n']
-      neighbor_list = jnp.asarray(static_settings['connectivity'][set])[int_point_number]
-      local_dofs_n = dofs_n[neighbor_list]
-      ansatz_n = lambda x: solution_structures.solution_structure(x, int_point_number, local_dofs_n, settings, static_settings, set)
-      return laplace_fun(x, ansatz_n, test_ansatz, settings, static_settings, int_point_number, set)
-
-  # Wrapper around neumann_weak but with dofs from old timestep (external surface nodal forces at time n)
-  def heat_inflow_fun_n(x, ansatz, test_ansatz, settings, static_settings, int_point_number, set):
-      # Load old dofs from settings
-      dofs_n = settings['dofs n']
-      neighbor_list = jnp.asarray(static_settings['connectivity'][set])[int_point_number]
-      local_dofs_n = dofs_n[neighbor_list]
-      ansatz_n = lambda x: solution_structures.solution_structure(x, int_point_number, local_dofs_n, settings, static_settings, set)
-      return heat_inflow_fun(x, ansatz_n, test_ansatz, settings, static_settings, int_point_number, set)
-
-  # Dynamic part (with specified time discretization)
-  heat_capacity = 1.0e-1
-  transient_part = models.forward_backward_euler_weak(lambda x, settings: heat_capacity)
+    # Dynamic part (with specified time discretization)
+    heat_capacity = 1.0e-1
+    transient_part = models.forward_backward_euler_weak(lambda x, settings: heat_capacity) 
 
 
-  ### Setting
-  n_fields = 1
-  dofs_0 = jnp.zeros((n_nodes, n_fields))
-  static_settings = flax.core.FrozenDict({
-    'solution space': ('fem simplex', 'fem simplex', 'nodal values'),# use collocation for transient part in order to get diagonal tangent in explicit case
+    ### Setting
+    n_fields = 1
+    dofs_0 = jnp.zeros((n_nodes, n_fields))
+    static_settings = flax.core.FrozenDict({
+    'solution space': ('fem simplex', 'fem simplex', 'fem simplex'), 
     'shape function mode': 'compiled',
     'number of fields': (n_fields, n_fields, n_fields),
     'assembling mode': ('sparse', 'sparse', 'sparse'),
-    'maximal number of neighbors': (max_neighbors_1, max_neighbors_2, 1),
+    'maximal number of neighbors': (max_neighbors_1, max_neighbors_2, max_neighbors_1),
     'variational scheme': ('weak form galerkin', 'weak form galerkin', 'weak form galerkin'),
-    'model': (laplace_fun_n, heat_inflow_fun_n, transient_part),
-    'solution structure': ('off', 'off', 'off'),
-    'known sparsity pattern': 'diagonal',
-    'solver type': 'diagonal linear',
+    'model': (laplace_fun, heat_inflow_fun, transient_part),
+    'solution structure': ('off', 'off', 'off'), 
+    'solver type': 'linear',
+    'solver backend': 'pardiso',
+    'solver': 'lu',
     'verbose': 1,
-    'connectivity': (utility.jnp_to_tuple(domain_connectivity), utility.jnp_to_tuple(surf_connectivity), utility.jnp_to_tuple(jnp.arange(0, n_nodes).reshape(n_nodes, 1))),
-  })
+    'connectivity': (utility.jnp_to_tuple(domain_connectivity), utility.jnp_to_tuple(surf_connectivity), utility.jnp_to_tuple(domain_connectivity)),
+    })
 
-  settings = {
+    settings = {
+    'dofs n': dofs_0,
     'node coordinates': x_nodes,
-    'integration coordinates': (x_int, x_surf_int, x_nodes),
-    'integration weights': (w_int, w_surf_int, collocation_weights),
-  }
+    'integration coordinates': (x_int, x_surf_int, x_int),
+    'integration weights': (w_int, w_surf_int, w_int),
+    }
 
-  # Precompute shape functions
-  settings = solution_structures.precompile(dofs_0, settings, static_settings)
-
-
-
-  ### Call solver
-  n_steps = 500000
-  n_plot = 250
-  settings['time increment'] = 1e-4
-
-  plot_incr = math.floor(n_steps/ n_plot)
-  post_data = jnp.zeros((n_plot, dofs_0.shape[0], dofs_0.shape[1]))
-  def step_fun(itt, carry):
-    dofs, post_data, plt_itt = carry
-    settings['dofs n'] = dofs
-    dofs = dofs + solver.solver(dofs, settings, static_settings)[0]
-
-    # Output to post_data
-    def plot_fun():
-      return post_data.at[plt_itt].set(dofs), plt_itt + 1
-    def increment_count():
-      return post_data, plt_itt
-    post_data, plt_itt = jax.lax.cond(jnp.logical_or(jnp.mod(itt, plot_incr) < 1, itt == n_steps-1) , plot_fun, increment_count)
-
-    return dofs, post_data, plt_itt
-
-  start = time.time()
-  dofs, post_data, _ = lax.fori_loop(0, n_steps, step_fun, (dofs_0, post_data, 0))
-  print("Analysis time: ", time.time() - start)
+    # Precompute shape functions
+    settings = solution_structures.precompile(dofs_0, settings, static_settings)
 
 
+    ### Call solver
+    n_steps = 3
+    n_plot = 3
+    settings['time increment'] = 50/n_steps
 
-  ### Paraview postprocessing
-  points = mesh.points
-  cells = mesh.cells_dict["triangle"]
-  groupname = "maze_movie"
-  filename = "maze"
+    plot_incr = math.floor(n_steps/ n_plot)
+    post_data = jnp.zeros((n_plot, dofs_0.shape[0], dofs_0.shape[1]))
+    def step_fun(itt, carry):
+        dofs, post_data, plt_itt = carry
+        settings['dofs n'] = dofs
+        dofs = dofs + solver.solver(dofs, settings, static_settings)[0]
 
-  def frame_write(filename, groupname, t):
-    mesh = meshio.Mesh(
-        points,
-        {'triangle': cells},
-        point_data={
-            "Temperature": post_data[t],
-        },
-    )
-    mesh.write('./'+ groupname + "/" + filename + str(t) + ".vtk")
+        # Output to post_data
+        def plot_fun():
+            return post_data.at[plt_itt].set(dofs), plt_itt + 1
+        def increment_count():
+            return post_data, plt_itt
+        post_data, plt_itt = jax.lax.cond(jnp.logical_or(jnp.mod(itt, plot_incr) < 1, itt == n_steps-1) , plot_fun, increment_count)
 
-  # Write frames in folder
-  try:
-    os.mkdir('./' + groupname)
-  except OSError as error:
-    print('Folder already exists. Writing frames in existing folder...') 
-  for t in range(n_plot):
-    frame_write(filename, groupname, t)
+        return dofs, post_data, plt_itt
+
+    dofs, post_data, _ = lax.fori_loop(0, n_steps, step_fun, (dofs_0, post_data, 0))
+
+    check = dofs.flatten().sum()
+    # print(check)
+    assert jnp.isclose(check, 3265875.4534976063)

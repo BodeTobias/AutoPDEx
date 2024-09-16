@@ -10,22 +10,8 @@
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 # GNU Affero General Public License for more details.
 
-"""
-The example demonstrates how to implement an explicit time integration of the 
-transient heat conduction equation in AutoPDEx. Three domains are introduced. 
-The first domain includes the virtual work of the internal driving forces or 
-the weak form of the Laplace equation. The second domain covers the surface 
-integral over the Neumann boundary (an edge of the maze in the upper left area).
-The third domain encompasses the transient term (forward Euler), integrated by
-collocation. The resulting system of equations for a time step is diagonal and
-can be efficiently solved locally. An analogous version with backward Euler,
-which is not subject to the Courant-Friedrichs-Lewy time step restriction,
-can be found in the example maze_backward_euler.py.
-"""
-
-if __name__ == "__main__":
+def test_example_forward_euler():
   import time
-  import sys
   import math
   import os
 
@@ -36,11 +22,9 @@ if __name__ == "__main__":
   import pygmsh
   import meshio
 
-  from autopdex import seeder, geometry, solver, solution_structures, plotter, utility, models, spaces, assembler
+  from autopdex import seeder, geometry, solver, solution_structures, utility, models, assembler
 
   config.update("jax_enable_x64", True)
-  config.update("jax_compilation_cache_dir", './cache')
-
 
 
   ### Explicit time integration of the heat conduction in a maze
@@ -294,11 +278,9 @@ if __name__ == "__main__":
     7.82], [1.38, 7.82], [1.38, 8.68], [1.06, 8.68], [1.06, 
     8.24], [0.94, 8.24]]
   with pygmsh.geo.Geometry() as geom:
-      geom.add_polygon(pts,mesh_size=0.2)
+      geom.add_polygon(pts,mesh_size=5.)
       mesh = geom.generate_mesh(order=1)
 
-  # # Mesh debugging
-  # mesh.write("maze.vtk")
 
   # Import mesh
   n_dim = 2
@@ -385,8 +367,8 @@ if __name__ == "__main__":
 
 
   ### Call solver
-  n_steps = 500000
-  n_plot = 250
+  n_steps = 5
+  n_plot = 1
   settings['time increment'] = 1e-4
 
   plot_incr = math.floor(n_steps/ n_plot)
@@ -405,32 +387,9 @@ if __name__ == "__main__":
 
     return dofs, post_data, plt_itt
 
-  start = time.time()
   dofs, post_data, _ = lax.fori_loop(0, n_steps, step_fun, (dofs_0, post_data, 0))
-  print("Analysis time: ", time.time() - start)
 
+  check = dofs.flatten().sum()
+#   print(check)
+  assert jnp.isclose(check, 60.74250774270505)
 
-
-  ### Paraview postprocessing
-  points = mesh.points
-  cells = mesh.cells_dict["triangle"]
-  groupname = "maze_movie"
-  filename = "maze"
-
-  def frame_write(filename, groupname, t):
-    mesh = meshio.Mesh(
-        points,
-        {'triangle': cells},
-        point_data={
-            "Temperature": post_data[t],
-        },
-    )
-    mesh.write('./'+ groupname + "/" + filename + str(t) + ".vtk")
-
-  # Write frames in folder
-  try:
-    os.mkdir('./' + groupname)
-  except OSError as error:
-    print('Folder already exists. Writing frames in existing folder...') 
-  for t in range(n_plot):
-    frame_write(filename, groupname, t)

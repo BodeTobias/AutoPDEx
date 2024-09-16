@@ -176,7 +176,7 @@ def weak_form_galerkin(x_i, w_i, int_point_number, local_dofs, local_virt_dofs, 
         return ss.solution_structure(x, int_point_number, local_dofs, settings, static_settings, set)
 
     # Evaluate weak form and take derivative with respect to local_virtual_dofs
-    weak_pde = static_settings['model'][set](x_i, trial_function, test_function, settings, static_settings, int_point_number)
+    weak_pde = static_settings['model'][set](x_i, trial_function, test_function, settings, static_settings, int_point_number, set)
     return weak_pde
 
   # Test performance for jacrev and jacfwd

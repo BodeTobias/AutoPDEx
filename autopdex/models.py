@@ -1208,7 +1208,7 @@ def isoparametric_surface_element_galerkin(weak_form_fun, ansatz_fun, ref_int_co
 
 
 ### Time integration procedures
-def forward_backward_euler_weak(inertia_coeff_fun, set):
+def forward_backward_euler_weak(inertia_coeff_fun):
   """
   Constructs a weak form time discretization function using the Forward or Backward Euler method.
 
@@ -1238,7 +1238,7 @@ def forward_backward_euler_weak(inertia_coeff_fun, set):
     - The time derivative is computed using the Forward or Backward Euler method, depending on the use case.
     - The inertia coefficient is used to scale the time derivative term.
   """
-  def time_discretization_fun(x, ansatz, test_ansatz, settings, static_settings, int_point_number):
+  def time_discretization_fun(x, ansatz, test_ansatz, settings, static_settings, int_point_number, set):
     # Test function
     test_function = test_ansatz(x)
 
