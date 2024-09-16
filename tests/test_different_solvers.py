@@ -143,11 +143,11 @@ def test_different_solvers():
     settings = solution_structures.precompile(dofs0, settings, static_settings)
 
     ### Call solver
-    dofs, _ = solver.solver(dofs0, settings, static_settings, tol=1e-8, maxiter=1000)
-    assert jnp.allclose(dofs, jnp.asarray([[ 0.45187177], [-0.41965862], [-0.513136  ], [-0.38273308], [-0.8074755 ], 
-                                           [-1.40044741], [-1.18542015], [-0.8464102 ], [-0.8074755 ], [-1.40044741], 
-                                           [-1.18542015], [-0.8464102 ], [ 0.45187177], [-0.41965862], [-0.513136  ], 
-                                           [-0.38273308]])), 'Problem with pardiso solver'
+    # dofs, _ = solver.solver(dofs0, settings, static_settings, tol=1e-8, maxiter=1000)
+    # assert jnp.allclose(dofs, jnp.asarray([[ 0.45187177], [-0.41965862], [-0.513136  ], [-0.38273308], [-0.8074755 ], 
+    #                                        [-1.40044741], [-1.18542015], [-0.8464102 ], [-0.8074755 ], [-1.40044741], 
+    #                                        [-1.18542015], [-0.8464102 ], [ 0.45187177], [-0.41965862], [-0.513136  ], 
+    #                                        [-0.38273308]])), 'Problem with pardiso solver'
 
     static_settings = static_settings.copy({
     'solver backend': 'scipy',

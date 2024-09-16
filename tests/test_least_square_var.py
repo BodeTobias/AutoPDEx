@@ -101,8 +101,8 @@ def test_example_circle_in_channel():
     # 'solver type': 'minimize',
     # 'solver': 'lbfgs',
     'solver type': 'newton',
-    'solver backend': 'pardiso',
-    'solver': 'lu',
+    'solver backend': 'scipy',
+    'solver': 'lapack',
 
     'model': (pde,),
     'solution structure': ('second order set',),

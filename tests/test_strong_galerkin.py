@@ -94,8 +94,8 @@ def test_example_lid_driven_cavity():
     'boundary conditions': (b_cond,),
     'psdf': (psdf,),
     'solver type': 'newton',
-    'solver backend': 'pardiso',
-    'solver': 'lu',
+    'solver backend': 'scipy',
+    'solver': 'lapack',
     'verbose': -1,
     'connectivity': (utility.jnp_to_tuple(neighbor_list),),
     })

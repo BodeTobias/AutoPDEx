@@ -328,8 +328,8 @@ def test_example_backward_euler():
     'model': (laplace_fun, heat_inflow_fun, transient_part),
     'solution structure': ('off', 'off', 'off'), 
     'solver type': 'linear',
-    'solver backend': 'pardiso',
-    'solver': 'lu',
+    'solver backend': 'scipy',
+    'solver': 'lapack',
     'verbose': 1,
     'connectivity': (utility.jnp_to_tuple(domain_connectivity), utility.jnp_to_tuple(surf_connectivity), utility.jnp_to_tuple(domain_connectivity)),
     })

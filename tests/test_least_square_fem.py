@@ -110,8 +110,8 @@ def test_least_square_fem():
     'boundary conditions': (b_cond,),
     'psdf': (psdf,),
     'solver type': 'newton',
-    'solver backend': 'pardiso',
-    'solver': 'lu',
+    'solver backend': 'scipy',
+    'solver': 'lapack',
     'verbose': 0,
     'connectivity': (utility.jnp_to_tuple(domain_connectivity),),
     })

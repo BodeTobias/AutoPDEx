@@ -93,8 +93,8 @@ def test_example_poisson():
     'psdf': (psdf,),
     'solver type': 'linear',
 
-    'solver backend': 'pardiso',
-    'solver': 'lu',
+    'solver backend': 'scipy',
+    'solver': 'lapack',
     # 'solver backend': 'jax',
     # 'solver': 'bicgstab',
     # 'type of preconditioner': 'jacobi',
