@@ -23,22 +23,10 @@ concurrency:
 
 jobs:
   deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install sphinx
-
-      - name: Build Sphinx documentation
-        run: |
-          sphinx-build docs docs/_build/html
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
@@ -46,7 +34,6 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          # Upload the built HTML files from Sphinx
           path: 'docs/_build/html'
 
       - name: Deploy to GitHub Pages
