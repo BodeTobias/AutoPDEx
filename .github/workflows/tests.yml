@@ -34,7 +34,7 @@ jobs:
           pip install pygmsh
           pip install pyvista
           pip install scipy
-          pip install sciit-optimize
+          pip install scikit-optimize
           pip install sparsejac
 
       - name: Run tests
