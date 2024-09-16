@@ -24,20 +24,9 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
+          pip install setuptools
           pip install pytest
-          pip install autopdex
-          pip install jax
-          pip install jaxlib
-          pip install flax
-          pip install jaxopt
-          pip install meshio
-          pip install numpy
-          pip install plotly
-          pip install pygmsh
-          pip install pyvista
-          pip install scipy
-          pip install scikit-optimize
-          pip install sparsejac
+          pip install .
 
       - name: Run tests
         run: |
