@@ -1,3 +1,3 @@
 # AutoPDEx
 
-ToDo: Add link to documentation
+The documentation is available [here](https://bodetobias.github.io/AutoPDEx/index.html).
