@@ -196,7 +196,7 @@ The DOFs of the approximate solution can be found as the stationary point of the
 \[\mathbf{R}_{\mathrm{G}} := \frac{\partial \delta\Pi_{\mathrm{G}}}{\partial \delta \mathbf{d}} = \mathbf{0}\]</div>
 </li>
 </ol>
-<p>The residual <span class="math notranslate nohighlight">\(\mathbf{r}_h\)</span> can be efficiently derived from a potential or pseudo-potential using backward mode
+<p>The residual <span class="math notranslate nohighlight">\(\mathbf{R}_{G/LS}\)</span> can be efficiently derived from a potential or pseudo-potential using backward mode
 automatic differentiation. For sufficiently smooth and convex problems, the Newton-Raphson method, combined with adaptive
 load-stepping, is often one of the most efficient methods for solving the resulting system of equations.
 The necessary tangent matrix can also be derived using automatic differentiation, where exploiting the sparsity of

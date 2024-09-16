@@ -81,7 +81,7 @@ Two main types of variational methods are: Galerkin (strong/weak) and least squa
    .. math::
       \mathbf{R}_{\mathrm{G}} := \frac{\partial \delta\Pi_{\mathrm{G}}}{\partial \delta \mathbf{d}} = \mathbf{0}
 
-The residual :math:`\mathbf{r}_h` can be efficiently derived from a potential or pseudo-potential using backward mode
+The residual :math:`\mathbf{R}_{G/LS}` can be efficiently derived from a potential or pseudo-potential using backward mode
 automatic differentiation. For sufficiently smooth and convex problems, the Newton-Raphson method, combined with adaptive 
 load-stepping, is often one of the most efficient methods for solving the resulting system of equations. 
 The necessary tangent matrix can also be derived using automatic differentiation, where exploiting the sparsity of 

@@ -164,6 +164,8 @@ components for different solution structures. The supported solution structures 
 </ul>
 <p>The precomputed components are stored in the settings dictionary under ‘compiled shape functions’,
 ‘compiled bc’, and ‘compiled projection’.</p>
+<p>Warning: The compiled shape function mode does currently not support implicit differentiation,
+since only the derivatives with respect to the coordinates (and not other quantities in the settings) are set.</p>
 </dd></dl>
 
 </section>

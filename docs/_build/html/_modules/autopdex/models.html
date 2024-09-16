@@ -1392,7 +1392,7 @@
 <span class="c1">### Time integration procedures</span>
 <div class="viewcode-block" id="forward_backward_euler_weak">
 <a class="viewcode-back" href="../../_autosummary/autopdex.models.forward_backward_euler_weak.html#autopdex.models.forward_backward_euler_weak">[docs]</a>
-<span class="k">def</span> <span class="nf">forward_backward_euler_weak</span><span class="p">(</span><span class="n">inertia_coeff_fun</span><span class="p">,</span> <span class="nb">set</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">forward_backward_euler_weak</span><span class="p">(</span><span class="n">inertia_coeff_fun</span><span class="p">):</span>
 <span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">  Constructs a weak form time discretization function using the Forward or Backward Euler method.</span>
 
@@ -1422,7 +1422,7 @@
 <span class="sd">    - The time derivative is computed using the Forward or Backward Euler method, depending on the use case.</span>
 <span class="sd">    - The inertia coefficient is used to scale the time derivative term.</span>
 <span class="sd">  &quot;&quot;&quot;</span>
-  <span class="k">def</span> <span class="nf">time_discretization_fun</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">ansatz</span><span class="p">,</span> <span class="n">test_ansatz</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">,</span> <span class="n">int_point_number</span><span class="p">):</span>
+  <span class="k">def</span> <span class="nf">time_discretization_fun</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">ansatz</span><span class="p">,</span> <span class="n">test_ansatz</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">,</span> <span class="n">int_point_number</span><span class="p">,</span> <span class="nb">set</span><span class="p">):</span>
     <span class="c1"># Test function</span>
     <span class="n">test_function</span> <span class="o">=</span> <span class="n">test_ansatz</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
 

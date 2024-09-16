@@ -56,7 +56,10 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption" role="heading"><span class="caption-text">High level operations</span></p>
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../notebooks/quickstart.html">Quickstart to AutoPDEx</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">High level operations</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../solver.html">Solver</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../models.html">Models</a></li>
@@ -278,7 +281,6 @@
     <span class="n">tangent</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">jacfwd</span><span class="p">(</span><span class="n">residual</span><span class="p">)</span>
     <span class="n">residual_0</span> <span class="o">=</span> <span class="n">residual</span><span class="p">(</span><span class="n">a_0</span><span class="p">,</span> <span class="n">fI0</span><span class="p">)</span>
     <span class="n">tangent_0</span> <span class="o">=</span> <span class="n">tangent</span><span class="p">(</span><span class="n">a_0</span><span class="p">,</span> <span class="n">fI0</span><span class="p">)</span>
-    <span class="c1"># ToDo: For high order of p, use SVD instead of Cholesky</span>
 
     <span class="n">chol</span><span class="p">,</span> <span class="n">lower</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">scipy</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">cho_factor</span><span class="p">(</span><span class="n">tangent_0</span><span class="p">)</span>
     <span class="n">a_mls</span> <span class="o">=</span> <span class="o">-</span> <span class="n">jax</span><span class="o">.</span><span class="n">scipy</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">cho_solve</span><span class="p">((</span><span class="n">chol</span><span class="p">,</span> <span class="n">lower</span><span class="p">),</span> <span class="n">residual_0</span><span class="p">)</span>
@@ -411,7 +413,7 @@
 <span class="sd">      The computed finite element approximation (sum_i shape_fun_i nodal_values_i)</span>
 
 <span class="sd">  Notes:</span>
-<span class="sd">    - This function currently supports line elements up to order 20, quadrilateral elements up to order 20, and brick elements up to order 3.</span>
+<span class="sd">    - This function currently supports line elements up to order 20, quadrilateral elements up to order 20, and brick elements up to order 2.</span>
 <span class="sd">    - Though the input `x` is a reference coordinate, its derivative is replaced with respect to the initial configuration when `overwrite_diff` is True.</span>
 <span class="sd">    - Warning: Only first-order derivatives are supported in the custom JVP implementation with overwritten derivatives.</span>
 <span class="sd">    - Warning: The derivatives with respect to xI are set to zero.</span>
