@@ -606,6 +606,7 @@
   <span class="k">if</span> <span class="n">nodal_imposition</span><span class="p">:</span>
     <span class="c1"># Delete rows</span>
     <span class="n">rhs</span> <span class="o">=</span> <span class="n">rhs</span><span class="p">[</span><span class="n">free_dofs_flat</span><span class="p">]</span>
+    <span class="n">diag_mat</span> <span class="o">=</span> <span class="n">diag_mat</span><span class="p">[</span><span class="n">free_dofs_flat</span><span class="p">]</span>
 
   <span class="c1"># Solve while assuming a diagonal tangent</span>
   <span class="n">sol</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">multiply</span><span class="p">((</span><span class="mi">1</span><span class="o">/</span><span class="n">diag_mat</span><span class="p">),</span> <span class="n">rhs</span><span class="p">)</span>

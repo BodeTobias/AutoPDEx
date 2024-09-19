@@ -476,6 +476,7 @@ def solve_diagonal_linear(dofs, settings, static_settings, **kwargs):
   if nodal_imposition:
     # Delete rows
     rhs = rhs[free_dofs_flat]
+    diag_mat = diag_mat[free_dofs_flat]
 
   # Solve while assuming a diagonal tangent
   sol = jnp.multiply((1/diag_mat), rhs)

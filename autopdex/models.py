@@ -1216,7 +1216,6 @@ def forward_backward_euler_weak(inertia_coeff_fun):
 
   Parameters:
     inertia_coeff_fun (callable): Function to compute the inertia coefficient given spatial coordinates and settings.
-    set (int): Index of the connectivity set to be used.
 
   Returns:
     callable:
@@ -1232,6 +1231,7 @@ def forward_backward_euler_weak(inertia_coeff_fun):
       - 'time increment': Time increment delta_t.
     - static_settings (dict): Static settings for the computation.
     - int_point_number (int): Integration point number.
+    - set: Number of domain
 
   Notes:
     - The primary field is evaluated at both time steps n and n+1.
@@ -1258,3 +1258,60 @@ def forward_backward_euler_weak(inertia_coeff_fun):
     inertia_coeff = inertia_coeff_fun(x, settings)
     return - inertia_coeff * jnp.dot(test_function, time_derivative)
   return time_discretization_fun
+
+def central_differences(density_fun, damping):
+  """
+  Constructs weak form contributions for acceleration (and optional damping) term based on central differences.
+
+  Parameters:
+    density_fun (callable): Function to compute the density coefficient given spatial coordinates and settings.
+    damping (bool): Whether to turn on damping. Damping requires settings['damping coefficient'] to be set.
+
+  Returns:
+    callable:
+      A function that evaluates the weak form contributions.
+
+  The returned function has the following parameters:
+    - x (jnp.ndarray): Spatial coordinates at the integration point.
+    - ansatz (callable): Ansatz function representing the primary field at time step n+1.
+    - test_ansatz (callable): Test ansatz function representing the test function.
+    - settings (dict): Settings for the computation, including:
+      - 'dofs n': Degrees of freedom at the previous time step.
+      - 'connectivity': Connectivity information for the elements.
+      - 'time increment': Time increment delta_t.
+    - static_settings (dict): Static settings for the computation.
+    - int_point_number (int): Integration point number.
+    - set: Number of domain
+
+  Notes:
+    - Requires settings['dofs n], settings['dofs n-1'] and settings['time increment'].
+  """
+  def weak_form_fun(x, ansatz, test_ansatz, settings, static_settings, int_point_number, set):
+
+    # Test function
+    test_function = test_ansatz(x)
+
+    # Primary field evaluated at n-1, n and n+1
+    dofs_n = settings['dofs n']
+    dofs_n_min_1 = settings['dofs n-1']
+    neighbor_list = jnp.asarray(static_settings['connectivity'][set])[int_point_number]
+    ansatz_n = lambda x: solution_structures.solution_structure(x, int_point_number, dofs_n[neighbor_list], settings, static_settings, set)
+    ansatz_n_min_1 = lambda x: solution_structures.solution_structure(x, int_point_number, dofs_n_min_1[neighbor_list], settings, static_settings, set)
+    u_n = ansatz_n(x)
+    u_n_min_1 = ansatz_n_min_1(x)
+    u_n_plus_1 = ansatz(x)
+
+
+    # Central differences
+    delta_t = settings['time increment']
+    a_n = (u_n_plus_1 - 2 * u_n - u_n_min_1) / (delta_t**2)
+    v_n = (u_n_plus_1 - u_n_min_1) / (2 * delta_t)
+
+    # E.g. heat capacity or whatever is multiplied with first order time derivative
+    density = density_fun(x, settings)
+    if damping:
+      damping_coeff = settings['damping coefficient']
+      return density * jnp.dot(test_function, a_n + damping_coeff * v_n)
+    else:
+      return density * jnp.dot(test_function, a_n)
+  return weak_form_fun

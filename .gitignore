@@ -35,6 +35,7 @@ docs/_autosummary/
 # Simulation results
 examples/results/
 examples/in_progress/
+*.vtk
 
 # Custom configurations
 git.code-workspace
@@ -43,4 +44,5 @@ git.code-workspace
 
 .vscode/
 .pytest_cache/
+cache
 

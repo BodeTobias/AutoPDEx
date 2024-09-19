@@ -21,6 +21,7 @@ To install AutoPDEx, you can use the following command. Note, that it requires p
 
 .. code-block:: bash
 
+   pip install --upgrade pip
    pip install autopdex
 
 To use the Intel MKL Pardiso and PETSc solvers, they have to be installed by the user.

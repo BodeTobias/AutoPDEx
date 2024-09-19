@@ -43,11 +43,11 @@ Configuration Options for `static_settings`
        The tangent is computed automatically, if needed.
 
        **'user element'**: Expects the model functions to return the element residual and tangent
-     - `transport.py <../../../examples/miscellaneous/transport.py>`_
+     - `transport.py <https://github.com/BodeTobias/AutoPDEx/tree/main/examples/miscellaneous/transport.py>`_
     
-       `pinn_rfm.py <../../../examples/laplace/pinn_rfm.py>`_
+       `pinn_rfm.py <https://github.com/BodeTobias/AutoPDEx/tree/main/examples/laplace/pinn_rfm.py>`_
 
-       `quadrilaterals_p_refinement.py <../../../examples/cooks_membrane/quadrilaterals_p_refinement.py>`_
+       `quadrilaterals_p_refinement.py <https://github.com/BodeTobias/AutoPDEx/tree/main/examples/cooks_membrane/quadrilaterals_p_refinement.py>`_
    * - 'solution space'
 
        (for assembling modes 
@@ -61,13 +61,13 @@ Configuration Options for `static_settings`
        **'nodal values'**: see example
 
        **'user'**: static_settings['user solution space function']
-     - `mls_rfm.py <../../../examples/laplace/mls_rfm.py>`_
+     - `mls_rfm.py <https://github.com/BodeTobias/AutoPDEx/tree/main/examples/laplace/mls_rfm.py>`_
 
-       `pinn_rfm.py <../../../examples/laplace/pinn_rfm.py>`_
+       `pinn_rfm.py <https://github.com/BodeTobias/AutoPDEx/tree/main/examples/laplace/pinn_rfm.py>`_
 
-       `triangles_h_refinement.py <../../../examples/cooks_membrane/triangles_h_refinement.py>`_
+       `triangles_h_refinement.py <https://github.com/BodeTobias/AutoPDEx/tree/main/examples/cooks_membrane/triangles_h_refinement.py>`_
        
-       `maze_forward_euler.py <../../../examples/heat_conduction/maze_forward_euler.py>`_
+       `maze_forward_euler.py <https://github.com/BodeTobias/AutoPDEx/tree/main/examples/heat_conduction/maze_forward_euler.py>`_
    * - 'shape function mode'
 
        (for assembling modes 
@@ -77,7 +77,7 @@ Configuration Options for `static_settings`
      - **'compiled'**: uses a solution structure that is precompiled in preprocessing
 
        **'direct'**: no manual precompilation; can be considerably slower for complicated solution structures
-     - `poisson.py <../../../examples/miscellaneous/poisson.py>`_
+     - `poisson.py <https://github.com/BodeTobias/AutoPDEx/tree/main/examples/miscellaneous/poisson.py>`_
    * - 'number of fields'
      - Tuple (Integer)
      - **Number of fields for the respective domain**, e.g.:
@@ -87,11 +87,11 @@ Configuration Options for `static_settings`
        2 for models.linear_elasticity_weak with plain strain
 
        6 for models.hyperelastic_steady_state_fos with plain strain
-     - `poisson.py <../../../examples/miscellaneous/poisson.py>`_
+     - `poisson.py <https://github.com/BodeTobias/AutoPDEx/tree/main/examples/miscellaneous/poisson.py>`_
 
-       `least_square_fem_rvachev_structure.py <../../../examples/cooks_membrane/least_square_fem_rvachev_structure.py>`_
+       `least_square_fem_rvachev_structure.py <https://github.com/BodeTobias/AutoPDEx/tree/main/examples/cooks_membrane/least_square_fem_rvachev_structure.py>`_
 
-       `non-homogeneous_dirichlet_conditions.py <../../../examples/cooks_membrane/non-homogeneous_dirichlet_conditions.py>`_
+       `non-homogeneous_dirichlet_conditions.py <https://github.com/BodeTobias/AutoPDEx/tree/main/examples/cooks_membrane/non-homogeneous_dirichlet_conditions.py>`_
    * - 'maximal number of neighbors'
      - Tuple (Integer)
      - **Maximum number of neighbors for the respective domain**, e.g.
@@ -123,7 +123,7 @@ Configuration Options for `static_settings`
        integration is subject to variational consistency conditions;
 
        may suffer from locking/ need to consider LBB conditions
-     - `lid_driven_cavity.py <../../../examples/navier_stokes/lid_driven_cavity.py>`_
+     - `lid_driven_cavity.py <https://github.com/BodeTobias/AutoPDEx/tree/main/examples/navier_stokes/lid_driven_cavity.py>`_
    * - 'model'
      - Tuple (Function)
      - **Jax-transformable functions** that defines:
@@ -163,7 +163,7 @@ Configuration Options for `static_settings`
        'nodal imposition' or 'off')
      - Tuple (Callable)
      - Functions for calculating boundary coefficients
-     - `space_time_fos_dirichlet_neumann_robin.py <../../../examples/heat_conduction/space_time_fos_dirichlet_neumann_robin.py>`_
+     - `space_time_fos_dirichlet_neumann_robin.py <https://github.com/BodeTobias/AutoPDEx/tree/main/examples/heat_conduction/space_time_fos_dirichlet_neumann_robin.py>`_
    * - 'boundary conditions'
 
        (not for solution structures 
@@ -171,7 +171,7 @@ Configuration Options for `static_settings`
        'nodal imposition' or 'off')
      - Tuple (Callable)
      - Functions for calculating boundary conditions
-     - `space_time_fos_dirichlet_neumann_robin.py <../../../examples/heat_conduction/space_time_fos_dirichlet_neumann_robin.py>`_
+     - `space_time_fos_dirichlet_neumann_robin.py <https://github.com/BodeTobias/AutoPDEx/tree/main/examples/heat_conduction/space_time_fos_dirichlet_neumann_robin.py>`_
    * - 'psdf'
 
        (not for solution structures 
@@ -179,7 +179,7 @@ Configuration Options for `static_settings`
        'nodal imposition' or 'off')
      - Tuple (Callable)
      - Functions for calculating positive smooth distance functions
-     - `space_time_fos_dirichlet_neumann_robin.py <../../../examples/heat_conduction/space_time_fos_dirichlet_neumann_robin.py>`_
+     - `space_time_fos_dirichlet_neumann_robin.py <https://github.com/BodeTobias/AutoPDEx/tree/main/examples/heat_conduction/space_time_fos_dirichlet_neumann_robin.py>`_
    * - 'solver type'
      - String
      - **'linear'**, **'newton'**, **'damped newton'**, **'minimize'**
@@ -187,23 +187,23 @@ Configuration Options for `static_settings`
    * - 'solver backend'
      - String
      - **'jax'**, **'pardiso'**, **'petsc'**, **'scipy'**, **'pyamg'**
-     - `space_time_different_solvers.py <../../../examples/heat_conduction/space_time_different_solvers.py>`_
+     - `space_time_different_solvers.py <https://github.com/BodeTobias/AutoPDEx/tree/main/examples/heat_conduction/space_time_different_solvers.py>`_
    * - 'solver'
      - String
      - depending on solver backend: **'cg'**, **'lu'**, **'qr'**, **'lbfgs'**, **'gradient descent'**, **'bcgs'**
-     - `space_time_different_solvers.py <../../../examples/heat_conduction/space_time_different_solvers.py>`_
+     - `space_time_different_solvers.py <https://github.com/BodeTobias/AutoPDEx/tree/main/examples/heat_conduction/space_time_different_solvers.py>`_
    * - 'type of preconditioner'
 
        (for solver backend 'jax')
      - String
      - depending on solver backend: **'jacobi'**, **'ilu'**, **'none'**
-     - `space_time_different_solvers.py <../../../examples/heat_conduction/space_time_different_solvers.py>`_
+     - `space_time_different_solvers.py <https://github.com/BodeTobias/AutoPDEx/tree/main/examples/heat_conduction/space_time_different_solvers.py>`_
    * - 'hvp type'
 
        (for solver backend 'jax')
      - String
      - Type of hessian vector product: **'fwdrev'**, **'revrev'**, **'linearize'**, **'assemble'**
-     - `space_time_different_solvers.py <../../../examples/heat_conduction/space_time_different_solvers.py>`_
+     - `space_time_different_solvers.py <https://github.com/BodeTobias/AutoPDEx/tree/main/examples/heat_conduction/space_time_different_solvers.py>`_
    * - 'verbose'
      - Integer
      - Level of verbosity of output (-1,0,1,2)
@@ -215,7 +215,7 @@ Configuration Options for `static_settings`
        'nodal imposition')
      - Tuple (Bool)
      - Boolean tuple-Mask for selection DOFs for nodal Dirichlet boundary imposition
-     - `non-homogeneous_dirichlet_conditions.py <../../../examples/cooks_membrane/non-homogeneous_dirichlet_conditions.py>`_
+     - `non-homogeneous_dirichlet_conditions.py <https://github.com/BodeTobias/AutoPDEx/tree/main/examples/cooks_membrane/non-homogeneous_dirichlet_conditions.py>`_
    * - 'connectivity'
      - Tuple (jnp.ndarray)
      - List of node numbers for each element/neighborhood in a domain

@@ -51,7 +51,7 @@ where :math:`\\boldsymbol{I}` is the identity matrix, :math:`\omega_i` is a boun
 set of :math:`\\boldsymbol{a}_i` have to be orthogonal to each other at the boundary segments with each having a length of 1. 
 The boundary function can be set up based on transfinite interpolations based on 
 :math:`\\tilde{\\boldsymbol{b}} = \sum_i b_i \\boldsymbol{a}_i`. An example can be found e.g. in 
-`space_time_fos_dirichlet_neumann_robin.py <../../../examples/heat_conduction/space_time_fos_dirichlet_neumann_robin.py>`_
+`space_time_fos_dirichlet_neumann_robin.py <https://github.com/BodeTobias/AutoPDEx/tree/main/examples/heat_conduction/space_time_fos_dirichlet_neumann_robin.py>`_
 """
 
 
@@ -93,7 +93,10 @@ def solution_structure(x, int_point_number, local_dofs, settings, static_setting
     print('The solution structure was not set. Continuing with \'off\'... ')
     structure_type = 'off'
 
-  shp_fun_mode = static_settings['shape function mode']
+  try:
+    shp_fun_mode = static_settings['shape function mode']
+  except KeyError:
+    shp_fun_mode = None
 
   if structure_type == 'dirichlet':###Todo: obsolet?
     # Direct evaluation of shape functions
@@ -165,15 +168,14 @@ def solution_structure(x, int_point_number, local_dofs, settings, static_setting
   
   elif structure_type == 'nodal imposition' or structure_type == 'off':
      # Just forward the space
-    if shp_fun_mode == 'direct':
-      return spaces.solution_space(x, int_point_number, local_dofs, settings, static_settings, set)
-    elif shp_fun_mode == 'compiled':
+    if shp_fun_mode == 'compiled':
       (f, dx) = settings['compiled shape functions'][set]
       shps = compiled_function_1(x, f[int_point_number], dx[int_point_number])
       space = (shps @ local_dofs)
       return space
     else:
-      assert False, 'Shape function mode neither specified as \'direct\' nor \'compiled\'!'
+      return spaces.solution_space(x, int_point_number, local_dofs, settings, static_settings, set)
+    
   elif structure_type == 'user':
     return static_settings['user solution structure'][set](x, int_point_number, local_dofs, settings, static_settings, set)
   else:
