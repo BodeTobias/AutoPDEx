@@ -59,7 +59,7 @@ def test_implicit_diff():
     # Selection of nodes for boundary condition
     dirichlet_nodes = geometry.in_planes(x_nodes, pts[0], [1.,0.])
     dirichlet_dofs = utility.dof_select(dirichlet_nodes, jnp.asarray([True, True]))
-    dirichlet_conditions = jnp.zeros_like(dirichlet_dofs, dtype=jnp.float_)
+    dirichlet_conditions = jnp.zeros_like(dirichlet_dofs, dtype=jnp.float64)
 
     # Import surface mesh for inhomogeneous Neumann conditions
     neumann_selection = geometry.select_elements_in_plane(x_nodes, surface_elements, pts[1], [1.,0.])
@@ -129,8 +129,6 @@ def test_implicit_diff():
         result = utility.jacfwd_upto_n_one_vector_arg(forward_and_sensitivity, jnp.asarray([youngs_mod_mean, nu_mean]), 2)
         dofs, du_dEm, du_dnu, d2u_dEm2, d2u_dEmdnu, d2u_dnudEm, d2u_dnu2 = result[0], result[1][0], result[1][1], result[2][0][0], result[2][0][1], result[2][1][0], result[2][1][1]
 
-        # print((dofs, du_dEm, du_dnu, d2u_dEm2, d2u_dEmdnu, d2u_dnudEm, d2u_dnu2))
-
         # Reverse mode implicit diff:
         def fun_bwd(dofs, settings, Em, nu):
             settings['youngs modulus'] = Em
@@ -173,3 +171,4 @@ def test_implicit_diff():
 
     # computing_time = time.time() - start
     # print('All tests passed. Compute time: ', computing_time)
+

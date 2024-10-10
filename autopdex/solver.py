@@ -224,7 +224,7 @@ def adaptive_load_stepping(dofs, settings, static_settings, multiplier_settings 
 
     # Limit to max_multiplier
     increment = jnp.where(multiplier + increment > max_multiplier, max_multiplier - multiplier, increment)
-    return dofs, multiplier, increment, load_step, settings, res_norm_free_dofs
+    return dofs, multiplier, increment, 1.*load_step, settings, res_norm_free_dofs
 
   # Use implicit diff wrappers to make it differentiable
   if implicit_diff_mode is not None:
@@ -979,7 +979,7 @@ def linear_solve_pardiso(mat, rhs, solver, verbose, free_dofs):
 
     x = sparse_dot_mkl.sparse_qr_solve_mkl(tangent_csr, b)
   else:
-      assert False, 'Type of solver not supported. Choose \'lu\' or \'qr\''
+      assert False, "Type of solver not supported. Choose \'lu\' or \'qr\'"
 
   sol = jnp.asarray(x)
 
@@ -1027,7 +1027,7 @@ def linear_solve_pyamg(mat, rhs, solver, pc_type, verbose, free_dofs, **kwargs):
   elif pc_type == 'smoothed aggregation':
     ml = pyamg.smoothed_aggregation_solver(A=pyamg_tangent)
   else:
-      assert False, 'Type of preconditioner not supported. Choose \'ruge stuben\' or \`smoothed aggregation\''
+      assert False, "Type of preconditioner not supported. Choose \'ruge stuben\' or \'smoothed aggregation\'"
   M = ml.aspreconditioner(cycle='V')
 
   if verbose>=2:
@@ -1046,7 +1046,7 @@ def linear_solve_pyamg(mat, rhs, solver, pc_type, verbose, free_dofs, **kwargs):
   elif solver == 'gmres':
     x, _ = pyamg.krylov.gmres(A=pyamg_tangent, b=b, M=M, **kwargs)
   else:
-      assert False, 'Type of solver not supported. Choose \'cg\', \'bcgs\' or \`gmres\''
+      assert False, "Type of solver not supported. Choose \'cg\', \'bcgs\' or \'gmres\'"
   
   sol = jnp.asarray(x)
 
@@ -1084,7 +1084,7 @@ def linear_solve_scipy(mat, rhs, solver, verbose, free_dofs):
   elif solver == 'umfpack':
     x = scp.sparse.linalg.spsolve(tangent_csr, b, use_umfpack=True)
   else:
-      assert False, 'Type of solver not supported. Choose \'lapack\' or \'umfpack\''
+      assert False, "Type of solver not supported. Choose \'lapack\' or \'umfpack\'"
   
   sol = jnp.asarray(x)
 
