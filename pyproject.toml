@@ -4,6 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "autopdex"
+version = "1.0.3"
 description = "An automized PDE solver for accelerators based on JAX"
 readme = "README.md"
 authors = [
