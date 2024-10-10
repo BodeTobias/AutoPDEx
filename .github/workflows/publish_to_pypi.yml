@@ -1,0 +1,48 @@
+name: Publish Python Package to PyPI
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'  # Triggers the workflow when a new tag in the format vX.X.X is pushed
+
+jobs:
+  build-and-publish:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Check out the repository code
+      - name: Check out repository
+        uses: actions/checkout@v3
+
+      # Step 2: Set up Python environment
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'  # Specify the Python version to use
+
+      # Step 3: Upgrade pip and install the build tools (build, twine)
+      # 'build' is used to build the package, and 'twine' is used to upload it to PyPI
+      - name: Upgrade pip and install build tools
+        run: |
+          python -m pip install --upgrade pip  # Upgrade pip to the latest version
+          pip install --upgrade build twine  # Install or upgrade build and twine
+
+      # Step 4: Remove old build artifacts in the 'dist' directory to ensure a clean build
+      - name: Remove old dist files
+        run: |
+          rm -rf dist  # Deletes the 'dist' directory to remove previous build files
+
+      # Step 5: Build the Python package
+      # This creates the distribution files (.tar.gz and .whl) in the 'dist' folder
+      - name: Build the package
+        run: python -m build  # Executes the build process, utilizing the 'pyproject.toml'
+
+      # Step 6: Upload the built package to PyPI using Twine
+      # 'TWINE_USERNAME' is set to '__token__' as per PyPI's API token authentication mechanism
+      # 'TWINE_PASSWORD' is the PyPI API token stored securely in GitHub Secrets
+      - name: Upload package to PyPI
+        env:
+          TWINE_USERNAME: __token__  # Use API token for PyPI authentication
+          TWINE_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}  # The PyPI API token, stored as a secret in GitHub
+        run: |
+          twine upload dist/*  # Upload all files from the 'dist' directory to PyPI
