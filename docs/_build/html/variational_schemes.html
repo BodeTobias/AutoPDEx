@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Variational_schemes &mdash; AutoPDEx 0.0.1 documentation</title>
+  <title>Variational_schemes &mdash; AutoPDEx 1.0.2 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
@@ -21,7 +21,7 @@
   
         <script src="_static/jquery.js?v=5d32c60e"></script>
         <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="_static/documentation_options.js?v=d45e8c67"></script>
+        <script src="_static/documentation_options.js?v=1ed6394b"></script>
         <script src="_static/doctools.js?v=9a2dae69"></script>
         <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
         <script src="_static/clipboard.min.js?v=a7894cd8"></script>
@@ -164,18 +164,18 @@ The goal is to minimize the squared residual over the domain <span class="math n
 <p>possibly with additional contributions for taking into account boundary conditions.
 The optimal DOFs (measured in the PDE norm) are found by minimizing the functional:</p>
 <div class="math notranslate nohighlight">
-\[\mathbf{d}_{\mathrm{LS}} = \min_{\mathbf{d}} \Pi_{\mathrm{LS}}\]</div>
+\[\mathbf{d}_{\mathrm{LS}} = \operatorname{argmin}_{\mathbf{d}} \Pi_{\mathrm{LS}}\]</div>
 <p>This leads to a system of equations of which one has to find the root of – the residual</p>
 <div class="math notranslate nohighlight">
 \[\mathbf{R}_{\mathrm{LS}} := \frac{\partial \Pi_{\mathrm{LS}}}{\partial \mathbf{d}} = \mathbf{0}.\]</div>
 <p>If we consider, for instance, a second order PDE, the shape functions have to be able to reproduce second order polynomials and
-should be globally <cite>C^1</cite> continuous. In order to ensure optimality also in the <cite>L^2</cite> and <cite>H^1</cite> norms, the least square functional
+should be globally <span class="math notranslate nohighlight">\(C^1\)</span> continuous. In order to ensure optimality also in the <span class="math notranslate nohighlight">\(L^2\)</span> and <span class="math notranslate nohighlight">\(H^1\)</span> norms, the least square functional
 has to be norm-equivalent to them.</p>
 </li>
 <li><p><strong>Galerkin Method (strong/weak form)</strong>:
 In the Galerkin method, the DOFs are searched in a way, that the PDE is fulfilled in a weighted average sense,
 such that the residual is orthogonal to a test space. Let’s call it the strong form Galerkin method,
-in case we solve for the DOFs by making the following functional stationary:</p>
+in case we solve for the DOFs by making the following functional stationary with respect to the test function DOFs:</p>
 <div class="math notranslate nohighlight">
 \[\delta\Pi_{\mathrm{G}} = \int_{\Omega} \mathbf{r}_h \cdot \mathbf{v} \, \mathrm{d}\Omega\]</div>
 <p>where the test function is typically:</p>
@@ -190,7 +190,7 @@ As a drawback, the integration by parts has to be accurate also in its discrete 
 that may need special care when using non-piecewise-polynomial shape functions.
 The DOFs of the approximate solution can be found as the stationary point of the functional:</p>
 <div class="math notranslate nohighlight">
-\[\mathbf{d}_{\mathrm{G}} = \underset{\delta \mathbf{d}}{\operatorname{stat}} \, \delta\Pi_{\mathrm{G}}\]</div>
+\[\mathbf{d}_{\mathrm{G}} = \underset{\delta \mathbf{d}}{\operatorname{argstat}} \, \delta\Pi_{\mathrm{G}}\]</div>
 <p>This leads to the following set of equations</p>
 <div class="math notranslate nohighlight">
 \[\mathbf{R}_{\mathrm{G}} := \frac{\partial \delta\Pi_{\mathrm{G}}}{\partial \delta \mathbf{d}} = \mathbf{0}\]</div>

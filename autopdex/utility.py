@@ -25,7 +25,6 @@ from functools import partial, wraps
 import jax
 import jax.numpy as jnp
 import numpy as np
-import scipy
 from jax.experimental import sparse
 
 
@@ -61,6 +60,8 @@ def search_neighborhood(x_nodes, x_query, support_radius):
       - min_neighbors (int): Minimum number of neighbors.
       - neighbor_list (array): List of neighbors for each query point.
     """
+  import scipy
+
   tree = scipy.spatial.cKDTree(x_nodes)
   num_neighbors = jnp.asarray(tree.query_ball_point(x_query, support_radius, return_sorted=False, return_length=True))
   max_neighbors = num_neighbors.max().item()

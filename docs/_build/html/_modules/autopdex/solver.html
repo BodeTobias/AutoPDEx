@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>autopdex.solver &mdash; AutoPDEx 0.0.1 documentation</title>
+  <title>autopdex.solver &mdash; AutoPDEx 1.0.2 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
@@ -20,7 +20,7 @@
   
         <script src="../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../_static/documentation_options.js?v=d45e8c67"></script>
+        <script src="../../_static/documentation_options.js?v=1ed6394b"></script>
         <script src="../../_static/doctools.js?v=9a2dae69"></script>
         <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -249,7 +249,7 @@
 <span class="sd">    settings (dict): Dictionary of problem settings.</span>
 <span class="sd">    static_settings (dict): Dictionary of static settings that do not change during load steps.</span>
 <span class="sd">    multiplier_settings (callable): Function to update settings based on the current load multiplier.</span>
-<span class="sd">    path_dependent (bool): Specifies wether problem is path-dependent or not (has an influence on the implicit differentiation).</span>
+<span class="sd">    path_dependent (bool): Specifies wether problem is path-dependent (experimental) or not (has an influence on the implicit differentiation).</span>
 <span class="sd">    implicit_diff_mode (string): Can be either \&#39;reverse\&#39;, \&#39;forward\&#39; or None. In case of \&#39;reverse\&#39;, only reverse mode differentiation is supported (jacrev), in case of \&#39;forward\&#39;, only forward mode differentiation is supported (jacfwd).</span>
 <span class="sd">    max_multiplier (float): Maximum value for the load multiplier.</span>
 <span class="sd">    min_increment (float): Minimum allowable increment size.</span>
@@ -321,7 +321,7 @@
       <span class="k">if</span> <span class="n">verbose</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
         <span class="n">jax</span><span class="o">.</span><span class="n">debug</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
       <span class="n">jax</span><span class="o">.</span><span class="n">debug</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s1">&#39;Multiplier: </span><span class="si">{x}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="n">multiplier</span><span class="p">)</span>
-    <span class="n">settings</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">jit</span><span class="p">(</span><span class="n">multiplier_settings</span><span class="p">)(</span><span class="n">settings</span><span class="p">,</span> <span class="n">multiplier</span><span class="p">)</span>
+    <span class="n">settings</span> <span class="o">=</span> <span class="n">multiplier_settings</span><span class="p">(</span><span class="n">settings</span><span class="p">,</span> <span class="n">multiplier</span><span class="p">)</span>
 
     <span class="c1"># Call newton solver</span>
     <span class="k">if</span> <span class="n">path_dependent</span> <span class="ow">and</span> <span class="n">implicit_diff_mode</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span> <span class="c1"># Add implicit differentiation for each load step</span>
@@ -350,6 +350,10 @@
   <span class="c1"># Use implicit diff wrappers to make it differentiable</span>
   <span class="k">if</span> <span class="n">implicit_diff_mode</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">path_dependent</span><span class="p">:</span> <span class="c1"># Conservative problem</span>
+
+      <span class="c1"># Set Dirichlet conditions for derivative w.r.t. them</span>
+      <span class="n">settings</span> <span class="o">=</span> <span class="n">multiplier_settings</span><span class="p">(</span><span class="n">settings</span><span class="p">,</span> <span class="n">max_multiplier</span><span class="p">)</span>
+
       <span class="nd">@implicit_diff</span><span class="o">.</span><span class="n">custom_root</span><span class="p">(</span><span class="n">residual_fun</span><span class="p">,</span> <span class="n">tangent_fun</span><span class="p">,</span> <span class="n">lin_solve_callback_fun</span><span class="p">,</span> <span class="n">free_dofs_flat</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="n">implicit_diff_mode</span><span class="p">)</span>
       <span class="k">def</span> <span class="nf">diffable_adaptive_load_stepping</span><span class="p">(</span><span class="n">dofs</span><span class="p">,</span> <span class="n">settings</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">jax</span><span class="o">.</span><span class="n">lax</span><span class="o">.</span><span class="n">while_loop</span><span class="p">(</span><span class="n">continue_check</span><span class="p">,</span> <span class="n">step</span><span class="p">,</span> <span class="p">(</span><span class="n">dofs</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="n">init_increment</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="mf">0.</span><span class="p">))</span>
@@ -383,6 +387,7 @@
 
   <span class="k">else</span><span class="p">:</span> <span class="c1"># No definition of implicit derivatives</span>
     <span class="k">return</span> <span class="n">jax</span><span class="o">.</span><span class="n">lax</span><span class="o">.</span><span class="n">while_loop</span><span class="p">(</span><span class="n">continue_check</span><span class="p">,</span> <span class="n">step</span><span class="p">,</span> <span class="p">(</span><span class="n">dofs</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="n">init_increment</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="mf">0.</span><span class="p">))</span></div>
+
 
 
 <span class="c1">### Minimizers</span>
@@ -459,6 +464,7 @@
       <span class="n">sol</span> <span class="o">=</span> <span class="n">solver</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">dofs</span><span class="p">)</span><span class="o">.</span><span class="n">params</span>
       <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Solver name not set or not available in combination with this solver type. Using static_settings[</span><span class="se">\&#39;</span><span class="s1">solver name</span><span class="se">\&#39;</span><span class="s1">] = </span><span class="se">\&#39;</span><span class="s1">lbfgs</span><span class="se">\&#39;</span><span class="s1"> as default.&#39;</span><span class="p">)</span>
   <span class="k">return</span> <span class="n">sol</span></div>
+
 
 
 <span class="c1">### Root finders</span>
@@ -765,6 +771,7 @@
   <span class="n">sol</span><span class="p">,</span> <span class="n">load_steps</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">res_norm</span><span class="p">,</span> <span class="n">divergence</span>  <span class="o">=</span> <span class="n">lax</span><span class="o">.</span><span class="n">while_loop</span><span class="p">(</span><span class="n">convergence_check</span><span class="p">,</span> <span class="n">step</span><span class="p">,</span> <span class="p">(</span><span class="n">dofs_0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="kc">False</span><span class="p">))</span>
 
   <span class="k">return</span> <span class="p">(</span><span class="n">sol</span><span class="p">,</span> <span class="p">(</span><span class="n">load_steps</span><span class="p">,</span> <span class="n">res_norm</span><span class="p">,</span> <span class="n">divergence</span><span class="p">))</span>
+
 
 <span class="c1">### Linear solvers for different backends</span>
 <div class="viewcode-block" id="linear_solve_jax">

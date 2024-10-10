@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>autopdex.plotter &mdash; AutoPDEx 0.0.1 documentation</title>
+  <title>autopdex.plotter &mdash; AutoPDEx 1.0.2 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
@@ -20,7 +20,7 @@
   
         <script src="../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../_static/documentation_options.js?v=d45e8c67"></script>
+        <script src="../../_static/documentation_options.js?v=1ed6394b"></script>
         <script src="../../_static/doctools.js?v=9a2dae69"></script>
         <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -56,7 +56,10 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption" role="heading"><span class="caption-text">High level operations</span></p>
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../notebooks/quickstart.html">Quickstart to AutoPDEx</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">High level operations</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../solver.html">Solver</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../models.html">Models</a></li>
@@ -133,10 +136,6 @@
 <span class="kn">import</span> <span class="nn">jax</span>
 <span class="kn">import</span> <span class="nn">jax.numpy</span> <span class="k">as</span> <span class="nn">jnp</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">plotly.graph_objects</span> <span class="k">as</span> <span class="nn">go</span>
-<span class="kn">import</span> <span class="nn">pyvista</span> <span class="k">as</span> <span class="nn">pv</span>
-
-<span class="n">pv</span><span class="o">.</span><span class="n">global_theme</span><span class="o">.</span><span class="n">cmap</span> <span class="o">=</span> <span class="s1">&#39;jet&#39;</span>
 
 
 <div class="viewcode-block" id="pv_plot">
@@ -159,6 +158,9 @@
 <span class="sd">  Notes:</span>
 <span class="sd">    - Only supports 2d and 3d</span>
 <span class="sd">  &quot;&quot;&quot;</span>
+  <span class="kn">import</span> <span class="nn">pyvista</span> <span class="k">as</span> <span class="nn">pv</span>
+  <span class="n">pv</span><span class="o">.</span><span class="n">global_theme</span><span class="o">.</span><span class="n">cmap</span> <span class="o">=</span> <span class="s1">&#39;jet&#39;</span>
+
   <span class="k">if</span> <span class="n">x_vis</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]:</span>
       <span class="k">raise</span> <span class="ne">AssertionError</span><span class="p">(</span><span class="s2">&quot;Currently not implemented for dimensions other than 2 or 3.&quot;</span><span class="p">)</span>
 
@@ -213,6 +215,8 @@
 <span class="sd">    - data (np.ndarray): Data to be visualized at the points.</span>
 <span class="sd">    - n_surfaces (int, optional): Number of isosurfaces to plot. Default is 20.</span>
 <span class="sd">  &quot;&quot;&quot;</span>
+  <span class="kn">import</span> <span class="nn">plotly.graph_objects</span> <span class="k">as</span> <span class="nn">go</span>
+
   <span class="n">fig</span> <span class="o">=</span> <span class="n">go</span><span class="o">.</span><span class="n">Figure</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">go</span><span class="o">.</span><span class="n">Isosurface</span><span class="p">(</span>
       <span class="n">x</span><span class="o">=</span><span class="n">x_vis</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span>
       <span class="n">y</span><span class="o">=</span><span class="n">x_vis</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span>

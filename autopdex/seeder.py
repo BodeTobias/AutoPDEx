@@ -25,7 +25,6 @@ import math
 import jax
 import jax.numpy as jnp
 from jax import random
-import skopt
 
 from autopdex import geometry
 from autopdex.utility import jit_with_docstring
@@ -210,6 +209,7 @@ def quasi_random_in_box(min, max, n_seeds, mode):
   Returns:
     tuple: Seed points and number of seeds.
   """
+  import skopt
   space = skopt.space.Space(list(map(lambda x, y:(x,y), min, max)))
 
   if (mode == 'hammersley'):

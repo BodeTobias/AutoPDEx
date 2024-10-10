@@ -20,10 +20,6 @@ import os
 import jax
 import jax.numpy as jnp
 import numpy as np
-import plotly.graph_objects as go
-import pyvista as pv
-
-pv.global_theme.cmap = 'jet'
 
 
 def pv_plot(x_vis, data, export_vtk=False, show=True, groupname='group', filename='frame', fieldname='data', scale_range=1.0, data_on_z=True):
@@ -44,6 +40,9 @@ def pv_plot(x_vis, data, export_vtk=False, show=True, groupname='group', filenam
   Notes:
     - Only supports 2d and 3d
   """
+  import pyvista as pv
+  pv.global_theme.cmap = 'jet'
+
   if x_vis.shape[1] not in [2, 3]:
       raise AssertionError("Currently not implemented for dimensions other than 2 or 3.")
 
@@ -92,6 +91,8 @@ def isosurface(x_vis, data, n_surfaces=20):
     - data (np.ndarray): Data to be visualized at the points.
     - n_surfaces (int, optional): Number of isosurfaces to plot. Default is 20.
   """
+  import plotly.graph_objects as go
+
   fig = go.Figure(data=go.Isosurface(
       x=x_vis[:, 0],
       y=x_vis[:, 1],

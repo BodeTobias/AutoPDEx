@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>autopdex.implicit_diff &mdash; AutoPDEx 0.0.1 documentation</title>
+  <title>autopdex.implicit_diff &mdash; AutoPDEx 1.0.2 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
@@ -20,7 +20,7 @@
   
         <script src="../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../_static/documentation_options.js?v=d45e8c67"></script>
+        <script src="../../_static/documentation_options.js?v=1ed6394b"></script>
         <script src="../../_static/doctools.js?v=9a2dae69"></script>
         <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -145,7 +145,7 @@
 <span class="sd">These functions are a modification and extension of the functions in jaxopt._src.implicit_diff for</span>
 <span class="sd">external solve functions with a jax.experimental.sparse.BCOO matrix as an argument instead of a matvec function.</span>
 <span class="sd">The root_vjp and root_jvp functions were modified in a way that external solvers can be used via a pure_callback.</span>
-<span class="sd">With the wrapper custom_root, root solvers can be made differentiable both in forward and reverse mode of arbitrary order.</span>
+<span class="sd">With the wrapper custom_root, root solvers can be made differentiable both in forward or reverse mode of arbitrary order.</span>
 <span class="sd">Mixing the differentiation mode is currently not possible.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
@@ -156,9 +156,8 @@
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Tuple</span>
 
 <span class="kn">import</span> <span class="nn">jax</span>
-<span class="kn">import</span> <span class="nn">jax.experimental</span>
-<span class="kn">import</span> <span class="nn">jax.experimental.sparse</span>
 <span class="kn">import</span> <span class="nn">jax.numpy</span> <span class="k">as</span> <span class="nn">jnp</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
 <span class="k">def</span> <span class="nf">tree_scalar_mul</span><span class="p">(</span><span class="n">scalar</span><span class="p">,</span> <span class="n">tree_x</span><span class="p">):</span>
 <span class="w">  </span><span class="sd">&quot;&quot;&quot;Compute scalar * tree_x.&quot;&quot;&quot;</span>
@@ -292,30 +291,51 @@
   <span class="n">diffable_solve_fun</span> <span class="o">=</span> <span class="n">linear_solver_fun_vjp</span>
 
   <span class="n">mat</span> <span class="o">=</span> <span class="n">mat_fun</span><span class="p">(</span><span class="n">sol</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">)</span>
-  <span class="k">def</span> <span class="nf">fun_args</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">):</span>
-    <span class="c1"># We close over the solution.</span>
-    <span class="k">return</span> <span class="n">residual_fun</span><span class="p">(</span><span class="n">sol</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">)</span>
   
   <span class="c1"># The solution of A^T u = v, where</span>
   <span class="c1"># A = jacobian(residual_fun, argnums=0)</span>
   <span class="c1"># v = -cotangent.</span>
   <span class="n">v</span> <span class="o">=</span> <span class="n">tree_scalar_mul</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">cotangent</span><span class="p">)</span>
+
   <span class="k">if</span> <span class="n">free_dofs</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="n">constrained_dofs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">invert</span><span class="p">(</span><span class="n">free_dofs</span><span class="p">)</span>
+    <span class="n">idx_imposed</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">sol</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])[</span><span class="n">constrained_dofs</span><span class="p">]</span>
+
     <span class="n">v_flat</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">flatten</span><span class="p">()[</span><span class="n">free_dofs</span><span class="p">]</span>
-  <span class="k">else</span><span class="p">:</span>  
-    <span class="n">v_flat</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
-  <span class="k">if</span> <span class="n">free_dofs</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
     <span class="n">u</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
     <span class="n">u_flat</span> <span class="o">=</span> <span class="n">u</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
-    <span class="n">idx</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">u_flat</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])[</span><span class="n">free_dofs</span><span class="p">]</span>
-    <span class="n">u_flat</span> <span class="o">=</span> <span class="n">u_flat</span><span class="o">.</span><span class="n">at</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">diffable_solve_fun</span><span class="p">(</span><span class="n">mat</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">v_flat</span><span class="p">))</span>
+    <span class="n">idx_free</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">u_flat</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])[</span><span class="n">free_dofs</span><span class="p">]</span>
+    <span class="n">u_f</span> <span class="o">=</span> <span class="n">diffable_solve_fun</span><span class="p">(</span><span class="n">mat</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">v_flat</span><span class="p">)</span>
+    <span class="n">u_flat</span> <span class="o">=</span> <span class="n">u_flat</span><span class="o">.</span><span class="n">at</span><span class="p">[</span><span class="n">idx_free</span><span class="p">]</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">u_f</span><span class="p">)</span>
+   
+    <span class="k">def</span> <span class="nf">fun_args</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">):</span>
+      <span class="k">def</span> <span class="nf">residual_fun_tmp</span><span class="p">(</span><span class="n">sol</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
+        <span class="n">dirichlet_values</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;dirichlet conditions&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">flatten</span><span class="p">()[</span><span class="n">constrained_dofs</span><span class="p">]</span>
+        <span class="n">sol_with_bc</span> <span class="o">=</span> <span class="n">sol</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+        <span class="n">sol_with_bc</span> <span class="o">=</span> <span class="n">sol_with_bc</span><span class="o">.</span><span class="n">at</span><span class="p">[</span><span class="n">idx_imposed</span><span class="p">]</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">dirichlet_values</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">residual_fun</span><span class="p">(</span><span class="n">sol_with_bc</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">sol</span><span class="o">.</span><span class="n">shape</span><span class="p">),</span> <span class="o">*</span><span class="n">args</span><span class="p">)</span>
+      <span class="k">return</span> <span class="n">residual_fun_tmp</span><span class="p">(</span><span class="n">sol</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">)</span> 
+
     <span class="n">u</span> <span class="o">=</span> <span class="n">u_flat</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">v</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
   <span class="k">else</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">fun_args</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">):</span>
+      <span class="k">return</span> <span class="n">residual_fun</span><span class="p">(</span><span class="n">sol</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">)</span>
+
+    <span class="n">v_flat</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
     <span class="n">u</span> <span class="o">=</span> <span class="n">diffable_solve_fun</span><span class="p">(</span><span class="n">mat</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">v_flat</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">v</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
 
   <span class="n">_</span><span class="p">,</span> <span class="n">vjp_fun_args</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">vjp</span><span class="p">(</span><span class="n">fun_args</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">)</span>
-  <span class="n">tmp</span> <span class="o">=</span> <span class="n">vjp_fun_args</span><span class="p">(</span><span class="n">u</span><span class="p">)</span>
-  <span class="k">return</span> <span class="n">tmp</span>
+  <span class="n">args_vjp</span> <span class="o">=</span> <span class="n">vjp_fun_args</span><span class="p">(</span><span class="n">u</span><span class="p">)</span>
+
+  <span class="k">if</span> <span class="n">free_dofs</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="n">dirichlet_cotangent</span> <span class="o">=</span> <span class="n">cotangent</span><span class="o">.</span><span class="n">flatten</span><span class="p">()[</span><span class="n">constrained_dofs</span><span class="p">]</span>
+    <span class="n">updated_args0</span> <span class="o">=</span> <span class="n">args_vjp</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">tmp</span> <span class="o">=</span> <span class="n">updated_args0</span><span class="p">[</span><span class="s1">&#39;dirichlet conditions&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+    <span class="n">tmp</span> <span class="o">=</span> <span class="n">tmp</span><span class="o">.</span><span class="n">at</span><span class="p">[</span><span class="n">constrained_dofs</span><span class="p">]</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">dirichlet_cotangent</span><span class="p">)</span>
+    <span class="n">updated_args0</span><span class="p">[</span><span class="s1">&#39;dirichlet conditions&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">tmp</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">updated_args0</span><span class="p">[</span><span class="s1">&#39;dirichlet conditions&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+    <span class="n">args_vjp</span> <span class="o">=</span> <span class="p">(</span><span class="n">updated_args0</span><span class="p">,)</span> <span class="o">+</span> <span class="n">args_vjp</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+
+  <span class="k">return</span> <span class="n">args_vjp</span>
 
 <span class="k">def</span> <span class="nf">_root_jvp</span><span class="p">(</span><span class="n">residual_fun</span><span class="p">:</span> <span class="n">Callable</span><span class="p">,</span>
              <span class="n">mat_fun</span><span class="p">:</span> <span class="n">Callable</span><span class="p">,</span>
@@ -342,7 +362,7 @@
 <span class="sd">  Returns:</span>
 <span class="sd">    a pytree with the same structure as ``sol``.</span>
 <span class="sd">  &quot;&quot;&quot;</span>
-  <span class="c1"># Compute matrix A</span>
+  <span class="c1"># Compute tangent matrix</span>
   <span class="n">A</span> <span class="o">=</span> <span class="n">mat_fun</span><span class="p">(</span><span class="n">sol</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">)</span>
   <span class="n">mat_shape</span> <span class="o">=</span> <span class="n">A</span><span class="o">.</span><span class="n">shape</span>
 
@@ -378,14 +398,27 @@
   <span class="c1"># Assign the jvp-enabled solver function</span>
   <span class="n">solve_func</span> <span class="o">=</span> <span class="n">linear_solver_fun_jvp</span>
 
-  <span class="n">Bv</span> <span class="o">=</span> <span class="n">_jvp_args</span><span class="p">(</span><span class="n">residual_fun</span><span class="p">,</span> <span class="n">sol</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">tangents</span><span class="p">)</span>
-
   <span class="k">if</span> <span class="n">free_dofs</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="n">constrained_dofs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">invert</span><span class="p">(</span><span class="n">free_dofs</span><span class="p">)</span>
+    <span class="n">idx_imposed</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">A</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])[</span><span class="n">constrained_dofs</span><span class="p">]</span>
+    <span class="n">idx_free</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">A</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])[</span><span class="n">free_dofs</span><span class="p">]</span>
+
+    <span class="c1"># Explicit imposition of DOFs in order to be able to take derivatives w.r.t. nodally imposed DOFs</span>
+    <span class="k">def</span> <span class="nf">residual_fun_tmp</span><span class="p">(</span><span class="n">sol</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
+      <span class="n">dirichlet_values</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;dirichlet conditions&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">flatten</span><span class="p">()[</span><span class="n">constrained_dofs</span><span class="p">]</span>
+      <span class="n">sol_with_bc</span> <span class="o">=</span> <span class="n">sol</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+      <span class="n">sol_with_bc</span> <span class="o">=</span> <span class="n">sol_with_bc</span><span class="o">.</span><span class="n">at</span><span class="p">[</span><span class="n">idx_imposed</span><span class="p">]</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">dirichlet_values</span><span class="p">)</span>
+      <span class="k">return</span> <span class="n">residual_fun</span><span class="p">(</span><span class="n">sol_with_bc</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">sol</span><span class="o">.</span><span class="n">shape</span><span class="p">),</span> <span class="o">*</span><span class="n">args</span><span class="p">)</span>
+
+    <span class="n">Bv</span> <span class="o">=</span> <span class="n">_jvp_args</span><span class="p">(</span><span class="n">residual_fun_tmp</span><span class="p">,</span> <span class="n">sol</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">tangents</span><span class="p">)</span>
     <span class="n">Bv_free</span> <span class="o">=</span> <span class="n">Bv</span><span class="o">.</span><span class="n">flatten</span><span class="p">()[</span><span class="n">free_dofs</span><span class="p">]</span>
     <span class="n">Jv_free</span> <span class="o">=</span> <span class="n">solve_func</span><span class="p">(</span><span class="n">A</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">A</span><span class="o">.</span><span class="n">indices</span><span class="p">,</span> <span class="o">-</span><span class="n">Bv_free</span><span class="p">)</span>
-    <span class="n">Jv_flat</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">Bv</span><span class="o">.</span><span class="n">flatten</span><span class="p">())</span>
-    <span class="n">idx</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">A</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])[</span><span class="n">free_dofs</span><span class="p">]</span>
-    <span class="n">Jv_flat</span> <span class="o">=</span> <span class="n">Jv_flat</span><span class="o">.</span><span class="n">at</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">Jv_free</span><span class="p">)</span>
+    <span class="n">Jv_flat</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">sol</span><span class="p">)</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+    <span class="n">Jv_flat</span> <span class="o">=</span> <span class="n">Jv_flat</span><span class="o">.</span><span class="n">at</span><span class="p">[</span><span class="n">idx_free</span><span class="p">]</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">Jv_free</span><span class="p">)</span>
+
+    <span class="n">dirichlet_values_dot</span> <span class="o">=</span> <span class="n">tangents</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;dirichlet conditions&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">flatten</span><span class="p">()[</span><span class="n">constrained_dofs</span><span class="p">]</span>
+    <span class="n">Jv_flat</span> <span class="o">=</span> <span class="n">Jv_flat</span><span class="o">.</span><span class="n">at</span><span class="p">[</span><span class="n">idx_imposed</span><span class="p">]</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">dirichlet_values_dot</span><span class="p">)</span>
+
   <span class="k">else</span><span class="p">:</span>
     <span class="n">Jv_flat</span> <span class="o">=</span> <span class="n">solve_func</span><span class="p">(</span><span class="n">A</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">A</span><span class="o">.</span><span class="n">indices</span><span class="p">,</span> <span class="o">-</span><span class="n">Bv</span><span class="o">.</span><span class="n">flatten</span><span class="p">())</span>
 

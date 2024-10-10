@@ -23,9 +23,6 @@ The summation of duplicates is then carried out within the solver module. Curren
 """
 
 import jax
-import jax.experimental
-import jax.experimental.pjit
-import jax.experimental.shard_map
 import jax.numpy as jnp
 from jax.experimental import sparse
 import sparsejac

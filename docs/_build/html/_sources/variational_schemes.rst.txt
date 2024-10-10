@@ -39,7 +39,7 @@ Two main types of variational methods are: Galerkin (strong/weak) and least squa
    The optimal DOFs (measured in the PDE norm) are found by minimizing the functional:
 
    .. math::
-      \mathbf{d}_{\mathrm{LS}} = \min_{\mathbf{d}} \Pi_{\mathrm{LS}}
+      \mathbf{d}_{\mathrm{LS}} = \operatorname{argmin}_{\mathbf{d}} \Pi_{\mathrm{LS}}
 
    This leads to a system of equations of which one has to find the root of -- the residual
 
@@ -47,13 +47,13 @@ Two main types of variational methods are: Galerkin (strong/weak) and least squa
       \mathbf{R}_{\mathrm{LS}} := \frac{\partial \Pi_{\mathrm{LS}}}{\partial \mathbf{d}} = \mathbf{0}.
 
    If we consider, for instance, a second order PDE, the shape functions have to be able to reproduce second order polynomials and 
-   should be globally `C^1` continuous. In order to ensure optimality also in the `L^2` and `H^1` norms, the least square functional
+   should be globally :math:`C^1` continuous. In order to ensure optimality also in the :math:`L^2` and :math:`H^1` norms, the least square functional
    has to be norm-equivalent to them.
 
 2. **Galerkin Method (strong/weak form)**:
    In the Galerkin method, the DOFs are searched in a way, that the PDE is fulfilled in a weighted average sense, 
    such that the residual is orthogonal to a test space. Let's call it the strong form Galerkin method, 
-   in case we solve for the DOFs by making the following functional stationary:
+   in case we solve for the DOFs by making the following functional stationary with respect to the test function DOFs:
    
    .. math::
       \delta\Pi_{\mathrm{G}} = \int_{\Omega} \mathbf{r}_h \cdot \mathbf{v} \, \mathrm{d}\Omega
@@ -74,7 +74,7 @@ Two main types of variational methods are: Galerkin (strong/weak) and least squa
    The DOFs of the approximate solution can be found as the stationary point of the functional:
 
    .. math::
-      \mathbf{d}_{\mathrm{G}} = \underset{\delta \mathbf{d}}{\operatorname{stat}} \, \delta\Pi_{\mathrm{G}}
+      \mathbf{d}_{\mathrm{G}} = \underset{\delta \mathbf{d}}{\operatorname{argstat}} \, \delta\Pi_{\mathrm{G}}
 
    This leads to the following set of equations
 

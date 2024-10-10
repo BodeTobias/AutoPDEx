@@ -20,8 +20,6 @@ A distinction is made between the least squares variational method for solving P
 approximating functions and the Galerkin method in its weak and strong (without integration by parts) forms.
 """
 
-from functools import partial
-
 import jax
 import jax.numpy as jnp
 

@@ -17,7 +17,7 @@ The solver module, in turn, calls functions from lower-level modules, as e.g. th
 Installation
 ____________
 
-To install AutoPDEx, you can use the following command. Note, that it requires python>=3.10 and JAX>=0.4.26. 
+To install AutoPDEx, you can use the following command. Note, that it requires python>=3.10. 
 
 .. code-block:: bash
 

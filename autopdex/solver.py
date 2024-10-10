@@ -128,7 +128,7 @@ def adaptive_load_stepping(dofs, settings, static_settings, multiplier_settings 
     settings (dict): Dictionary of problem settings.
     static_settings (dict): Dictionary of static settings that do not change during load steps.
     multiplier_settings (callable): Function to update settings based on the current load multiplier.
-    path_dependent (bool): Specifies wether problem is path-dependent or not (has an influence on the implicit differentiation).
+    path_dependent (bool): Specifies wether problem is path-dependent (experimental) or not (has an influence on the implicit differentiation).
     implicit_diff_mode (string): Can be either \'reverse\', \'forward\' or None. In case of \'reverse\', only reverse mode differentiation is supported (jacrev), in case of \'forward\', only forward mode differentiation is supported (jacfwd).
     max_multiplier (float): Maximum value for the load multiplier.
     min_increment (float): Minimum allowable increment size.
@@ -200,7 +200,7 @@ def adaptive_load_stepping(dofs, settings, static_settings, multiplier_settings 
       if verbose > 0:
         jax.debug.print('')
       jax.debug.print('Multiplier: {x}', x=multiplier)
-    settings = jax.jit(multiplier_settings)(settings, multiplier)
+    settings = multiplier_settings(settings, multiplier)
 
     # Call newton solver
     if path_dependent and implicit_diff_mode is not None: # Add implicit differentiation for each load step
@@ -229,6 +229,10 @@ def adaptive_load_stepping(dofs, settings, static_settings, multiplier_settings 
   # Use implicit diff wrappers to make it differentiable
   if implicit_diff_mode is not None:
     if not path_dependent: # Conservative problem
+
+      # Set Dirichlet conditions for derivative w.r.t. them
+      settings = multiplier_settings(settings, max_multiplier)
+
       @implicit_diff.custom_root(residual_fun, tangent_fun, lin_solve_callback_fun, free_dofs_flat, True, implicit_diff_mode)
       def diffable_adaptive_load_stepping(dofs, settings):
         return jax.lax.while_loop(continue_check, step, (dofs, 0., init_increment, 0, settings, 0.))
@@ -262,6 +266,7 @@ def adaptive_load_stepping(dofs, settings, static_settings, multiplier_settings 
 
   else: # No definition of implicit derivatives
     return jax.lax.while_loop(continue_check, step, (dofs, 0., init_increment, 0, settings, 0.))
+
 
 ### Minimizers
 @jit_with_docstring(static_argnames=['static_settings', '**kwargs'])
@@ -335,6 +340,7 @@ def solve_nonlinear_minimization(dofs, settings, static_settings, **kwargs):
       sol = solver.run(dofs).params
       print('Solver name not set or not available in combination with this solver type. Using static_settings[\'solver name\'] = \'lbfgs\' as default.')
   return sol
+
 
 ### Root finders
 @jit_with_docstring(static_argnames=['static_settings', '**kwargs'])
@@ -628,6 +634,7 @@ def damped_newton(dofs_0, residual_fun, lin_solve_fun, free_dofs_flat, newton_to
   sol, load_steps, _, res_norm, divergence  = lax.while_loop(convergence_check, step, (dofs_0, 0, True, 0., False))
 
   return (sol, (load_steps, res_norm, divergence))
+
 
 ### Linear solvers for different backends
 @jit_with_docstring(static_argnames=['static_settings', '**kwargs'])

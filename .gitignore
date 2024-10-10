@@ -35,6 +35,7 @@ docs/_autosummary/
 # Simulation results
 examples/results/
 examples/in_progress/
+examples/offline/
 *.vtk
 
 # Custom configurations

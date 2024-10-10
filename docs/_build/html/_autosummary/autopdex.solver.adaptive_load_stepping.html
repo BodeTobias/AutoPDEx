@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>autopdex.solver.adaptive_load_stepping &mdash; AutoPDEx 0.0.1 documentation</title>
+  <title>autopdex.solver.adaptive_load_stepping &mdash; AutoPDEx 1.0.2 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
@@ -21,7 +21,7 @@
   
         <script src="../_static/jquery.js?v=5d32c60e"></script>
         <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../_static/documentation_options.js?v=d45e8c67"></script>
+        <script src="../_static/documentation_options.js?v=1ed6394b"></script>
         <script src="../_static/doctools.js?v=9a2dae69"></script>
         <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -148,7 +148,7 @@ solver types ‘newton’ and ‘damped newton’.</p>
 <li><p><strong>settings</strong> (<em>dict</em>) – Dictionary of problem settings.</p></li>
 <li><p><strong>static_settings</strong> (<em>dict</em>) – Dictionary of static settings that do not change during load steps.</p></li>
 <li><p><strong>multiplier_settings</strong> (<em>callable</em>) – Function to update settings based on the current load multiplier.</p></li>
-<li><p><strong>path_dependent</strong> (<em>bool</em>) – Specifies wether problem is path-dependent or not (has an influence on the implicit differentiation).</p></li>
+<li><p><strong>path_dependent</strong> (<em>bool</em>) – Specifies wether problem is path-dependent (experimental) or not (has an influence on the implicit differentiation).</p></li>
 <li><p><strong>implicit_diff_mode</strong> (<em>string</em>) – Can be either ‘reverse’, ‘forward’ or None. In case of ‘reverse’, only reverse mode differentiation is supported (jacrev), in case of ‘forward’, only forward mode differentiation is supported (jacfwd).</p></li>
 <li><p><strong>max_multiplier</strong> (<em>float</em>) – Maximum value for the load multiplier.</p></li>
 <li><p><strong>min_increment</strong> (<em>float</em>) – Minimum allowable increment size.</p></li>
