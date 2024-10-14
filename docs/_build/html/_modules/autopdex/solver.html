@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>autopdex.solver &mdash; AutoPDEx 1.0.2 documentation</title>
+  <title>autopdex.solver &mdash; AutoPDEx  documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
@@ -14,13 +14,14 @@
       <link rel="stylesheet" type="text/css" href="../../_static/dark_mode_css/dark.css?v=70edf1c7" />
 
   
+    <link rel="canonical" href="https://github.com/BodeTobias/AutoPDEx/_modules/autopdex/solver.html" />
   <!--[if lt IE 9]>
     <script src="../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
         <script src="../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../_static/documentation_options.js?v=1ed6394b"></script>
+        <script src="../../_static/documentation_options.js?v=5929fcd5"></script>
         <script src="../../_static/doctools.js?v=9a2dae69"></script>
         <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -345,7 +346,7 @@
 
     <span class="c1"># Limit to max_multiplier</span>
     <span class="n">increment</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">multiplier</span> <span class="o">+</span> <span class="n">increment</span> <span class="o">&gt;</span> <span class="n">max_multiplier</span><span class="p">,</span> <span class="n">max_multiplier</span> <span class="o">-</span> <span class="n">multiplier</span><span class="p">,</span> <span class="n">increment</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">dofs</span><span class="p">,</span> <span class="n">multiplier</span><span class="p">,</span> <span class="n">increment</span><span class="p">,</span> <span class="n">load_step</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">res_norm_free_dofs</span>
+    <span class="k">return</span> <span class="n">dofs</span><span class="p">,</span> <span class="n">multiplier</span><span class="p">,</span> <span class="n">increment</span><span class="p">,</span> <span class="mf">1.</span><span class="o">*</span><span class="n">load_step</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">res_norm_free_dofs</span>
 
   <span class="c1"># Use implicit diff wrappers to make it differentiable</span>
   <span class="k">if</span> <span class="n">implicit_diff_mode</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
@@ -1127,7 +1128,7 @@
 
     <span class="n">x</span> <span class="o">=</span> <span class="n">sparse_dot_mkl</span><span class="o">.</span><span class="n">sparse_qr_solve_mkl</span><span class="p">(</span><span class="n">tangent_csr</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
   <span class="k">else</span><span class="p">:</span>
-      <span class="k">assert</span> <span class="kc">False</span><span class="p">,</span> <span class="s1">&#39;Type of solver not supported. Choose </span><span class="se">\&#39;</span><span class="s1">lu</span><span class="se">\&#39;</span><span class="s1"> or </span><span class="se">\&#39;</span><span class="s1">qr</span><span class="se">\&#39;</span><span class="s1">&#39;</span>
+      <span class="k">assert</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;Type of solver not supported. Choose </span><span class="se">\&#39;</span><span class="s2">lu</span><span class="se">\&#39;</span><span class="s2"> or </span><span class="se">\&#39;</span><span class="s2">qr</span><span class="se">\&#39;</span><span class="s2">&quot;</span>
 
   <span class="n">sol</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
 
@@ -1178,7 +1179,7 @@
   <span class="k">elif</span> <span class="n">pc_type</span> <span class="o">==</span> <span class="s1">&#39;smoothed aggregation&#39;</span><span class="p">:</span>
     <span class="n">ml</span> <span class="o">=</span> <span class="n">pyamg</span><span class="o">.</span><span class="n">smoothed_aggregation_solver</span><span class="p">(</span><span class="n">A</span><span class="o">=</span><span class="n">pyamg_tangent</span><span class="p">)</span>
   <span class="k">else</span><span class="p">:</span>
-      <span class="k">assert</span> <span class="kc">False</span><span class="p">,</span> <span class="s1">&#39;Type of preconditioner not supported. Choose </span><span class="se">\&#39;</span><span class="s1">ruge stuben</span><span class="se">\&#39;</span><span class="s1"> or \`smoothed aggregation</span><span class="se">\&#39;</span><span class="s1">&#39;</span>
+      <span class="k">assert</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;Type of preconditioner not supported. Choose </span><span class="se">\&#39;</span><span class="s2">ruge stuben</span><span class="se">\&#39;</span><span class="s2"> or </span><span class="se">\&#39;</span><span class="s2">smoothed aggregation</span><span class="se">\&#39;</span><span class="s2">&quot;</span>
   <span class="n">M</span> <span class="o">=</span> <span class="n">ml</span><span class="o">.</span><span class="n">aspreconditioner</span><span class="p">(</span><span class="n">cycle</span><span class="o">=</span><span class="s1">&#39;V&#39;</span><span class="p">)</span>
 
   <span class="k">if</span> <span class="n">verbose</span><span class="o">&gt;=</span><span class="mi">2</span><span class="p">:</span>
@@ -1197,7 +1198,7 @@
   <span class="k">elif</span> <span class="n">solver</span> <span class="o">==</span> <span class="s1">&#39;gmres&#39;</span><span class="p">:</span>
     <span class="n">x</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">pyamg</span><span class="o">.</span><span class="n">krylov</span><span class="o">.</span><span class="n">gmres</span><span class="p">(</span><span class="n">A</span><span class="o">=</span><span class="n">pyamg_tangent</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="n">b</span><span class="p">,</span> <span class="n">M</span><span class="o">=</span><span class="n">M</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
   <span class="k">else</span><span class="p">:</span>
-      <span class="k">assert</span> <span class="kc">False</span><span class="p">,</span> <span class="s1">&#39;Type of solver not supported. Choose </span><span class="se">\&#39;</span><span class="s1">cg</span><span class="se">\&#39;</span><span class="s1">, </span><span class="se">\&#39;</span><span class="s1">bcgs</span><span class="se">\&#39;</span><span class="s1"> or \`gmres</span><span class="se">\&#39;</span><span class="s1">&#39;</span>
+      <span class="k">assert</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;Type of solver not supported. Choose </span><span class="se">\&#39;</span><span class="s2">cg</span><span class="se">\&#39;</span><span class="s2">, </span><span class="se">\&#39;</span><span class="s2">bcgs</span><span class="se">\&#39;</span><span class="s2"> or </span><span class="se">\&#39;</span><span class="s2">gmres</span><span class="se">\&#39;</span><span class="s2">&quot;</span>
   
   <span class="n">sol</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
 
@@ -1238,7 +1239,7 @@
   <span class="k">elif</span> <span class="n">solver</span> <span class="o">==</span> <span class="s1">&#39;umfpack&#39;</span><span class="p">:</span>
     <span class="n">x</span> <span class="o">=</span> <span class="n">scp</span><span class="o">.</span><span class="n">sparse</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">spsolve</span><span class="p">(</span><span class="n">tangent_csr</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">use_umfpack</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
   <span class="k">else</span><span class="p">:</span>
-      <span class="k">assert</span> <span class="kc">False</span><span class="p">,</span> <span class="s1">&#39;Type of solver not supported. Choose </span><span class="se">\&#39;</span><span class="s1">lapack</span><span class="se">\&#39;</span><span class="s1"> or </span><span class="se">\&#39;</span><span class="s1">umfpack</span><span class="se">\&#39;</span><span class="s1">&#39;</span>
+      <span class="k">assert</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;Type of solver not supported. Choose </span><span class="se">\&#39;</span><span class="s2">lapack</span><span class="se">\&#39;</span><span class="s2"> or </span><span class="se">\&#39;</span><span class="s2">umfpack</span><span class="se">\&#39;</span><span class="s2">&quot;</span>
   
   <span class="n">sol</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
 

@@ -80,6 +80,13 @@ _______
 
 AutoPDEx is licensed under the GNU Affero General Public License, Version 3.
 
+.. toctree::
+   :maxdepth: 1
+   :caption: Source code
+   :hidden:
+
+   GitHub Project <https://github.com/BodeTobias/AutoPDEx>
+
 Index
 _____
 
