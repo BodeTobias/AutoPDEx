@@ -31,15 +31,19 @@ from jax.experimental import sparse
 from jax import lax
 import numpy as np
 import scipy as scp
+from flax.core import FrozenDict
 
-from autopdex import assembler, implicit_diff
-from autopdex.utility import jit_with_docstring
+from autopdex import assembler, implicit_diff, utility
+
+
+
+# Fixme: check docstrings for dict extension of dofs and free_dofs, dirichlet_dofs, etc. ...
 
 
 
 ### Solvers as specified by the static_settings and settings
 
-@jit_with_docstring(static_argnames=['static_settings', '**kwargs'])
+@utility.jit_with_docstring(static_argnames=['static_settings', '**kwargs'])
 def solver(dofs, settings, static_settings, **kwargs):
   """
   General solver function to solve a given problem based on provided settings.
@@ -113,7 +117,7 @@ def solver(dofs, settings, static_settings, **kwargs):
     pass
   return sol, infos
 
-@jit_with_docstring(static_argnames=['static_settings', 'multiplier_settings', 'path_dependent', 'implicit_diff_mode', 'max_multiplier', 'min_increment', 'max_increment', 'init_increment', 'target_num_newton_iter', 'max_load_steps', 'newton_tol', '**kwargs'])
+@utility.jit_with_docstring(static_argnames=['static_settings', 'multiplier_settings', 'path_dependent', 'implicit_diff_mode', 'max_multiplier', 'min_increment', 'max_increment', 'init_increment', 'target_num_newton_iter', 'max_load_steps', 'newton_tol', '**kwargs'])
 def adaptive_load_stepping(dofs, settings, static_settings, multiplier_settings = lambda settings, multiplier: (settings.update({'load multiplier': multiplier}), settings)[1], path_dependent = True, implicit_diff_mode = None, max_multiplier = 1.0, min_increment = 0.01, max_increment = 1.0, init_increment = 0.2, max_load_steps = 1000, target_num_newton_iter = 7, newton_tol = 1e-10, **kwargs):
   """
   Performs adaptive load stepping to solve a nonlinear system of equations.
@@ -148,10 +152,14 @@ def adaptive_load_stepping(dofs, settings, static_settings, multiplier_settings 
     # Set-up the decorator for implicit differentiation
     residual_fun = lambda dofs, settings: assembler.assemble_residual(dofs, settings, static_settings)
     tangent_fun = lambda dofs, settings: assembler.assemble_tangent(dofs, settings, static_settings)
+    free_dofs = None
     free_dofs_flat = None
     try:
-      dirichlet_dofs_flat = np.asarray([element for tupl in static_settings['dirichlet dofs'] for element in tupl])
-      free_dofs_flat = np.invert(dirichlet_dofs_flat)
+      if isinstance(static_settings['dirichlet dofs'], FrozenDict):
+        free_dofs = {key: np.invert(np.asarray(static_settings['dirichlet dofs'][key])) for key in static_settings['dirichlet dofs'].keys()}
+      else:
+        free_dofs = np.invert(np.asarray(static_settings['dirichlet dofs']))
+      free_dofs_flat = utility.dict_flatten(free_dofs)
     except KeyError:
       pass
 
@@ -204,7 +212,7 @@ def adaptive_load_stepping(dofs, settings, static_settings, multiplier_settings 
 
     # Call newton solver
     if path_dependent and implicit_diff_mode is not None: # Add implicit differentiation for each load step
-      @implicit_diff.custom_root(residual_fun, tangent_fun, lin_solve_callback_fun, free_dofs_flat, True, implicit_diff_mode)
+      @implicit_diff.custom_root(residual_fun, tangent_fun, lin_solve_callback_fun, free_dofs, True, implicit_diff_mode)
       def diffable_solve(dofs0, settings):
         return solver(dofs0, settings, static_settings, newton_tol=newton_tol, **kwargs)
       dofs, infos = diffable_solve(dofs0, settings)
@@ -220,7 +228,10 @@ def adaptive_load_stepping(dofs, settings, static_settings, multiplier_settings 
                           (1 + 0.5 * (target_num_newton_iter - needed_steps) / target_num_newton_iter) * increment)
     increment = jnp.where(increment > max_increment, max_increment, increment)
 
-    dofs = jnp.where(divergence, dofs0, dofs)
+    if isinstance(dofs, dict):
+      dofs = {key: jnp.where(divergence, dofs0[key], dofs[key]) for key in dofs0.keys()}
+    else:
+      dofs = jnp.where(divergence, dofs0, dofs)
 
     # Limit to max_multiplier
     increment = jnp.where(multiplier + increment > max_multiplier, max_multiplier - multiplier, increment)
@@ -233,7 +244,7 @@ def adaptive_load_stepping(dofs, settings, static_settings, multiplier_settings 
       # Set Dirichlet conditions for derivative w.r.t. them
       settings = multiplier_settings(settings, max_multiplier)
 
-      @implicit_diff.custom_root(residual_fun, tangent_fun, lin_solve_callback_fun, free_dofs_flat, True, implicit_diff_mode)
+      @implicit_diff.custom_root(residual_fun, tangent_fun, lin_solve_callback_fun, free_dofs, True, implicit_diff_mode)
       def diffable_adaptive_load_stepping(dofs, settings):
         return jax.lax.while_loop(continue_check, step, (dofs, 0., init_increment, 0, settings, 0.))
       return diffable_adaptive_load_stepping(dofs, settings)
@@ -269,7 +280,7 @@ def adaptive_load_stepping(dofs, settings, static_settings, multiplier_settings 
 
 
 ### Minimizers
-@jit_with_docstring(static_argnames=['static_settings', '**kwargs'])
+@utility.jit_with_docstring(static_argnames=['static_settings', '**kwargs'])
 def solve_nonlinear_minimization(dofs, settings, static_settings, **kwargs):
   """
   Solves a nonlinear minimization problem using specified optimization methods.
@@ -297,11 +308,10 @@ def solve_nonlinear_minimization(dofs, settings, static_settings, **kwargs):
 
   Notes:
     - This function should just be called, if the variational scheme involves the definition of a functional that is to be minimized,
-      e.g. 'least square pde loss'. The modes 'gauss newton' and 'levenberg marquart' are an exeption, since the utilize the residual.
+      e.g. 'least square pde loss'. The modes 'gauss newton' and 'levenberg marquart' are an exeption, since they utilize the residual.
     - The function conducts the assembler.integrate_functional and assembler.assemble_residual functions in order
       to set up suitable optimization functions or residual functions, depending on what the solver needs.
-    - The current implementation does not support nodal imposition of DOFs. This will raise an assertion error if
-      nodal imposition is detected in the `static_settings`.
+    - The current implementation does not support nodal imposition of DOFs.
   """
   nodal_imposition = 'nodal imposition' in static_settings['solution structure']
   assert not nodal_imposition, "solver type \'minimize\' does currently not support nodal imposition of DOFs."
@@ -311,8 +321,6 @@ def solve_nonlinear_minimization(dofs, settings, static_settings, **kwargs):
     return assembler.integrate_functional(params, settings, static_settings)
   def residual_function(params):
     return assembler.assemble_residual(params, settings, static_settings)
-  def residual_function_flat(params):
-    return assembler.assemble_residual(jnp.reshape(params, dofs.shape), settings, static_settings).flatten()
 
   # Select minimizer
   solver_name = static_settings['solver']
@@ -333,6 +341,10 @@ def solve_nonlinear_minimization(dofs, settings, static_settings, **kwargs):
       solver = jaxopt.GaussNewton(residual_function, **kwargs)
       sol = solver.run(dofs).params
     case 'levenberg marquart':
+      assert not isinstance(dofs, dict), "solver 'levenberg marquart' does currently not support dicts as dofs"
+      def residual_function_flat(params):
+        return assembler.assemble_residual(jnp.reshape(params, dofs.shape), settings, static_settings).flatten()
+
       solver = jaxopt.LevenbergMarquardt(residual_function_flat, **kwargs)
       sol = jnp.reshape(solver.run(dofs.flatten()).params, dofs.shape)
     case _:
@@ -343,7 +355,7 @@ def solve_nonlinear_minimization(dofs, settings, static_settings, **kwargs):
 
 
 ### Root finders
-@jit_with_docstring(static_argnames=['static_settings', '**kwargs'])
+@utility.jit_with_docstring(static_argnames=['static_settings', '**kwargs'])
 def solve_linear(dofs, settings, static_settings, **kwargs):
   """
   Solves a linear system using the specified backend and solver settings.
@@ -382,33 +394,39 @@ def solve_linear(dofs, settings, static_settings, **kwargs):
     return linear_solve_jax(dofs, settings, static_settings, **kwargs)
 
   ### External linear solver
-  nodal_imposition = 'nodal imposition' in static_settings['solution structure']
-  if nodal_imposition:
-    # Impose Dirichlet boundaries. Dirichlet dofs has to be concrete, therefore it is passed in static_settings as tuple of tuples
-    dirichlet_dofs_flat = np.asarray([element for tupl in static_settings['dirichlet dofs'] for element in tupl])
-    free_dofs_flat = np.invert(dirichlet_dofs_flat)
 
-    # Impose nodal dofs
-    dirichlet_conditions = settings['dirichlet conditions'].flatten()
-    flat_dofs = dofs.flatten()
-    idx = jnp.arange(flat_dofs.shape[0])[dirichlet_dofs_flat]
-    flat_dofs = flat_dofs.at[idx].set(dirichlet_conditions[idx])
-    dofs = flat_dofs.reshape(dofs.shape)
+  nodal_imposition = 'nodal imposition' in static_settings['solution structure']
+  # Impose nodal dofs
+  if nodal_imposition:
+    # dirichlet_conditions = utility.dict_flatten(settings['dirichlet conditions'])
+    dirichlet_conditions = settings['dirichlet conditions']
+
+    if isinstance(static_settings['dirichlet dofs'], FrozenDict):
+      dirichlet_dofs_dict_flat = {key: np.asarray(val).flatten() for key, val in static_settings['dirichlet dofs'].items()}
+      dirichlet_dofs_flat = np.concatenate(list(dirichlet_dofs_dict_flat.values()))
+      dofs = utility.mask_set(dofs, dirichlet_dofs_dict_flat, dirichlet_conditions)
+    else:
+      dirichlet_dofs_flat = np.asarray(static_settings['dirichlet dofs']).flatten()
+      dofs = utility.mask_set(dofs, dirichlet_dofs_flat, dirichlet_conditions)
+
+    free_dofs_flat = np.invert(dirichlet_dofs_flat)
 
   # Assembling
   verbose = static_settings['verbose']
   solver = static_settings['solver']
-  rhs = - assembler.assemble_residual(dofs, settings, static_settings).flatten()
+
+  rhs = assembler.assemble_residual(dofs, settings, static_settings)
+  rhs = - utility.dict_flatten(rhs)
   mat = assembler.assemble_tangent(dofs, settings, static_settings)
 
   # If dense matrix and external solver, convert to sparse
   if solver_backend in ('petsc', 'pardiso', 'pyamg', 'scipy') and type(mat) == jnp.ndarray:
     mat = sparse.bcoo_fromdense()
 
+  # Delete rows
   if nodal_imposition:
-    # Delete rows
     rhs = rhs[free_dofs_flat]
-
+  
   match solver_backend:
     case 'petsc':
       n_fields = static_settings['number of fields']
@@ -425,18 +443,21 @@ def solve_linear(dofs, settings, static_settings, **kwargs):
   # Prepare callback
   result_shape_dtype = jax.ShapeDtypeStruct(shape=rhs.shape, dtype=rhs.dtype)
 
+  # Compose solution dofs
   if nodal_imposition:
     sol = jax.pure_callback(solve_fun, result_shape_dtype, mat, rhs, free_dofs_flat)
-
-    # Compose solution dofs
-    idx = jnp.arange(flat_dofs.shape[0])[free_dofs_flat]
-    flat_dofs = flat_dofs.at[idx].set(sol)
-    dofs = flat_dofs.reshape(dofs.shape)
-    return dofs
+    if isinstance(static_settings['dirichlet dofs'], FrozenDict):
+      free_dofs_dict = {key: np.invert(np.asarray(val)) for key, val in static_settings['dirichlet dofs'].items()}
+      reduced_dofs = utility.mask_select(dofs, free_dofs_dict)
+      sol = utility.reshape_as(sol, reduced_dofs)
+      return utility.mask_set(dofs, free_dofs_dict, sol)
+    else:
+      return utility.mask_set(dofs, free_dofs_flat, sol)
   else:
-    return jax.pure_callback(solve_fun, result_shape_dtype, mat, rhs, None).reshape(dofs.shape)
+    sol = jax.pure_callback(solve_fun, result_shape_dtype, mat, rhs, None)
+    return utility.reshape_as(sol, dofs)
 
-@jit_with_docstring(static_argnames=['static_settings', '**kwargs'])
+@utility.jit_with_docstring(static_argnames=['static_settings', '**kwargs'])
 def solve_diagonal_linear(dofs, settings, static_settings, **kwargs):
   """
   Solves a linear system assuming the tangent matrix is diagonal.
@@ -463,22 +484,27 @@ def solve_diagonal_linear(dofs, settings, static_settings, **kwargs):
     - The solution process involves element-wise division of the residual by the diagonal elements of the tangent matrix.
   """
   nodal_imposition = 'nodal imposition' in static_settings['solution structure']
+
+  # Impose nodal dofs
   if nodal_imposition:
-    # Impose Dirichlet boundaries. Dirichlet dofs has to be concrete, therefore it is passed in static_settings as tuple of tuples
-    dirichlet_dofs_flat = np.asarray([element for tupl in static_settings['dirichlet dofs'] for element in tupl])
+    dirichlet_conditions = utility.dict_flatten(settings['dirichlet conditions'])
+
+    if isinstance(static_settings['dirichlet dofs'], FrozenDict):
+      dirichlet_dofs_dict_flat = {key: np.asarray(val).flatten() for key, val in static_settings['dirichlet dofs'].items()}
+      dirichlet_dofs_flat = np.concatenate(list(dirichlet_dofs_dict_flat.vlaues()))
+      dofs = utility.mask_set(dofs, dirichlet_dofs_dict_flat, dirichlet_conditions)
+    else:
+      dirichlet_dofs_flat = np.asarray(static_settings['dirichlet dofs']).flatten()
+      dofs = utility.mask_set(dofs, dirichlet_dofs_flat, dirichlet_conditions)
+
     free_dofs_flat = np.invert(dirichlet_dofs_flat)
 
-    # Impose nodal dofs
-    dirichlet_conditions = settings['dirichlet conditions'].flatten()
-    flat_dofs = dofs.flatten()
-    idx = jnp.arange(flat_dofs.shape[0])[dirichlet_dofs_flat]
-    flat_dofs = flat_dofs.at[idx].set(dirichlet_conditions[idx])
-    dofs = flat_dofs.reshape(dofs.shape)
-
   # Assembling
-  rhs = - assembler.assemble_residual(dofs, settings, static_settings).flatten()
+  rhs = - assembler.assemble_residual(dofs, settings, static_settings)
   diag_mat = assembler.assemble_tangent(dofs, settings, static_settings).data
 
+  # Delete rows
+  rhs = utility.dict_flatten(rhs)
   if nodal_imposition:
     # Delete rows
     rhs = rhs[free_dofs_flat]
@@ -487,16 +513,19 @@ def solve_diagonal_linear(dofs, settings, static_settings, **kwargs):
   # Solve while assuming a diagonal tangent
   sol = jnp.multiply((1/diag_mat), rhs)
 
+  # Compose solution dofs
   if nodal_imposition:
-    # Compose solution dofs
-    idx = jnp.arange(flat_dofs.shape[0])[free_dofs_flat]
-    flat_dofs = flat_dofs.at[idx].set(sol)
-    dofs = flat_dofs.reshape(dofs.shape)
-    return dofs
+    if isinstance(static_settings['dirichlet dofs'], FrozenDict):
+      free_dofs_dict = {key: np.invert(np.asarray(val)) for key, val in static_settings['dirichlet dofs'].items()}
+      reduced_dofs = utility.mask_select(dofs, free_dofs_dict)
+      sol = utility.reshape_as(sol, reduced_dofs)
+      return utility.mask_set(dofs, free_dofs_dict, sol)
+    else:
+      return utility.mask_set(dofs, free_dofs_flat, sol)
   else:
-    return sol.reshape(dofs.shape)
+    return utility.reshape_as(sol, dofs)
 
-@jit_with_docstring(static_argnames=['static_settings', '**kwargs'])
+@utility.jit_with_docstring(static_argnames=['static_settings', '**kwargs'])
 def solve_newton(dofs, settings, static_settings, newton_tol=1e-8, maxiter=30, **kwargs):
   """
   Solves a nonlinear system using the Newton-Raphson method.
@@ -522,7 +551,7 @@ def solve_newton(dofs, settings, static_settings, newton_tol=1e-8, maxiter=30, *
   """
   return solve_damped_newton(dofs, settings, static_settings, newton_tol, 1.0, maxiter)
 
-@jit_with_docstring(static_argnames=['static_settings', '**kwargs'])
+@utility.jit_with_docstring(static_argnames=['static_settings', '**kwargs'])
 def solve_damped_newton(dofs, settings, static_settings, newton_tol=1e-8, damping_coefficient=0.8, maxiter=30, **kwargs):
   """
   Solves a nonlinear system using the damped Newton method.
@@ -555,15 +584,17 @@ def solve_damped_newton(dofs, settings, static_settings, newton_tol=1e-8, dampin
   nodal_imposition = 'nodal imposition' in static_settings['solution structure']
   if nodal_imposition:
     # Impose Dirichlet boundaries. Dirichlet dofs has to be concrete, therefore it is passed in static_settings as tuple of tuples
-    dirichlet_dofs_flat = np.asarray([element for tupl in static_settings['dirichlet dofs'] for element in tupl])
-    free_dofs_flat = np.invert(dirichlet_dofs_flat)
+    if isinstance(static_settings['dirichlet dofs'], FrozenDict):
+      free_dofs_flat = {key: np.invert(np.asarray(val).flatten()) for key, val in static_settings['dirichlet dofs'].items()}    
+    else:
+      free_dofs_flat = np.invert(np.asarray(static_settings['dirichlet dofs']).flatten())
   else:
-    free_dofs_flat = np.ones(dofs.flatten().shape, dtype=np.bool_)
+    free_dofs_flat = np.ones(utility.dict_flatten(dofs).shape, dtype=np.bool_)
 
   verbose = static_settings['verbose']
   return damped_newton(dofs, residual_fun, lin_solve_fun, free_dofs_flat, newton_tol, maxiter, damping_coefficient, verbose=verbose)
 
-def damped_newton(dofs_0, residual_fun, lin_solve_fun, free_dofs_flat, newton_tol, maxiter, damping_coefficient, verbose=1):
+def damped_newton(dofs_0, residual_fun, lin_solve_fun, free_dofs, newton_tol, maxiter, damping_coefficient, verbose=1):
   """
   Performs damped Newton iterations to solve a nonlinear system.
 
@@ -575,7 +606,7 @@ def damped_newton(dofs_0, residual_fun, lin_solve_fun, free_dofs_flat, newton_to
     dofs_0 (jnp.ndarray): Initial guess for the degrees of freedom.
     residual_fun (callable): Function to compute the residual of the system.
     lin_solve_fun (callable): Function to solve the linearized system for the Newton step.
-    free_dofs_flat (jnp.ndarray): Boolean array indicating the free degrees of freedom.
+    free_dofs (jnp.ndarray): Boolean array indicating the free degrees of freedom.
     newton_tol (float): Tolerance for the Newton method convergence criterion.
     maxiter (int): Maximum number of iterations for the Newton method.
     damping_coefficient (float): Damping coefficient for the Newton updates.
@@ -593,21 +624,21 @@ def damped_newton(dofs_0, residual_fun, lin_solve_fun, free_dofs_flat, newton_to
     
     # Update formula of newton scheme
     delta_x_i = lin_solve_fun(dofs_i)
-    delta_x_i_flat = delta_x_i.flatten()
 
     # Update free dofs
-    dofs_i_flat = dofs_i.flatten()
-    idx_free = jnp.arange(delta_x_i_flat.shape[0])[free_dofs_flat]
-    dofs_i_flat = dofs_i_flat.at[idx_free].add(damping_coefficient * delta_x_i_flat.at[idx_free].get())
+    delta_x_i = utility.mask_op(delta_x_i, free_dofs, mode='apply', ufunc=lambda x: damping_coefficient * x)
+    dofs_i = utility.mask_op(dofs_i, free_dofs, delta_x_i, 'add')
 
     # Set boundary conditions
-    idx_constrained = jnp.arange(delta_x_i_flat.shape[0])[np.invert(free_dofs_flat)]
-    dofs_i_flat = dofs_i_flat.at[idx_constrained].set(delta_x_i_flat.at[idx_constrained].get())
-    dofs_i = dofs_i_flat.reshape(dofs_i.shape)
+    if isinstance(free_dofs, dict):
+      dirichlet_dofs = {key: np.invert(val) for (key,val) in free_dofs.items()}
+    else:
+      dirichlet_dofs = np.invert(free_dofs)
+    dofs_i = utility.mask_op(dofs_i, dirichlet_dofs, delta_x_i, 'set')
 
     # Compute residual in next step as convergence test
     residual = residual_fun(dofs_i)
-    residual_flat = residual.flatten()[free_dofs_flat]
+    residual_flat = utility.dict_flatten(utility.mask_op(residual, free_dofs, mode='get'))
     res_norm = jnp.linalg.norm(residual_flat)
     not_stop = jnp.where(res_norm > newton_tol, True, False)
 
@@ -637,7 +668,7 @@ def damped_newton(dofs_0, residual_fun, lin_solve_fun, free_dofs_flat, newton_to
 
 
 ### Linear solvers for different backends
-@jit_with_docstring(static_argnames=['static_settings', '**kwargs'])
+@utility.jit_with_docstring(static_argnames=['static_settings', '**kwargs'])
 def linear_solve_jax(dofs, settings, static_settings, **kwargs):
   """
   Solves a linear system of equations using JAX's matrix free solvers.
@@ -678,17 +709,19 @@ def linear_solve_jax(dofs, settings, static_settings, **kwargs):
     - The itterative solver can be preconditioned with 'jacobi'.
     - When using 'assemble' HVP type, the function will explicitly assemble the tangent matrix.
   """
+  assert not isinstance(dofs, dict), "dofs as dict are currently not implemented in linear_solve_jax."
+
   solver = static_settings['solver']
   hvp_type = static_settings['hvp type']
   nodal_imposition = 'nodal imposition' in static_settings['solution structure']
 
   if nodal_imposition:
     # Impose Dirichlet boundaries. Dirichlet dofs has to be concrete, therefore it is passed in static_settings as tuple of tuples
-    dirichlet_dofs_flat = np.asarray([element for tupl in static_settings['dirichlet dofs'] for element in tupl])
+    dirichlet_dofs_flat = np.asarray(static_settings['dirichlet dofs']).flatten()
+    dirichlet_conditions = settings['dirichlet conditions'].flatten()
     free_dofs_flat = np.invert(dirichlet_dofs_flat)
 
     # Impose nodal dofs
-    dirichlet_conditions = settings['dirichlet conditions'].flatten()
     flat_dofs = dofs.flatten()
     idx = jnp.arange(flat_dofs.shape[0])[dirichlet_dofs_flat]
     flat_dofs = flat_dofs.at[idx].set(dirichlet_conditions[idx])
@@ -856,7 +889,7 @@ def linear_solve_petsc(mat, rhs, n_fields, solver, pc_type, verbose, free_dofs, 
 
   Args:
     mat (jax.experimental.sparse.BCOO): The input matrix in JAX BCOO format.
-    rhs (jnp.ndarray): The right-hand side vector.
+    rhs (jnp.ndarray): The (reduced/free) right-hand side vector.
     n_fields (int): The number of fields.
     solver (str): The type of solver to use.
     pc_type (str): The type of preconditioner to use.
@@ -945,7 +978,7 @@ def linear_solve_pardiso(mat, rhs, solver, verbose, free_dofs):
 
   Args:
     mat (jax.experimental.sparse.BCOO): The input matrix in JAX BCOO format.
-    rhs (jnp.ndarray): The right-hand side vector.
+    rhs (jnp.ndarray): The (reduced/free) right-hand side vector.
     solver (str): The type of solver to use ('lu' or 'qr').
     verbose (int): Verbosity level. If >= 2, timing information is printed.
     free_dofs (array or None): Boolean array indicating which degrees of freedom are free.
@@ -1000,7 +1033,7 @@ def linear_solve_pyamg(mat, rhs, solver, pc_type, verbose, free_dofs, **kwargs):
 
   Args:
     mat (jax.experimental.sparse.BCOO): The input matrix in JAX BCOO format.
-    rhs (jnp.ndarray): The right-hand side vector.
+    rhs (jnp.ndarray): The (reduced/free) right-hand side vector.
     solver (str): The type of solver to use ('cg', 'bcgs', or 'gmres').
     pc_type (str): The type of preconditioner to use ('ruge stuben' or 'smoothed aggregation').
     verbose (int): Verbosity level. If >= 1, timing and solver information is printed.
@@ -1062,7 +1095,7 @@ def linear_solve_scipy(mat, rhs, solver, verbose, free_dofs):
 
   Parameters:
     mat (bcoo): JAX BCOO matrix representing the system's tangent matrix.
-    rhs (jnp.ndarray): Right-hand side vector of the linear system.
+    rhs (jnp.ndarray): The (reduced/free) right-hand side vector.
     solver (str): Type of solver to use. Options are 'lapack' or 'umfpack'.
     verbose (int): Verbosity level for logging.
     free_dofs (jnp.ndarray): Boolean array indicating free degrees of freedom for Dirichlet boundary conditions.
@@ -1112,6 +1145,8 @@ def jacobi_method(hvp_fun, diag, x_0, rhs, tol=1e-6, atol=1e-6, maxiter=1000):
   Returns:
     array: Solution vector x.
   """
+  assert not isinstance(x_0, dict), "dofs as dict are currently not implemented in jacobi_method."
+
   # Initialization
   inverse_diag = 1 / diag
   scaled_rhs = jnp.multiply(inverse_diag, rhs)
@@ -1149,6 +1184,8 @@ def damped_jacobi_relaxation(hvp_fun, diag, x_0, rhs, damping_factor=0.3333333, 
   Returns:
     array: Solution vector x.
   """
+  assert not isinstance(x_0, dict), "dofs as dict are currently not implemented in damped_jacobi_relaxation."
+
   # Initialization
   inverse_diag = 1 / diag
   scaled_rhs = jnp.multiply(inverse_diag, rhs)

@@ -944,6 +944,23 @@ def neo_hooke(F, param):
   psi = (mu/2) * (tr_C - 3 - 2*ln_J) + (lam/4) * (J**2 - 1 - 2*ln_J)
   return psi
 
+def isochoric_neo_hooke(F, mu):
+  """
+  Computes the strain energy for an isochoric neo-Hookean material model.
+
+  Parameters:
+    F (jnp.ndarray): Deformation gradient tensor.
+    mu (float): Shear modulus.
+
+  Returns:
+    float: Strain energy value for the given deformation gradient.
+  """
+  # Right Cauchy-Green tensor
+  tr_C = jnp.einsum('ij, ij', F, F)
+
+  # Strain energy function
+  return (mu/2) * (tr_C - 3)
+
 def linear_elastic_strain_energy(F, param):
   """
   Computes the strain energy for a linear elastic material for small deformations.
@@ -965,13 +982,61 @@ def linear_elastic_strain_energy(F, param):
 
 
 ### User potentials/elements
+def mixed_reference_domain_potential(integrand_fun, ansatz_fun, ref_int_coor, ref_int_weights, mapping_key):
+  """
+  Constructs a multi-field 'user potential' for integration of a potential in the reference configuration of finite elements.
+
+  Parameters:
+    integrand_fun (callable): Function that evaluates the integrand given the integration point, trial ansatz, settings, static settings, and element number.
+    ansatz_fun (dict of callables): Functions that constructs the ansatz functions for each field. Keywords have to match with those defined in the DOFs dictionary.
+    ref_int_coor (jnp.ndarray): Reference integration coordinates for the isoparametric element.
+    ref_int_weights (jnp.ndarray): Reference integration weights for the isoparametric element.
+    mapping_key (string): Which solution space to use for the isoparametric mapping.
+
+  Returns:
+    function
+        A function that evaluates the integrand for the isoparametric element.
+
+  The returned function has the following parameters:
+    - fI (dict of jnp.ndarray): Element nodal values.
+    - xI (dict of jnp.ndarray): Element nodal coordinates.
+    - elem_number (int): Element number.
+    - settings (dict): Settings for the computation.
+    - static_settings (dict): Static settings for the computation.
+  """
+  field_keys = list(ansatz_fun.keys())
+
+  def user_element(fI, xI, elem_number, settings, static_settings, set):
+    n_dim = xI[field_keys[0]].shape[-1]
+  
+    # Define solution spaces
+    trial_ansatz = {key: (lambda x, key=key: ansatz_fun[key](x, xI[key], fI[key], settings, True, n_dim)) for key in field_keys}
+
+    # One Gauß point contribution
+    def functional(x_int, w_int):
+      # Evaluate functional
+      discrete_functional_fun = integrand_fun(x_int, trial_ansatz, settings, static_settings, elem_number, set)
+
+      # Use ansatz for isoparametric mapping and compute determinant of Jacobian
+      mapping = lambda x: ansatz_fun[mapping_key](x, xI[mapping_key], xI[mapping_key], settings, False, n_dim)
+      jacobian = jax.jacfwd(mapping)(x_int)
+      det_jacobian = jnp.linalg.det(jacobian)
+
+      # Functional contribution
+      return discrete_functional_fun * w_int * det_jacobian
+
+    # Sum over Gauß points
+    functional_contrib = jax.vmap(functional, (0, 0), 0)(ref_int_coor, ref_int_weights)
+    return functional_contrib.sum(axis=0)
+  return user_element
+
 def isoparametric_domain_integrate_potential(integrand_fun, ansatz_fun, ref_int_coor, ref_int_weights, initial_config=True):
   """
   Constructs a local integrand fun for integration of functions in the reference configuration of isoparametric elements.
 
   Parameters:
     integrand_fun (callable): Function that evaluates the integrand given the integration point, trial ansatz, settings, static settings, and element number.
-    ansatz_fun (callable): Function that constructs the ansatz (trial and test) functions.
+    ansatz_fun (callable): Function that constructs the ansatz functions.
     ref_int_coor (jnp.ndarray): Reference integration coordinates for the isoparametric element.
     ref_int_weights (jnp.ndarray): Reference integration weights for the isoparametric element.
     initial_config (bool, optional): If True, use the initial configuration for isoparametric mapping. Default is True.

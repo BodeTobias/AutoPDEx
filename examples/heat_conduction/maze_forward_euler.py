@@ -383,7 +383,6 @@ if __name__ == "__main__":
   settings = solution_structures.precompile(dofs_0, settings, static_settings)
 
 
-
   ### Call solver
   n_steps = 500000
   n_plot = 250
@@ -407,6 +406,7 @@ if __name__ == "__main__":
 
   start = time.time()
   dofs, post_data, _ = lax.fori_loop(0, n_steps, step_fun, (dofs_0, post_data, 0))
+  dofs = dofs.block_until_ready()
   print("Analysis time: ", time.time() - start)
 
 
