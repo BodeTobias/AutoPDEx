@@ -25,6 +25,11 @@ Thumbs.db
 
 # Sphinx documentation
 docs/_autosummary/
+docs/_build/doctrees/
+docs/_build/html/_autosummary/
+docs/_build/html/_sources/
+docs/_build/html/_static/
+docs/_build/html/_images/
 docs/generated_rst/
 
 # Python egg caches
