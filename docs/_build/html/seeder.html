@@ -84,7 +84,7 @@
 <li class="toctree-l1"><a class="reference internal" href="assembler.html">Assembler</a></li>
 <li class="toctree-l1"><a class="reference internal" href="implicit_diff.html">Implicit_diff</a></li>
 <li class="toctree-l1"><a class="reference internal" href="spaces.html">Spaces</a></li>
-<li class="toctree-l1"><a class="reference internal" href="solution_structures.html">Solution_structures</a></li>
+<li class="toctree-l1"><a class="reference internal" href="solution_structures.html">Solution structures</a></li>
 <li class="toctree-l1"><a class="reference internal" href="variational_schemes.html">Variational_schemes</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Pre- and postprocessing</span></p>
@@ -96,12 +96,12 @@
 <li class="toctree-l3"><a class="reference internal" href="_autosummary/autopdex.seeder.regular_in_box.html">autopdex.seeder.regular_in_box</a></li>
 <li class="toctree-l3"><a class="reference internal" href="_autosummary/autopdex.seeder.quasi_random_in_psdf.html">autopdex.seeder.quasi_random_in_psdf</a></li>
 <li class="toctree-l3"><a class="reference internal" href="_autosummary/autopdex.seeder.quasi_random_in_box.html">autopdex.seeder.quasi_random_in_box</a></li>
-<li class="toctree-l3"><a class="reference internal" href="_autosummary/autopdex.seeder.just_in_psdf.html">autopdex.seeder.just_in_psdf</a></li>
+<li class="toctree-l3"><a class="reference internal" href="_autosummary/autopdex.seeder.gauss_points_in_psdf.html">autopdex.seeder.gauss_points_in_psdf</a></li>
 <li class="toctree-l3"><a class="reference internal" href="_autosummary/autopdex.seeder.estimate_size.html">autopdex.seeder.estimate_size</a></li>
+<li class="toctree-l3"><a class="reference internal" href="_autosummary/autopdex.seeder.just_in_psdf.html">autopdex.seeder.just_in_psdf</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#numerical-integration">Numerical Integration</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="_autosummary/autopdex.seeder.gauss_points_in_psdf.html">autopdex.seeder.gauss_points_in_psdf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#numerical-integration">Numerical integration</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="_autosummary/autopdex.seeder.tensor_product_two_coordinate_arrays.html">autopdex.seeder.tensor_product_two_coordinate_arrays</a></li>
 <li class="toctree-l3"><a class="reference internal" href="_autosummary/autopdex.seeder.tensor_product_rule.html">autopdex.seeder.tensor_product_rule</a></li>
 <li class="toctree-l3"><a class="reference internal" href="_autosummary/autopdex.seeder.gauss_legendre_1d.html">autopdex.seeder.gauss_legendre_1d</a></li>
@@ -122,6 +122,11 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="utility.html">Utility</a></li>
 <li class="toctree-l1"><a class="reference internal" href="plotter.html">Plotter</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mesher.html">Mesher</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Source code</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/BodeTobias/AutoPDEx">GitHub Project</a></li>
 </ul>
 
         </div>
@@ -175,62 +180,62 @@
 <tr class="row-even"><td><p><a class="reference internal" href="_autosummary/autopdex.seeder.quasi_random_in_box.html#autopdex.seeder.quasi_random_in_box" title="autopdex.seeder.quasi_random_in_box"><code class="xref py py-obj docutils literal notranslate"><span class="pre">quasi_random_in_box</span></code></a>(min, max, n_seeds, mode)</p></td>
 <td><p>Generates quasi-random seed points within a specified box using the given mode.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/autopdex.seeder.just_in_psdf.html#autopdex.seeder.just_in_psdf" title="autopdex.seeder.just_in_psdf"><code class="xref py py-obj docutils literal notranslate"><span class="pre">just_in_psdf</span></code></a>(psdf, x_seeds, n_seeds, atol[, ...])</p></td>
-<td><p>Filters seed points based on a positive smooth distance function (psdf).</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/autopdex.seeder.gauss_points_in_psdf.html#autopdex.seeder.gauss_points_in_psdf" title="autopdex.seeder.gauss_points_in_psdf"><code class="xref py py-obj docutils literal notranslate"><span class="pre">gauss_points_in_psdf</span></code></a>(psdf, min, max, ...[, ...])</p></td>
+<td><p>Quadrature in background cells.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="_autosummary/autopdex.seeder.estimate_size.html#autopdex.seeder.estimate_size" title="autopdex.seeder.estimate_size"><code class="xref py py-obj docutils literal notranslate"><span class="pre">estimate_size</span></code></a>(min, max, fill_ratio)</p></td>
 <td><p>Estimates the region size based on the fill ratio.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/autopdex.seeder.just_in_psdf.html#autopdex.seeder.just_in_psdf" title="autopdex.seeder.just_in_psdf"><code class="xref py py-obj docutils literal notranslate"><span class="pre">just_in_psdf</span></code></a>(psdf, x_seeds, n_seeds, atol[, ...])</p></td>
+<td><p>Filters seed points based on a positive smooth distance function (psdf).</p></td>
 </tr>
 </tbody>
 </table>
 </section>
 <section id="numerical-integration">
-<h2>Numerical Integration<a class="headerlink" href="#numerical-integration" title="Link to this heading"></a></h2>
+<h2>Numerical integration<a class="headerlink" href="#numerical-integration" title="Link to this heading"></a></h2>
 <table class="autosummary longtable docutils align-default">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/autopdex.seeder.gauss_points_in_psdf.html#autopdex.seeder.gauss_points_in_psdf" title="autopdex.seeder.gauss_points_in_psdf"><code class="xref py py-obj docutils literal notranslate"><span class="pre">gauss_points_in_psdf</span></code></a>(psdf, min, max, ...[, ...])</p></td>
-<td><p>Quadrature in background cells.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/autopdex.seeder.tensor_product_two_coordinate_arrays.html#autopdex.seeder.tensor_product_two_coordinate_arrays" title="autopdex.seeder.tensor_product_two_coordinate_arrays"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tensor_product_two_coordinate_arrays</span></code></a>(xi, yi)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/autopdex.seeder.tensor_product_two_coordinate_arrays.html#autopdex.seeder.tensor_product_two_coordinate_arrays" title="autopdex.seeder.tensor_product_two_coordinate_arrays"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tensor_product_two_coordinate_arrays</span></code></a>(xi, yi)</p></td>
 <td><p>Computes the tensor product of two coordinate arrays.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/autopdex.seeder.tensor_product_rule.html#autopdex.seeder.tensor_product_rule" title="autopdex.seeder.tensor_product_rule"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tensor_product_rule</span></code></a>(roots_1d, weights_1d, dim)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/autopdex.seeder.tensor_product_rule.html#autopdex.seeder.tensor_product_rule" title="autopdex.seeder.tensor_product_rule"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tensor_product_rule</span></code></a>(roots_1d, weights_1d, dim)</p></td>
 <td><p>Generates integration points and weights for tensor product quadrature rules.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/autopdex.seeder.gauss_legendre_1d.html#autopdex.seeder.gauss_legendre_1d" title="autopdex.seeder.gauss_legendre_1d"><code class="xref py py-obj docutils literal notranslate"><span class="pre">gauss_legendre_1d</span></code></a>(order)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/autopdex.seeder.gauss_legendre_1d.html#autopdex.seeder.gauss_legendre_1d" title="autopdex.seeder.gauss_legendre_1d"><code class="xref py py-obj docutils literal notranslate"><span class="pre">gauss_legendre_1d</span></code></a>(order)</p></td>
 <td><p>Returns positions and weights for Gauss-Legendre quadrature for the interval [0,1]</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/autopdex.seeder.gauss_legendre_nd.html#autopdex.seeder.gauss_legendre_nd" title="autopdex.seeder.gauss_legendre_nd"><code class="xref py py-obj docutils literal notranslate"><span class="pre">gauss_legendre_nd</span></code></a>(dimension, order)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/autopdex.seeder.gauss_legendre_nd.html#autopdex.seeder.gauss_legendre_nd" title="autopdex.seeder.gauss_legendre_nd"><code class="xref py py-obj docutils literal notranslate"><span class="pre">gauss_legendre_nd</span></code></a>(dimension, order)</p></td>
 <td><p>Returns positions and weights for Gauss-Legendre quadrature in higher dimensions based on tensor product rules</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/autopdex.seeder.gauss_lobatto_1d.html#autopdex.seeder.gauss_lobatto_1d" title="autopdex.seeder.gauss_lobatto_1d"><code class="xref py py-obj docutils literal notranslate"><span class="pre">gauss_lobatto_1d</span></code></a>(order)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/autopdex.seeder.gauss_lobatto_1d.html#autopdex.seeder.gauss_lobatto_1d" title="autopdex.seeder.gauss_lobatto_1d"><code class="xref py py-obj docutils literal notranslate"><span class="pre">gauss_lobatto_1d</span></code></a>(order)</p></td>
 <td><p>Returns positions and weights for Gauss-Lobatto quadrature for the interval [0,1]</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/autopdex.seeder.gauss_lobatto_nd.html#autopdex.seeder.gauss_lobatto_nd" title="autopdex.seeder.gauss_lobatto_nd"><code class="xref py py-obj docutils literal notranslate"><span class="pre">gauss_lobatto_nd</span></code></a>(dimension, order)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/autopdex.seeder.gauss_lobatto_nd.html#autopdex.seeder.gauss_lobatto_nd" title="autopdex.seeder.gauss_lobatto_nd"><code class="xref py py-obj docutils literal notranslate"><span class="pre">gauss_lobatto_nd</span></code></a>(dimension, order)</p></td>
 <td><p>Returns positions and weights for Gauss-Lobatto quadrature in higher dimensions based on tensor product rules</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/autopdex.seeder.int_pts_ref_tri.html#autopdex.seeder.int_pts_ref_tri" title="autopdex.seeder.int_pts_ref_tri"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int_pts_ref_tri</span></code></a>(order)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/autopdex.seeder.int_pts_ref_tri.html#autopdex.seeder.int_pts_ref_tri" title="autopdex.seeder.int_pts_ref_tri"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int_pts_ref_tri</span></code></a>(order)</p></td>
 <td><p>Returns tuple with integration point coordinates and weights on a reference triangle, accurate up to polynomial order</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/autopdex.seeder.int_pts_ref_tet.html#autopdex.seeder.int_pts_ref_tet" title="autopdex.seeder.int_pts_ref_tet"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int_pts_ref_tet</span></code></a>(order)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/autopdex.seeder.int_pts_ref_tet.html#autopdex.seeder.int_pts_ref_tet" title="autopdex.seeder.int_pts_ref_tet"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int_pts_ref_tet</span></code></a>(order)</p></td>
 <td><p>Returns tuple with integration point coordinates and weights on a reference tetrahedron accurate up to polynomial order</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/autopdex.seeder.int_pts_line.html#autopdex.seeder.int_pts_line" title="autopdex.seeder.int_pts_line"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int_pts_line</span></code></a>(x_i, order)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/autopdex.seeder.int_pts_line.html#autopdex.seeder.int_pts_line" title="autopdex.seeder.int_pts_line"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int_pts_line</span></code></a>(x_i, order)</p></td>
 <td><p>Linear mapping of integration points on reference line to integration points on one physical line</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/autopdex.seeder.int_pts_tri.html#autopdex.seeder.int_pts_tri" title="autopdex.seeder.int_pts_tri"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int_pts_tri</span></code></a>(x_i, order)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/autopdex.seeder.int_pts_tri.html#autopdex.seeder.int_pts_tri" title="autopdex.seeder.int_pts_tri"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int_pts_tri</span></code></a>(x_i, order)</p></td>
 <td><p>Linear mapping of integration points in reference triangle to integration points in one physical triangle</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/autopdex.seeder.int_pts_tet.html#autopdex.seeder.int_pts_tet" title="autopdex.seeder.int_pts_tet"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int_pts_tet</span></code></a>(x_i, order)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/autopdex.seeder.int_pts_tet.html#autopdex.seeder.int_pts_tet" title="autopdex.seeder.int_pts_tet"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int_pts_tet</span></code></a>(x_i, order)</p></td>
 <td><p>Linear mapping of integration points in reference tetrahedron to integration points in one physical tetrahedron</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/autopdex.seeder.int_pts_in_line_mesh.html#autopdex.seeder.int_pts_in_line_mesh" title="autopdex.seeder.int_pts_in_line_mesh"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int_pts_in_line_mesh</span></code></a>(x_nodes, elem, order)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/autopdex.seeder.int_pts_in_line_mesh.html#autopdex.seeder.int_pts_in_line_mesh" title="autopdex.seeder.int_pts_in_line_mesh"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int_pts_in_line_mesh</span></code></a>(x_nodes, elem, order)</p></td>
 <td><p>Given a mesh of lines, it linearly maps integration points from a reference line onto the actual lines</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/autopdex.seeder.int_pts_in_tri_mesh.html#autopdex.seeder.int_pts_in_tri_mesh" title="autopdex.seeder.int_pts_in_tri_mesh"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int_pts_in_tri_mesh</span></code></a>(x_nodes, elem, order)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/autopdex.seeder.int_pts_in_tri_mesh.html#autopdex.seeder.int_pts_in_tri_mesh" title="autopdex.seeder.int_pts_in_tri_mesh"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int_pts_in_tri_mesh</span></code></a>(x_nodes, elem, order)</p></td>
 <td><p>Given a mesh of triangles, it linearly maps integration points from a reference triangle into the actual triangles</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/autopdex.seeder.int_pts_in_tet_mesh.html#autopdex.seeder.int_pts_in_tet_mesh" title="autopdex.seeder.int_pts_in_tet_mesh"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int_pts_in_tet_mesh</span></code></a>(x_nodes, elem, order)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/autopdex.seeder.int_pts_in_tet_mesh.html#autopdex.seeder.int_pts_in_tet_mesh" title="autopdex.seeder.int_pts_in_tet_mesh"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int_pts_in_tet_mesh</span></code></a>(x_nodes, elem, order)</p></td>
 <td><p>Given a mesh of tetrahedrons, it linearly maps integration points from a reference tetrahedron into the actual tetrahedrons</p></td>
 </tr>
 </tbody>

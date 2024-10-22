@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>autopdex.variational_schemes &mdash; AutoPDEx 1.0.2 documentation</title>
+  <title>autopdex.variational_schemes &mdash; AutoPDEx  documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
@@ -20,7 +20,7 @@
   
         <script src="../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../_static/documentation_options.js?v=1ed6394b"></script>
+        <script src="../../_static/documentation_options.js?v=5929fcd5"></script>
         <script src="../../_static/doctools.js?v=9a2dae69"></script>
         <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -48,6 +48,9 @@
             AutoPDEx
               <img src="../../_static/logo.png" class="logo" alt="Logo"/>
           </a>
+              <div class="version">
+                1.0.3
+              </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
@@ -88,6 +91,10 @@
 <li class="toctree-l1"><a class="reference internal" href="../../utility.html">Utility</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../plotter.html">Plotter</a></li>
 </ul>
+<p class="caption" role="heading"><span class="caption-text">Source code</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/BodeTobias/AutoPDEx">GitHub Project</a></li>
+</ul>
 
         </div>
       </div>
@@ -99,7 +106,7 @@
       </nav>
 
       <div class="wy-nav-content">
-        <div class="rst-content">
+        <div class="rst-content style-external-links">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
@@ -144,247 +151,337 @@
 <span class="kn">from</span> <span class="nn">autopdex.utility</span> <span class="kn">import</span> <span class="n">jit_with_docstring</span>
 
 
-
 <div class="viewcode-block" id="functional_at_int_point">
 <a class="viewcode-back" href="../../_autosummary/autopdex.variational_schemes.functional_at_int_point.html#autopdex.variational_schemes.functional_at_int_point">[docs]</a>
-<span class="nd">@jit_with_docstring</span><span class="p">(</span><span class="n">static_argnames</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;static_settings&#39;</span><span class="p">,</span> <span class="s1">&#39;set&#39;</span><span class="p">])</span>
-<span class="k">def</span> <span class="nf">functional_at_int_point</span><span class="p">(</span><span class="n">x_i</span><span class="p">,</span> <span class="n">w_i</span><span class="p">,</span> <span class="n">int_point_number</span><span class="p">,</span> <span class="n">local_dofs</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">,</span> <span class="nb">set</span><span class="p">):</span>
-<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">  Computes the functional at an integration point for &#39;least square pde loss&#39; or &#39;least square function approximation&#39;. </span>
+<span class="nd">@jit_with_docstring</span><span class="p">(</span><span class="n">static_argnames</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;static_settings&quot;</span><span class="p">,</span> <span class="s2">&quot;set&quot;</span><span class="p">])</span>
+<span class="k">def</span> <span class="nf">functional_at_int_point</span><span class="p">(</span>
+    <span class="n">x_i</span><span class="p">,</span> <span class="n">w_i</span><span class="p">,</span> <span class="n">int_point_number</span><span class="p">,</span> <span class="n">local_dofs</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">,</span> <span class="nb">set</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Computes the functional at an integration point for &#39;least square pde loss&#39; or &#39;least square function approximation&#39;.</span>
 
-<span class="sd">  Args:</span>
-<span class="sd">    x_i (jnp.ndarray): Coordinates of the integration point.</span>
-<span class="sd">    w_i (float): Integration weight.</span>
-<span class="sd">    int_point_number (int): Integration point number.</span>
-<span class="sd">    local_dofs (jnp.ndarray): Local degrees of freedom.</span>
-<span class="sd">    settings (dict): Settings for the computation.</span>
-<span class="sd">    static_settings (dict): Static settings for the computation.</span>
-<span class="sd">    set (str): Identifier for the current set.</span>
+<span class="sd">    Args:</span>
+<span class="sd">      x_i (jnp.ndarray): Coordinates of the integration point.</span>
+<span class="sd">      w_i (float): Integration weight.</span>
+<span class="sd">      int_point_number (int): Integration point number.</span>
+<span class="sd">      local_dofs (jnp.ndarray): Local degrees of freedom.</span>
+<span class="sd">      settings (dict): Settings for the computation.</span>
+<span class="sd">      static_settings (dict): Static settings for the computation.</span>
+<span class="sd">      set (str): Identifier for the current set.</span>
 
-<span class="sd">  Returns:</span>
-<span class="sd">    float: Computed functional value.</span>
-<span class="sd">  &quot;&quot;&quot;</span>
-  <span class="n">algorithm</span> <span class="o">=</span> <span class="n">static_settings</span><span class="p">[</span><span class="s1">&#39;variational scheme&#39;</span><span class="p">][</span><span class="nb">set</span><span class="p">]</span>
-  <span class="k">match</span> <span class="n">algorithm</span><span class="p">:</span>
-    <span class="k">case</span> <span class="s1">&#39;least square function approximation&#39;</span><span class="p">:</span>
-      <span class="k">return</span> <span class="n">least_square_function_approximation</span><span class="p">(</span><span class="n">x_i</span><span class="p">,</span> <span class="n">w_i</span><span class="p">,</span> <span class="n">int_point_number</span><span class="p">,</span> <span class="n">local_dofs</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">,</span> <span class="nb">set</span><span class="p">)</span>
-    <span class="k">case</span> <span class="s1">&#39;least square pde loss&#39;</span><span class="p">:</span>
-      <span class="k">return</span> <span class="n">least_square_pde_loss</span><span class="p">(</span><span class="n">x_i</span><span class="p">,</span> <span class="n">w_i</span><span class="p">,</span> <span class="n">int_point_number</span><span class="p">,</span> <span class="n">local_dofs</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">,</span> <span class="nb">set</span><span class="p">)</span>
-    <span class="k">case</span><span class="w"> </span><span class="k">_</span><span class="p">:</span>
-      <span class="k">assert</span> <span class="kc">False</span><span class="p">,</span> <span class="s1">&#39;variational scheme is not defined or not available with this settings.&#39;</span></div>
+<span class="sd">    Returns:</span>
+<span class="sd">      float: Computed functional value.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">algorithm</span> <span class="o">=</span> <span class="n">static_settings</span><span class="p">[</span><span class="s2">&quot;variational scheme&quot;</span><span class="p">][</span><span class="nb">set</span><span class="p">]</span>
+    <span class="k">match</span> <span class="n">algorithm</span><span class="p">:</span>
+        <span class="k">case</span> <span class="s2">&quot;least square function approximation&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">least_square_function_approximation</span><span class="p">(</span>
+                <span class="n">x_i</span><span class="p">,</span> <span class="n">w_i</span><span class="p">,</span> <span class="n">int_point_number</span><span class="p">,</span> <span class="n">local_dofs</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">,</span> <span class="nb">set</span>
+            <span class="p">)</span>
+        <span class="k">case</span> <span class="s2">&quot;least square pde loss&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">least_square_pde_loss</span><span class="p">(</span>
+                <span class="n">x_i</span><span class="p">,</span> <span class="n">w_i</span><span class="p">,</span> <span class="n">int_point_number</span><span class="p">,</span> <span class="n">local_dofs</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">,</span> <span class="nb">set</span>
+            <span class="p">)</span>
+        <span class="k">case</span><span class="w"> </span><span class="k">_</span><span class="p">:</span>
+            <span class="k">assert</span> <span class="p">(</span>
+                <span class="kc">False</span>
+            <span class="p">),</span> <span class="s2">&quot;variational scheme is not defined or not available with this settings.&quot;</span></div>
+
 
 
 <div class="viewcode-block" id="direct_residual_at_int_point">
 <a class="viewcode-back" href="../../_autosummary/autopdex.variational_schemes.direct_residual_at_int_point.html#autopdex.variational_schemes.direct_residual_at_int_point">[docs]</a>
-<span class="nd">@jit_with_docstring</span><span class="p">(</span><span class="n">static_argnames</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;static_settings&#39;</span><span class="p">,</span> <span class="s1">&#39;set&#39;</span><span class="p">])</span>
-<span class="k">def</span> <span class="nf">direct_residual_at_int_point</span><span class="p">(</span><span class="n">x_i</span><span class="p">,</span> <span class="n">w_i</span><span class="p">,</span> <span class="n">int_point_number</span><span class="p">,</span> <span class="n">local_dofs</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">,</span> <span class="nb">set</span><span class="p">):</span>
-<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">  Computes the direct residual at an integration point for &#39;strong form galerkin&#39;.</span>
+<span class="nd">@jit_with_docstring</span><span class="p">(</span><span class="n">static_argnames</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;static_settings&quot;</span><span class="p">,</span> <span class="s2">&quot;set&quot;</span><span class="p">])</span>
+<span class="k">def</span> <span class="nf">direct_residual_at_int_point</span><span class="p">(</span>
+    <span class="n">x_i</span><span class="p">,</span> <span class="n">w_i</span><span class="p">,</span> <span class="n">int_point_number</span><span class="p">,</span> <span class="n">local_dofs</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">,</span> <span class="nb">set</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Computes the direct residual at an integration point for &#39;strong form galerkin&#39;.</span>
 
-<span class="sd">  Args:</span>
-<span class="sd">    x_i (jnp.ndarray): Coordinates of the integration point.</span>
-<span class="sd">    w_i (float): Integration weight.</span>
-<span class="sd">    int_point_number (int): Integration point number.</span>
-<span class="sd">    local_dofs (jnp.ndarray): Local degrees of freedom.</span>
-<span class="sd">    settings (dict): Settings for the computation.</span>
-<span class="sd">    static_settings (dict): Static settings for the computation.</span>
-<span class="sd">    set (str): Identifier for the current set.</span>
+<span class="sd">    Args:</span>
+<span class="sd">      x_i (jnp.ndarray): Coordinates of the integration point.</span>
+<span class="sd">      w_i (float): Integration weight.</span>
+<span class="sd">      int_point_number (int): Integration point number.</span>
+<span class="sd">      local_dofs (jnp.ndarray): Local degrees of freedom.</span>
+<span class="sd">      settings (dict): Settings for the computation.</span>
+<span class="sd">      static_settings (dict): Static settings for the computation.</span>
+<span class="sd">      set (str): Identifier for the current set.</span>
 
-<span class="sd">  Returns:</span>
-<span class="sd">    float: Computed residual value.</span>
-<span class="sd">  &quot;&quot;&quot;</span>
-  <span class="n">algorithm</span> <span class="o">=</span> <span class="n">static_settings</span><span class="p">[</span><span class="s1">&#39;variational scheme&#39;</span><span class="p">][</span><span class="nb">set</span><span class="p">]</span>
-  <span class="k">match</span> <span class="n">algorithm</span><span class="p">:</span>
-    <span class="k">case</span> <span class="s1">&#39;strong form galerkin&#39;</span><span class="p">:</span>
-      <span class="k">return</span> <span class="n">strong_form_galerkin</span><span class="p">(</span><span class="n">x_i</span><span class="p">,</span> <span class="n">w_i</span><span class="p">,</span> <span class="n">int_point_number</span><span class="p">,</span> <span class="n">local_dofs</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">,</span> <span class="nb">set</span><span class="p">)</span>
-    <span class="k">case</span><span class="w"> </span><span class="k">_</span><span class="p">:</span>
-      <span class="k">assert</span> <span class="kc">False</span><span class="p">,</span> <span class="s1">&#39;variational scheme is not defined or not available with this settings.&#39;</span></div>
+<span class="sd">    Returns:</span>
+<span class="sd">      float: Computed residual value.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">algorithm</span> <span class="o">=</span> <span class="n">static_settings</span><span class="p">[</span><span class="s2">&quot;variational scheme&quot;</span><span class="p">][</span><span class="nb">set</span><span class="p">]</span>
+    <span class="k">match</span> <span class="n">algorithm</span><span class="p">:</span>
+        <span class="k">case</span> <span class="s2">&quot;strong form galerkin&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">strong_form_galerkin</span><span class="p">(</span>
+                <span class="n">x_i</span><span class="p">,</span> <span class="n">w_i</span><span class="p">,</span> <span class="n">int_point_number</span><span class="p">,</span> <span class="n">local_dofs</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">,</span> <span class="nb">set</span>
+            <span class="p">)</span>
+        <span class="k">case</span><span class="w"> </span><span class="k">_</span><span class="p">:</span>
+            <span class="k">assert</span> <span class="p">(</span>
+                <span class="kc">False</span>
+            <span class="p">),</span> <span class="s2">&quot;variational scheme is not defined or not available with this settings.&quot;</span></div>
+
 
 
 <div class="viewcode-block" id="residual_from_deriv_at_int_point">
 <a class="viewcode-back" href="../../_autosummary/autopdex.variational_schemes.residual_from_deriv_at_int_point.html#autopdex.variational_schemes.residual_from_deriv_at_int_point">[docs]</a>
-<span class="nd">@jit_with_docstring</span><span class="p">(</span><span class="n">static_argnames</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;static_settings&#39;</span><span class="p">,</span> <span class="s1">&#39;set&#39;</span><span class="p">])</span>
-<span class="k">def</span> <span class="nf">residual_from_deriv_at_int_point</span><span class="p">(</span><span class="n">x_i</span><span class="p">,</span> <span class="n">w_i</span><span class="p">,</span> <span class="n">int_point_number</span><span class="p">,</span> <span class="n">local_dofs</span><span class="p">,</span> <span class="n">local_virt_dofs</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">,</span> <span class="nb">set</span><span class="p">):</span>
-<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">  Computes the residual from derivatives at an integration point for &#39;weak form galerkin&#39;.</span>
+<span class="nd">@jit_with_docstring</span><span class="p">(</span><span class="n">static_argnames</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;static_settings&quot;</span><span class="p">,</span> <span class="s2">&quot;set&quot;</span><span class="p">])</span>
+<span class="k">def</span> <span class="nf">residual_from_deriv_at_int_point</span><span class="p">(</span>
+    <span class="n">x_i</span><span class="p">,</span>
+    <span class="n">w_i</span><span class="p">,</span>
+    <span class="n">int_point_number</span><span class="p">,</span>
+    <span class="n">local_dofs</span><span class="p">,</span>
+    <span class="n">local_virt_dofs</span><span class="p">,</span>
+    <span class="n">settings</span><span class="p">,</span>
+    <span class="n">static_settings</span><span class="p">,</span>
+    <span class="nb">set</span><span class="p">,</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Computes the residual from derivatives at an integration point for &#39;weak form galerkin&#39;.</span>
 
-<span class="sd">  Args:</span>
-<span class="sd">    x_i (jnp.ndarray): Coordinates of the integration point.</span>
-<span class="sd">    w_i (float): Integration weight.</span>
-<span class="sd">    int_point_number (int): Integration point number.</span>
-<span class="sd">    local_dofs (jnp.ndarray): Local degrees of freedom.</span>
-<span class="sd">    local_virt_dofs (jnp.ndarray): Local virtual degrees of freedom.</span>
-<span class="sd">    settings (dict): Settings for the computation.</span>
-<span class="sd">    static_settings (dict): Static settings for the computation.</span>
-<span class="sd">    set (str): Identifier for the current set.</span>
+<span class="sd">    Args:</span>
+<span class="sd">      x_i (jnp.ndarray): Coordinates of the integration point.</span>
+<span class="sd">      w_i (float): Integration weight.</span>
+<span class="sd">      int_point_number (int): Integration point number.</span>
+<span class="sd">      local_dofs (jnp.ndarray): Local degrees of freedom.</span>
+<span class="sd">      local_virt_dofs (jnp.ndarray): Local virtual degrees of freedom.</span>
+<span class="sd">      settings (dict): Settings for the computation.</span>
+<span class="sd">      static_settings (dict): Static settings for the computation.</span>
+<span class="sd">      set (str): Identifier for the current set.</span>
 
-<span class="sd">  Returns:</span>
-<span class="sd">    float: Computed residual value.</span>
-<span class="sd">  &quot;&quot;&quot;</span>
-  <span class="n">algorithm</span> <span class="o">=</span> <span class="n">static_settings</span><span class="p">[</span><span class="s1">&#39;variational scheme&#39;</span><span class="p">][</span><span class="nb">set</span><span class="p">]</span>
-  <span class="k">match</span> <span class="n">algorithm</span><span class="p">:</span>
-    <span class="k">case</span> <span class="s1">&#39;weak form galerkin&#39;</span><span class="p">:</span>
-      <span class="k">return</span> <span class="n">weak_form_galerkin</span><span class="p">(</span><span class="n">x_i</span><span class="p">,</span> <span class="n">w_i</span><span class="p">,</span> <span class="n">int_point_number</span><span class="p">,</span> <span class="n">local_dofs</span><span class="p">,</span> <span class="n">local_virt_dofs</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">,</span> <span class="nb">set</span><span class="p">)</span>
-    <span class="k">case</span><span class="w"> </span><span class="k">_</span><span class="p">:</span>
-      <span class="k">assert</span> <span class="kc">False</span><span class="p">,</span> <span class="s1">&#39;variational scheme is not defined or not available with this settings.&#39;</span></div>
+<span class="sd">    Returns:</span>
+<span class="sd">      float: Computed residual value.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">algorithm</span> <span class="o">=</span> <span class="n">static_settings</span><span class="p">[</span><span class="s2">&quot;variational scheme&quot;</span><span class="p">][</span><span class="nb">set</span><span class="p">]</span>
+    <span class="k">match</span> <span class="n">algorithm</span><span class="p">:</span>
+        <span class="k">case</span> <span class="s2">&quot;weak form galerkin&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">weak_form_galerkin</span><span class="p">(</span>
+                <span class="n">x_i</span><span class="p">,</span>
+                <span class="n">w_i</span><span class="p">,</span>
+                <span class="n">int_point_number</span><span class="p">,</span>
+                <span class="n">local_dofs</span><span class="p">,</span>
+                <span class="n">local_virt_dofs</span><span class="p">,</span>
+                <span class="n">settings</span><span class="p">,</span>
+                <span class="n">static_settings</span><span class="p">,</span>
+                <span class="nb">set</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="k">case</span><span class="w"> </span><span class="k">_</span><span class="p">:</span>
+            <span class="k">assert</span> <span class="p">(</span>
+                <span class="kc">False</span>
+            <span class="p">),</span> <span class="s2">&quot;variational scheme is not defined or not available with this settings.&quot;</span></div>
+
 
 
 <div class="viewcode-block" id="least_square_pde_loss">
 <a class="viewcode-back" href="../../_autosummary/autopdex.variational_schemes.least_square_pde_loss.html#autopdex.variational_schemes.least_square_pde_loss">[docs]</a>
-<span class="nd">@jit_with_docstring</span><span class="p">(</span><span class="n">static_argnames</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;static_settings&#39;</span><span class="p">,</span> <span class="s1">&#39;set&#39;</span><span class="p">])</span>
-<span class="k">def</span> <span class="nf">least_square_pde_loss</span><span class="p">(</span><span class="n">x_i</span><span class="p">,</span> <span class="n">w_i</span><span class="p">,</span> <span class="n">int_point_number</span><span class="p">,</span> <span class="n">local_dofs</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">,</span> <span class="nb">set</span><span class="p">):</span>
-<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">  Computes the least square PDE loss at an integration point.</span>
+<span class="nd">@jit_with_docstring</span><span class="p">(</span><span class="n">static_argnames</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;static_settings&quot;</span><span class="p">,</span> <span class="s2">&quot;set&quot;</span><span class="p">])</span>
+<span class="k">def</span> <span class="nf">least_square_pde_loss</span><span class="p">(</span>
+    <span class="n">x_i</span><span class="p">,</span> <span class="n">w_i</span><span class="p">,</span> <span class="n">int_point_number</span><span class="p">,</span> <span class="n">local_dofs</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">,</span> <span class="nb">set</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Computes the least square PDE loss at an integration point.</span>
 
-<span class="sd">  Takes the set of pdes from static_settings[&#39;model&#39;]</span>
+<span class="sd">    Takes the set of pdes from static_settings[&#39;model&#39;]</span>
 
-<span class="sd">  Args:</span>
-<span class="sd">    x_i (jnp.ndarray): Coordinates of the integration point.</span>
-<span class="sd">    w_i (float): Integration weight.</span>
-<span class="sd">    int_point_number (int): Integration point number.</span>
-<span class="sd">    local_dofs (jnp.ndarray): Local degrees of freedom.</span>
-<span class="sd">    settings (dict): Settings for the computation.</span>
-<span class="sd">    static_settings (dict): Static settings for the computation.</span>
-<span class="sd">    set (str): Identifier for the current set.</span>
+<span class="sd">    Args:</span>
+<span class="sd">      x_i (jnp.ndarray): Coordinates of the integration point.</span>
+<span class="sd">      w_i (float): Integration weight.</span>
+<span class="sd">      int_point_number (int): Integration point number.</span>
+<span class="sd">      local_dofs (jnp.ndarray): Local degrees of freedom.</span>
+<span class="sd">      settings (dict): Settings for the computation.</span>
+<span class="sd">      static_settings (dict): Static settings for the computation.</span>
+<span class="sd">      set (str): Identifier for the current set.</span>
 
-<span class="sd">  Returns:</span>
-<span class="sd">    float: Computed least square PDE loss.</span>
-<span class="sd">  &quot;&quot;&quot;</span>
-  <span class="k">def</span> <span class="nf">approximate_solution</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
-    <span class="n">ansatz</span> <span class="o">=</span> <span class="n">ss</span><span class="o">.</span><span class="n">solution_structure</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">int_point_number</span><span class="p">,</span> <span class="n">local_dofs</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">,</span> <span class="nb">set</span><span class="p">)</span>
+<span class="sd">    Returns:</span>
+<span class="sd">      float: Computed least square PDE loss.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">if</span> <span class="n">ansatz</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
-      <span class="k">return</span> <span class="n">ansatz</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-    <span class="k">else</span><span class="p">:</span>
-      <span class="k">return</span> <span class="n">ansatz</span>
+    <span class="k">def</span> <span class="nf">approximate_solution</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+        <span class="n">ansatz</span> <span class="o">=</span> <span class="n">ss</span><span class="o">.</span><span class="n">solution_structure</span><span class="p">(</span>
+            <span class="n">x</span><span class="p">,</span> <span class="n">int_point_number</span><span class="p">,</span> <span class="n">local_dofs</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">,</span> <span class="nb">set</span>
+        <span class="p">)</span>
 
-  <span class="k">if</span> <span class="n">static_settings</span><span class="p">[</span><span class="s1">&#39;shape function mode&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;compiled&#39;</span><span class="p">:</span>
-    <span class="n">x_i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">*</span><span class="n">x_i</span>
+        <span class="k">if</span> <span class="n">ansatz</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">ansatz</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">ansatz</span>
 
-  <span class="n">pde</span> <span class="o">=</span> <span class="n">static_settings</span><span class="p">[</span><span class="s1">&#39;model&#39;</span><span class="p">][</span><span class="nb">set</span><span class="p">](</span><span class="n">x_i</span><span class="p">,</span> <span class="n">approximate_solution</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">,</span> <span class="n">int_point_number</span><span class="p">,</span> <span class="nb">set</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">static_settings</span><span class="p">[</span><span class="s2">&quot;shape function mode&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;compiled&quot;</span><span class="p">:</span>
+        <span class="n">x_i</span> <span class="o">=</span> <span class="mi">0</span> <span class="o">*</span> <span class="n">x_i</span>
 
-  <span class="k">return</span> <span class="n">w_i</span> <span class="o">*</span> <span class="n">jnp</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">pde</span><span class="p">,</span> <span class="n">pde</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span></div>
+    <span class="n">pde</span> <span class="o">=</span> <span class="n">static_settings</span><span class="p">[</span><span class="s2">&quot;model&quot;</span><span class="p">][</span><span class="nb">set</span><span class="p">](</span>
+        <span class="n">x_i</span><span class="p">,</span> <span class="n">approximate_solution</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">,</span> <span class="n">int_point_number</span><span class="p">,</span> <span class="nb">set</span>
+    <span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">w_i</span> <span class="o">*</span> <span class="n">jnp</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">pde</span><span class="p">,</span> <span class="n">pde</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span></div>
+
 
 
 <div class="viewcode-block" id="weak_form_galerkin">
 <a class="viewcode-back" href="../../_autosummary/autopdex.variational_schemes.weak_form_galerkin.html#autopdex.variational_schemes.weak_form_galerkin">[docs]</a>
-<span class="nd">@jit_with_docstring</span><span class="p">(</span><span class="n">static_argnames</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;static_settings&#39;</span><span class="p">,</span> <span class="s1">&#39;set&#39;</span><span class="p">])</span>
-<span class="k">def</span> <span class="nf">weak_form_galerkin</span><span class="p">(</span><span class="n">x_i</span><span class="p">,</span> <span class="n">w_i</span><span class="p">,</span> <span class="n">int_point_number</span><span class="p">,</span> <span class="n">local_dofs</span><span class="p">,</span> <span class="n">local_virt_dofs</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">,</span> <span class="nb">set</span><span class="p">):</span>
-<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">  Computes the weak form Galerkin residual at an integration point.</span>
+<span class="nd">@jit_with_docstring</span><span class="p">(</span><span class="n">static_argnames</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;static_settings&quot;</span><span class="p">,</span> <span class="s2">&quot;set&quot;</span><span class="p">])</span>
+<span class="k">def</span> <span class="nf">weak_form_galerkin</span><span class="p">(</span>
+    <span class="n">x_i</span><span class="p">,</span>
+    <span class="n">w_i</span><span class="p">,</span>
+    <span class="n">int_point_number</span><span class="p">,</span>
+    <span class="n">local_dofs</span><span class="p">,</span>
+    <span class="n">local_virt_dofs</span><span class="p">,</span>
+    <span class="n">settings</span><span class="p">,</span>
+    <span class="n">static_settings</span><span class="p">,</span>
+    <span class="nb">set</span><span class="p">,</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Computes the weak form Galerkin residual at an integration point.</span>
 
-<span class="sd">  Takes the set of pdes from static_settings[&#39;model&#39;]</span>
+<span class="sd">    Takes the set of pdes from static_settings[&#39;model&#39;]</span>
 
-<span class="sd">  Args:</span>
-<span class="sd">    x_i (jnp.ndarray): Coordinates of the integration point.</span>
-<span class="sd">    w_i (float): Integration weight.</span>
-<span class="sd">    int_point_number (int): Integration point number.</span>
-<span class="sd">    local_dofs (jnp.ndarray): Local degrees of freedom.</span>
-<span class="sd">    local_virt_dofs (jnp.ndarray): Local virtual degrees of freedom.</span>
-<span class="sd">    settings (dict): Settings for the computation.</span>
-<span class="sd">    static_settings (dict): Static settings for the computation.</span>
-<span class="sd">    set (str): Identifier for the current set.</span>
+<span class="sd">    Args:</span>
+<span class="sd">      x_i (jnp.ndarray): Coordinates of the integration point.</span>
+<span class="sd">      w_i (float): Integration weight.</span>
+<span class="sd">      int_point_number (int): Integration point number.</span>
+<span class="sd">      local_dofs (jnp.ndarray): Local degrees of freedom.</span>
+<span class="sd">      local_virt_dofs (jnp.ndarray): Local virtual degrees of freedom.</span>
+<span class="sd">      settings (dict): Settings for the computation.</span>
+<span class="sd">      static_settings (dict): Static settings for the computation.</span>
+<span class="sd">      set (str): Identifier for the current set.</span>
 
-<span class="sd">  Returns:</span>
-<span class="sd">    float: Computed weak form Galerkin residual.</span>
-<span class="sd">  &quot;&quot;&quot;</span>
-  <span class="k">if</span> <span class="n">static_settings</span><span class="p">[</span><span class="s1">&#39;shape function mode&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;compiled&#39;</span><span class="p">:</span>
-    <span class="n">x_i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">*</span><span class="n">x_i</span>
+<span class="sd">    Returns:</span>
+<span class="sd">      float: Computed weak form Galerkin residual.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">static_settings</span><span class="p">[</span><span class="s2">&quot;shape function mode&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;compiled&quot;</span><span class="p">:</span>
+        <span class="n">x_i</span> <span class="o">=</span> <span class="mi">0</span> <span class="o">*</span> <span class="n">x_i</span>
 
-  <span class="k">def</span> <span class="nf">weak_form</span><span class="p">(</span><span class="n">virtual_dofs</span><span class="p">):</span>
-    <span class="k">def</span> <span class="nf">test_function</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
-      <span class="k">if</span> <span class="n">local_dofs</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">ss</span><span class="o">.</span><span class="n">solution_structure</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">int_point_number</span><span class="p">,</span> <span class="n">virtual_dofs</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">,</span> <span class="nb">set</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
-      <span class="k">else</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">ss</span><span class="o">.</span><span class="n">solution_structure</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">int_point_number</span><span class="p">,</span> <span class="n">virtual_dofs</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">,</span> <span class="nb">set</span><span class="p">)</span>
-    <span class="k">def</span> <span class="nf">trial_function</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
-      <span class="k">if</span> <span class="n">local_dofs</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">ss</span><span class="o">.</span><span class="n">solution_structure</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">int_point_number</span><span class="p">,</span> <span class="n">local_dofs</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">,</span> <span class="nb">set</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
-      <span class="k">else</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">ss</span><span class="o">.</span><span class="n">solution_structure</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">int_point_number</span><span class="p">,</span> <span class="n">local_dofs</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">,</span> <span class="nb">set</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">weak_form</span><span class="p">(</span><span class="n">virtual_dofs</span><span class="p">):</span>
+        <span class="k">def</span> <span class="nf">test_function</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">local_dofs</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">ss</span><span class="o">.</span><span class="n">solution_structure</span><span class="p">(</span>
+                    <span class="n">x</span><span class="p">,</span> <span class="n">int_point_number</span><span class="p">,</span> <span class="n">virtual_dofs</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">,</span> <span class="nb">set</span>
+                <span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">ss</span><span class="o">.</span><span class="n">solution_structure</span><span class="p">(</span>
+                    <span class="n">x</span><span class="p">,</span> <span class="n">int_point_number</span><span class="p">,</span> <span class="n">virtual_dofs</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">,</span> <span class="nb">set</span>
+                <span class="p">)</span>
 
-    <span class="c1"># Evaluate weak form and take derivative with respect to local_virtual_dofs</span>
-    <span class="n">weak_pde</span> <span class="o">=</span> <span class="n">static_settings</span><span class="p">[</span><span class="s1">&#39;model&#39;</span><span class="p">][</span><span class="nb">set</span><span class="p">](</span><span class="n">x_i</span><span class="p">,</span> <span class="n">trial_function</span><span class="p">,</span> <span class="n">test_function</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">,</span> <span class="n">int_point_number</span><span class="p">,</span> <span class="nb">set</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">weak_pde</span>
+        <span class="k">def</span> <span class="nf">trial_function</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">local_dofs</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">ss</span><span class="o">.</span><span class="n">solution_structure</span><span class="p">(</span>
+                    <span class="n">x</span><span class="p">,</span> <span class="n">int_point_number</span><span class="p">,</span> <span class="n">local_dofs</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">,</span> <span class="nb">set</span>
+                <span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">ss</span><span class="o">.</span><span class="n">solution_structure</span><span class="p">(</span>
+                    <span class="n">x</span><span class="p">,</span> <span class="n">int_point_number</span><span class="p">,</span> <span class="n">local_dofs</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">,</span> <span class="nb">set</span>
+                <span class="p">)</span>
 
-  <span class="c1"># Test performance for jacrev and jacfwd</span>
-  <span class="n">residual</span> <span class="o">=</span> <span class="n">w_i</span> <span class="o">*</span> <span class="n">jax</span><span class="o">.</span><span class="n">jacrev</span><span class="p">(</span><span class="n">weak_form</span><span class="p">)(</span><span class="n">local_virt_dofs</span><span class="p">)</span>
-  <span class="k">return</span> <span class="n">residual</span></div>
+        <span class="c1"># Evaluate weak form and take derivative with respect to local_virtual_dofs</span>
+        <span class="n">weak_pde</span> <span class="o">=</span> <span class="n">static_settings</span><span class="p">[</span><span class="s2">&quot;model&quot;</span><span class="p">][</span><span class="nb">set</span><span class="p">](</span>
+            <span class="n">x_i</span><span class="p">,</span>
+            <span class="n">trial_function</span><span class="p">,</span>
+            <span class="n">test_function</span><span class="p">,</span>
+            <span class="n">settings</span><span class="p">,</span>
+            <span class="n">static_settings</span><span class="p">,</span>
+            <span class="n">int_point_number</span><span class="p">,</span>
+            <span class="nb">set</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">weak_pde</span>
+
+    <span class="c1"># Test performance for jacrev and jacfwd</span>
+    <span class="n">residual</span> <span class="o">=</span> <span class="n">w_i</span> <span class="o">*</span> <span class="n">jax</span><span class="o">.</span><span class="n">jacrev</span><span class="p">(</span><span class="n">weak_form</span><span class="p">)(</span><span class="n">local_virt_dofs</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">residual</span></div>
+
 
 
 <div class="viewcode-block" id="strong_form_galerkin">
 <a class="viewcode-back" href="../../_autosummary/autopdex.variational_schemes.strong_form_galerkin.html#autopdex.variational_schemes.strong_form_galerkin">[docs]</a>
-<span class="nd">@jit_with_docstring</span><span class="p">(</span><span class="n">static_argnames</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;static_settings&#39;</span><span class="p">,</span> <span class="s1">&#39;set&#39;</span><span class="p">])</span>
-<span class="k">def</span> <span class="nf">strong_form_galerkin</span><span class="p">(</span><span class="n">x_i</span><span class="p">,</span> <span class="n">w_i</span><span class="p">,</span> <span class="n">int_point_number</span><span class="p">,</span> <span class="n">local_dofs</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">,</span> <span class="nb">set</span><span class="p">):</span>
-<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">  Computes the strong form Galerkin residual at an integration point.</span>
+<span class="nd">@jit_with_docstring</span><span class="p">(</span><span class="n">static_argnames</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;static_settings&quot;</span><span class="p">,</span> <span class="s2">&quot;set&quot;</span><span class="p">])</span>
+<span class="k">def</span> <span class="nf">strong_form_galerkin</span><span class="p">(</span>
+    <span class="n">x_i</span><span class="p">,</span> <span class="n">w_i</span><span class="p">,</span> <span class="n">int_point_number</span><span class="p">,</span> <span class="n">local_dofs</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">,</span> <span class="nb">set</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Computes the strong form Galerkin residual at an integration point.</span>
 
-<span class="sd">  Takes the set of pdes from static_settings[&#39;model&#39;]</span>
+<span class="sd">    Takes the set of pdes from static_settings[&#39;model&#39;]</span>
 
-<span class="sd">  Args:</span>
-<span class="sd">      x_i (jnp.ndarray): Coordinates of the integration point.</span>
-<span class="sd">    w_i (float): Integration weight.</span>
-<span class="sd">    int_point_number (int): Integration point number.</span>
-<span class="sd">    local_dofs (jnp.ndarray): Local degrees of freedom.</span>
-<span class="sd">    settings (dict): Settings for the computation.</span>
-<span class="sd">    static_settings (dict): Static settings for the computation.</span>
-<span class="sd">    set (str): Identifier for the current set.</span>
+<span class="sd">    Args:</span>
+<span class="sd">        x_i (jnp.ndarray): Coordinates of the integration point.</span>
+<span class="sd">      w_i (float): Integration weight.</span>
+<span class="sd">      int_point_number (int): Integration point number.</span>
+<span class="sd">      local_dofs (jnp.ndarray): Local degrees of freedom.</span>
+<span class="sd">      settings (dict): Settings for the computation.</span>
+<span class="sd">      static_settings (dict): Static settings for the computation.</span>
+<span class="sd">      set (str): Identifier for the current set.</span>
 
-<span class="sd">  Returns:</span>
-<span class="sd">    float: Computed strong form Galerkin residual.</span>
-<span class="sd">  &quot;&quot;&quot;</span>
-  <span class="k">def</span> <span class="nf">approximate_solution</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
-    <span class="k">if</span> <span class="n">local_dofs</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
-      <span class="k">return</span> <span class="n">ss</span><span class="o">.</span><span class="n">solution_structure</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">int_point_number</span><span class="p">,</span> <span class="n">local_dofs</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">,</span> <span class="nb">set</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+<span class="sd">    Returns:</span>
+<span class="sd">      float: Computed strong form Galerkin residual.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">approximate_solution</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">local_dofs</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">ss</span><span class="o">.</span><span class="n">solution_structure</span><span class="p">(</span>
+                <span class="n">x</span><span class="p">,</span> <span class="n">int_point_number</span><span class="p">,</span> <span class="n">local_dofs</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">,</span> <span class="nb">set</span>
+            <span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">ss</span><span class="o">.</span><span class="n">solution_structure</span><span class="p">(</span>
+                <span class="n">x</span><span class="p">,</span> <span class="n">int_point_number</span><span class="p">,</span> <span class="n">local_dofs</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">,</span> <span class="nb">set</span>
+            <span class="p">)</span>
+
+    <span class="n">shp_fun_mode</span> <span class="o">=</span> <span class="n">static_settings</span><span class="p">[</span><span class="s2">&quot;shape function mode&quot;</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">shp_fun_mode</span> <span class="o">==</span> <span class="s2">&quot;compiled&quot;</span><span class="p">:</span>
+        <span class="n">x_i</span> <span class="o">=</span> <span class="mi">0</span> <span class="o">*</span> <span class="n">x_i</span>
+        <span class="n">test_functions</span> <span class="o">=</span> <span class="n">settings</span><span class="p">[</span><span class="s2">&quot;compiled shape functions&quot;</span><span class="p">][</span><span class="nb">set</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="n">int_point_number</span><span class="p">]</span>
+    <span class="k">elif</span> <span class="n">shp_fun_mode</span> <span class="o">==</span> <span class="s2">&quot;direct&quot;</span><span class="p">:</span>
+        <span class="n">test_functions</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">jacrev</span><span class="p">(</span><span class="n">spaces</span><span class="o">.</span><span class="n">solution_space</span><span class="p">,</span> <span class="n">argnums</span><span class="o">=</span><span class="mi">2</span><span class="p">)(</span>
+            <span class="n">x_i</span><span class="p">,</span> <span class="n">int_point_number</span><span class="p">,</span> <span class="n">local_dofs</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">,</span> <span class="nb">set</span>
+        <span class="p">)[</span><span class="mi">0</span><span class="p">,</span> <span class="p">:,</span> <span class="mi">0</span><span class="p">]</span>
     <span class="k">else</span><span class="p">:</span>
-      <span class="k">return</span> <span class="n">ss</span><span class="o">.</span><span class="n">solution_structure</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">int_point_number</span><span class="p">,</span> <span class="n">local_dofs</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">,</span> <span class="nb">set</span><span class="p">)</span>
+        <span class="k">assert</span> <span class="p">(</span>
+            <span class="kc">False</span>
+        <span class="p">),</span> <span class="s2">&quot;Shape function mode neither specified as &#39;direct&#39; nor &#39;compiled&#39;!&quot;</span>
 
-  <span class="n">shp_fun_mode</span> <span class="o">=</span> <span class="n">static_settings</span><span class="p">[</span><span class="s1">&#39;shape function mode&#39;</span><span class="p">]</span>
-  <span class="k">if</span> <span class="n">shp_fun_mode</span> <span class="o">==</span> <span class="s1">&#39;compiled&#39;</span><span class="p">:</span>
-    <span class="n">x_i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">*</span><span class="n">x_i</span>
-    <span class="n">test_functions</span> <span class="o">=</span> <span class="n">settings</span><span class="p">[</span><span class="s1">&#39;compiled shape functions&#39;</span><span class="p">][</span><span class="nb">set</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="n">int_point_number</span><span class="p">]</span>
-  <span class="k">elif</span> <span class="n">shp_fun_mode</span> <span class="o">==</span> <span class="s1">&#39;direct&#39;</span><span class="p">:</span>
-    <span class="n">test_functions</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">jacrev</span><span class="p">(</span><span class="n">spaces</span><span class="o">.</span><span class="n">solution_space</span><span class="p">,</span> <span class="n">argnums</span><span class="o">=</span><span class="mi">2</span><span class="p">)(</span><span class="n">x_i</span><span class="p">,</span> <span class="n">int_point_number</span><span class="p">,</span> <span class="n">local_dofs</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">,</span> <span class="nb">set</span><span class="p">)[</span><span class="mi">0</span><span class="p">,:,</span><span class="mi">0</span><span class="p">]</span>
-  <span class="k">else</span><span class="p">:</span>
-    <span class="k">assert</span> <span class="kc">False</span><span class="p">,</span> <span class="s1">&#39;Shape function mode neither specified as </span><span class="se">\&#39;</span><span class="s1">direct</span><span class="se">\&#39;</span><span class="s1"> nor </span><span class="se">\&#39;</span><span class="s1">compiled</span><span class="se">\&#39;</span><span class="s1">!&#39;</span>
+    <span class="n">pde</span> <span class="o">=</span> <span class="n">static_settings</span><span class="p">[</span><span class="s2">&quot;model&quot;</span><span class="p">][</span><span class="nb">set</span><span class="p">](</span>
+        <span class="n">x_i</span><span class="p">,</span> <span class="n">approximate_solution</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">,</span> <span class="n">int_point_number</span><span class="p">,</span> <span class="nb">set</span>
+    <span class="p">)</span>
 
-  <span class="n">pde</span> <span class="o">=</span> <span class="n">static_settings</span><span class="p">[</span><span class="s1">&#39;model&#39;</span><span class="p">][</span><span class="nb">set</span><span class="p">](</span><span class="n">x_i</span><span class="p">,</span> <span class="n">approximate_solution</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">,</span> <span class="n">int_point_number</span><span class="p">,</span> <span class="nb">set</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">local_dofs</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">w_i</span> <span class="o">*</span> <span class="n">test_functions</span> <span class="o">*</span> <span class="n">pde</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">w_i</span> <span class="o">*</span> <span class="n">jnp</span><span class="o">.</span><span class="n">outer</span><span class="p">(</span><span class="n">test_functions</span><span class="p">,</span> <span class="n">pde</span><span class="p">)</span></div>
 
-  <span class="k">if</span> <span class="n">local_dofs</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
-    <span class="k">return</span> <span class="n">w_i</span> <span class="o">*</span> <span class="n">test_functions</span> <span class="o">*</span> <span class="n">pde</span>
-  <span class="k">else</span><span class="p">:</span>
-    <span class="k">return</span> <span class="n">w_i</span> <span class="o">*</span> <span class="n">jnp</span><span class="o">.</span><span class="n">outer</span><span class="p">(</span><span class="n">test_functions</span><span class="p">,</span> <span class="n">pde</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="least_square_function_approximation">
 <a class="viewcode-back" href="../../_autosummary/autopdex.variational_schemes.least_square_function_approximation.html#autopdex.variational_schemes.least_square_function_approximation">[docs]</a>
-<span class="nd">@jit_with_docstring</span><span class="p">(</span><span class="n">static_argnames</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;static_settings&#39;</span><span class="p">,</span> <span class="s1">&#39;set&#39;</span><span class="p">])</span>
-<span class="k">def</span> <span class="nf">least_square_function_approximation</span><span class="p">(</span><span class="n">x_i</span><span class="p">,</span> <span class="n">w_i</span><span class="p">,</span> <span class="n">int_point_number</span><span class="p">,</span> <span class="n">local_dofs</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">,</span> <span class="nb">set</span><span class="p">):</span>  
-<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">  Computes the least square function approximation at an integration point.</span>
+<span class="nd">@jit_with_docstring</span><span class="p">(</span><span class="n">static_argnames</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;static_settings&quot;</span><span class="p">,</span> <span class="s2">&quot;set&quot;</span><span class="p">])</span>
+<span class="k">def</span> <span class="nf">least_square_function_approximation</span><span class="p">(</span>
+    <span class="n">x_i</span><span class="p">,</span> <span class="n">w_i</span><span class="p">,</span> <span class="n">int_point_number</span><span class="p">,</span> <span class="n">local_dofs</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">,</span> <span class="nb">set</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Computes the least square function approximation at an integration point.</span>
 
-<span class="sd">  Takes the set of functions to fit from static_settings[&#39;analytic solution&#39;].</span>
-<span class="sd">  </span>
-<span class="sd">  Args:</span>
-<span class="sd">    x_i (jnp.ndarray): Coordinates of the integration point.</span>
-<span class="sd">    w_i (float): Integration weight.</span>
-<span class="sd">    int_point_number (int): Integration point number.</span>
-<span class="sd">    local_dofs (jnp.ndarray): Local degrees of freedom.</span>
-<span class="sd">    settings (dict): Settings for the computation.</span>
-<span class="sd">    static_settings (dict): Static settings for the computation.</span>
-<span class="sd">    set (str): Identifier for the current set.</span>
+<span class="sd">    Takes the set of functions to fit from static_settings[&#39;analytic solution&#39;].</span>
 
-<span class="sd">  Returns:</span>
-<span class="sd">    float: Computed least square function approximation.</span>
-<span class="sd">  &quot;&quot;&quot;</span>
-  <span class="k">def</span> <span class="nf">approximate_solution</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
-    <span class="k">return</span> <span class="n">ss</span><span class="o">.</span><span class="n">solution_structure</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">int_point_number</span><span class="p">,</span> <span class="n">local_dofs</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">,</span> <span class="nb">set</span><span class="p">)</span>
+<span class="sd">    Args:</span>
+<span class="sd">      x_i (jnp.ndarray): Coordinates of the integration point.</span>
+<span class="sd">      w_i (float): Integration weight.</span>
+<span class="sd">      int_point_number (int): Integration point number.</span>
+<span class="sd">      local_dofs (jnp.ndarray): Local degrees of freedom.</span>
+<span class="sd">      settings (dict): Settings for the computation.</span>
+<span class="sd">      static_settings (dict): Static settings for the computation.</span>
+<span class="sd">      set (str): Identifier for the current set.</span>
 
-  <span class="n">analytic_solution</span> <span class="o">=</span> <span class="n">static_settings</span><span class="p">[</span><span class="s1">&#39;analytic solution&#39;</span><span class="p">][</span><span class="nb">set</span><span class="p">]</span>
+<span class="sd">    Returns:</span>
+<span class="sd">      float: Computed least square function approximation.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
-  <span class="c1"># L2 error</span>
-  <span class="n">error</span> <span class="o">=</span> <span class="n">analytic_solution</span><span class="p">(</span><span class="n">x_i</span><span class="p">)</span> <span class="o">-</span> <span class="n">approximate_solution</span><span class="p">(</span><span class="n">x_i</span><span class="p">)</span>
-  <span class="k">return</span> <span class="n">w_i</span> <span class="o">*</span> <span class="n">jnp</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">error</span><span class="p">,</span> <span class="n">error</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span></div>
+    <span class="k">def</span> <span class="nf">approximate_solution</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">ss</span><span class="o">.</span><span class="n">solution_structure</span><span class="p">(</span>
+            <span class="n">x</span><span class="p">,</span> <span class="n">int_point_number</span><span class="p">,</span> <span class="n">local_dofs</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">,</span> <span class="nb">set</span>
+        <span class="p">)</span>
+
+    <span class="n">analytic_solution</span> <span class="o">=</span> <span class="n">static_settings</span><span class="p">[</span><span class="s2">&quot;analytic solution&quot;</span><span class="p">][</span><span class="nb">set</span><span class="p">]</span>
+
+    <span class="c1"># L2 error</span>
+    <span class="n">error</span> <span class="o">=</span> <span class="n">analytic_solution</span><span class="p">(</span><span class="n">x_i</span><span class="p">)</span> <span class="o">-</span> <span class="n">approximate_solution</span><span class="p">(</span><span class="n">x_i</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">w_i</span> <span class="o">*</span> <span class="n">jnp</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">error</span><span class="p">,</span> <span class="n">error</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span></div>
 
 </pre></div>
 

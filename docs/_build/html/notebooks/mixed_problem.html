@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Incompressible hyperelasticity as user potential or user residual &mdash; AutoPDEx  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../_static/jupyter-sphinx.css?v=572af1d6" />
+      <link rel="stylesheet" type="text/css" href="../_static/thebelab.css" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=acfd50eb" />
+      <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css?v=2aa19091" />
+      <link rel="stylesheet" type="text/css" href="../_static/dark_mode_css/general.css?v=c0a7eb24" />
+      <link rel="stylesheet" type="text/css" href="../_static/dark_mode_css/dark.css?v=70edf1c7" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="../_static/copybutton.js?v=f281be69"></script>
+        <script src="../_static/thebelab-helper.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+        <script defer="defer" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script src="../_static/dark_mode_js/default_light.js?v=c2e647ce"></script>
+        <script src="../_static/dark_mode_js/theme_switcher.js?v=358d3910"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            AutoPDEx
+              <img src="../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                1.0.3
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quickstart to AutoPDEx</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">High level operations</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../solver.html">Solver</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../models.html">Models</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Settings</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../settings.html">Settings and static_settings</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../example_notebooks.html">Example notebooks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples.html">Examplary input files</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Lower level operations</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../assembler.html">Assembler</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../implicit_diff.html">Implicit_diff</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spaces.html">Spaces</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../solution_structures.html">Solution_structures</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../variational_schemes.html">Variational_schemes</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Pre- and postprocessing</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../geometry.html">Geometry</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../seeder.html">Seeder</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../utility.html">Utility</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../plotter.html">Plotter</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Source code</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/BodeTobias/AutoPDEx">GitHub Project</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">AutoPDEx</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Incompressible hyperelasticity as user potential or user residual</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/BodeTobias/AutoPDEx/blob/main/docs/notebooks/mixed_problem.ipynb" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="Incompressible-hyperelasticity-as-user-potential-or-user-residual">
+<h1>Incompressible hyperelasticity as user potential or user residual<a class="headerlink" href="#Incompressible-hyperelasticity-as-user-potential-or-user-residual" title="Link to this heading"></a></h1>
+<p><a class="reference external" href="https://github.com/BodeTobias/AutoPDEx/tree/main/docs/notebooks/mixed_problem.ipynb">Download this notebook</a></p>
+<p>In this example, we consider the same problem as in the quickstart example, but assume incompressible material behavior and non-homogeneous Dirichlet boundary conditions (instead of the load <span class="math notranslate nohighlight">\(q_0\)</span>). The incompressibility constraint is treated by means of the Lagrange multiplier method, leading to a mixed problem. The LBB conditions are taken into account by selecting a second-order approach for the displacement field and a continuous first-order approach for the pressure field. For the
+implementation, two versions are presented, based on a user potential and a user residual.</p>
+<p><img alt="image.png" src="data:image/png;base64,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wSc/9Kh5K8rQAwAA0BChBJ+tttrKzJs3z+y2225m0qRJsYSeNWvWuGsAAKAarFy50tw9daq7lYxQgk+rVq3MjBkz7KVNmzZuanQmT55sXnvtNXeLpi4AAKrB+vXrzbRaCD6iwBNH6Ln88svNBRdcYJo0aeKmAAAAlCe04BOHK664wvYl0tGf27Zt66ZS8QEAoBosWbrUXUvOFrkqORLglVdeaSZMmGD22msv23n6kksuMc8//7yd16FDh03XZdasWWbo0KHuljFjxoyxna4BAKhWN998s+1S4i1fvty0bNnS3YrOLzbue19btcrdapx58+ebTh07bvY6lixZYg46+GDzgyFDbD/hqFVF8Lnqqqts6OnWrZsNPYcddpj57ne/uyns7Lzzzua5556z14XgAwCoNUkFH+1PZ27cr4blgN69CT71ufrqq23o+drXvmZDz+GHH26nE3wAAFmSVPBRh+TOXbqYI/v1a/TzaUQXwacexUKPBINPx44dzeLFi+11IfgAAGpNUsFHFFgUgM4aMcJNaRg9jkZ1JRl8Utu5+ZprrrEdmffcc097FOhg6AEAAPHp3q2b3Sc3lvr3JC2VwceHnj322MNWeo444gg353NV0DUJAICa0KlTJ3etceKqUNUndcHn2muvtaHnq1/9qq30FAo9+RjODgBAdBRY1MdHzV2NoQA1eMgQdysZqQo+1113nQ09OvWFQk/fvn3dnC+i4gMAQHzU/6axFRvdX315kpSa4DNx4kQberp27WpDT7+NybJcVHwAAEA5UhF8FHo0eqtLly62T8+RRx7p5hRHxQcAAFQq8eCj0pkqPZ07d7aVnnJCTz4qPgAAoByJBp9f/vKXNvTssssuNvR8//vfd3MAAADCl1jwuf76623o0cEHFXr69+/v5pQn2NRFxQcAAJQjkeBzww032NCjk4sq9AwYMMDNAZAEHQFWR4U9//zz7UWfSR1a4s0333R/UdyGDRvM1KlTzdixY82QIUPMGWecYcaPH28eeeQR9xcNp6O7ann0+Dq6q5ZHz6fl1W2/zABQrtiDj0KPOjK3b9/edmQeOHCgm1OZYMWHjs5Awz399NNm3Lhx9rr+v+SSSzYdTl5hRiGjGIUb3adp06Y27CignH766TacKDiVun8pepylS5fax9XzKFQpXOlxdVuP7ZcdAMoRa/CZPHmyrfTstNNO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TJkyxX73Dh8+3F6ipkOi6Dnvv/9+c8ABB9jn7Natm5sbHW1PPa+afvSccWzT2bNn2+dU31g9Z6XbtLF04L+of/ilmoJPGs2cOTN30EEH5Xbaaafc1Vdf7aZG669//Wvu5JNPztXV1eU2vhlzf/vb39yc6Kxbty53/vnn2+c87rjjcn/+85/dnGjdfPPNua9+9au5jV8sudtvv91NjZZem16jXqtes1571F544YXcKaeckolt+uCDD+Y2hoBcmzZtcldccYWbGq0ktunGnXhuY+iwz3nUUUflnnrqKTcnOsFtOmDAgNy8efPcnGjdcccduY075NzXv/713K9//Ws3NVr+u7dVq1a5CRMmuKnRev3113Mbf9ja9Tt48ODcs88+6+ZE6xe/+IV9zsMOOyz38MMPu6nRuvfee3MbfwTlOnbsmJs4caKbijilMvgkEXr+8pe/5Dambvsh0A5y+fLlbk50kg49+kLVF2sc0hB6anmbzpgxI7fxV3Kubdu2uSuvvNJNjVbSoefoo4/O/fGPf3RzopNU6NEPEv0wifPHSTD0XHbZZW5qtIKh5wc/+EFu0aJFbk60kgg999xzjw09nTp1yk2aNMlNRdxSF3ySDj0jRoyo+dCz22675fbaa6/cnXfe6aZGK4kdZLB6V+vb1Ieedu3a5a666io3NVpJbNO33nord+6559rnPOaYY3ILFixwc6KTH3rmz5/v5kRL1R1VeZIIPTvuuGNsoecf//hHbsyYMXb9/vCHP8wtXrzYzYlWUqFnn332ye2yyy65X/7yl24qkpCq4JNE6Fm6dGlu2LBh9kNw9tln51asWOHmRCepHeRNN91kQ8/ee++du+uuu9zUaCUdemp9m06fPj3Xu3fvWD8zSYeeY489Nvf000+7OdEJbtOBAwfGFnp+9atf5b72ta/FWpEl9ETrN7/5jQ09u+66a+766693U5GU1ASfJELPkiVLckOHDrUfgnPOOSf36quvujnRSTL0fOUrX8n16NEjd/fdd7up0UpiBxms3tX6Ns1K6FmzZk3uv//7v2Ndv0mGnj333DPWimwSoee1117LjR492q7fE088Mff888+7OdFKstLTuXPn3A033OCmIkmpCD5JhB590PSB04dg5MiRuZUrV7o50UlqB3njjTfa0NOzZ8/c1KlT3dRoJR16an2bPvDAA7n9998/1759+9w111zjpkYriW2qSo8PPccff3xu4cKFbk50kgo9t912mw09cVZkg6Hn8ssvd1OjpdAzatQou371w1M/QOOQZKWnS5cuucmTJ7upSFriwSeJ0PPcc8/Z0qo+BPoArlq1ys2JTpKhp2vXrrlvfOMbuWnTprmp0UpiBxlssqz1bepDT4cOHXLXXnutmxqtJLZpsNJzwgkn5J555hk3Jzr5oSeOEWNy66235vbYY49YK7L+u7d169axhR59Ln3o0edVn9s4JBV69L2rH51TpkxxU5EGiQafpEOPSq369RG1pHaQ+rD50KMPYRySCj2+ybLWt+n//d//5b797W/ndt5559x1113npkYr6dAT1/Dm4DaNa5i83HLLLbndd989E6FHlVitX1VmVaGNQxKhRz8y9b2rPpX68Yl0SSz4JB161KlOneuilmToUXlVQydrOfQE+2nV+jZV6OnVq1esQ2GT2KarV6/O/eQnP7HPOWTIkFiGNycVevyhJeJshk4i9KjZ2YceDTzQAIQ4JBF6tB21PbVd1bcS6ZNI8Eki9GjEgI4RoQ+BjhmhY0dELakdpNqSFXq++c1v2o51cUgq9Ph+WrW+TX/729/a0BPnUNikQ48+r3GM9Ekq9KjSo4pAnM3QwdAT10EuFXo00EDrV8fV0vG14pB06NH2RTrFHnySCD36xahfjvoQ/OhHP8q98cYbbk50ktpBatSARg9861vfyt13331uarSS2EEGO6fX+jZV6Nlvv/1iHQqbxDZ98803c//1X/9ln1OhRxXaqOWHnjgOiCi+0qOOr3FVZP13b5xH9v773/++KfSceuqpuRdffNHNiVYSoUfNlGquVLMloSfdYg0+SYQe9Q1QHwF9CH784x/n/vnPf7o50Uk69Ggnef/997up0Uoq9Pgmy1rfptqO2p5xDoVNYptqG2pb6jm1beMOPXEdBVr88bQUeuKqyCYRenQoCR1HS+v3tNNOy7300ktuTrSSDD3qoK6O6ki32IJPEqFHo0A0GkQfAv2S1C/KqCW1g1QlQBUBNYeoQhCHJHaQwX5atb5NVbFT5S7OobBJh564jumSVOjxh5ao9UpPMPScfvrpuWXLlrk50Uoi9OjQAzoEgQ5FoEMSIP1iCT5Jhx71GVDfgaglHXo02kcdYOOQVOjx/bRqfZv60KNReXENhU1im6qJUk2Vek4Nb47jmC75oSeOU1+IH2WpAQdJVHriOoebjpR+1lln2fV7xhln5F5++WU3J1pJhh4daVsHn0R1iDz4JBF6dJAzHexMHwLtIDU0NmpJ7SDV0VUdXnVcFx3fJQ5JhR5f6an1baqzN6tjuioDcQ2FTTr0aHhzHMd0SSr0BAccaPvGwX/3xnni2mDo0YmB//a3v7k50Uoi9OjI2jrCdpxnzkc4Ig0+SYSe4Be4zu2jI79GLenQo9MW6PQFcUhiBxkckVfr29SHHvUBiWsobBLbNHhGbg1vjuOYLsFtGtdJTkWhJ+4BB0mEHp0IWCcE1vqN68TAklTo0bnU4jyJLMITWfBJIvT86U9/yg0aNMh+CH7605/m1q5d6+ZEJ6kdpI7jouO56KzcOjt3HJIOPbW+TdX8oWYQhR6N+olD0qEnruHNSYWeJAYcBENPXGfrz1Lo0YljFXriPIkswhVJ8Eki9OhszTprsz4E5513Xu7tt992c6KTZOjp2LFj7sADD8w9+OCDbmq0kthBBg9DUOvb1J/IUEOcazn0BM/IHdfw5vzQE8eZ3SWJAQf+u7ddu3aJhB41c6m5Kw5JhR5VeeI8iSzCF3rwSSL06NebvtD0IfjZz36We+edd9yc6CS1g5w4caINPd/5zndyv/vd79zUaCUdemp9m2p0j0KPhsLGdfyPpENPXMObkwo9vhk6C6FHfXm0fjWKS6O54pBE6FGTlkKPhq3HdRJZRCPU4JN06InrCzypHaRCj87RpHWsdR2HJHaQwWMv1fo29ZUeDYWN6/gfSWxTnT9N51HTc54e0/Dm4DZVNTiu0OOboeMcZZlE6FHHZR96dJBCHawwDkmFHnVijvPUIohOaMEnidCjY29oZIY+BOPGjcutX7/ezYlOUjtInZBSoee73/1ubvbs2W5qtJIOPbW+TX2lJ86hsEmFHn9G7riGNycVenxFNs5RlsHQE9d3r0LPmWeeadevzsGl01LEIYnQoxFbCj1xnloE0Qol+CQRenQ+HR1iXh+CCy64IPfuu++6OdFJMvR06NCh5kNP8NhLtb5NFXr0RRrnUNgktqnOyO1Dj3aUr7zyipsTnfzQo0EPcfAV2ThHWSbx3att6EOPtq22cRySCj36YRLnAScRvUYHnyQ+ePPnz88NHDjQfgguvPDC3HvvvefmRCepHeS1115rQ88hhxySe+ihh9zUaCUVevyxl2p9m+pXo0JPnENhkwo9/ozccR3TJbhNNcIzrtDjK7JxjrJMKvSoaqf1q6ZLVfPikEToURXWh564DjiJeDQq+CTxwZs3b15uwIAB9kPw85//PPf++++7OdFJMvS0b98+16dPn9ycOXPc1GglsYMMHnCy1repP3tznENhk9imavoIhp44hjcnFXr8j5OkQs8111zjpkZLTZQ+9KiTujqrxyGJ0KNTT6jfXZxH2UZ8Ghx8kgg9Tz75ZK5///72Q3DRRRflNmzY4OZEJ6kdpL7MFHoOPfTQ3O9//3s3NVpJhR7/nLW+TX3oiXMobBLbNHhG7riO6ZIfeuL+nMZ5aAn/3Rtnnx6FntNPP92uXx1tW0fdjkOSoSfOo2wjXg0OPv/7v/9r35BxnTFadAZcPae+4OKiL3ENM9YByOI4Iab861//ss+n543r5H7id1Zxrt+sbFNVsfScOmdSXP0/JIltqr4ues5+/frFUr0ThQE9Z5zbVIFO21OdmeM6yenHH39sm731WuP87p07d659rTrKtpYhDgqzSXwP6sd1nNsU8WtUU5cqMHFL4jn1oYvry9TT88X5YRftpOI6TUJQVrapvki1g45TEttUO0adBTyu0OMpRMe9TbU9495B6jXqtcZNrzOu0OMl9T2o44ihdm2hfwwAAEAGbOn+BwAAqHkEHwAAkBkEHwAAkBkEHwAAkBkEHwAAkBkEHwAAkBkEHwAAkBkEHwAAkBkcwBBAgy1ZssTMnz/frFq1yrRo0cJ06tTJ9O7d2/4PAGlExQdAxdavX2/GjRtnLrvsMntdYUd0u2fPnnYeAKQRFR8AFfPB5txzzzUtW7a010UhaODAgbYS1L17dzN37lw3BwDSgYoPgIrMmjXLXvJDj+j27bffbq8r/EyePNleB4C0IPgAqMjUqVNNx44dbd+eQnw/H1HTFwCkCcEHQEWWLl1qQ8/QoUPNypUr3dTNqZlL1PRV7G8AIAkEHwCh0wgvj+ADIE0IPgAqoj48I0aMMOPHjy86bF1VIY+h7QDShFFdAEKnIe2q9DCyC0DaUPEBECqN+PLNW4MHD7b/AwiP+tfVtWpFM3IDEXwAhMoPYR8yZIhtEgOANCH4AAiNQo9GfKmJS32AACBtCD4AQqEDFuq4PQo906dP/8LBDQEgDQg+ABpNx+sZNmyY6datG6EHQKoRfAA0ikKPOlv269fP3HHHHYQeAKlG8AHQYAo9I0eO3NSnJz/0qPmLkScA0oTgA6DBdJZ2HaCwWEfmKVOmbHYwQwBIWk0Hn3nz5pkJEybYX50AwqURXKrw1Dd6SyO81O8HANKipo/crC9m/SKdNGmSPaYIgHDoszVt2jQzfPhwN2VzagJbtWqVPZjhokWL3FQAYVCfupkbP1uLN362OCVM5Qg+ACoydepU+7lSuCmld+/eZsaMGe4WgDAQfBqHPj4AKqJj9ZQTekSdngEgTQg+9Sj3yx3IEjVdrV27tqwLR28GPrd69Wp3DUki+BSgwHPJJZeYww8/3E0BAKBxbrvtNtOnTx878AbJIfgEKI1ff/315qijjjJXXnkl6RwAEBqNgly8eLE57rjjzKhRo8wTTzzh5iBOBJ+N/v3vf5u77rrLjlC58MILzfPPP+/mAAAQLu1z7r77bnPmmWeyz0lA5oPPzJkz7Ztv9OjRpG8AQGzWrFljWxn0o/uqq67iKOcxyWzwURvr2LFjbeh58MEH3VQAAOK1bNkyOxBgxIgR5pZbbjHvvvuum4MoZO44PjqK8/3332/uvfde889//tNOK+bLX/6yrQQBANBYCxcuNI8++qi7VZwG1gwaNMgcc8wxbsrmOI5P42Qq+KiMOHDgQMqJAIDUu+KKK8wpp5zibn2O4NM4mav46ISJqvjcd9995vXXX7fTitluu+3M5Zdf7m4BANBwjz32mN3/lNK3b19z7LHHmqOPPtpN2RzBp3Eye8qKp556alMAev/9993UzWno4fLly90tAAAazu+Titl///1t4FEzV7NmzdzULyL4NE5mOzfrDaZj9UyZMqVoOyoAAFH7+te/bn7+85/b/dHJJ59cb+hB42V+OPsRRxxh32w33HCDOfTQQ91UAACitfPOO9vRxdoHjRkzxrRv397NQZQ4gOFGW265pTn++OPtm08nYPzWt77l5gAAEK7mzZubU0891e5zdADDPffc081BHAg+Adtvv7057bTTzAMPPGDfjLSdAgDCovNA9u7d2x47TgNnevXq5eYgTgSfArbddltbfpwzZ46bAgBA4+gAhTNmzDDdu3d3U5AEgk89FIAAAAiDRgojeQQfAACQGQQfAACQGTUdfNSJTAcvpAMZAACQmg4+6kCmIzZ37tzZTQEAAFlGUxcAAMgMgg8AAMgMgg8AAMgMgg8AAMgMgg8AAMgMgg8AAMgMgg8AAMiMLXIbuesAAAA1jYoPAADIDIIPAADIDIIPAADIDIIPAADIDIIPAADIDIIPAADIDIIPAADIDIIPAADIDIIPAADIDIIPAADIDIIPAADIDIIPAADIDIIPAADIDIIPAADIDIIPAADIDIIPAADIDIIPAADICGP+P6tB/kXcU8TaAAAAAElFTkSuQmCC" /></p>
+<section id="Preprocessing">
+<h2>Preprocessing<a class="headerlink" href="#Preprocessing" title="Link to this heading"></a></h2>
+<p>First, we do some imports and activate the double precision, since JAX is using single precsion by default.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">jax</span>
+<span class="kn">import</span> <span class="nn">jax.numpy</span> <span class="k">as</span> <span class="nn">jnp</span>
+<span class="kn">import</span> <span class="nn">flax</span>
+<span class="kn">import</span> <span class="nn">pygmsh</span>
+<span class="kn">import</span> <span class="nn">meshio</span>
+<span class="kn">import</span> <span class="nn">pyvista</span> <span class="k">as</span> <span class="nn">pv</span>
+
+<span class="kn">from</span> <span class="nn">autopdex</span> <span class="kn">import</span> <span class="n">seeder</span><span class="p">,</span> <span class="n">geometry</span><span class="p">,</span> <span class="n">solver</span><span class="p">,</span> <span class="n">utility</span><span class="p">,</span> <span class="n">models</span><span class="p">,</span> <span class="n">spaces</span>
+
+<span class="n">jax</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="s2">&quot;jax_enable_x64&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>Now, we generate a mesh using pygmsh. As element order for the displacement field we choose second order quadrilateral elements, for the pressure field we choose first order elements.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">element_order</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="n">L</span> <span class="o">=</span> <span class="mf">2.</span>
+<span class="n">H</span> <span class="o">=</span> <span class="mf">1.</span>
+<span class="n">pts</span> <span class="o">=</span> <span class="p">[[</span><span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">],</span> <span class="p">[</span><span class="n">L</span><span class="p">,</span> <span class="mf">0.</span><span class="p">],</span> <span class="p">[</span><span class="n">L</span><span class="p">,</span> <span class="n">H</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.</span><span class="p">,</span> <span class="n">H</span><span class="p">]]</span>
+<span class="k">with</span> <span class="n">pygmsh</span><span class="o">.</span><span class="n">occ</span><span class="o">.</span><span class="n">Geometry</span><span class="p">()</span> <span class="k">as</span> <span class="n">geom</span><span class="p">:</span>
+    <span class="n">region</span> <span class="o">=</span> <span class="n">geom</span><span class="o">.</span><span class="n">add_polygon</span><span class="p">(</span><span class="n">pts</span><span class="p">,</span> <span class="n">mesh_size</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
+    <span class="n">geom</span><span class="o">.</span><span class="n">set_recombined_surfaces</span><span class="p">([</span><span class="n">region</span><span class="o">.</span><span class="n">surface</span><span class="p">])</span>
+    <span class="n">displacement_mesh</span> <span class="o">=</span> <span class="n">geom</span><span class="o">.</span><span class="n">generate_mesh</span><span class="p">(</span><span class="n">order</span><span class="o">=</span><span class="n">element_order</span><span class="p">)</span>
+    <span class="n">pressure_mesh</span> <span class="o">=</span> <span class="n">geom</span><span class="o">.</span><span class="n">generate_mesh</span><span class="p">(</span><span class="n">order</span><span class="o">=</span><span class="n">element_order</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>Let’s get the relevant information from the mesh and make it to JAX arrays. We take the same set of elements for the Displacement and Pressure fields, but with reduced number of nodes for the pressure field. For the mixed approach, the degrees of freedom, The node coordinates and the connectivity have to be specified as dicts with consistent keywords.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">n_dim</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="n">displacement_node_coor</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">displacement_mesh</span><span class="o">.</span><span class="n">points</span><span class="p">[:,:</span><span class="n">n_dim</span><span class="p">])</span>
+<span class="n">pressure_node_coor</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">pressure_mesh</span><span class="o">.</span><span class="n">points</span><span class="p">[:,:</span><span class="n">n_dim</span><span class="p">])</span>
+<span class="n">node_coordinates</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;displacement&#39;</span><span class="p">:</span> <span class="n">displacement_node_coor</span><span class="p">,</span>
+                    <span class="s1">&#39;pressure&#39;</span><span class="p">:</span> <span class="n">pressure_node_coor</span><span class="p">}</span>
+
+<span class="n">displacement_connectivity</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">([</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">displacement_mesh</span><span class="o">.</span><span class="n">cells_dict</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="s1">&#39;quad&#39;</span> <span class="ow">in</span> <span class="n">k</span><span class="p">])[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">pressure_connectivity</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">([</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">pressure_mesh</span><span class="o">.</span><span class="n">cells_dict</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="s1">&#39;quad&#39;</span> <span class="ow">in</span> <span class="n">k</span><span class="p">])[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">connectivity</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;displacement&#39;</span><span class="p">:</span> <span class="n">displacement_connectivity</span><span class="p">,</span>
+                <span class="s1">&#39;pressure&#39;</span><span class="p">:</span> <span class="n">pressure_connectivity</span><span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<p>For Finite Elements, the Dirichlet conditions are usually imposed by direct nodal imposition. Therefore, we first have to find the concerning nodes. The selection of nodes can be done by means of smooth distance functions. For some primitives, the distance function can be found in the geometry module. The module also contains Rvachev-function operations which can be used for constructing user-defined distance functions. Here, we select the nodes that are close to the lines on which we want to
+impose the Dirichlet boundary conditions.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dirichlet_nodes_left</span> <span class="o">=</span> <span class="n">geometry</span><span class="o">.</span><span class="n">on_lines</span><span class="p">(</span><span class="n">displacement_node_coor</span><span class="p">,</span> <span class="n">pts</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">pts</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span>
+<span class="n">dirichlet_nodes_bottom</span> <span class="o">=</span> <span class="n">geometry</span><span class="o">.</span><span class="n">on_lines</span><span class="p">(</span><span class="n">displacement_node_coor</span><span class="p">,</span> <span class="n">pts</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">pts</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">dirichlet_nodes_top</span> <span class="o">=</span> <span class="n">geometry</span><span class="o">.</span><span class="n">on_lines</span><span class="p">(</span><span class="n">displacement_node_coor</span><span class="p">,</span> <span class="n">pts</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">pts</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span>
+<span class="n">dirichlet_nodes_top_left</span> <span class="o">=</span> <span class="n">geometry</span><span class="o">.</span><span class="n">on_lines</span><span class="p">(</span><span class="n">displacement_node_coor</span><span class="p">,</span> <span class="p">[</span><span class="mf">1.</span><span class="p">,</span><span class="mf">1.</span><span class="p">],</span> <span class="n">pts</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<p>For using the nodal imposition of boundary conditions in autopdex, we have to provide it with a mask that defines which degrees of freedoms shall be constrained.</p>
+<p>Below, we fix the displacement in x-direction at the left and top and in y-direction at the bottom by settings the concerning entries to True. On the upper left part of the boundary, we impose a vertical displacement of v.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">selection_left</span> <span class="o">=</span> <span class="n">utility</span><span class="o">.</span><span class="n">dof_select</span><span class="p">(</span><span class="n">dirichlet_nodes_left</span><span class="p">,</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">([</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">]))</span>
+<span class="n">selection_bottom</span> <span class="o">=</span> <span class="n">utility</span><span class="o">.</span><span class="n">dof_select</span><span class="p">(</span><span class="n">dirichlet_nodes_bottom</span><span class="p">,</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">([</span><span class="kc">False</span><span class="p">,</span> <span class="kc">True</span><span class="p">]))</span>
+<span class="n">selection_top</span> <span class="o">=</span> <span class="n">utility</span><span class="o">.</span><span class="n">dof_select</span><span class="p">(</span><span class="n">dirichlet_nodes_top</span><span class="p">,</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">([</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">]))</span>
+<span class="n">selection_top_left</span> <span class="o">=</span> <span class="n">utility</span><span class="o">.</span><span class="n">dof_select</span><span class="p">(</span><span class="n">dirichlet_nodes_top_left</span><span class="p">,</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">([</span><span class="kc">False</span><span class="p">,</span> <span class="kc">True</span><span class="p">]))</span>
+<span class="n">dirichlet_dofs</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;displacement&#39;</span><span class="p">:</span> <span class="n">selection_left</span> <span class="o">+</span> <span class="n">selection_bottom</span> <span class="o">+</span> <span class="n">selection_top</span> <span class="o">+</span> <span class="n">selection_top_left</span><span class="p">,</span>
+                  <span class="s1">&#39;pressure&#39;</span><span class="p">:</span> <span class="n">jnp</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">pressure_node_coor</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">1</span><span class="p">),</span> <span class="n">jnp</span><span class="o">.</span><span class="n">bool</span><span class="p">)}</span>
+</pre></div>
+</div>
+</div>
+<p>Specify the values of the Dirichlet conditions at the Dirichlet nodes.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dirichlet_conditions</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;displacement&#39;</span><span class="p">:</span> <span class="n">jnp</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">dirichlet_dofs</span><span class="p">[</span><span class="s1">&#39;displacement&#39;</span><span class="p">],</span> <span class="n">jnp</span><span class="o">.</span><span class="n">float64</span><span class="p">),</span>
+                        <span class="s1">&#39;pressure&#39;</span><span class="p">:</span> <span class="n">jnp</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">dirichlet_dofs</span><span class="p">[</span><span class="s1">&#39;pressure&#39;</span><span class="p">],</span> <span class="n">jnp</span><span class="o">.</span><span class="n">float64</span><span class="p">)}</span>
+
+<span class="n">v</span> <span class="o">=</span> <span class="o">-</span><span class="mf">0.2</span>
+<span class="n">dirichlet_conditions</span><span class="p">[</span><span class="s1">&#39;displacement&#39;</span><span class="p">]</span> <span class="o">+=</span> <span class="n">utility</span><span class="o">.</span><span class="n">mask_set</span><span class="p">(</span><span class="n">dirichlet_conditions</span><span class="p">[</span><span class="s1">&#39;displacement&#39;</span><span class="p">],</span> <span class="n">selection_top_left</span><span class="p">,</span> <span class="n">v</span> <span class="o">*</span> <span class="n">jnp</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">selection_top_left</span><span class="o">.</span><span class="n">sum</span><span class="p">()))</span>
+<br/></pre></div>
+</div>
+</div>
+<p>Now, we have to define the model. Integration on reference elements of mixed potentials and weak forms are already contained in the models module, but we need to specify the solution spaces (spaces.fem_iso_line_quad_brick), the integration point positions and weights (Gauß-Legendre) and the integrand function (potential or weak form).</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">ansatz_spaces</span><span class="p">():</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;displacement&#39;</span><span class="p">:</span> <span class="n">spaces</span><span class="o">.</span><span class="n">fem_iso_line_quad_brick</span><span class="p">,</span>
+            <span class="s1">&#39;pressure&#39;</span><span class="p">:</span> <span class="n">spaces</span><span class="o">.</span><span class="n">fem_iso_line_quad_brick</span><span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># For user potential</span>
+<span class="k">def</span> <span class="nf">integrand_fun</span><span class="p">(</span><span class="n">x_int</span><span class="p">,</span> <span class="n">ansatz_fun</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">,</span> <span class="n">elem_number</span><span class="p">,</span> <span class="nb">set</span><span class="p">):</span>
+    <span class="c1"># Kinematics (deformation gradient and its determinant)</span>
+    <span class="n">u_fun</span> <span class="o">=</span> <span class="n">ansatz_fun</span><span class="p">[</span><span class="s1">&#39;displacement&#39;</span><span class="p">]</span>
+    <span class="n">H</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">jacfwd</span><span class="p">(</span><span class="n">u_fun</span><span class="p">)(</span><span class="n">x_int</span><span class="p">)</span>
+    <span class="n">F</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">([[</span><span class="n">H</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span> <span class="n">H</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="mf">0.</span><span class="p">],</span>
+                     <span class="p">[</span><span class="n">H</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span> <span class="n">H</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="mf">0.</span><span class="p">],</span>
+                     <span class="p">[</span><span class="mf">0.</span><span class="p">,</span>     <span class="mf">0.</span><span class="p">,</span>     <span class="mf">0.</span><span class="p">]])</span> <span class="o">+</span> <span class="n">jnp</span><span class="o">.</span><span class="n">identity</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+    <span class="n">J</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">det</span><span class="p">(</span><span class="n">F</span><span class="p">)</span>
+
+    <span class="c1"># Strain energy function</span>
+    <span class="n">shear_modulus</span> <span class="o">=</span> <span class="mf">92.5</span>
+    <span class="n">potential</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">isochoric_neo_hooke</span><span class="p">(</span><span class="n">F</span><span class="p">,</span> <span class="n">shear_modulus</span><span class="p">)</span>
+
+    <span class="c1"># Add Lagrange multiplier term</span>
+    <span class="n">multiplier</span> <span class="o">=</span> <span class="n">ansatz_fun</span><span class="p">[</span><span class="s1">&#39;pressure&#39;</span><span class="p">](</span><span class="n">x_int</span><span class="p">)</span>
+    <span class="n">constraint</span> <span class="o">=</span>  <span class="p">(</span><span class="n">J</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">potential</span> <span class="o">+=</span> <span class="n">multiplier</span> <span class="o">*</span> <span class="n">constraint</span>
+    <span class="k">return</span> <span class="n">potential</span>
+
+<span class="c1"># # For user residual/ weak form</span>
+<span class="c1"># def integrand_fun(x_int, trial_ansatz_fun, test_ansatz_fun, settings, static_settings, elem_number, set):</span>
+<span class="c1">#     # Kinematics (deformation gradient and its determinant)</span>
+<span class="c1">#     u_fun = trial_ansatz_fun[&#39;displacement&#39;]</span>
+<span class="c1">#     virtual_u_fun = test_ansatz_fun[&#39;displacement&#39;]</span>
+<span class="c1">#     virtual_u = virtual_u_fun(x_int)</span>
+<span class="c1">#     virtual_H = jax.jacfwd(virtual_u_fun)(x_int)</span>
+<span class="c1">#     virtual_F = jnp.asarray([[virtual_H[0,0],   virtual_H[0,1], 0.],</span>
+<span class="c1">#                              [virtual_H[1,0],   virtual_H[1,1], 0.],</span>
+<span class="c1">#                              [0.,               0.,             0.]])</span>
+<span class="c1">#     H = jax.jacfwd(u_fun)(x_int)</span>
+<span class="c1">#     F = jnp.asarray([[H[0,0], H[0,1], 0.],</span>
+<span class="c1">#                      [H[1,0], H[1,1], 0.],</span>
+<span class="c1">#                      [0.,     0.,     0.]]) + jnp.identity(3)</span>
+<span class="c1">#     J = jnp.linalg.det(F)</span>
+
+<span class="c1">#     # Piola-Kirchhoff stress and weak form</span>
+<span class="c1">#     shear_modulus = 92.5</span>
+<span class="c1">#     p = trial_ansatz_fun[&#39;pressure&#39;](x_int)</span>
+<span class="c1">#     virtual_p = test_ansatz_fun[&#39;pressure&#39;](x_int)</span>
+
+<span class="c1">#     P_iso = jax.jacrev(models.isochoric_neo_hooke)(F, shear_modulus)</span>
+<span class="c1">#     P_vol = p * J * jnp.linalg.inv(F).T</span>
+<span class="c1">#     P = P_iso + P_vol</span>
+<span class="c1">#     weak_form = jnp.einsum(&quot;ij, ij&quot;, P, virtual_F)</span>
+
+<span class="c1">#     # Add Lagrange multiplier term</span>
+<span class="c1">#     constraint =  (J - 1)</span>
+<span class="c1">#     weak_form += virtual_p * constraint</span>
+<span class="c1">#     return weak_form</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">user_model</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">mixed_reference_domain_potential</span><span class="p">(</span>
+<span class="c1"># user_model = models.mixed_reference_domain_residual(</span>
+    <span class="n">integrand_fun</span><span class="p">,</span>
+    <span class="n">ansatz_spaces</span><span class="p">(),</span>
+    <span class="o">*</span><span class="n">seeder</span><span class="o">.</span><span class="n">gauss_legendre_nd</span><span class="p">(</span><span class="n">dimension</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span> <span class="n">order</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">element_order</span><span class="p">),</span>
+    <span class="s1">&#39;displacement&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>Finally, we have defined the boundary value problem and have to put it in a form suitable for autopdex to proceed, i.e. the dictionaries static_settings and settings.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">static_settings</span> <span class="o">=</span> <span class="n">flax</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">FrozenDict</span><span class="p">({</span>
+  <span class="s1">&#39;assembling mode&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s1">&#39;user potential&#39;</span><span class="p">,),</span>
+  <span class="c1"># &#39;assembling mode&#39;: (&#39;user residual&#39;,),</span>
+  <span class="s1">&#39;solution structure&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s1">&#39;nodal imposition&#39;</span><span class="p">,),</span>
+  <span class="s1">&#39;model&#39;</span><span class="p">:</span> <span class="p">(</span><span class="n">user_model</span><span class="p">,</span> <span class="p">),</span>
+  <span class="s1">&#39;connectivity&#39;</span><span class="p">:</span> <span class="p">(</span><span class="n">utility</span><span class="o">.</span><span class="n">jnp_to_tuple</span><span class="p">(</span><span class="n">connectivity</span><span class="p">),),</span>
+  <span class="s1">&#39;dirichlet dofs&#39;</span><span class="p">:</span> <span class="n">utility</span><span class="o">.</span><span class="n">jnp_to_tuple</span><span class="p">(</span><span class="n">dirichlet_dofs</span><span class="p">),</span>
+  <span class="s1">&#39;solver type&#39;</span><span class="p">:</span> <span class="s1">&#39;newton&#39;</span><span class="p">,</span>
+  <span class="s1">&#39;solver backend&#39;</span><span class="p">:</span> <span class="s1">&#39;scipy&#39;</span><span class="p">,</span>
+  <span class="s1">&#39;solver&#39;</span><span class="p">:</span> <span class="s1">&#39;lapack&#39;</span><span class="p">,</span>
+  <span class="s1">&#39;verbose&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span>
+<span class="p">})</span>
+<span class="n">settings</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="s1">&#39;node coordinates&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;displacement&#39;</span><span class="p">:</span> <span class="n">displacement_node_coor</span><span class="p">,</span>
+                       <span class="s1">&#39;pressure&#39;</span><span class="p">:</span> <span class="n">pressure_node_coor</span><span class="p">},</span>
+  <span class="s1">&#39;dirichlet conditions&#39;</span><span class="p">:</span> <span class="n">dirichlet_conditions</span><span class="p">,</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="Analysis">
+<h2>Analysis<a class="headerlink" href="#Analysis" title="Link to this heading"></a></h2>
+<p>Compile and run the adaptive load stepping.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">multiplier_settings</span><span class="p">(</span><span class="n">settings</span><span class="p">,</span> <span class="n">multiplier</span><span class="p">):</span>
+    <span class="n">settings</span><span class="p">[</span><span class="s1">&#39;dirichlet conditions&#39;</span><span class="p">][</span><span class="s1">&#39;displacement&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">multiplier</span> <span class="o">*</span> <span class="n">dirichlet_conditions</span><span class="p">[</span><span class="s1">&#39;displacement&#39;</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">settings</span>
+<span class="n">dofs_0</span> <span class="o">=</span> <span class="n">utility</span><span class="o">.</span><span class="n">dict_zeros_like</span><span class="p">(</span><span class="n">dirichlet_dofs</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">jnp</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
+<span class="n">dofs</span> <span class="o">=</span> <span class="n">solver</span><span class="o">.</span><span class="n">adaptive_load_stepping</span><span class="p">(</span><span class="n">dofs_0</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">,</span> <span class="n">multiplier_settings</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<p>Sensitivity analysis w.r.t. boundary conditions</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nd">@jax</span><span class="o">.</span><span class="n">jit</span>
+<span class="k">def</span> <span class="nf">diffable_solve</span><span class="p">(</span><span class="n">bc_scaler</span><span class="p">,</span> <span class="n">settings</span><span class="p">):</span>
+    <span class="n">settings</span><span class="p">[</span><span class="s1">&#39;bc scaler&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">bc_scaler</span>
+    <span class="k">def</span> <span class="nf">multiplier_settings</span><span class="p">(</span><span class="n">settings</span><span class="p">,</span> <span class="n">multiplier</span><span class="p">):</span>
+        <span class="n">settings</span><span class="p">[</span><span class="s1">&#39;dirichlet conditions&#39;</span><span class="p">][</span><span class="s1">&#39;displacement&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">multiplier</span> <span class="o">*</span> <span class="n">dirichlet_conditions</span><span class="p">[</span><span class="s1">&#39;displacement&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="n">settings</span><span class="p">[</span><span class="s1">&#39;bc scaler&#39;</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">settings</span>
+    <span class="k">return</span> <span class="n">solver</span><span class="o">.</span><span class="n">adaptive_load_stepping</span><span class="p">(</span><span class="n">dofs_0</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">,</span> <span class="n">multiplier_settings</span><span class="p">,</span> <span class="n">path_dependent</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">implicit_diff_mode</span><span class="o">=</span><span class="s1">&#39;forward&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+
+<span class="n">compute_sensitivities</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">jit</span><span class="p">(</span><span class="n">jax</span><span class="o">.</span><span class="n">jacfwd</span><span class="p">(</span><span class="n">diffable_solve</span><span class="p">))</span>
+<span class="n">du_dbc</span> <span class="o">=</span> <span class="n">compute_sensitivities</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">settings</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="Postprocessing">
+<h2>Postprocessing<a class="headerlink" href="#Postprocessing" title="Link to this heading"></a></h2>
+<p>Export as .vtk for Paraview</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mesh</span> <span class="o">=</span> <span class="n">displacement_mesh</span>
+<span class="n">points</span> <span class="o">=</span> <span class="n">mesh</span><span class="o">.</span><span class="n">points</span>
+<span class="n">cells</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">([</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">mesh</span><span class="o">.</span><span class="n">cells_dict</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="s1">&#39;quad&#39;</span> <span class="ow">in</span> <span class="n">k</span><span class="p">])[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">mesh</span> <span class="o">=</span> <span class="n">meshio</span><span class="o">.</span><span class="n">Mesh</span><span class="p">(</span>
+    <span class="n">points</span><span class="p">,</span>
+    <span class="p">{</span><span class="s1">&#39;quad&#39;</span><span class="p">:</span> <span class="n">cells</span><span class="p">[:,:</span><span class="mi">4</span><span class="p">]},</span>
+    <span class="n">point_data</span><span class="o">=</span><span class="p">{</span>
+        <span class="s2">&quot;u&quot;</span><span class="p">:</span> <span class="n">jnp</span><span class="o">.</span><span class="n">pad</span><span class="p">(</span><span class="n">dofs</span><span class="p">[</span><span class="s1">&#39;displacement&#39;</span><span class="p">],</span> <span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)),</span> <span class="n">constant_values</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span>
+        <span class="s2">&quot;du_dBC&quot;</span><span class="p">:</span> <span class="n">jnp</span><span class="o">.</span><span class="n">pad</span><span class="p">(</span><span class="n">du_dbc</span><span class="p">[</span><span class="s1">&#39;displacement&#39;</span><span class="p">],</span> <span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)),</span> <span class="n">constant_values</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span>
+    <span class="p">},</span>
+<span class="p">)</span>
+<span class="n">mesh</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;./punch_test.vtk&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>Visualization with Pyvista</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pv</span><span class="o">.</span><span class="n">set_jupyter_backend</span><span class="p">(</span><span class="s1">&#39;static&#39;</span><span class="p">)</span>
+<span class="n">plotter</span> <span class="o">=</span> <span class="n">pv</span><span class="o">.</span><span class="n">Plotter</span><span class="p">()</span>
+<span class="n">pv_mesh</span> <span class="o">=</span> <span class="n">pv</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="s2">&quot;./punch_test.vtk&quot;</span><span class="p">)</span>
+<span class="n">warped_mesh</span> <span class="o">=</span> <span class="n">pv_mesh</span><span class="o">.</span><span class="n">warp_by_vector</span><span class="p">(</span><span class="s1">&#39;u&#39;</span><span class="p">)</span>
+<span class="n">plotter</span><span class="o">.</span><span class="n">add_mesh</span><span class="p">(</span><span class="n">warped_mesh</span><span class="p">,</span> <span class="n">scalars</span><span class="o">=</span><span class="s1">&#39;du_dBC&#39;</span><span class="p">,</span> <span class="n">component</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">show_edges</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;turbo&#39;</span><span class="p">)</span>
+<span class="n">plotter</span><span class="o">.</span><span class="n">add_mesh</span><span class="p">(</span><span class="n">pv_mesh</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s1">&#39;wireframe&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">)</span>
+<span class="n">plotter</span><span class="o">.</span><span class="n">view_xy</span><span class="p">()</span>
+<span class="n">plotter</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_mixed_problem_31_0.png" src="../_images/notebooks_mixed_problem_31_0.png" />
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Tobias Bode.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

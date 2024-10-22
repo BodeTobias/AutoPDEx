@@ -101,7 +101,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../assembler.html">Assembler</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../implicit_diff.html">Implicit_diff</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../spaces.html">Spaces</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../solution_structures.html">Solution_structures</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../solution_structures.html">Solution structures</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../variational_schemes.html">Variational_schemes</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Pre- and postprocessing</span></p>
@@ -110,6 +110,11 @@
 <li class="toctree-l1"><a class="reference internal" href="../seeder.html">Seeder</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../utility.html">Utility</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../plotter.html">Plotter</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../mesher.html">Mesher</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Source code</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/BodeTobias/AutoPDEx">GitHub Project</a></li>
 </ul>
 
         </div>
@@ -151,7 +156,7 @@ removed.</p>
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>mat</strong> (<em>jax.experimental.sparse.BCOO</em>) – The input matrix in JAX BCOO format.</p></li>
-<li><p><strong>rhs</strong> (<em>jnp.ndarray</em>) – The right-hand side vector.</p></li>
+<li><p><strong>rhs</strong> (<em>jnp.ndarray</em>) – The (reduced/free) right-hand side vector.</p></li>
 <li><p><strong>solver</strong> (<em>str</em>) – The type of solver to use (‘cg’, ‘bcgs’, or ‘gmres’).</p></li>
 <li><p><strong>pc_type</strong> (<em>str</em>) – The type of preconditioner to use (‘ruge stuben’ or ‘smoothed aggregation’).</p></li>
 <li><p><strong>verbose</strong> (<em>int</em>) – Verbosity level. If &gt;= 1, timing and solver information is printed.</p></li>

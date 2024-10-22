@@ -72,7 +72,11 @@
 <li class="toctree-l2"><a class="reference internal" href="../models.html#linear-equations">Linear equations</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../models.html#nonlinear-equations">Nonlinear equations</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../models.html#strain-energy-functions">Strain energy functions</a></li>
-<li class="toctree-l2 current"><a class="reference internal" href="../models.html#user-elements">User elements</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../models.html#user-potentials-elements">User potentials/elements</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="autopdex.models.mixed_reference_domain_potential.html">autopdex.models.mixed_reference_domain_potential</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autopdex.models.mixed_reference_domain_residual.html">autopdex.models.mixed_reference_domain_residual</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autopdex.models.mixed_reference_surface_potential.html">autopdex.models.mixed_reference_surface_potential</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autopdex.models.mixed_reference_surface_residual.html">autopdex.models.mixed_reference_surface_residual</a></li>
 <li class="toctree-l3"><a class="reference internal" href="autopdex.models.isoparametric_domain_integrate_potential.html">autopdex.models.isoparametric_domain_integrate_potential</a></li>
 <li class="toctree-l3"><a class="reference internal" href="autopdex.models.isoparametric_domain_element_galerkin.html">autopdex.models.isoparametric_domain_element_galerkin</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">autopdex.models.isoparametric_surface_element_galerkin</a><ul>
@@ -99,7 +103,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../assembler.html">Assembler</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../implicit_diff.html">Implicit_diff</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../spaces.html">Spaces</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../solution_structures.html">Solution_structures</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../solution_structures.html">Solution structures</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../variational_schemes.html">Variational_schemes</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Pre- and postprocessing</span></p>
@@ -108,6 +112,11 @@
 <li class="toctree-l1"><a class="reference internal" href="../seeder.html">Seeder</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../utility.html">Utility</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../plotter.html">Plotter</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../mesher.html">Mesher</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Source code</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/BodeTobias/AutoPDEx">GitHub Project</a></li>
 </ul>
 
         </div>
@@ -140,7 +149,7 @@
 <dl class="py function">
 <dt class="sig sig-object py" id="autopdex.models.isoparametric_surface_element_galerkin">
 <span class="sig-prename descclassname"><span class="pre">autopdex.models.</span></span><span class="sig-name descname"><span class="pre">isoparametric_surface_element_galerkin</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">weak_form_fun</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ansatz_fun</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ref_int_coor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ref_int_weights</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tangent_contributions</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">initial_config</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/autopdex/models.html#isoparametric_surface_element_galerkin"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#autopdex.models.isoparametric_surface_element_galerkin" title="Link to this definition"></a></dt>
-<dd><p>Constructs an isoparametric surface element for Galerkin methods using a given weak form function.</p>
+<dd><p>Constructs an isoparametric surface element for Galerkin methods using a given weak form function and DOFs as jnp.ndarray.</p>
 <p>This function returns a user element function that evaluates the residual and tangent matrix for an isoparametric
 surface element based on the provided weak form and ansatz functions. The function can, for example, be used in
 combination with the weak_form_fun neumann_weak.</p>
@@ -180,6 +189,10 @@ test ansatz, settings, static settings, and element number.</p></li>
 </ul>
 </dd>
 </dl>
+<p class="rubric">Notes</p>
+<ul class="simple">
+<li><p>This models works for DOFs as a jnp.ndarray.</p></li>
+</ul>
 </dd></dl>
 
 </section>

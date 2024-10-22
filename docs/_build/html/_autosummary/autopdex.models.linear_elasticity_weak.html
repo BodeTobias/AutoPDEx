@@ -89,7 +89,7 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../models.html#nonlinear-equations">Nonlinear equations</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../models.html#strain-energy-functions">Strain energy functions</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../models.html#user-elements">User elements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../models.html#user-potentials-elements">User potentials/elements</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../models.html#time-integration-procedures">Time integration procedures</a></li>
 </ul>
 </li>
@@ -108,7 +108,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../assembler.html">Assembler</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../implicit_diff.html">Implicit_diff</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../spaces.html">Spaces</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../solution_structures.html">Solution_structures</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../solution_structures.html">Solution structures</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../variational_schemes.html">Variational_schemes</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Pre- and postprocessing</span></p>
@@ -117,6 +117,11 @@
 <li class="toctree-l1"><a class="reference internal" href="../seeder.html">Seeder</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../utility.html">Utility</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../plotter.html">Plotter</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../mesher.html">Mesher</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Source code</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/BodeTobias/AutoPDEx">GitHub Project</a></li>
 </ul>
 
         </div>
@@ -151,16 +156,17 @@
 <span class="sig-prename descclassname"><span class="pre">autopdex.models.</span></span><span class="sig-name descname"><span class="pre">linear_elasticity_weak</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">youngs_mod_fun</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">poisson_ratio_fun</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mode</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">volume_load_fun</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/autopdex/models.html#linear_elasticity_weak"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#autopdex.models.linear_elasticity_weak" title="Link to this definition"></a></dt>
 <dd><p>Constructs the weak form of linear elasticity in Voigt notation, displacement based.</p>
 <p>This function supports 2D plain strain, 2D plain stress, and 3D elasticity problems.</p>
-<p>Parameters:
+<p>Args:
 youngs_mod_fun (function): Function to compute Young’s modulus given spatial coordinates (and optional settings).
 poisson_ratio_fun (function): Function to compute Poisson’s ratio given spatial coordinates (and optional settings).
 mode (str): Specifies the mode of the elasticity problem. It can be ‘plain strain’, ‘plain stress’, or ‘3d’.
 volume_load_fun (function, optional): Function to compute volume load given spatial coordinates. Default is None.</p>
 <p>Returns:
 function: A function that evaluates the weak form PDE for linear elasticity.</p>
-<p>Todo:
-- anisotropy modes
-- support for dynamic problems</p>
+<p class="rubric">Notes</p>
+<ul class="simple">
+<li><p>This models works for DOFs as a jnp.ndarray.</p></li>
+</ul>
 </dd></dl>
 
 </section>

@@ -1,0 +1,6 @@
+﻿autopdex.utility.jacfwd\_upto\_n\_one\_vector\_arg
+==================================================
+
+.. currentmodule:: autopdex.utility
+
+.. autofunction:: jacfwd_upto_n_one_vector_arg

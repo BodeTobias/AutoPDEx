@@ -36,7 +36,7 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="autopdex.geometry.triangle_areas" href="autopdex.geometry.triangle_areas.html" />
-    <link rel="prev" title="autopdex.geometry.normals_from_normalized_sdf" href="autopdex.geometry.normals_from_normalized_sdf.html" /> 
+    <link rel="prev" title="autopdex.geometry.psdf_unification" href="autopdex.geometry.psdf_unification.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -84,7 +84,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../assembler.html">Assembler</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../implicit_diff.html">Implicit_diff</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../spaces.html">Spaces</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../solution_structures.html">Solution_structures</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../solution_structures.html">Solution structures</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../variational_schemes.html">Variational_schemes</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Pre- and postprocessing</span></p>
@@ -94,7 +94,8 @@
 <li class="toctree-l2"><a class="reference internal" href="../geometry.html#signed-distance-functions">Signed distance functions</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../geometry.html#positive-smooth-distance-functions">Positive smooth distance functions</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../geometry.html#helper-functions">Helper functions</a></li>
-<li class="toctree-l2 current"><a class="reference internal" href="../geometry.html#mesh-related-functions">Mesh-related functions</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../geometry.html#transfinite-interpolation">Transfinite interpolation</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../geometry.html#mesh-related-functions">Mesh related functions</a><ul class="current">
 <li class="toctree-l3 current"><a class="current reference internal" href="#">autopdex.geometry.triangle_area</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#autopdex.geometry.triangle_area"><code class="docutils literal notranslate"><span class="pre">triangle_area()</span></code></a></li>
 </ul>
@@ -118,12 +119,6 @@
 <li class="toctree-l3"><a class="reference internal" href="autopdex.geometry.subelem_in_elem.html">autopdex.geometry.subelem_in_elem</a></li>
 <li class="toctree-l3"><a class="reference internal" href="autopdex.geometry.subelem_in_elems.html">autopdex.geometry.subelem_in_elems</a></li>
 <li class="toctree-l3"><a class="reference internal" href="autopdex.geometry.subelems_in_elems.html">autopdex.geometry.subelems_in_elems</a></li>
-<li class="toctree-l3"><a class="reference internal" href="autopdex.geometry.select_in_sdfs.html">autopdex.geometry.select_in_sdfs</a></li>
-<li class="toctree-l3"><a class="reference internal" href="autopdex.geometry.select_in_plane.html">autopdex.geometry.select_in_plane</a></li>
-<li class="toctree-l3"><a class="reference internal" href="autopdex.geometry.select_point.html">autopdex.geometry.select_point</a></li>
-<li class="toctree-l3"><a class="reference internal" href="autopdex.geometry.select_on_line.html">autopdex.geometry.select_on_line</a></li>
-<li class="toctree-l3"><a class="reference internal" href="autopdex.geometry.select_elements_in_plane.html">autopdex.geometry.select_elements_in_plane</a></li>
-<li class="toctree-l3"><a class="reference internal" href="autopdex.geometry.select_elements_on_line.html">autopdex.geometry.select_elements_on_line</a></li>
 </ul>
 </li>
 </ul>
@@ -131,6 +126,11 @@
 <li class="toctree-l1"><a class="reference internal" href="../seeder.html">Seeder</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../utility.html">Utility</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../plotter.html">Plotter</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../mesher.html">Mesher</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Source code</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/BodeTobias/AutoPDEx">GitHub Project</a></li>
 </ul>
 
         </div>
@@ -183,7 +183,7 @@
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="autopdex.geometry.normals_from_normalized_sdf.html" class="btn btn-neutral float-left" title="autopdex.geometry.normals_from_normalized_sdf" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="autopdex.geometry.psdf_unification.html" class="btn btn-neutral float-left" title="autopdex.geometry.psdf_unification" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="autopdex.geometry.triangle_areas.html" class="btn btn-neutral float-right" title="autopdex.geometry.triangle_areas" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 

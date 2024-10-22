@@ -35,7 +35,7 @@
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="autopdex.utility.mask_set" href="autopdex.utility.mask_set.html" />
+    <link rel="next" title="autopdex.utility.to_jax_function" href="autopdex.utility.to_jax_function.html" />
     <link rel="prev" title="autopdex.utility.dof_select" href="autopdex.utility.dof_select.html" /> 
 </head>
 
@@ -84,7 +84,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../assembler.html">Assembler</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../implicit_diff.html">Implicit_diff</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../spaces.html">Spaces</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../solution_structures.html">Solution_structures</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../solution_structures.html">Solution structures</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../variational_schemes.html">Variational_schemes</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Pre- and postprocessing</span></p>
@@ -92,22 +92,32 @@
 <li class="toctree-l1"><a class="reference internal" href="../geometry.html">Geometry</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../seeder.html">Seeder</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../utility.html">Utility</a><ul class="current">
-<li class="toctree-l2 current"><a class="reference internal" href="../utility.html#some-useful-functions">Some useful functions</a><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="autopdex.utility.search_neighborhood.html">autopdex.utility.search_neighborhood</a></li>
-<li class="toctree-l3"><a class="reference internal" href="autopdex.utility.get_condition_number.html">autopdex.utility.get_condition_number</a></li>
-<li class="toctree-l3"><a class="reference internal" href="autopdex.utility.symmetry_check.html">autopdex.utility.symmetry_check</a></li>
-<li class="toctree-l3"><a class="reference internal" href="autopdex.utility.dof_select.html">autopdex.utility.dof_select</a></li>
-<li class="toctree-l3 current"><a class="current reference internal" href="#">autopdex.utility.jnp_to_tuple</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#autopdex.utility.jnp_to_tuple"><code class="docutils literal notranslate"><span class="pre">jnp_to_tuple()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="autopdex.utility.jit_with_docstring.html">autopdex.utility.jit_with_docstring</a></li>
+<li class="toctree-l2"><a class="reference internal" href="autopdex.utility.dict_zeros_like.html">autopdex.utility.dict_zeros_like</a></li>
+<li class="toctree-l2"><a class="reference internal" href="autopdex.utility.dict_flatten.html">autopdex.utility.dict_flatten</a></li>
+<li class="toctree-l2"><a class="reference internal" href="autopdex.utility.reshape_as.html">autopdex.utility.reshape_as</a></li>
+<li class="toctree-l2"><a class="reference internal" href="autopdex.utility.mask_set.html">autopdex.utility.mask_set</a></li>
+<li class="toctree-l2"><a class="reference internal" href="autopdex.utility.mask_select.html">autopdex.utility.mask_select</a></li>
+<li class="toctree-l2"><a class="reference internal" href="autopdex.utility.mask_op.html">autopdex.utility.mask_op</a></li>
+<li class="toctree-l2"><a class="reference internal" href="autopdex.utility.search_neighborhood.html">autopdex.utility.search_neighborhood</a></li>
+<li class="toctree-l2"><a class="reference internal" href="autopdex.utility.get_condition_number.html">autopdex.utility.get_condition_number</a></li>
+<li class="toctree-l2"><a class="reference internal" href="autopdex.utility.symmetry_check.html">autopdex.utility.symmetry_check</a></li>
+<li class="toctree-l2"><a class="reference internal" href="autopdex.utility.dof_select.html">autopdex.utility.dof_select</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">autopdex.utility.jnp_to_tuple</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#autopdex.utility.jnp_to_tuple"><code class="docutils literal notranslate"><span class="pre">jnp_to_tuple()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="autopdex.utility.mask_set.html">autopdex.utility.mask_set</a></li>
-<li class="toctree-l3"><a class="reference internal" href="autopdex.utility.to_jax_function.html">autopdex.utility.to_jax_function</a></li>
-</ul>
-</li>
+<li class="toctree-l2"><a class="reference internal" href="autopdex.utility.to_jax_function.html">autopdex.utility.to_jax_function</a></li>
+<li class="toctree-l2"><a class="reference internal" href="autopdex.utility.jacfwd_upto_n_scalar_args.html">autopdex.utility.jacfwd_upto_n_scalar_args</a></li>
+<li class="toctree-l2"><a class="reference internal" href="autopdex.utility.jacfwd_upto_n_one_vector_arg.html">autopdex.utility.jacfwd_upto_n_one_vector_arg</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../plotter.html">Plotter</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../mesher.html">Mesher</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Source code</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/BodeTobias/AutoPDEx">GitHub Project</a></li>
 </ul>
 
         </div>
@@ -140,13 +150,13 @@
 <dl class="py function">
 <dt class="sig sig-object py" id="autopdex.utility.jnp_to_tuple">
 <span class="sig-prename descclassname"><span class="pre">autopdex.utility.</span></span><span class="sig-name descname"><span class="pre">jnp_to_tuple</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">jnp_array</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/autopdex/utility.html#jnp_to_tuple"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#autopdex.utility.jnp_to_tuple" title="Link to this definition"></a></dt>
-<dd><p>Converts a JAX array to a tuple.</p>
+<dd><p>Converts a JAX array to a tuple. Also works for dicts of JAX arrays.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>jnp.ndarray</strong> – JAX array to convert.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Converted tuple.</p>
+<dd class="field-even"><p>Converted tuple or flax.core.FrozenDict of tuples.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>tuple</p>
@@ -161,7 +171,7 @@
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="autopdex.utility.dof_select.html" class="btn btn-neutral float-left" title="autopdex.utility.dof_select" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="autopdex.utility.mask_set.html" class="btn btn-neutral float-right" title="autopdex.utility.mask_set" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="autopdex.utility.to_jax_function.html" class="btn btn-neutral float-right" title="autopdex.utility.to_jax_function" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

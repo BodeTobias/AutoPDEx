@@ -35,7 +35,7 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="autopdex.utility.search_neighborhood" href="_autosummary/autopdex.utility.search_neighborhood.html" />
+    <link rel="next" title="autopdex.utility.jit_with_docstring" href="_autosummary/autopdex.utility.jit_with_docstring.html" />
     <link rel="prev" title="autopdex.seeder.int_pts_in_tet_mesh" href="_autosummary/autopdex.seeder.int_pts_in_tet_mesh.html" /> 
 </head>
 
@@ -84,7 +84,7 @@
 <li class="toctree-l1"><a class="reference internal" href="assembler.html">Assembler</a></li>
 <li class="toctree-l1"><a class="reference internal" href="implicit_diff.html">Implicit_diff</a></li>
 <li class="toctree-l1"><a class="reference internal" href="spaces.html">Spaces</a></li>
-<li class="toctree-l1"><a class="reference internal" href="solution_structures.html">Solution_structures</a></li>
+<li class="toctree-l1"><a class="reference internal" href="solution_structures.html">Solution structures</a></li>
 <li class="toctree-l1"><a class="reference internal" href="variational_schemes.html">Variational_schemes</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Pre- and postprocessing</span></p>
@@ -92,19 +92,29 @@
 <li class="toctree-l1"><a class="reference internal" href="geometry.html">Geometry</a></li>
 <li class="toctree-l1"><a class="reference internal" href="seeder.html">Seeder</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Utility</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#some-useful-functions">Some useful functions</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="_autosummary/autopdex.utility.search_neighborhood.html">autopdex.utility.search_neighborhood</a></li>
-<li class="toctree-l3"><a class="reference internal" href="_autosummary/autopdex.utility.get_condition_number.html">autopdex.utility.get_condition_number</a></li>
-<li class="toctree-l3"><a class="reference internal" href="_autosummary/autopdex.utility.symmetry_check.html">autopdex.utility.symmetry_check</a></li>
-<li class="toctree-l3"><a class="reference internal" href="_autosummary/autopdex.utility.dof_select.html">autopdex.utility.dof_select</a></li>
-<li class="toctree-l3"><a class="reference internal" href="_autosummary/autopdex.utility.jnp_to_tuple.html">autopdex.utility.jnp_to_tuple</a></li>
-<li class="toctree-l3"><a class="reference internal" href="_autosummary/autopdex.utility.mask_set.html">autopdex.utility.mask_set</a></li>
-<li class="toctree-l3"><a class="reference internal" href="_autosummary/autopdex.utility.to_jax_function.html">autopdex.utility.to_jax_function</a></li>
-</ul>
-</li>
+<li class="toctree-l2"><a class="reference internal" href="_autosummary/autopdex.utility.jit_with_docstring.html">autopdex.utility.jit_with_docstring</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_autosummary/autopdex.utility.dict_zeros_like.html">autopdex.utility.dict_zeros_like</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_autosummary/autopdex.utility.dict_flatten.html">autopdex.utility.dict_flatten</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_autosummary/autopdex.utility.reshape_as.html">autopdex.utility.reshape_as</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_autosummary/autopdex.utility.mask_set.html">autopdex.utility.mask_set</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_autosummary/autopdex.utility.mask_select.html">autopdex.utility.mask_select</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_autosummary/autopdex.utility.mask_op.html">autopdex.utility.mask_op</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_autosummary/autopdex.utility.search_neighborhood.html">autopdex.utility.search_neighborhood</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_autosummary/autopdex.utility.get_condition_number.html">autopdex.utility.get_condition_number</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_autosummary/autopdex.utility.symmetry_check.html">autopdex.utility.symmetry_check</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_autosummary/autopdex.utility.dof_select.html">autopdex.utility.dof_select</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_autosummary/autopdex.utility.jnp_to_tuple.html">autopdex.utility.jnp_to_tuple</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_autosummary/autopdex.utility.to_jax_function.html">autopdex.utility.to_jax_function</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_autosummary/autopdex.utility.jacfwd_upto_n_scalar_args.html">autopdex.utility.jacfwd_upto_n_scalar_args</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_autosummary/autopdex.utility.jacfwd_upto_n_one_vector_arg.html">autopdex.utility.jacfwd_upto_n_one_vector_arg</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="plotter.html">Plotter</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mesher.html">Mesher</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Source code</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/BodeTobias/AutoPDEx">GitHub Project</a></li>
 </ul>
 
         </div>
@@ -140,34 +150,55 @@
 <li><p>Compute condition number and check symmetry of tangent matrix</p></li>
 <li><p>Functions for manipulating arrays</p></li>
 </ul>
-<section id="some-useful-functions">
-<h2>Some useful functions<a class="headerlink" href="#some-useful-functions" title="Link to this heading"></a></h2>
 <table class="autosummary longtable docutils align-default">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/autopdex.utility.search_neighborhood.html#autopdex.utility.search_neighborhood" title="autopdex.utility.search_neighborhood"><code class="xref py py-obj docutils literal notranslate"><span class="pre">search_neighborhood</span></code></a>(x_nodes, x_query, ...)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/autopdex.utility.jit_with_docstring.html#autopdex.utility.jit_with_docstring" title="autopdex.utility.jit_with_docstring"><code class="xref py py-obj docutils literal notranslate"><span class="pre">jit_with_docstring</span></code></a>([static_argnames])</p></td>
+<td><p>JIT wrapper that keeps the originial docstring of the function.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/autopdex.utility.dict_zeros_like.html#autopdex.utility.dict_zeros_like" title="autopdex.utility.dict_zeros_like"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dict_zeros_like</span></code></a>(arr, **keyargs)</p></td>
+<td><p>Wrapper around zeros_like, that works also for dicts with jnp.ndarray entries.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/autopdex.utility.dict_flatten.html#autopdex.utility.dict_flatten" title="autopdex.utility.dict_flatten"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dict_flatten</span></code></a>(arr)</p></td>
+<td><p>Recursively flattens a nested dict of arrays (np.ndarray or jnp.ndarray) to one flat array.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/autopdex.utility.reshape_as.html#autopdex.utility.reshape_as" title="autopdex.utility.reshape_as"><code class="xref py py-obj docutils literal notranslate"><span class="pre">reshape_as</span></code></a>(flat_array, signature_array)</p></td>
+<td><p>Reshapes a flat array (np.ndarray or jnp.ndarray) into an array or dict of arrays matching the structure of signature_array.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/autopdex.utility.mask_set.html#autopdex.utility.mask_set" title="autopdex.utility.mask_set"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mask_set</span></code></a>(array, selection, values)</p></td>
+<td><p>Changes values in a JAX array or dict of arrays based on a boolean mask.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/autopdex.utility.mask_select.html#autopdex.utility.mask_select" title="autopdex.utility.mask_select"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mask_select</span></code></a>(array, selection)</p></td>
+<td><p>Selects elements from a JAX array or dictionary of arrays based on a boolean mask.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/autopdex.utility.mask_op.html#autopdex.utility.mask_op" title="autopdex.utility.mask_op"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mask_op</span></code></a>(array, selection[, values, mode, ufunc])</p></td>
+<td><p>Performs an operation on a JAX array or dict of arrays based on a boolean mask.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/autopdex.utility.search_neighborhood.html#autopdex.utility.search_neighborhood" title="autopdex.utility.search_neighborhood"><code class="xref py py-obj docutils literal notranslate"><span class="pre">search_neighborhood</span></code></a>(x_nodes, x_query, ...)</p></td>
 <td><p>Neighbor search within a radius based on scipy's KDTree.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/autopdex.utility.get_condition_number.html#autopdex.utility.get_condition_number" title="autopdex.utility.get_condition_number"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_condition_number</span></code></a>(dofs, settings, ...)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/autopdex.utility.get_condition_number.html#autopdex.utility.get_condition_number" title="autopdex.utility.get_condition_number"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_condition_number</span></code></a>(dofs, settings, ...)</p></td>
 <td><p>Computes the condition number of the assembled tangent matrix.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/autopdex.utility.symmetry_check.html#autopdex.utility.symmetry_check" title="autopdex.utility.symmetry_check"><code class="xref py py-obj docutils literal notranslate"><span class="pre">symmetry_check</span></code></a>(dofs, settings, static_settings)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/autopdex.utility.symmetry_check.html#autopdex.utility.symmetry_check" title="autopdex.utility.symmetry_check"><code class="xref py py-obj docutils literal notranslate"><span class="pre">symmetry_check</span></code></a>(dofs, settings, static_settings)</p></td>
 <td><p>Checks the symmetry of the assembled tangent matrix.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/autopdex.utility.dof_select.html#autopdex.utility.dof_select" title="autopdex.utility.dof_select"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dof_select</span></code></a>(dirichlet_nodes, selected_fields)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/autopdex.utility.dof_select.html#autopdex.utility.dof_select" title="autopdex.utility.dof_select"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dof_select</span></code></a>(dirichlet_nodes, selected_fields)</p></td>
 <td><p>DOF selection for the nodal imposition of boundary conditions (jitted).</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/autopdex.utility.jnp_to_tuple.html#autopdex.utility.jnp_to_tuple" title="autopdex.utility.jnp_to_tuple"><code class="xref py py-obj docutils literal notranslate"><span class="pre">jnp_to_tuple</span></code></a>(jnp_array)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/autopdex.utility.jnp_to_tuple.html#autopdex.utility.jnp_to_tuple" title="autopdex.utility.jnp_to_tuple"><code class="xref py py-obj docutils literal notranslate"><span class="pre">jnp_to_tuple</span></code></a>(jnp_array)</p></td>
 <td><p>Converts a JAX array to a tuple.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/autopdex.utility.mask_set.html#autopdex.utility.mask_set" title="autopdex.utility.mask_set"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mask_set</span></code></a>(array, selection, values)</p></td>
-<td><p>Changes values in a JAX array based on a boolean mask.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/autopdex.utility.to_jax_function.html#autopdex.utility.to_jax_function" title="autopdex.utility.to_jax_function"><code class="xref py py-obj docutils literal notranslate"><span class="pre">to_jax_function</span></code></a>(subexpr, reduced_expr)</p></td>
 <td><p>Generation of a pure JAX function based on subexpressions and reduced return-value.</p></td>
 </tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/autopdex.utility.jacfwd_upto_n_scalar_args.html#autopdex.utility.jacfwd_upto_n_scalar_args" title="autopdex.utility.jacfwd_upto_n_scalar_args"><code class="xref py py-obj docutils literal notranslate"><span class="pre">jacfwd_upto_n_scalar_args</span></code></a>(fun, args, ...)</p></td>
+<td><p>Computes all up to the nth derivative of a function <cite>f</cite> using a single pass.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/autopdex.utility.jacfwd_upto_n_one_vector_arg.html#autopdex.utility.jacfwd_upto_n_one_vector_arg" title="autopdex.utility.jacfwd_upto_n_one_vector_arg"><code class="xref py py-obj docutils literal notranslate"><span class="pre">jacfwd_upto_n_one_vector_arg</span></code></a>(fun, x, n)</p></td>
+<td><p>Computes up to the nth derivative of a function <cite>fun</cite> with respect to a vector argument <cite>x</cite> using a single pass.</p></td>
+</tr>
 </tbody>
 </table>
-</section>
 </section>
 
 
@@ -175,7 +206,7 @@
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="_autosummary/autopdex.seeder.int_pts_in_tet_mesh.html" class="btn btn-neutral float-left" title="autopdex.seeder.int_pts_in_tet_mesh" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="_autosummary/autopdex.utility.search_neighborhood.html" class="btn btn-neutral float-right" title="autopdex.utility.search_neighborhood" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="_autosummary/autopdex.utility.jit_with_docstring.html" class="btn btn-neutral float-right" title="autopdex.utility.jit_with_docstring" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

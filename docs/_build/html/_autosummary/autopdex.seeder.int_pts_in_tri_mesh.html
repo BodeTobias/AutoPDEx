@@ -84,7 +84,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../assembler.html">Assembler</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../implicit_diff.html">Implicit_diff</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../spaces.html">Spaces</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../solution_structures.html">Solution_structures</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../solution_structures.html">Solution structures</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../variational_schemes.html">Variational_schemes</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Pre- and postprocessing</span></p>
@@ -92,8 +92,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../geometry.html">Geometry</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../seeder.html">Seeder</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../seeder.html#generation-of-nodes">Generation of nodes</a></li>
-<li class="toctree-l2 current"><a class="reference internal" href="../seeder.html#numerical-integration">Numerical Integration</a><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="autopdex.seeder.gauss_points_in_psdf.html">autopdex.seeder.gauss_points_in_psdf</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../seeder.html#numerical-integration">Numerical integration</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="autopdex.seeder.tensor_product_two_coordinate_arrays.html">autopdex.seeder.tensor_product_two_coordinate_arrays</a></li>
 <li class="toctree-l3"><a class="reference internal" href="autopdex.seeder.tensor_product_rule.html">autopdex.seeder.tensor_product_rule</a></li>
 <li class="toctree-l3"><a class="reference internal" href="autopdex.seeder.gauss_legendre_1d.html">autopdex.seeder.gauss_legendre_1d</a></li>
@@ -117,6 +116,11 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../utility.html">Utility</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../plotter.html">Plotter</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../mesher.html">Mesher</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Source code</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/BodeTobias/AutoPDEx">GitHub Project</a></li>
 </ul>
 
         </div>
@@ -150,11 +154,16 @@
 <dt class="sig sig-object py" id="autopdex.seeder.int_pts_in_tri_mesh">
 <span class="sig-prename descclassname"><span class="pre">autopdex.seeder.</span></span><span class="sig-name descname"><span class="pre">int_pts_in_tri_mesh</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x_nodes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">elem</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">order</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/autopdex/seeder.html#int_pts_in_tri_mesh"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#autopdex.seeder.int_pts_in_tri_mesh" title="Link to this definition"></a></dt>
 <dd><p>Given a mesh of triangles, it linearly maps integration points from a reference triangle into the actual triangles</p>
-<dl class="simple">
-<dt>Input:</dt><dd><p>x_nodes: nodal coordinates of all nodes of the mesh
-elem: nodal indices of each triangular element (if an element has more than 3 nodes, the first 3 nodes are used for the mapping)
-order: polynomial accuracy order of integration rule within each triangle</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x_nodes</strong> – nodal coordinates of all nodes of the mesh</p></li>
+<li><p><strong>elem</strong> – nodal indices of each triangular element (if an element has more than 3 nodes, the first 3 nodes are used for the mapping)</p></li>
+<li><p><strong>order</strong> – polynomial accuracy order of integration rule within each triangle</p></li>
+</ul>
 </dd>
+</dl>
+<dl class="simple">
 <dt>Returns (coor, connectivity, weights):</dt><dd><ul class="simple">
 <li><p>coordinates of integration points</p></li>
 <li><p>connectivity of integration points, i.e. list of all nodes that have a contribution</p></li>

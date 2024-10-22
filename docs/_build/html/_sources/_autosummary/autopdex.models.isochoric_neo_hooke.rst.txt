@@ -1,0 +1,6 @@
+﻿autopdex.models.isochoric\_neo\_hooke
+=====================================
+
+.. currentmodule:: autopdex.models
+
+.. autofunction:: isochoric_neo_hooke

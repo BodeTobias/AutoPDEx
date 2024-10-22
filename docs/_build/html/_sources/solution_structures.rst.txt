@@ -1,12 +1,11 @@
-Solution_structures
+Solution structures
 ===================
 
 .. automodule:: autopdex.solution_structures
     :no-index:
 
-Rvachev function solution structures and precompilation utilities
------------------------------------------------------------------
-
+Rvachev function solution structures and precompilation utilities
+------------------------------------------------------------------
 .. autosummary::
    :toctree: _autosummary
 
@@ -15,3 +14,4 @@ Rvachev function solution structures and precompilation utilities
    precompute_function_and_derivatives
    precompute_coupled_boundary
    precompute_projection
+

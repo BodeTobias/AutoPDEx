@@ -94,10 +94,15 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#strain-energy-functions">Strain energy functions</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="_autosummary/autopdex.models.neo_hooke.html">autopdex.models.neo_hooke</a></li>
+<li class="toctree-l3"><a class="reference internal" href="_autosummary/autopdex.models.isochoric_neo_hooke.html">autopdex.models.isochoric_neo_hooke</a></li>
 <li class="toctree-l3"><a class="reference internal" href="_autosummary/autopdex.models.linear_elastic_strain_energy.html">autopdex.models.linear_elastic_strain_energy</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#user-elements">User elements</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#user-potentials-elements">User potentials/elements</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="_autosummary/autopdex.models.mixed_reference_domain_potential.html">autopdex.models.mixed_reference_domain_potential</a></li>
+<li class="toctree-l3"><a class="reference internal" href="_autosummary/autopdex.models.mixed_reference_domain_residual.html">autopdex.models.mixed_reference_domain_residual</a></li>
+<li class="toctree-l3"><a class="reference internal" href="_autosummary/autopdex.models.mixed_reference_surface_potential.html">autopdex.models.mixed_reference_surface_potential</a></li>
+<li class="toctree-l3"><a class="reference internal" href="_autosummary/autopdex.models.mixed_reference_surface_residual.html">autopdex.models.mixed_reference_surface_residual</a></li>
 <li class="toctree-l3"><a class="reference internal" href="_autosummary/autopdex.models.isoparametric_domain_integrate_potential.html">autopdex.models.isoparametric_domain_integrate_potential</a></li>
 <li class="toctree-l3"><a class="reference internal" href="_autosummary/autopdex.models.isoparametric_domain_element_galerkin.html">autopdex.models.isoparametric_domain_element_galerkin</a></li>
 <li class="toctree-l3"><a class="reference internal" href="_autosummary/autopdex.models.isoparametric_surface_element_galerkin.html">autopdex.models.isoparametric_surface_element_galerkin</a></li>
@@ -105,6 +110,7 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#time-integration-procedures">Time integration procedures</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="_autosummary/autopdex.models.forward_backward_euler_weak.html">autopdex.models.forward_backward_euler_weak</a></li>
+<li class="toctree-l3"><a class="reference internal" href="_autosummary/autopdex.models.central_differences.html">autopdex.models.central_differences</a></li>
 </ul>
 </li>
 </ul>
@@ -124,7 +130,7 @@
 <li class="toctree-l1"><a class="reference internal" href="assembler.html">Assembler</a></li>
 <li class="toctree-l1"><a class="reference internal" href="implicit_diff.html">Implicit_diff</a></li>
 <li class="toctree-l1"><a class="reference internal" href="spaces.html">Spaces</a></li>
-<li class="toctree-l1"><a class="reference internal" href="solution_structures.html">Solution_structures</a></li>
+<li class="toctree-l1"><a class="reference internal" href="solution_structures.html">Solution structures</a></li>
 <li class="toctree-l1"><a class="reference internal" href="variational_schemes.html">Variational_schemes</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Pre- and postprocessing</span></p>
@@ -133,6 +139,11 @@
 <li class="toctree-l1"><a class="reference internal" href="seeder.html">Seeder</a></li>
 <li class="toctree-l1"><a class="reference internal" href="utility.html">Utility</a></li>
 <li class="toctree-l1"><a class="reference internal" href="plotter.html">Plotter</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mesher.html">Mesher</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Source code</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/BodeTobias/AutoPDEx">GitHub Project</a></li>
 </ul>
 
         </div>
@@ -247,24 +258,39 @@
 <tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/autopdex.models.neo_hooke.html#autopdex.models.neo_hooke" title="autopdex.models.neo_hooke"><code class="xref py py-obj docutils literal notranslate"><span class="pre">neo_hooke</span></code></a>(F, param)</p></td>
 <td><p>Computes the strain energy for a neo-Hookean material model of Ciarlet type given the deformation gradient.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/autopdex.models.linear_elastic_strain_energy.html#autopdex.models.linear_elastic_strain_energy" title="autopdex.models.linear_elastic_strain_energy"><code class="xref py py-obj docutils literal notranslate"><span class="pre">linear_elastic_strain_energy</span></code></a>(F, param)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/autopdex.models.isochoric_neo_hooke.html#autopdex.models.isochoric_neo_hooke" title="autopdex.models.isochoric_neo_hooke"><code class="xref py py-obj docutils literal notranslate"><span class="pre">isochoric_neo_hooke</span></code></a>(F, mu)</p></td>
+<td><p>Computes the strain energy for an isochoric neo-Hookean material model.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/autopdex.models.linear_elastic_strain_energy.html#autopdex.models.linear_elastic_strain_energy" title="autopdex.models.linear_elastic_strain_energy"><code class="xref py py-obj docutils literal notranslate"><span class="pre">linear_elastic_strain_energy</span></code></a>(F, param)</p></td>
 <td><p>Computes the strain energy for a linear elastic material for small deformations.</p></td>
 </tr>
 </tbody>
 </table>
 </section>
-<section id="user-elements">
-<h2>User elements<a class="headerlink" href="#user-elements" title="Link to this heading"></a></h2>
+<section id="user-potentials-elements">
+<h2>User potentials/elements<a class="headerlink" href="#user-potentials-elements" title="Link to this heading"></a></h2>
 <table class="autosummary longtable docutils align-default">
 <tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/autopdex.models.mixed_reference_domain_potential.html#autopdex.models.mixed_reference_domain_potential" title="autopdex.models.mixed_reference_domain_potential"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mixed_reference_domain_potential</span></code></a>(...)</p></td>
+<td><p>Constructs a multi-field 'user potential' for integration of a potential in the reference configuration of finite elements.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/autopdex.models.mixed_reference_domain_residual.html#autopdex.models.mixed_reference_domain_residual" title="autopdex.models.mixed_reference_domain_residual"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mixed_reference_domain_residual</span></code></a>(...)</p></td>
+<td><p>Constructs a multi-field 'user residual' for integration of a weak form in the reference configuration of finite elements.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/autopdex.models.mixed_reference_surface_potential.html#autopdex.models.mixed_reference_surface_potential" title="autopdex.models.mixed_reference_surface_potential"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mixed_reference_surface_potential</span></code></a>(...)</p></td>
+<td><p>Constructs a multi-field 'user potential' for integration of a potential in the reference configuration of surface elements.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/autopdex.models.mixed_reference_surface_residual.html#autopdex.models.mixed_reference_surface_residual" title="autopdex.models.mixed_reference_surface_residual"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mixed_reference_surface_residual</span></code></a>(...)</p></td>
+<td><p>Constructs a multi-field 'user residual' for integration of a weak form in the reference configuration of surface elements.</p></td>
+</tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/autopdex.models.isoparametric_domain_integrate_potential.html#autopdex.models.isoparametric_domain_integrate_potential" title="autopdex.models.isoparametric_domain_integrate_potential"><code class="xref py py-obj docutils literal notranslate"><span class="pre">isoparametric_domain_integrate_potential</span></code></a>(...)</p></td>
 <td><p>Constructs a local integrand fun for integration of functions in the reference configuration of isoparametric elements.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="_autosummary/autopdex.models.isoparametric_domain_element_galerkin.html#autopdex.models.isoparametric_domain_element_galerkin" title="autopdex.models.isoparametric_domain_element_galerkin"><code class="xref py py-obj docutils literal notranslate"><span class="pre">isoparametric_domain_element_galerkin</span></code></a>(...[, ...])</p></td>
-<td><p>Constructs an isoparametric domain element for Galerkin methods using a given weak form function.</p></td>
+<td><p>Constructs an isoparametric domain element for Galerkin methods using a given weak form function and DOFs as jnp.ndarray.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/autopdex.models.isoparametric_surface_element_galerkin.html#autopdex.models.isoparametric_surface_element_galerkin" title="autopdex.models.isoparametric_surface_element_galerkin"><code class="xref py py-obj docutils literal notranslate"><span class="pre">isoparametric_surface_element_galerkin</span></code></a>(...)</p></td>
-<td><p>Constructs an isoparametric surface element for Galerkin methods using a given weak form function.</p></td>
+<td><p>Constructs an isoparametric surface element for Galerkin methods using a given weak form function and DOFs as jnp.ndarray.</p></td>
 </tr>
 </tbody>
 </table>
@@ -275,6 +301,9 @@
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/autopdex.models.forward_backward_euler_weak.html#autopdex.models.forward_backward_euler_weak" title="autopdex.models.forward_backward_euler_weak"><code class="xref py py-obj docutils literal notranslate"><span class="pre">forward_backward_euler_weak</span></code></a>(inertia_coeff_fun)</p></td>
 <td><p>Constructs a weak form time discretization function using the Forward or Backward Euler method.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/autopdex.models.central_differences.html#autopdex.models.central_differences" title="autopdex.models.central_differences"><code class="xref py py-obj docutils literal notranslate"><span class="pre">central_differences</span></code></a>(density_fun, damping)</p></td>
+<td><p>Constructs weak form contributions for acceleration (and optional damping) term based on central differences.</p></td>
 </tr>
 </tbody>
 </table>

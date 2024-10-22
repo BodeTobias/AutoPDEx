@@ -93,7 +93,7 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../spaces.html">Spaces</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../solution_structures.html">Solution_structures</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../solution_structures.html">Solution structures</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../variational_schemes.html">Variational_schemes</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Pre- and postprocessing</span></p>
@@ -102,6 +102,11 @@
 <li class="toctree-l1"><a class="reference internal" href="../seeder.html">Seeder</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../utility.html">Utility</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../plotter.html">Plotter</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../mesher.html">Mesher</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Source code</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/BodeTobias/AutoPDEx">GitHub Project</a></li>
 </ul>
 
         </div>
@@ -144,6 +149,10 @@ The invariant is <code class="docutils literal notranslate"><span class="pre">re
 <li><p><strong>mat_fun</strong> – A callable that returns the sparse tangent matrix as a jax.experimental.BCOO with dofs and
 args as arguments. Can also be a pure callback.</p></li>
 <li><p><strong>solve</strong> – A linear solver of the form <code class="docutils literal notranslate"><span class="pre">solve(mat[jax.experimental.BCOO],</span> <span class="pre">b[jnp.ndarray])</span></code>.</p></li>
+<li><p><strong>free_dofs</strong> – For constraining certain degrees of freedom. free_dofs has to be a boolean mask with the
+same structure of dofs (jnp.ndarray or dict of jnp.ndarrays) indicating the dofs that are not constrained.
+Requires args[1][‘dirichlet conditions’] to be defined (see source code of _root_jvp and _root_vjp
+for details or solver.adaptive_load_stepping for exemplary use).</p></li>
 <li><p><strong>has_aux</strong> – whether the decorated root solver function returns auxiliary data.</p></li>
 <li><p><strong>mode</strong> – The differentiation mode (‘forward’ or ‘reverse’/’backward’).</p></li>
 <li><p><strong>reference_signature</strong> – optional function signature

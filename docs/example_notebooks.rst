@@ -6,3 +6,4 @@ Example notebooks
    :maxdepth: 1
 
    notebooks/quickstart
+   notebooks/mixed_problem

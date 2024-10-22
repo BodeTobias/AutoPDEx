@@ -1,0 +1,6 @@
+﻿autopdex.models.central\_differences
+====================================
+
+.. currentmodule:: autopdex.models
+
+.. autofunction:: central_differences

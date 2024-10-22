@@ -55,7 +55,7 @@ for i in range(1,3):
   # Selection of nodes for boundary condition
   dirichlet_nodes = geometry.in_planes(x_nodes, pts[0], [1.,0.])
   dirichlet_dofs = utility.dof_select(dirichlet_nodes, jnp.asarray([True, True]))
-  dirichlet_conditions = jnp.zeros_like(dirichlet_dofs, dtype=jnp.float_)
+  dirichlet_conditions = jnp.zeros_like(dirichlet_dofs, dtype=jnp.float64)
 
   # Import surface mesh for inhomogeneous Neumann conditions
   neumann_selection_1 = geometry.select_elements_in_plane(x_nodes, surface_elements, pts[1], [1.,0.])

@@ -36,7 +36,7 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="autopdex.models.isoparametric_domain_element_galerkin" href="autopdex.models.isoparametric_domain_element_galerkin.html" />
-    <link rel="prev" title="autopdex.models.linear_elastic_strain_energy" href="autopdex.models.linear_elastic_strain_energy.html" /> 
+    <link rel="prev" title="autopdex.models.mixed_reference_surface_residual" href="autopdex.models.mixed_reference_surface_residual.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -72,7 +72,11 @@
 <li class="toctree-l2"><a class="reference internal" href="../models.html#linear-equations">Linear equations</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../models.html#nonlinear-equations">Nonlinear equations</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../models.html#strain-energy-functions">Strain energy functions</a></li>
-<li class="toctree-l2 current"><a class="reference internal" href="../models.html#user-elements">User elements</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../models.html#user-potentials-elements">User potentials/elements</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="autopdex.models.mixed_reference_domain_potential.html">autopdex.models.mixed_reference_domain_potential</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autopdex.models.mixed_reference_domain_residual.html">autopdex.models.mixed_reference_domain_residual</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autopdex.models.mixed_reference_surface_potential.html">autopdex.models.mixed_reference_surface_potential</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autopdex.models.mixed_reference_surface_residual.html">autopdex.models.mixed_reference_surface_residual</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">autopdex.models.isoparametric_domain_integrate_potential</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#autopdex.models.isoparametric_domain_integrate_potential"><code class="docutils literal notranslate"><span class="pre">isoparametric_domain_integrate_potential()</span></code></a></li>
 </ul>
@@ -99,7 +103,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../assembler.html">Assembler</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../implicit_diff.html">Implicit_diff</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../spaces.html">Spaces</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../solution_structures.html">Solution_structures</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../solution_structures.html">Solution structures</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../variational_schemes.html">Variational_schemes</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Pre- and postprocessing</span></p>
@@ -108,6 +112,11 @@
 <li class="toctree-l1"><a class="reference internal" href="../seeder.html">Seeder</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../utility.html">Utility</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../plotter.html">Plotter</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../mesher.html">Mesher</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Source code</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/BodeTobias/AutoPDEx">GitHub Project</a></li>
 </ul>
 
         </div>
@@ -140,12 +149,12 @@
 <dl class="py function">
 <dt class="sig sig-object py" id="autopdex.models.isoparametric_domain_integrate_potential">
 <span class="sig-prename descclassname"><span class="pre">autopdex.models.</span></span><span class="sig-name descname"><span class="pre">isoparametric_domain_integrate_potential</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">integrand_fun</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ansatz_fun</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ref_int_coor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ref_int_weights</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">initial_config</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/autopdex/models.html#isoparametric_domain_integrate_potential"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#autopdex.models.isoparametric_domain_integrate_potential" title="Link to this definition"></a></dt>
-<dd><p>Constructs a local integrand fun for integration of functions in the reference configuration of isoparametric elements.</p>
+<dd><p>Constructs a local integrand fun for integration of functions in the reference configuration of isoparametric elements. Works for DOFs as a jnp.ndarray.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>integrand_fun</strong> (<em>callable</em>) – Function that evaluates the integrand given the integration point, trial ansatz, settings, static settings, and element number.</p></li>
-<li><p><strong>ansatz_fun</strong> (<em>callable</em>) – Function that constructs the ansatz (trial and test) functions.</p></li>
+<li><p><strong>ansatz_fun</strong> (<em>callable</em>) – Function that constructs the ansatz functions.</p></li>
 <li><p><strong>ref_int_coor</strong> (<em>jnp.ndarray</em>) – Reference integration coordinates for the isoparametric element.</p></li>
 <li><p><strong>ref_int_weights</strong> (<em>jnp.ndarray</em>) – Reference integration weights for the isoparametric element.</p></li>
 <li><p><strong>initial_config</strong> (<em>bool</em><em>, </em><em>optional</em>) – If True, use the initial configuration for isoparametric mapping. Default is True.</p></li>
@@ -169,6 +178,10 @@
 </ul>
 </dd>
 </dl>
+<p class="rubric">Notes</p>
+<ul class="simple">
+<li><p>This models works for DOFs as a jnp.ndarray.</p></li>
+</ul>
 </dd></dl>
 
 </section>
@@ -177,7 +190,7 @@
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="autopdex.models.linear_elastic_strain_energy.html" class="btn btn-neutral float-left" title="autopdex.models.linear_elastic_strain_energy" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="autopdex.models.mixed_reference_surface_residual.html" class="btn btn-neutral float-left" title="autopdex.models.mixed_reference_surface_residual" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="autopdex.models.isoparametric_domain_element_galerkin.html" class="btn btn-neutral float-right" title="autopdex.models.isoparametric_domain_element_galerkin" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
