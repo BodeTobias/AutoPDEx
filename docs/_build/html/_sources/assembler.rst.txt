@@ -6,7 +6,6 @@ Assembler
 
 General assembling functions
 ----------------------------
-
 .. autosummary::
    :toctree: _autosummary
 
@@ -17,7 +16,6 @@ General assembling functions
 
 Dense assembling
 ----------------
-
 .. autosummary::
    :toctree: _autosummary
 
@@ -27,7 +25,6 @@ Dense assembling
 
 Sparse assembling
 -----------------
-
 .. autosummary::
    :toctree: _autosummary
 
@@ -36,18 +33,31 @@ Sparse assembling
    sparse_assemble_tangent_diagonal
    sparse_assemble_tangent
 
-Assembling for user potentials, residuals and elements
-------------------------------------------------------
-
+Assembling for user potentials
+------------------------------
 .. autosummary::
    :toctree: _autosummary
 
+   user_potential_integrate_functional
    user_potential_assemble_residual
    user_potential_assemble_tangent_diagonal
    user_potential_assemble_tangent
+
+Assembling for user residuals
+-----------------------------
+.. autosummary::
+   :toctree: _autosummary
+
    user_residual_assemble_residual
    user_residual_assemble_tangent_diagonal
    user_residual_assemble_tangent
+
+Assembling for user elements
+----------------------------
+.. autosummary::
+   :toctree: _autosummary
+
    user_element_assemble_residual
    user_element_assemble_tangent_diagonal
    user_element_assemble_tangent
+

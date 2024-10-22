@@ -1,0 +1,6 @@
+﻿autopdex.utility.dict\_flatten
+==============================
+
+.. currentmodule:: autopdex.utility
+
+.. autofunction:: dict_flatten

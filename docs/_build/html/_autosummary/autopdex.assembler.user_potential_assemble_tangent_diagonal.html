@@ -85,26 +85,23 @@
 <li class="toctree-l2"><a class="reference internal" href="../assembler.html#general-assembling-functions">General assembling functions</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../assembler.html#dense-assembling">Dense assembling</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../assembler.html#sparse-assembling">Sparse assembling</a></li>
-<li class="toctree-l2 current"><a class="reference internal" href="../assembler.html#assembling-for-user-potentials-residuals-and-elements">Assembling for user potentials, residuals and elements</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../assembler.html#assembling-for-user-potentials">Assembling for user potentials</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="autopdex.assembler.user_potential_integrate_functional.html">autopdex.assembler.user_potential_integrate_functional</a></li>
 <li class="toctree-l3"><a class="reference internal" href="autopdex.assembler.user_potential_assemble_residual.html">autopdex.assembler.user_potential_assemble_residual</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">autopdex.assembler.user_potential_assemble_tangent_diagonal</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#autopdex.assembler.user_potential_assemble_tangent_diagonal"><code class="docutils literal notranslate"><span class="pre">user_potential_assemble_tangent_diagonal()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="autopdex.assembler.user_potential_assemble_tangent.html">autopdex.assembler.user_potential_assemble_tangent</a></li>
-<li class="toctree-l3"><a class="reference internal" href="autopdex.assembler.user_residual_assemble_residual.html">autopdex.assembler.user_residual_assemble_residual</a></li>
-<li class="toctree-l3"><a class="reference internal" href="autopdex.assembler.user_residual_assemble_tangent_diagonal.html">autopdex.assembler.user_residual_assemble_tangent_diagonal</a></li>
-<li class="toctree-l3"><a class="reference internal" href="autopdex.assembler.user_residual_assemble_tangent.html">autopdex.assembler.user_residual_assemble_tangent</a></li>
-<li class="toctree-l3"><a class="reference internal" href="autopdex.assembler.user_element_assemble_residual.html">autopdex.assembler.user_element_assemble_residual</a></li>
-<li class="toctree-l3"><a class="reference internal" href="autopdex.assembler.user_element_assemble_tangent_diagonal.html">autopdex.assembler.user_element_assemble_tangent_diagonal</a></li>
-<li class="toctree-l3"><a class="reference internal" href="autopdex.assembler.user_element_assemble_tangent.html">autopdex.assembler.user_element_assemble_tangent</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="../assembler.html#assembling-for-user-residuals">Assembling for user residuals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../assembler.html#assembling-for-user-elements">Assembling for user elements</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../implicit_diff.html">Implicit_diff</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../spaces.html">Spaces</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../solution_structures.html">Solution_structures</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../solution_structures.html">Solution structures</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../variational_schemes.html">Variational_schemes</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Pre- and postprocessing</span></p>
@@ -113,6 +110,11 @@
 <li class="toctree-l1"><a class="reference internal" href="../seeder.html">Seeder</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../utility.html">Utility</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../plotter.html">Plotter</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../mesher.html">Mesher</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Source code</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/BodeTobias/AutoPDEx">GitHub Project</a></li>
 </ul>
 
         </div>
@@ -145,14 +147,14 @@
 <dl class="py function">
 <dt class="sig sig-object py" id="autopdex.assembler.user_potential_assemble_tangent_diagonal">
 <span class="sig-prename descclassname"><span class="pre">autopdex.assembler.</span></span><span class="sig-name descname"><span class="pre">user_potential_assemble_tangent_diagonal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dofs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">settings</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">static_settings</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">set</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/autopdex/assembler.html#user_potential_assemble_tangent_diagonal"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#autopdex.assembler.user_potential_assemble_tangent_diagonal" title="Link to this definition"></a></dt>
-<dd><p>Assembly of the diagonal of the tangent matrix for custom user potential of specified set.</p>
+<dd><p>Assembly of the diagonal of the tangent matrix for custom user potential of specified domain.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>dofs</strong> (<em>jnp.ndarray</em>) – Degrees of freedom.</p></li>
-<li><p><strong>settings</strong> (<em>dict</em>) – Settings for the integration.</p></li>
-<li><p><strong>static_settings</strong> (<em>flax.core.FrozenDict</em>) – Static settings including assembling modes.</p></li>
-<li><p><strong>set</strong> (<em>int</em>) – The set index.</p></li>
+<li><p><strong>dofs</strong> (<em>jnp.ndarray</em><em> or </em><em>dict</em>) – Degrees of freedom.</p></li>
+<li><p><strong>settings</strong> (<em>dict</em>) – Settings dictionary.</p></li>
+<li><p><strong>static_settings</strong> (<em>flax.core.FrozenDict</em>) – Static settings as frozen dictionary.</p></li>
+<li><p><strong>set</strong> (<em>int</em>) – The domain number.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>

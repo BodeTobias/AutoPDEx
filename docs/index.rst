@@ -69,11 +69,14 @@ To use the Intel MKL Pardiso and PETSc solvers, they have to be installed by the
    seeder
    utility
    plotter
+   mesher
 
 Contributions
 _____________
 
 You are warmly invited to contribute to the project. For larger developments, please get in touch beforehand in order to circumvent double work. 
+
+For detailed information on how to contribute, please see our `Contribution Guidelines <https://github.com/BodeTobias/AutoPDEx/CONTRIBUTING.md>`_.
 
 License
 _______

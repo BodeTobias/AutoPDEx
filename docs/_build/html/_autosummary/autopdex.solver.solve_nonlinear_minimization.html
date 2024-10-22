@@ -101,7 +101,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../assembler.html">Assembler</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../implicit_diff.html">Implicit_diff</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../spaces.html">Spaces</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../solution_structures.html">Solution_structures</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../solution_structures.html">Solution structures</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../variational_schemes.html">Variational_schemes</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Pre- and postprocessing</span></p>
@@ -110,6 +110,11 @@
 <li class="toctree-l1"><a class="reference internal" href="../seeder.html">Seeder</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../utility.html">Utility</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../plotter.html">Plotter</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../mesher.html">Mesher</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Source code</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/BodeTobias/AutoPDEx">GitHub Project</a></li>
 </ul>
 
         </div>
@@ -148,7 +153,7 @@ and solve the given problem.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>dofs</strong> (<em>jnp.ndarray</em>) – Degrees of freedom or initial guess for the solution.</p></li>
+<li><p><strong>dofs</strong> (<em>jnp.ndarray</em><em> or </em><em>dict</em>) – Degrees of freedom or initial guess for the solution.</p></li>
 <li><p><strong>settings</strong> (<em>dict</em>) – Dictionary containing various settings and parameters required for assembling the problem.</p></li>
 <li><p><strong>static_settings</strong> (<em>dict</em>) – Dictionary containing static settings such as solver type, verbose level, and variational schemes.</p></li>
 <li><p><strong>**kwargs</strong> (<em>dict</em>) – Additional keyword arguments passed to the specific solver functions.</p></li>
@@ -176,11 +181,10 @@ and solve the given problem.</p>
 <p class="rubric">Notes</p>
 <ul class="simple">
 <li><p>This function should just be called, if the variational scheme involves the definition of a functional that is to be minimized,
-e.g. ‘least square pde loss’. The modes ‘gauss newton’ and ‘levenberg marquart’ are an exeption, since the utilize the residual.</p></li>
+e.g. ‘least square pde loss’. The modes ‘gauss newton’ and ‘levenberg marquart’ are an exeption, since they utilize the residual.</p></li>
 <li><p>The function conducts the assembler.integrate_functional and assembler.assemble_residual functions in order
 to set up suitable optimization functions or residual functions, depending on what the solver needs.</p></li>
-<li><p>The current implementation does not support nodal imposition of DOFs. This will raise an assertion error if
-nodal imposition is detected in the <cite>static_settings</cite>.</p></li>
+<li><p>The current implementation does not support nodal imposition of DOFs.</p></li>
 </ul>
 </dd></dl>
 

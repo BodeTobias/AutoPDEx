@@ -1,0 +1,6 @@
+﻿autopdex.assembler.user\_potential\_integrate\_functional
+=========================================================
+
+.. currentmodule:: autopdex.assembler
+
+.. autofunction:: user_potential_integrate_functional

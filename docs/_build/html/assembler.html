@@ -102,13 +102,20 @@
 <li class="toctree-l3"><a class="reference internal" href="_autosummary/autopdex.assembler.sparse_assemble_tangent.html">autopdex.assembler.sparse_assemble_tangent</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#assembling-for-user-potentials-residuals-and-elements">Assembling for user potentials, residuals and elements</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#assembling-for-user-potentials">Assembling for user potentials</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="_autosummary/autopdex.assembler.user_potential_integrate_functional.html">autopdex.assembler.user_potential_integrate_functional</a></li>
 <li class="toctree-l3"><a class="reference internal" href="_autosummary/autopdex.assembler.user_potential_assemble_residual.html">autopdex.assembler.user_potential_assemble_residual</a></li>
 <li class="toctree-l3"><a class="reference internal" href="_autosummary/autopdex.assembler.user_potential_assemble_tangent_diagonal.html">autopdex.assembler.user_potential_assemble_tangent_diagonal</a></li>
 <li class="toctree-l3"><a class="reference internal" href="_autosummary/autopdex.assembler.user_potential_assemble_tangent.html">autopdex.assembler.user_potential_assemble_tangent</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#assembling-for-user-residuals">Assembling for user residuals</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="_autosummary/autopdex.assembler.user_residual_assemble_residual.html">autopdex.assembler.user_residual_assemble_residual</a></li>
 <li class="toctree-l3"><a class="reference internal" href="_autosummary/autopdex.assembler.user_residual_assemble_tangent_diagonal.html">autopdex.assembler.user_residual_assemble_tangent_diagonal</a></li>
 <li class="toctree-l3"><a class="reference internal" href="_autosummary/autopdex.assembler.user_residual_assemble_tangent.html">autopdex.assembler.user_residual_assemble_tangent</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#assembling-for-user-elements">Assembling for user elements</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="_autosummary/autopdex.assembler.user_element_assemble_residual.html">autopdex.assembler.user_element_assemble_residual</a></li>
 <li class="toctree-l3"><a class="reference internal" href="_autosummary/autopdex.assembler.user_element_assemble_tangent_diagonal.html">autopdex.assembler.user_element_assemble_tangent_diagonal</a></li>
 <li class="toctree-l3"><a class="reference internal" href="_autosummary/autopdex.assembler.user_element_assemble_tangent.html">autopdex.assembler.user_element_assemble_tangent</a></li>
@@ -118,7 +125,7 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="implicit_diff.html">Implicit_diff</a></li>
 <li class="toctree-l1"><a class="reference internal" href="spaces.html">Spaces</a></li>
-<li class="toctree-l1"><a class="reference internal" href="solution_structures.html">Solution_structures</a></li>
+<li class="toctree-l1"><a class="reference internal" href="solution_structures.html">Solution structures</a></li>
 <li class="toctree-l1"><a class="reference internal" href="variational_schemes.html">Variational_schemes</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Pre- and postprocessing</span></p>
@@ -127,6 +134,11 @@
 <li class="toctree-l1"><a class="reference internal" href="seeder.html">Seeder</a></li>
 <li class="toctree-l1"><a class="reference internal" href="utility.html">Utility</a></li>
 <li class="toctree-l1"><a class="reference internal" href="plotter.html">Plotter</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mesher.html">Mesher</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Source code</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/BodeTobias/AutoPDEx">GitHub Project</a></li>
 </ul>
 
         </div>
@@ -155,13 +167,19 @@
              
   <section id="assembler">
 <h1>Assembler<a class="headerlink" href="#assembler" title="Link to this heading"></a></h1>
-<p>Module for assembling and integrating functionals, residuals and tangents, supporting both ‘sparse’ and ‘dense’ modes and ‘user potentials’, ‘user residuals’ and ‘user elements’.</p>
-<p>The assembly modes ‘dense’ and ‘sparse’ use JAX’s automatic differentiation capabilities to determine the global residual and the tangent for the given values of the degrees of freedom and the models and variational schemes specified in static_settings.
-In the ‘dense’ mode, the tangent matrix is returned as a jnp.ndarray, while in the ‘sparse’ mode, it is returned as a jax.experimental.BCOO matrix with duplicates.
-In the ‘user potential’, ‘user residual’ and ‘user element’ modes, the global residual and tangent can be assembled based on user-defined element-wise contributions.
+<p>Module for assembling and integrating functionals, residuals and tangents, supporting both
+‘sparse’ and ‘dense’ modes and ‘user potentials’, ‘user residuals’ and ‘user elements’.</p>
+<p>The assembly modes ‘dense’ and ‘sparse’ use JAX’s automatic differentiation capabilities to
+determine the global residual and the tangent for the given values of the degrees of freedom
+and the models and variational schemes specified in static_settings.
+In the ‘dense’ mode, the tangent matrix is returned as a jnp.ndarray, while in the ‘sparse’
+mode, it is returned as a jax.experimental.BCOO matrix with duplicates.
+In the ‘user potential’, ‘user residual’ and ‘user element’ modes, the global residual and
+tangent can be assembled based on user-defined element-wise contributions.
 Depending on the execution location, the entries are calculated on CPU or GPU.
 For an efficient calculation, JAX’s automatic vectorization transformation (vmap) is used.
-The summation of duplicates is then carried out within the solver module. Currently, SciPy is used for this on the CPU.</p>
+The summation of duplicates is then carried out within the solver module. Currently,
+SciPy is used for this on the CPU.</p>
 <section id="general-assembling-functions">
 <h2>General assembling functions<a class="headerlink" href="#general-assembling-functions" title="Link to this heading"></a></h2>
 <table class="autosummary longtable docutils align-default">
@@ -186,13 +204,13 @@ The summation of duplicates is then carried out within the solver module. Curren
 <table class="autosummary longtable docutils align-default">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/autopdex.assembler.dense_integrate_functional.html#autopdex.assembler.dense_integrate_functional" title="autopdex.assembler.dense_integrate_functional"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dense_integrate_functional</span></code></a>(dofs, settings, ...)</p></td>
-<td><p>Dense integration of functional of specified set.</p></td>
+<td><p>Dense integration of functional of specified domain.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="_autosummary/autopdex.assembler.dense_assemble_residual.html#autopdex.assembler.dense_assemble_residual" title="autopdex.assembler.dense_assemble_residual"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dense_assemble_residual</span></code></a>(dofs, settings, ...)</p></td>
-<td><p>Dense assembly of residual of specified set.</p></td>
+<td><p>Dense assembly of residual of specified domain.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/autopdex.assembler.dense_assemble_tangent.html#autopdex.assembler.dense_assemble_tangent" title="autopdex.assembler.dense_assemble_tangent"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dense_assemble_tangent</span></code></a>(dofs, settings, ...)</p></td>
-<td><p>Dense assembly of tangent of specified set.</p></td>
+<td><p>Dense assembly of tangent of specified domain.</p></td>
 </tr>
 </tbody>
 </table>
@@ -202,50 +220,67 @@ The summation of duplicates is then carried out within the solver module. Curren
 <table class="autosummary longtable docutils align-default">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/autopdex.assembler.sparse_integrate_functional.html#autopdex.assembler.sparse_integrate_functional" title="autopdex.assembler.sparse_integrate_functional"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sparse_integrate_functional</span></code></a>(dofs, settings, ...)</p></td>
-<td><p>Sparse integration of functional of specified set.</p></td>
+<td><p>Sparse integration of functional of specified domain.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="_autosummary/autopdex.assembler.sparse_assemble_residual.html#autopdex.assembler.sparse_assemble_residual" title="autopdex.assembler.sparse_assemble_residual"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sparse_assemble_residual</span></code></a>(dofs, settings, ...)</p></td>
-<td><p>Sparse assembly of residual of specified set.</p></td>
+<td><p>Sparse assembly of residual of specified domain.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/autopdex.assembler.sparse_assemble_tangent_diagonal.html#autopdex.assembler.sparse_assemble_tangent_diagonal" title="autopdex.assembler.sparse_assemble_tangent_diagonal"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sparse_assemble_tangent_diagonal</span></code></a>(dofs, ...)</p></td>
 <td><p>Sparse assembly of the diagonal of the tangent matrix for specified set.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="_autosummary/autopdex.assembler.sparse_assemble_tangent.html#autopdex.assembler.sparse_assemble_tangent" title="autopdex.assembler.sparse_assemble_tangent"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sparse_assemble_tangent</span></code></a>(dofs, settings, ...)</p></td>
-<td><p>Sparse assembly of the full tangent matrix of specified set.</p></td>
+<td><p>Sparse assembly of the full tangent matrix of specified domain.</p></td>
 </tr>
 </tbody>
 </table>
 </section>
-<section id="assembling-for-user-potentials-residuals-and-elements">
-<h2>Assembling for user potentials, residuals and elements<a class="headerlink" href="#assembling-for-user-potentials-residuals-and-elements" title="Link to this heading"></a></h2>
+<section id="assembling-for-user-potentials">
+<h2>Assembling for user potentials<a class="headerlink" href="#assembling-for-user-potentials" title="Link to this heading"></a></h2>
 <table class="autosummary longtable docutils align-default">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/autopdex.assembler.user_potential_assemble_residual.html#autopdex.assembler.user_potential_assemble_residual" title="autopdex.assembler.user_potential_assemble_residual"><code class="xref py py-obj docutils literal notranslate"><span class="pre">user_potential_assemble_residual</span></code></a>(dofs, ...)</p></td>
-<td><p>Assembly of residual for custom user potential of specified set.</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/autopdex.assembler.user_potential_integrate_functional.html#autopdex.assembler.user_potential_integrate_functional" title="autopdex.assembler.user_potential_integrate_functional"><code class="xref py py-obj docutils literal notranslate"><span class="pre">user_potential_integrate_functional</span></code></a>(dofs, ...)</p></td>
+<td><p>Assembly of potential for custom user definition of specified domain.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/autopdex.assembler.user_potential_assemble_tangent_diagonal.html#autopdex.assembler.user_potential_assemble_tangent_diagonal" title="autopdex.assembler.user_potential_assemble_tangent_diagonal"><code class="xref py py-obj docutils literal notranslate"><span class="pre">user_potential_assemble_tangent_diagonal</span></code></a>(...)</p></td>
-<td><p>Assembly of the diagonal of the tangent matrix for custom user potential of specified set.</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/autopdex.assembler.user_potential_assemble_residual.html#autopdex.assembler.user_potential_assemble_residual" title="autopdex.assembler.user_potential_assemble_residual"><code class="xref py py-obj docutils literal notranslate"><span class="pre">user_potential_assemble_residual</span></code></a>(dofs, ...)</p></td>
+<td><p>Assembly of residual for custom user potential of specified domain.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/autopdex.assembler.user_potential_assemble_tangent.html#autopdex.assembler.user_potential_assemble_tangent" title="autopdex.assembler.user_potential_assemble_tangent"><code class="xref py py-obj docutils literal notranslate"><span class="pre">user_potential_assemble_tangent</span></code></a>(dofs, ...)</p></td>
-<td><p>Assembly of the full (sparse) tangent matrix for custom user potential of specified set.</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/autopdex.assembler.user_potential_assemble_tangent_diagonal.html#autopdex.assembler.user_potential_assemble_tangent_diagonal" title="autopdex.assembler.user_potential_assemble_tangent_diagonal"><code class="xref py py-obj docutils literal notranslate"><span class="pre">user_potential_assemble_tangent_diagonal</span></code></a>(...)</p></td>
+<td><p>Assembly of the diagonal of the tangent matrix for custom user potential of specified domain.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/autopdex.assembler.user_residual_assemble_residual.html#autopdex.assembler.user_residual_assemble_residual" title="autopdex.assembler.user_residual_assemble_residual"><code class="xref py py-obj docutils literal notranslate"><span class="pre">user_residual_assemble_residual</span></code></a>(dofs, ...)</p></td>
-<td><p>Assembly of residual for custom user residual of specified set.</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/autopdex.assembler.user_potential_assemble_tangent.html#autopdex.assembler.user_potential_assemble_tangent" title="autopdex.assembler.user_potential_assemble_tangent"><code class="xref py py-obj docutils literal notranslate"><span class="pre">user_potential_assemble_tangent</span></code></a>(dofs, ...)</p></td>
+<td><p>Assembly of the full (sparse) tangent matrix for custom user potential of specified domain.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/autopdex.assembler.user_residual_assemble_tangent_diagonal.html#autopdex.assembler.user_residual_assemble_tangent_diagonal" title="autopdex.assembler.user_residual_assemble_tangent_diagonal"><code class="xref py py-obj docutils literal notranslate"><span class="pre">user_residual_assemble_tangent_diagonal</span></code></a>(...)</p></td>
-<td><p>Assembly of the diagonal of the tangent matrix for custom user residual of specified set.</p></td>
+</tbody>
+</table>
+</section>
+<section id="assembling-for-user-residuals">
+<h2>Assembling for user residuals<a class="headerlink" href="#assembling-for-user-residuals" title="Link to this heading"></a></h2>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/autopdex.assembler.user_residual_assemble_residual.html#autopdex.assembler.user_residual_assemble_residual" title="autopdex.assembler.user_residual_assemble_residual"><code class="xref py py-obj docutils literal notranslate"><span class="pre">user_residual_assemble_residual</span></code></a>(dofs, ...)</p></td>
+<td><p>Assembly of residual for custom user residual of specified domain.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/autopdex.assembler.user_residual_assemble_tangent.html#autopdex.assembler.user_residual_assemble_tangent" title="autopdex.assembler.user_residual_assemble_tangent"><code class="xref py py-obj docutils literal notranslate"><span class="pre">user_residual_assemble_tangent</span></code></a>(dofs, ...)</p></td>
-<td><p>Assembly of the full (sparse) tangent matrix for custom user residual of specified set.</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/autopdex.assembler.user_residual_assemble_tangent_diagonal.html#autopdex.assembler.user_residual_assemble_tangent_diagonal" title="autopdex.assembler.user_residual_assemble_tangent_diagonal"><code class="xref py py-obj docutils literal notranslate"><span class="pre">user_residual_assemble_tangent_diagonal</span></code></a>(...)</p></td>
+<td><p>Assembly of the diagonal of the tangent matrix for custom user residual of specified domain.</p></td>
 </tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/autopdex.assembler.user_residual_assemble_tangent.html#autopdex.assembler.user_residual_assemble_tangent" title="autopdex.assembler.user_residual_assemble_tangent"><code class="xref py py-obj docutils literal notranslate"><span class="pre">user_residual_assemble_tangent</span></code></a>(dofs, ...)</p></td>
+<td><p>Assembly of the full (sparse) tangent matrix for custom user residual of specified domain.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="assembling-for-user-elements">
+<h2>Assembling for user elements<a class="headerlink" href="#assembling-for-user-elements" title="Link to this heading"></a></h2>
+<table class="autosummary longtable docutils align-default">
+<tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/autopdex.assembler.user_element_assemble_residual.html#autopdex.assembler.user_element_assemble_residual" title="autopdex.assembler.user_element_assemble_residual"><code class="xref py py-obj docutils literal notranslate"><span class="pre">user_element_assemble_residual</span></code></a>(dofs, ...)</p></td>
-<td><p>Assembly of residual for custom user element of specified set.</p></td>
+<td><p>Assembly of residual for custom user element of specified domain.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="_autosummary/autopdex.assembler.user_element_assemble_tangent_diagonal.html#autopdex.assembler.user_element_assemble_tangent_diagonal" title="autopdex.assembler.user_element_assemble_tangent_diagonal"><code class="xref py py-obj docutils literal notranslate"><span class="pre">user_element_assemble_tangent_diagonal</span></code></a>(dofs, ...)</p></td>
-<td><p>Assembly of the diagonal of the tangent matrix for custom user element of specified set.</p></td>
+<td><p>Assembly of the diagonal of the tangent matrix for custom user element of specified domain.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/autopdex.assembler.user_element_assemble_tangent.html#autopdex.assembler.user_element_assemble_tangent" title="autopdex.assembler.user_element_assemble_tangent"><code class="xref py py-obj docutils literal notranslate"><span class="pre">user_element_assemble_tangent</span></code></a>(dofs, ...)</p></td>
-<td><p>Assembly of the full (sparse) tangent matrix for custom user element of specified set.</p></td>
+<td><p>Assembly of the full (sparse) tangent matrix for custom user element of specified domain.</p></td>
 </tr>
 </tbody>
 </table>

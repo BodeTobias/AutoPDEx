@@ -84,7 +84,7 @@
 <li class="toctree-l1"><a class="reference internal" href="assembler.html">Assembler</a></li>
 <li class="toctree-l1"><a class="reference internal" href="implicit_diff.html">Implicit_diff</a></li>
 <li class="toctree-l1"><a class="reference internal" href="spaces.html">Spaces</a></li>
-<li class="toctree-l1"><a class="reference internal" href="solution_structures.html">Solution_structures</a></li>
+<li class="toctree-l1"><a class="reference internal" href="solution_structures.html">Solution structures</a></li>
 <li class="toctree-l1"><a class="reference internal" href="variational_schemes.html">Variational_schemes</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Pre- and postprocessing</span></p>
@@ -95,6 +95,10 @@
 <li class="toctree-l3"><a class="reference internal" href="_autosummary/autopdex.geometry.r_conjunction.html">autopdex.geometry.r_conjunction</a></li>
 <li class="toctree-l3"><a class="reference internal" href="_autosummary/autopdex.geometry.r_disjunction.html">autopdex.geometry.r_disjunction</a></li>
 <li class="toctree-l3"><a class="reference internal" href="_autosummary/autopdex.geometry.r_trimming.html">autopdex.geometry.r_trimming</a></li>
+<li class="toctree-l3"><a class="reference internal" href="_autosummary/autopdex.geometry.signed_to_positive.html">autopdex.geometry.signed_to_positive</a></li>
+<li class="toctree-l3"><a class="reference internal" href="_autosummary/autopdex.geometry.only_positive.html">autopdex.geometry.only_positive</a></li>
+<li class="toctree-l3"><a class="reference internal" href="_autosummary/autopdex.geometry.first_order_normalization.html">autopdex.geometry.first_order_normalization</a></li>
+<li class="toctree-l3"><a class="reference internal" href="_autosummary/autopdex.geometry.normals_from_normalized_sdf.html">autopdex.geometry.normals_from_normalized_sdf</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#signed-distance-functions">Signed distance functions</a><ul>
@@ -132,13 +136,14 @@
 <li class="toctree-l3"><a class="reference internal" href="_autosummary/autopdex.geometry.normal.html">autopdex.geometry.normal</a></li>
 <li class="toctree-l3"><a class="reference internal" href="_autosummary/autopdex.geometry.project.html">autopdex.geometry.project</a></li>
 <li class="toctree-l3"><a class="reference internal" href="_autosummary/autopdex.geometry.project_on_line.html">autopdex.geometry.project_on_line</a></li>
-<li class="toctree-l3"><a class="reference internal" href="_autosummary/autopdex.geometry.first_order_normalization.html">autopdex.geometry.first_order_normalization</a></li>
-<li class="toctree-l3"><a class="reference internal" href="_autosummary/autopdex.geometry.signed_to_positive.html">autopdex.geometry.signed_to_positive</a></li>
-<li class="toctree-l3"><a class="reference internal" href="_autosummary/autopdex.geometry.only_positive.html">autopdex.geometry.only_positive</a></li>
-<li class="toctree-l3"><a class="reference internal" href="_autosummary/autopdex.geometry.normals_from_normalized_sdf.html">autopdex.geometry.normals_from_normalized_sdf</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#mesh-related-functions">Mesh-related functions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#transfinite-interpolation">Transfinite interpolation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="_autosummary/autopdex.geometry.transfinite_interpolation.html">autopdex.geometry.transfinite_interpolation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="_autosummary/autopdex.geometry.psdf_unification.html">autopdex.geometry.psdf_unification</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#mesh-related-functions">Mesh related functions</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="_autosummary/autopdex.geometry.triangle_area.html">autopdex.geometry.triangle_area</a></li>
 <li class="toctree-l3"><a class="reference internal" href="_autosummary/autopdex.geometry.triangle_areas.html">autopdex.geometry.triangle_areas</a></li>
 <li class="toctree-l3"><a class="reference internal" href="_autosummary/autopdex.geometry.in_sdf.html">autopdex.geometry.in_sdf</a></li>
@@ -159,12 +164,6 @@
 <li class="toctree-l3"><a class="reference internal" href="_autosummary/autopdex.geometry.subelem_in_elem.html">autopdex.geometry.subelem_in_elem</a></li>
 <li class="toctree-l3"><a class="reference internal" href="_autosummary/autopdex.geometry.subelem_in_elems.html">autopdex.geometry.subelem_in_elems</a></li>
 <li class="toctree-l3"><a class="reference internal" href="_autosummary/autopdex.geometry.subelems_in_elems.html">autopdex.geometry.subelems_in_elems</a></li>
-<li class="toctree-l3"><a class="reference internal" href="_autosummary/autopdex.geometry.select_in_sdfs.html">autopdex.geometry.select_in_sdfs</a></li>
-<li class="toctree-l3"><a class="reference internal" href="_autosummary/autopdex.geometry.select_in_plane.html">autopdex.geometry.select_in_plane</a></li>
-<li class="toctree-l3"><a class="reference internal" href="_autosummary/autopdex.geometry.select_point.html">autopdex.geometry.select_point</a></li>
-<li class="toctree-l3"><a class="reference internal" href="_autosummary/autopdex.geometry.select_on_line.html">autopdex.geometry.select_on_line</a></li>
-<li class="toctree-l3"><a class="reference internal" href="_autosummary/autopdex.geometry.select_elements_in_plane.html">autopdex.geometry.select_elements_in_plane</a></li>
-<li class="toctree-l3"><a class="reference internal" href="_autosummary/autopdex.geometry.select_elements_on_line.html">autopdex.geometry.select_elements_on_line</a></li>
 </ul>
 </li>
 </ul>
@@ -172,6 +171,11 @@
 <li class="toctree-l1"><a class="reference internal" href="seeder.html">Seeder</a></li>
 <li class="toctree-l1"><a class="reference internal" href="utility.html">Utility</a></li>
 <li class="toctree-l1"><a class="reference internal" href="plotter.html">Plotter</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mesher.html">Mesher</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Source code</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/BodeTobias/AutoPDEx">GitHub Project</a></li>
 </ul>
 
         </div>
@@ -220,6 +224,18 @@ Konstruktion von Lösungsstrukturen.</p>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="_autosummary/autopdex.geometry.r_trimming.html#autopdex.geometry.r_trimming" title="autopdex.geometry.r_trimming"><code class="xref py py-obj docutils literal notranslate"><span class="pre">r_trimming</span></code></a>(o, t)</p></td>
 <td><p>Trimming operations.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/autopdex.geometry.signed_to_positive.html#autopdex.geometry.signed_to_positive" title="autopdex.geometry.signed_to_positive"><code class="xref py py-obj docutils literal notranslate"><span class="pre">signed_to_positive</span></code></a>(o)</p></td>
+<td><p>Absolute value using the formula jnp.sqrt(o**2).</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/autopdex.geometry.only_positive.html#autopdex.geometry.only_positive" title="autopdex.geometry.only_positive"><code class="xref py py-obj docutils literal notranslate"><span class="pre">only_positive</span></code></a>(o)</p></td>
+<td><p>Set negative regions to zero by manipulating values using the formula (o + jnp.sqrt(o**2)) / 2.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/autopdex.geometry.first_order_normalization.html#autopdex.geometry.first_order_normalization" title="autopdex.geometry.first_order_normalization"><code class="xref py py-obj docutils literal notranslate"><span class="pre">first_order_normalization</span></code></a>(o, grad)</p></td>
+<td><p>Normalizes an unnormalized distance function o with its gradient grad.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/autopdex.geometry.normals_from_normalized_sdf.html#autopdex.geometry.normals_from_normalized_sdf" title="autopdex.geometry.normals_from_normalized_sdf"><code class="xref py py-obj docutils literal notranslate"><span class="pre">normals_from_normalized_sdf</span></code></a>(x, sdf)</p></td>
+<td><p>Returns a smooth vector field that equals the surface normals where the normalized smooth distance function sdf equals 0</p></td>
 </tr>
 </tbody>
 </table>
@@ -326,23 +342,24 @@ Konstruktion von Lösungsstrukturen.</p>
 <tr class="row-even"><td><p><a class="reference internal" href="_autosummary/autopdex.geometry.project_on_line.html#autopdex.geometry.project_on_line" title="autopdex.geometry.project_on_line"><code class="xref py py-obj docutils literal notranslate"><span class="pre">project_on_line</span></code></a>(x_p1, x_p2, x_p3)</p></td>
 <td><p>Projects x_p1 on the line going through x_p2 and x_p3.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/autopdex.geometry.first_order_normalization.html#autopdex.geometry.first_order_normalization" title="autopdex.geometry.first_order_normalization"><code class="xref py py-obj docutils literal notranslate"><span class="pre">first_order_normalization</span></code></a>(o, grad)</p></td>
-<td><p>Normalizes an unnormalized distance function o with its gradient grad.</p></td>
+</tbody>
+</table>
+</section>
+<section id="transfinite-interpolation">
+<h2>Transfinite interpolation<a class="headerlink" href="#transfinite-interpolation" title="Link to this heading"></a></h2>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/autopdex.geometry.transfinite_interpolation.html#autopdex.geometry.transfinite_interpolation" title="autopdex.geometry.transfinite_interpolation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">transfinite_interpolation</span></code></a>(x, boundary_psdfs, ...)</p></td>
+<td><p>Transfinite interpolation using positive smooth distance functions (PSDFs) and boundary conditions.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/autopdex.geometry.signed_to_positive.html#autopdex.geometry.signed_to_positive" title="autopdex.geometry.signed_to_positive"><code class="xref py py-obj docutils literal notranslate"><span class="pre">signed_to_positive</span></code></a>(o)</p></td>
-<td><p>Absolute value using the formula jnp.sqrt(o**2).</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/autopdex.geometry.only_positive.html#autopdex.geometry.only_positive" title="autopdex.geometry.only_positive"><code class="xref py py-obj docutils literal notranslate"><span class="pre">only_positive</span></code></a>(o)</p></td>
-<td><p>Set negative regions to zero by manipulating values using the formula (o + jnp.sqrt(o**2)) / 2.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/autopdex.geometry.normals_from_normalized_sdf.html#autopdex.geometry.normals_from_normalized_sdf" title="autopdex.geometry.normals_from_normalized_sdf"><code class="xref py py-obj docutils literal notranslate"><span class="pre">normals_from_normalized_sdf</span></code></a>(x, sdf)</p></td>
-<td><p>Returns a smooth vector field that equals the surface normals where the normalized smooth distance function sdf equals 0</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/autopdex.geometry.psdf_unification.html#autopdex.geometry.psdf_unification" title="autopdex.geometry.psdf_unification"><code class="xref py py-obj docutils literal notranslate"><span class="pre">psdf_unification</span></code></a>(x, boundary_psdfs)</p></td>
+<td><p>Unification of multiple positive smooth distance functions (PSDFs).</p></td>
 </tr>
 </tbody>
 </table>
 </section>
 <section id="mesh-related-functions">
-<h2>Mesh-related functions<a class="headerlink" href="#mesh-related-functions" title="Link to this heading"></a></h2>
+<h2>Mesh related functions<a class="headerlink" href="#mesh-related-functions" title="Link to this heading"></a></h2>
 <table class="autosummary longtable docutils align-default">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/autopdex.geometry.triangle_area.html#autopdex.geometry.triangle_area" title="autopdex.geometry.triangle_area"><code class="xref py py-obj docutils literal notranslate"><span class="pre">triangle_area</span></code></a>(x_edges)</p></td>
@@ -404,24 +421,6 @@ Konstruktion von Lösungsstrukturen.</p>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="_autosummary/autopdex.geometry.subelems_in_elems.html#autopdex.geometry.subelems_in_elems" title="autopdex.geometry.subelems_in_elems"><code class="xref py py-obj docutils literal notranslate"><span class="pre">subelems_in_elems</span></code></a>(subelems_to_find, in_elems)</p></td>
 <td><p>Find the elements that contain given sub-elements (one elem per sub_elem).</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/autopdex.geometry.select_in_sdfs.html#autopdex.geometry.select_in_sdfs" title="autopdex.geometry.select_in_sdfs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">select_in_sdfs</span></code></a>(x, sdf_fun)</p></td>
-<td><p>Select the indices of points that lie on the surface defined by a positive or signed distance function.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/autopdex.geometry.select_in_plane.html#autopdex.geometry.select_in_plane" title="autopdex.geometry.select_in_plane"><code class="xref py py-obj docutils literal notranslate"><span class="pre">select_in_plane</span></code></a>(x_q, x_p1, normal)</p></td>
-<td><p>Select the indices of points that lie in a plane (non-jittable).</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/autopdex.geometry.select_point.html#autopdex.geometry.select_point" title="autopdex.geometry.select_point"><code class="xref py py-obj docutils literal notranslate"><span class="pre">select_point</span></code></a>(x_q, x_p1)</p></td>
-<td><p>Select the index of a point that is close to a given point (non-jittable).</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/autopdex.geometry.select_on_line.html#autopdex.geometry.select_on_line" title="autopdex.geometry.select_on_line"><code class="xref py py-obj docutils literal notranslate"><span class="pre">select_on_line</span></code></a>(x_q, x_p1, x_p2)</p></td>
-<td><p>Select the indices of points that lie on a line segment defined by two points (non-jittable).</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/autopdex.geometry.select_elements_in_plane.html#autopdex.geometry.select_elements_in_plane" title="autopdex.geometry.select_elements_in_plane"><code class="xref py py-obj docutils literal notranslate"><span class="pre">select_elements_in_plane</span></code></a>(x_nodes, ...)</p></td>
-<td><p>Select the indices of elements that lie in a plane.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/autopdex.geometry.select_elements_on_line.html#autopdex.geometry.select_elements_on_line" title="autopdex.geometry.select_elements_on_line"><code class="xref py py-obj docutils literal notranslate"><span class="pre">select_elements_on_line</span></code></a>(x_nodes, ...)</p></td>
-<td><p>Select the indices of elements that lie on a line segment defined by two points.</p></td>
 </tr>
 </tbody>
 </table>

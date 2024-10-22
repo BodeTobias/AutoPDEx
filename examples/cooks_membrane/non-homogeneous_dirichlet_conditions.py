@@ -47,7 +47,7 @@ surface_elements = jnp.asarray(mesh.cells_dict['line'])
 # Selection of nodes for boundary condition
 dirichlet_left = geometry.in_planes(x_nodes, pts[0], [1.,0.])
 dirichlet_dofs_left = utility.dof_select(dirichlet_left, jnp.asarray([True, True]))
-dirichlet_conditions = jnp.zeros_like(dirichlet_dofs_left, dtype=jnp.float_)
+dirichlet_conditions = jnp.zeros_like(dirichlet_dofs_left, dtype=jnp.float64)
 
 # Assignment of boundary conditions at right edge
 v_bar = lambda x: 0.1

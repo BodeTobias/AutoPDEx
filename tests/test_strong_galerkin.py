@@ -11,16 +11,12 @@
 # GNU Affero General Public License for more details.
 
 def test_example_lid_driven_cavity():
-    import sys
 
-    import jax
     from jax import config
     import jax.numpy as jnp
     import flax
-    import pyvista as pv
-    import numpy as np
 
-    from autopdex import seeder, geometry, solver, solution_structures, plotter, utility, models, spaces, assembler
+    from autopdex import seeder, geometry, solution_structures, utility, models, assembler
 
     config.update("jax_enable_x64", True)
 

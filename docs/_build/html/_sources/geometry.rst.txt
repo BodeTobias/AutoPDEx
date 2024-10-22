@@ -6,7 +6,6 @@ Geometry
 
 Rvachev function operations
 ---------------------------
-
 .. autosummary::
    :toctree: _autosummary
 
@@ -14,10 +13,13 @@ Rvachev function operations
    r_conjunction
    r_disjunction
    r_trimming
+   signed_to_positive
+   only_positive
+   first_order_normalization
+   normals_from_normalized_sdf
 
 Signed distance functions
 -------------------------
-
 .. autosummary::
    :toctree: _autosummary
 
@@ -36,7 +38,6 @@ Signed distance functions
 
 Positive smooth distance functions
 ----------------------------------
-
 .. autosummary::
    :toctree: _autosummary
 
@@ -55,7 +56,6 @@ Positive smooth distance functions
 
 Helper functions
 ----------------
-
 .. autosummary::
    :toctree: _autosummary
 
@@ -63,14 +63,17 @@ Helper functions
    normal
    project
    project_on_line
-   first_order_normalization
-   signed_to_positive
-   only_positive
-   normals_from_normalized_sdf
 
-Mesh-related functions
+Transfinite interpolation
+-------------------------
+.. autosummary::
+   :toctree: _autosummary
+
+   transfinite_interpolation
+   psdf_unification
+
+Mesh related functions
 ----------------------
-
 .. autosummary::
    :toctree: _autosummary
 
@@ -94,9 +97,4 @@ Mesh-related functions
    subelem_in_elem
    subelem_in_elems
    subelems_in_elems
-   select_in_sdfs
-   select_in_plane
-   select_point
-   select_on_line
-   select_elements_in_plane
-   select_elements_on_line
+

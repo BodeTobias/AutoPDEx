@@ -14,7 +14,6 @@
       <link rel="stylesheet" type="text/css" href="../../_static/dark_mode_css/dark.css?v=70edf1c7" />
 
   
-    <link rel="canonical" href="https://github.com/BodeTobias/AutoPDEx/_modules/autopdex/utility.html" />
   <!--[if lt IE 9]>
     <script src="../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
@@ -49,6 +48,9 @@
             AutoPDEx
               <img src="../../_static/logo.png" class="logo" alt="Logo"/>
           </a>
+              <div class="version">
+                1.0.3
+              </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
@@ -79,7 +81,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../assembler.html">Assembler</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../implicit_diff.html">Implicit_diff</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../spaces.html">Spaces</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../solution_structures.html">Solution_structures</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../solution_structures.html">Solution structures</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../variational_schemes.html">Variational_schemes</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Pre- and postprocessing</span></p>
@@ -88,6 +90,11 @@
 <li class="toctree-l1"><a class="reference internal" href="../../seeder.html">Seeder</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../utility.html">Utility</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../plotter.html">Plotter</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../mesher.html">Mesher</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Source code</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/BodeTobias/AutoPDEx">GitHub Project</a></li>
 </ul>
 
         </div>
@@ -100,7 +107,7 @@
       </nav>
 
       <div class="wy-nav-content">
-        <div class="rst-content">
+        <div class="rst-content style-external-links">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
@@ -137,19 +144,25 @@
 <span class="sd">- Functions for manipulating arrays</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">partial</span><span class="p">,</span> <span class="n">wraps</span>
+<span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">wraps</span>
 
 <span class="kn">import</span> <span class="nn">jax</span>
 <span class="kn">import</span> <span class="nn">jax.numpy</span> <span class="k">as</span> <span class="nn">jnp</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">flax.core</span> <span class="kn">import</span> <span class="n">FrozenDict</span>
 <span class="kn">from</span> <span class="nn">jax.experimental</span> <span class="kn">import</span> <span class="n">sparse</span>
 
 
+<div class="viewcode-block" id="jit_with_docstring">
+<a class="viewcode-back" href="../../_autosummary/autopdex.utility.jit_with_docstring.html#autopdex.utility.jit_with_docstring">[docs]</a>
 <span class="k">def</span> <span class="nf">jit_with_docstring</span><span class="p">(</span><span class="n">static_argnames</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;JIT wrapper that keeps the originial docstring of the function.&quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="nf">decorator</span><span class="p">(</span><span class="n">fun</span><span class="p">):</span>
         <span class="c1"># Define the jitted function with optional static_argnames</span>
         <span class="k">if</span> <span class="n">static_argnames</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">jitted_fun</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="n">jax</span><span class="o">.</span><span class="n">jit</span><span class="p">,</span> <span class="n">static_argnames</span><span class="o">=</span><span class="n">static_argnames</span><span class="p">)(</span><span class="n">fun</span><span class="p">)</span>
+            <span class="n">jitted_fun</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">tree_util</span><span class="o">.</span><span class="n">Partial</span><span class="p">(</span>
+                <span class="n">jax</span><span class="o">.</span><span class="n">jit</span><span class="p">,</span> <span class="n">static_argnames</span><span class="o">=</span><span class="n">static_argnames</span>
+            <span class="p">)(</span><span class="n">fun</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">jitted_fun</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">jit</span><span class="p">(</span><span class="n">fun</span><span class="p">)</span>
 
@@ -159,189 +172,516 @@
             <span class="k">return</span> <span class="n">jitted_fun</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">wrapper</span>
-    <span class="k">return</span> <span class="n">decorator</span>
 
-<div class="viewcode-block" id="search_neighborhood">
-<a class="viewcode-back" href="../../_autosummary/autopdex.utility.search_neighborhood.html#autopdex.utility.search_neighborhood">[docs]</a>
-<span class="k">def</span> <span class="nf">search_neighborhood</span><span class="p">(</span><span class="n">x_nodes</span><span class="p">,</span> <span class="n">x_query</span><span class="p">,</span> <span class="n">support_radius</span><span class="p">):</span>
-<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">  Neighbor search within a radius based on scipy&#39;s KDTree.</span>
+    <span class="k">return</span> <span class="n">decorator</span></div>
 
-<span class="sd">  Args:</span>
-<span class="sd">    x_nodes (array): Coordinates of the nodes.</span>
-<span class="sd">    x_query (array): Coordinates of the query points.</span>
-<span class="sd">    support_radius (float): Radius within which to search for neighbors.</span>
 
-<span class="sd">  Returns:</span>
-<span class="sd">    tuple: </span>
-<span class="sd">      - num_neighbors (array): Number of neighbors for each query point.</span>
-<span class="sd">      - max_neighbors (int): Maximum number of neighbors.</span>
-<span class="sd">      - min_neighbors (int): Minimum number of neighbors.</span>
-<span class="sd">      - neighbor_list (array): List of neighbors for each query point.</span>
+
+<div class="viewcode-block" id="dict_zeros_like">
+<a class="viewcode-back" href="../../_autosummary/autopdex.utility.dict_zeros_like.html#autopdex.utility.dict_zeros_like">[docs]</a>
+<span class="k">def</span> <span class="nf">dict_zeros_like</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="o">**</span><span class="n">keyargs</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Wrapper around zeros_like, that works also for dicts with jnp.ndarray entries.&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">fields</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">arr</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+        <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">fields</span><span class="p">:</span>
+            <span class="n">res</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">arr</span><span class="p">[</span><span class="n">key</span><span class="p">],</span> <span class="o">**</span><span class="n">keyargs</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">res</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">jnp</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="o">**</span><span class="n">keyargs</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="dict_flatten">
+<a class="viewcode-back" href="../../_autosummary/autopdex.utility.dict_flatten.html#autopdex.utility.dict_flatten">[docs]</a>
+<span class="k">def</span> <span class="nf">dict_flatten</span><span class="p">(</span><span class="n">arr</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Recursively flattens a nested dict of arrays (np.ndarray or jnp.ndarray) to one flat array.</span>
+<span class="sd">    If a single array is provided, it simply returns arr.flatten().</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        arr (dict or array): A nested dictionary of arrays (NumPy or JAX) or a single array.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        array: A single flat array containing all elements, with the same type as the input arrays.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-  <span class="kn">import</span> <span class="nn">scipy</span>
-
-  <span class="n">tree</span> <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">spatial</span><span class="o">.</span><span class="n">cKDTree</span><span class="p">(</span><span class="n">x_nodes</span><span class="p">)</span>
-  <span class="n">num_neighbors</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">tree</span><span class="o">.</span><span class="n">query_ball_point</span><span class="p">(</span><span class="n">x_query</span><span class="p">,</span> <span class="n">support_radius</span><span class="p">,</span> <span class="n">return_sorted</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">return_length</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
-  <span class="n">max_neighbors</span> <span class="o">=</span> <span class="n">num_neighbors</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
-  <span class="n">min_neighbors</span> <span class="o">=</span> <span class="n">num_neighbors</span><span class="o">.</span><span class="n">min</span><span class="p">()</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
-  <span class="n">_</span><span class="p">,</span> <span class="n">ii</span> <span class="o">=</span> <span class="n">tree</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">x_query</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="n">max_neighbors</span><span class="p">)</span>
-  <span class="n">neighbor_list</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">ii</span><span class="p">)</span>
-
-  <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Neighbor search finished. Min/max neighbors: &#39;</span><span class="p">,</span> <span class="p">(</span><span class="n">min_neighbors</span><span class="p">,</span> <span class="n">max_neighbors</span><span class="p">))</span>
-  <span class="k">return</span> <span class="p">(</span><span class="n">num_neighbors</span><span class="p">,</span> <span class="n">max_neighbors</span><span class="p">,</span> <span class="n">min_neighbors</span><span class="p">,</span> <span class="n">neighbor_list</span><span class="p">)</span></div>
-
-
-<div class="viewcode-block" id="get_condition_number">
-<a class="viewcode-back" href="../../_autosummary/autopdex.utility.get_condition_number.html#autopdex.utility.get_condition_number">[docs]</a>
-<span class="nd">@jit_with_docstring</span><span class="p">(</span><span class="n">static_argnames</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;static_settings&#39;</span><span class="p">])</span>
-<span class="k">def</span> <span class="nf">get_condition_number</span><span class="p">(</span><span class="n">dofs</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">):</span>
-<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">  Computes the condition number of the assembled tangent matrix.</span>
-
-<span class="sd">  Notes:</span>
-<span class="sd">   - Computes a dense tangent. Therefore only useful for small problems.</span>
-<span class="sd">  </span>
-<span class="sd">  Args:</span>
-<span class="sd">    dofs (jnp.ndarray): Degrees of freedom.</span>
-<span class="sd">    settings (dict): Settings for the assembly process.</span>
-<span class="sd">    static_settings (dict): Static settings.</span>
-
-<span class="sd">  Returns:</span>
-<span class="sd">    float: Condition number of the tangent matrix.</span>
-<span class="sd">  &quot;&quot;&quot;</span>
-  <span class="kn">from</span> <span class="nn">autopdex</span> <span class="kn">import</span> <span class="n">assembler</span>
-  <span class="p">(</span><span class="n">eig</span><span class="p">,</span> <span class="n">_</span><span class="p">)</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">eig</span><span class="p">(</span><span class="n">assembler</span><span class="o">.</span><span class="n">assemble_tangent</span><span class="p">(</span><span class="n">dofs</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">)</span><span class="o">.</span><span class="n">todense</span><span class="p">())</span>
-  <span class="n">conditioning</span> <span class="o">=</span> <span class="n">eig</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">/</span> <span class="n">eig</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-  <span class="k">return</span> <span class="n">conditioning</span></div>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+        <span class="n">flat_arrays</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="c1"># Sort keys for consistent ordering</span>
+        <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">arr</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="n">flat_array</span> <span class="o">=</span> <span class="n">dict_flatten</span><span class="p">(</span><span class="n">arr</span><span class="p">[</span><span class="n">key</span><span class="p">])</span>
+            <span class="n">flat_arrays</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">flat_array</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">flat_arrays</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([])</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">flat_array</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="k">else</span> <span class="n">jnp</span><span class="o">.</span><span class="n">array</span><span class="p">([])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">(</span>
+                <span class="n">jnp</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span><span class="n">flat_arrays</span><span class="p">)</span>
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">flat_arrays</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">jnp</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span>
+                <span class="k">else</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span><span class="n">flat_arrays</span><span class="p">)</span>
+            <span class="p">)</span>
+    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">jnp</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">arr</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Input must be a nested dict of arrays or an array.&quot;</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="symmetry_check">
-<a class="viewcode-back" href="../../_autosummary/autopdex.utility.symmetry_check.html#autopdex.utility.symmetry_check">[docs]</a>
-<span class="nd">@jit_with_docstring</span><span class="p">(</span><span class="n">static_argnames</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;static_settings&#39;</span><span class="p">])</span>
-<span class="k">def</span> <span class="nf">symmetry_check</span><span class="p">(</span><span class="n">dofs</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">):</span>
-<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">  Checks the symmetry of the assembled tangent matrix.</span>
 
-<span class="sd">  Args:</span>
-<span class="sd">    dofs (jnp.ndarray): Degrees of freedom.</span>
-<span class="sd">    settings (dict): Settings for the assembly process.</span>
-<span class="sd">    static_settings (dict): Static settings.</span>
+<div class="viewcode-block" id="reshape_as">
+<a class="viewcode-back" href="../../_autosummary/autopdex.utility.reshape_as.html#autopdex.utility.reshape_as">[docs]</a>
+<span class="k">def</span> <span class="nf">reshape_as</span><span class="p">(</span><span class="n">flat_array</span><span class="p">,</span> <span class="n">signature_array</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Reshapes a flat array (np.ndarray or jnp.ndarray) into an array or dict of arrays matching the structure of signature_array.</span>
 
-<span class="sd">  Returns:</span>
-<span class="sd">    float: Sum of absolute differences between the matrix and its transpose.</span>
-<span class="sd">  &quot;&quot;&quot;</span>
-  <span class="kn">from</span> <span class="nn">autopdex</span> <span class="kn">import</span> <span class="n">assembler</span>
+<span class="sd">    Args:</span>
+<span class="sd">        flat_array (np.ndarray or jnp.ndarray): The flat array to be reshaped.</span>
+<span class="sd">        signature_array (np.ndarray, jnp.ndarray, or dict): An array or dict of arrays whose shapes are used to reshape flat_array.</span>
 
-  <span class="n">mat</span> <span class="o">=</span> <span class="n">assembler</span><span class="o">.</span><span class="n">assemble_tangent</span><span class="p">(</span><span class="n">dofs</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">)</span>
-  <span class="k">return</span> <span class="n">sparse</span><span class="o">.</span><span class="n">sparsify</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">sum</span><span class="p">)(</span><span class="n">sparse</span><span class="o">.</span><span class="n">sparsify</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">abs</span><span class="p">)(</span><span class="n">mat</span> <span class="o">-</span> <span class="n">sparse</span><span class="o">.</span><span class="n">bcoo_transpose</span><span class="p">(</span><span class="n">mat</span><span class="p">,</span> <span class="n">permutation</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">))))</span></div>
+<span class="sd">    Returns:</span>
+<span class="sd">        Reshaped array or dict of arrays matching the shapes in signature_array.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">signature_array</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+        <span class="n">reshaped_arrays</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">start</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">signature_array</span><span class="o">.</span><span class="n">keys</span><span class="p">()):</span>
+            <span class="n">sig_value</span> <span class="o">=</span> <span class="n">signature_array</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+            <span class="c1"># Calculate the number of elements needed for this array</span>
+            <span class="n">size</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="n">sig_value</span><span class="o">.</span><span class="n">size</span>
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">sig_value</span><span class="p">,</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">jnp</span><span class="o">.</span><span class="n">ndarray</span><span class="p">))</span>
+                <span class="k">else</span> <span class="mi">0</span>
+            <span class="p">)</span>
+            <span class="n">end</span> <span class="o">=</span> <span class="n">start</span> <span class="o">+</span> <span class="n">size</span>
+            <span class="c1"># Extract the relevant slice from flat_array</span>
+            <span class="n">slice_flat</span> <span class="o">=</span> <span class="n">flat_array</span><span class="p">[</span><span class="n">start</span><span class="p">:</span><span class="n">end</span><span class="p">]</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">sig_value</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+                <span class="c1"># Recursive call for nested dictionaries</span>
+                <span class="n">reshaped_arrays</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">reshape_as</span><span class="p">(</span><span class="n">slice_flat</span><span class="p">,</span> <span class="n">sig_value</span><span class="p">)</span>
+                <span class="n">start</span> <span class="o">=</span> <span class="n">end</span>  <span class="c1"># Update start position after processing nested dict</span>
+            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">sig_value</span><span class="p">,</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">jnp</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)):</span>
+                <span class="c1"># Reshape the slice to match the shape of the signature array</span>
+                <span class="n">reshaped_array</span> <span class="o">=</span> <span class="n">slice_flat</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">sig_value</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+                <span class="c1"># Convert to the same type as sig_value if necessary</span>
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">sig_value</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span>
+                    <span class="n">reshaped_array</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span>
+                <span class="p">):</span>
+                    <span class="n">reshaped_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">reshaped_array</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">sig_value</span><span class="p">,</span> <span class="n">jnp</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span>
+                    <span class="n">reshaped_array</span><span class="p">,</span> <span class="n">jnp</span><span class="o">.</span><span class="n">ndarray</span>
+                <span class="p">):</span>
+                    <span class="n">reshaped_array</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">reshaped_array</span><span class="p">)</span>
+                <span class="n">reshaped_arrays</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">reshaped_array</span>
+                <span class="n">start</span> <span class="o">=</span> <span class="n">end</span>  <span class="c1"># Update start position</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Values in signature_array must be arrays or dicts.&quot;</span><span class="p">)</span>
+        <span class="c1"># Check if all elements were used</span>
+        <span class="k">if</span> <span class="n">start</span> <span class="o">!=</span> <span class="n">flat_array</span><span class="o">.</span><span class="n">size</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;The size of flat_array does not match the total size of signature_array.&quot;</span>
+            <span class="p">)</span>
+        <span class="k">return</span> <span class="n">reshaped_arrays</span>
+    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">signature_array</span><span class="p">,</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">jnp</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)):</span>
+        <span class="c1"># Reshape flat_array to match the shape of signature_array</span>
+        <span class="k">if</span> <span class="n">flat_array</span><span class="o">.</span><span class="n">size</span> <span class="o">!=</span> <span class="n">signature_array</span><span class="o">.</span><span class="n">size</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;The size of flat_array does not match the size of signature_array.&quot;</span>
+            <span class="p">)</span>
+        <span class="n">reshaped_array</span> <span class="o">=</span> <span class="n">flat_array</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">signature_array</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+        <span class="c1"># Convert to the same type as signature_array if necessary</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">signature_array</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span>
+            <span class="n">reshaped_array</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span>
+        <span class="p">):</span>
+            <span class="n">reshaped_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">reshaped_array</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">signature_array</span><span class="p">,</span> <span class="n">jnp</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span>
+            <span class="n">reshaped_array</span><span class="p">,</span> <span class="n">jnp</span><span class="o">.</span><span class="n">ndarray</span>
+        <span class="p">):</span>
+            <span class="n">reshaped_array</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">reshaped_array</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">reshaped_array</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;signature_array must be an array or a dict of arrays.&quot;</span><span class="p">)</span></div>
 
-
-<div class="viewcode-block" id="dof_select">
-<a class="viewcode-back" href="../../_autosummary/autopdex.utility.dof_select.html#autopdex.utility.dof_select">[docs]</a>
-<span class="nd">@jit_with_docstring</span><span class="p">()</span>
-<span class="k">def</span> <span class="nf">dof_select</span><span class="p">(</span><span class="n">dirichlet_nodes</span><span class="p">,</span> <span class="n">selected_fields</span><span class="p">):</span>
-<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">  DOF selection for the nodal imposition of boundary conditions (jitted).</span>
-<span class="sd">  </span>
-<span class="sd">  Input:</span>
-<span class="sd">    dirichlet_nodes: list of bools, indicating, which nods are dirichlet_nods</span>
-<span class="sd">    selected_fields: as list of bools</span>
-
-<span class="sd">  Returns:</span>
-<span class="sd">    dirichlet_dofs: list of bools, indicating, which dofs are dirichlet_dofs</span>
-<span class="sd">  &quot;&quot;&quot;</span>
-  <span class="k">return</span> <span class="n">jnp</span><span class="o">.</span><span class="n">outer</span><span class="p">(</span><span class="n">dirichlet_nodes</span><span class="p">,</span> <span class="n">selected_fields</span><span class="p">)</span></div>
-
-
-<div class="viewcode-block" id="jnp_to_tuple">
-<a class="viewcode-back" href="../../_autosummary/autopdex.utility.jnp_to_tuple.html#autopdex.utility.jnp_to_tuple">[docs]</a>
-<span class="k">def</span> <span class="nf">jnp_to_tuple</span><span class="p">(</span><span class="n">jnp_array</span><span class="p">):</span>
-<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">  Converts a JAX array to a tuple.</span>
-
-<span class="sd">  Args:</span>
-<span class="sd">    jnp.ndarray: JAX array to convert.</span>
-
-<span class="sd">  Returns:</span>
-<span class="sd">    tuple: Converted tuple.</span>
-<span class="sd">  &quot;&quot;&quot;</span>
-  <span class="n">as_list</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">jnp_array</span><span class="p">)</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
-  <span class="k">try</span><span class="p">:</span>
-    <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">jnp_to_tuple</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">as_list</span><span class="p">)</span>
-  <span class="k">except</span> <span class="ne">TypeError</span><span class="p">:</span>
-    <span class="k">return</span> <span class="n">as_list</span></div>
 
 
 <div class="viewcode-block" id="mask_set">
 <a class="viewcode-back" href="../../_autosummary/autopdex.utility.mask_set.html#autopdex.utility.mask_set">[docs]</a>
 <span class="k">def</span> <span class="nf">mask_set</span><span class="p">(</span><span class="n">array</span><span class="p">,</span> <span class="n">selection</span><span class="p">,</span> <span class="n">values</span><span class="p">):</span>
-<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">  Changes values in a JAX array based on a boolean mask.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Changes values in a JAX array or dict of arrays based on a boolean mask.</span>
 
-<span class="sd">  Args:</span>
-<span class="sd">    jnp.ndarray: JAX array to change.</span>
-<span class="sd">    jnp.ndarray: Boolean mask.</span>
-<span class="sd">    jnp.ndarray: Values to insert where the mask is true.</span>
+<span class="sd">    Args:</span>
+<span class="sd">      array (jnp.ndarray or dict): JAX array or dict of JAX arrays to update.</span>
+<span class="sd">      selection (jnp.ndarray or dict): Boolean mask or dict of boolean masks.</span>
+<span class="sd">      values (jnp.ndarray or dict): Values to insert, or dict of values.</span>
 
-<span class="sd">  Returns:</span>
-<span class="sd">    array: Modified JAX array.</span>
-<span class="sd">  &quot;&quot;&quot;</span>
-  <span class="n">flat_array</span> <span class="o">=</span> <span class="n">array</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
-  <span class="n">idx</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">flat_array</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-  <span class="n">flat_array</span> <span class="o">=</span> <span class="n">flat_array</span><span class="o">.</span><span class="n">at</span><span class="p">[</span><span class="n">idx</span><span class="p">[</span><span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">selection</span><span class="o">.</span><span class="n">flatten</span><span class="p">())]]</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">values</span><span class="p">)</span>
-  <span class="k">return</span> <span class="n">flat_array</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">array</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span></div>
+<span class="sd">    Returns:</span>
+<span class="sd">      Updated array or dict of arrays.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">array</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+        <span class="c1"># Ensure selection and values are also dicts with the same keys</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">selection</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)</span> <span class="ow">or</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">values</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+                <span class="s2">&quot;If &#39;array&#39; is a dict, &#39;selection&#39; and &#39;values&#39; must also be dicts with the same keys.&quot;</span>
+            <span class="p">)</span>
+        <span class="k">if</span> <span class="n">array</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span> <span class="o">!=</span> <span class="n">selection</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span> <span class="ow">or</span> <span class="n">array</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span> <span class="o">!=</span> <span class="n">values</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;The keys of &#39;array&#39;, &#39;selection&#39;, and &#39;values&#39; must match.&quot;</span>
+            <span class="p">)</span>
+        <span class="c1"># Update each array in the dict</span>
+        <span class="k">return</span> <span class="p">{</span><span class="n">key</span><span class="p">:</span> <span class="n">mask_set</span><span class="p">(</span><span class="n">array</span><span class="p">[</span><span class="n">key</span><span class="p">],</span> <span class="n">selection</span><span class="p">[</span><span class="n">key</span><span class="p">],</span> <span class="n">values</span><span class="p">[</span><span class="n">key</span><span class="p">])</span> <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">array</span><span class="p">}</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># Flatten the array, selection mask, and values</span>
+        <span class="n">flat_array</span> <span class="o">=</span> <span class="n">array</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+        <span class="n">flat_selection</span> <span class="o">=</span> <span class="n">selection</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+        <span class="n">idx</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">flat_array</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="n">selected_indices</span> <span class="o">=</span> <span class="n">idx</span><span class="p">[</span><span class="n">flat_selection</span><span class="p">]</span>
+
+        <span class="c1"># Flatten values</span>
+        <span class="n">flat_values</span> <span class="o">=</span> <span class="n">values</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+
+        <span class="c1"># Determine how to select values based on their size</span>
+        <span class="k">if</span> <span class="n">flat_values</span><span class="o">.</span><span class="n">size</span> <span class="o">==</span> <span class="n">selected_indices</span><span class="o">.</span><span class="n">size</span><span class="p">:</span>
+            <span class="c1"># Use values directly</span>
+            <span class="n">flat_array</span> <span class="o">=</span> <span class="n">flat_array</span><span class="o">.</span><span class="n">at</span><span class="p">[</span><span class="n">selected_indices</span><span class="p">]</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">flat_values</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">flat_values</span><span class="o">.</span><span class="n">size</span> <span class="o">==</span> <span class="n">flat_array</span><span class="o">.</span><span class="n">size</span><span class="p">:</span>
+            <span class="c1"># Use the same indices to select from values</span>
+            <span class="n">flat_array</span> <span class="o">=</span> <span class="n">flat_array</span><span class="o">.</span><span class="n">at</span><span class="p">[</span><span class="n">selected_indices</span><span class="p">]</span><span class="o">.</span><span class="n">set</span><span class="p">(</span>
+                <span class="n">flat_values</span><span class="p">[</span><span class="n">selected_indices</span><span class="p">]</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;Values size must be either equal to the number of selected elements or the size of the array.&quot;</span>
+            <span class="p">)</span>
+        <span class="k">return</span> <span class="n">flat_array</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">array</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="mask_select">
+<a class="viewcode-back" href="../../_autosummary/autopdex.utility.mask_select.html#autopdex.utility.mask_select">[docs]</a>
+<span class="k">def</span> <span class="nf">mask_select</span><span class="p">(</span><span class="n">array</span><span class="p">,</span> <span class="n">selection</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Selects elements from a JAX array or dictionary of arrays based on a boolean mask.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        array (jnp.ndarray or dict): JAX array or dictionary of JAX arrays.</span>
+<span class="sd">        selection (jnp.ndarray or dict): Boolean mask or dictionary of boolean masks.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Selected elements as an array or dictionary of arrays.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">array</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+        <span class="c1"># Ensure that &#39;selection&#39; is also a dictionary with the same keys</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">selection</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+                <span class="s2">&quot;If &#39;array&#39; is a dictionary, &#39;selection&#39; must also be a dictionary with the same keys.&quot;</span>
+            <span class="p">)</span>
+        <span class="k">if</span> <span class="n">array</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span> <span class="o">!=</span> <span class="n">selection</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The keys of &#39;array&#39; and &#39;selection&#39; must match.&quot;</span><span class="p">)</span>
+        <span class="c1"># Recursively apply &#39;mask_select&#39; to each element in the dictionary</span>
+        <span class="k">return</span> <span class="p">{</span><span class="n">key</span><span class="p">:</span> <span class="n">mask_select</span><span class="p">(</span><span class="n">array</span><span class="p">[</span><span class="n">key</span><span class="p">],</span> <span class="n">selection</span><span class="p">[</span><span class="n">key</span><span class="p">])</span> <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">array</span><span class="p">}</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># &#39;array&#39; and &#39;selection&#39; are JAX arrays</span>
+        <span class="c1"># Ensure that the shapes match</span>
+        <span class="k">if</span> <span class="n">array</span><span class="o">.</span><span class="n">shape</span> <span class="o">!=</span> <span class="n">selection</span><span class="o">.</span><span class="n">shape</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The shape of &#39;array&#39; and &#39;selection&#39; must match.&quot;</span><span class="p">)</span>
+        <span class="c1"># Select elements where the mask is True</span>
+        <span class="n">selected_elements</span> <span class="o">=</span> <span class="n">array</span><span class="p">[</span><span class="n">selection</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">selected_elements</span></div>
+
+
+
+<div class="viewcode-block" id="mask_op">
+<a class="viewcode-back" href="../../_autosummary/autopdex.utility.mask_op.html#autopdex.utility.mask_op">[docs]</a>
+<span class="k">def</span> <span class="nf">mask_op</span><span class="p">(</span><span class="n">array</span><span class="p">,</span> <span class="n">selection</span><span class="p">,</span> <span class="n">values</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;set&quot;</span><span class="p">,</span> <span class="n">ufunc</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Performs an operation on a JAX array or dict of arrays based on a boolean mask.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        array (jnp.ndarray or dict): JAX array or dict of JAX arrays to update.</span>
+<span class="sd">        selection (jnp.ndarray or dict): Boolean mask or dict of boolean masks.</span>
+<span class="sd">        values (jnp.ndarray or dict, optional): Values to use in the operation. Required for modes except &#39;get&#39; and &#39;apply&#39;.</span>
+<span class="sd">        mode (str): Operation mode. One of &#39;set&#39;, &#39;add&#39;, &#39;multiply&#39;, &#39;divide&#39;, &#39;power&#39;, &#39;min&#39;, &#39;max&#39;, &#39;apply&#39;, &#39;get&#39;.</span>
+<span class="sd">        ufunc (callable, optional): A unary function to apply when mode is &#39;apply&#39;.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Updated array or dict of arrays, or selected elements if mode is &#39;get&#39;.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Define the allowed modes and their corresponding JAX methods</span>
+    <span class="n">mode_methods</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;set&quot;</span><span class="p">:</span> <span class="s2">&quot;set&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;add&quot;</span><span class="p">:</span> <span class="s2">&quot;add&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;subtract&quot;</span><span class="p">:</span> <span class="s2">&quot;subtract&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;multiply&quot;</span><span class="p">:</span> <span class="s2">&quot;multiply&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;divide&quot;</span><span class="p">:</span> <span class="s2">&quot;divide&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;power&quot;</span><span class="p">:</span> <span class="s2">&quot;power&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;min&quot;</span><span class="p">:</span> <span class="s2">&quot;min&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;max&quot;</span><span class="p">:</span> <span class="s2">&quot;max&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;apply&quot;</span><span class="p">:</span> <span class="s2">&quot;apply&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;get&quot;</span><span class="p">:</span> <span class="s2">&quot;get&quot;</span><span class="p">,</span>
+    <span class="p">}</span>
+
+    <span class="k">if</span> <span class="n">mode</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">mode_methods</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Invalid mode &#39;</span><span class="si">{</span><span class="n">mode</span><span class="si">}</span><span class="s2">&#39;. Allowed modes are: </span><span class="si">{</span><span class="nb">list</span><span class="p">(</span><span class="n">mode_methods</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">)</span>
+
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">array</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+        <span class="c1"># Ensure selection (and values if needed) are also dicts with the same keys</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">selection</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+                <span class="s2">&quot;If &#39;array&#39; is a dict, &#39;selection&#39; must also be a dict with the same keys.&quot;</span>
+            <span class="p">)</span>
+        <span class="k">if</span> <span class="n">array</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span> <span class="o">!=</span> <span class="n">selection</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The keys of &#39;array&#39; and &#39;selection&#39; must match.&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">mode</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;get&quot;</span><span class="p">,</span> <span class="s2">&quot;apply&quot;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">values</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&#39;values&#39; must be provided for mode &#39;</span><span class="si">{</span><span class="n">mode</span><span class="si">}</span><span class="s2">&#39;.&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">mode</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;get&quot;</span><span class="p">,</span> <span class="s2">&quot;apply&quot;</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">values</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+                <span class="s2">&quot;If &#39;array&#39; is a dict, &#39;values&#39; must also be a dict with the same keys.&quot;</span>
+            <span class="p">)</span>
+        <span class="k">if</span> <span class="n">mode</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;get&quot;</span><span class="p">,</span> <span class="s2">&quot;apply&quot;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">array</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span> <span class="o">!=</span> <span class="n">values</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The keys of &#39;array&#39; and &#39;values&#39; must match.&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Apply the operation recursively to each item in the dict</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">array</span><span class="p">:</span>
+            <span class="n">val</span> <span class="o">=</span> <span class="n">values</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="k">if</span> <span class="n">mode</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;get&quot;</span><span class="p">,</span> <span class="s2">&quot;apply&quot;</span><span class="p">)</span> <span class="k">else</span> <span class="kc">None</span>
+            <span class="n">result</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">mask_op</span><span class="p">(</span><span class="n">array</span><span class="p">[</span><span class="n">key</span><span class="p">],</span> <span class="n">selection</span><span class="p">[</span><span class="n">key</span><span class="p">],</span> <span class="n">val</span><span class="p">,</span> <span class="n">mode</span><span class="p">,</span> <span class="n">ufunc</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">result</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span>
+            <span class="nb">isinstance</span><span class="p">(</span><span class="n">selection</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">selection</span><span class="p">,</span> <span class="n">jnp</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span>
+        <span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;&#39;selection&#39; must be a NumPy or JAX array.&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">mode</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;get&quot;</span><span class="p">,</span> <span class="s2">&quot;apply&quot;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">values</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&#39;values&#39; must be provided for mode &#39;</span><span class="si">{</span><span class="n">mode</span><span class="si">}</span><span class="s2">&#39;.&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Flatten the array and selection</span>
+        <span class="n">flat_array</span> <span class="o">=</span> <span class="n">array</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+        <span class="n">flat_selection</span> <span class="o">=</span> <span class="n">selection</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+        <span class="n">idx</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">flat_array</span><span class="o">.</span><span class="n">size</span><span class="p">)</span>
+        <span class="n">selected_indices</span> <span class="o">=</span> <span class="n">idx</span><span class="p">[</span><span class="n">flat_selection</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="n">mode</span> <span class="o">==</span> <span class="s2">&quot;get&quot;</span><span class="p">:</span>
+            <span class="c1"># Return the selected elements</span>
+            <span class="k">return</span> <span class="n">flat_array</span><span class="p">[</span><span class="n">selected_indices</span><span class="p">]</span>
+        <span class="k">elif</span> <span class="n">mode</span> <span class="o">==</span> <span class="s2">&quot;apply&quot;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">ufunc</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;ufunc must be provided when mode is &#39;apply&#39;.&quot;</span><span class="p">)</span>
+            <span class="c1"># Apply the ufunc to the selected elements</span>
+            <span class="n">updated_values</span> <span class="o">=</span> <span class="n">ufunc</span><span class="p">(</span><span class="n">flat_array</span><span class="p">[</span><span class="n">selected_indices</span><span class="p">])</span>
+            <span class="n">flat_array</span> <span class="o">=</span> <span class="n">flat_array</span><span class="o">.</span><span class="n">at</span><span class="p">[</span><span class="n">selected_indices</span><span class="p">]</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">updated_values</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># Flatten values</span>
+            <span class="n">flat_values</span> <span class="o">=</span> <span class="n">values</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+
+            <span class="c1"># Determine how to select values based on their size</span>
+            <span class="k">if</span> <span class="n">flat_values</span><span class="o">.</span><span class="n">size</span> <span class="o">==</span> <span class="n">selected_indices</span><span class="o">.</span><span class="n">size</span><span class="p">:</span>
+                <span class="n">values_to_use</span> <span class="o">=</span> <span class="n">flat_values</span>
+            <span class="k">elif</span> <span class="n">flat_values</span><span class="o">.</span><span class="n">size</span> <span class="o">==</span> <span class="n">flat_array</span><span class="o">.</span><span class="n">size</span><span class="p">:</span>
+                <span class="n">values_to_use</span> <span class="o">=</span> <span class="n">flat_values</span><span class="p">[</span><span class="n">selected_indices</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="s2">&quot;Values size must be either equal to the number of selected elements or the size of the array.&quot;</span>
+                <span class="p">)</span>
+
+            <span class="c1"># Use getattr to get the appropriate method</span>
+            <span class="n">method_name</span> <span class="o">=</span> <span class="n">mode_methods</span><span class="p">[</span><span class="n">mode</span><span class="p">]</span>
+            <span class="n">op_method</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">flat_array</span><span class="o">.</span><span class="n">at</span><span class="p">[</span><span class="n">selected_indices</span><span class="p">],</span> <span class="n">method_name</span><span class="p">)</span>
+            <span class="n">flat_array</span> <span class="o">=</span> <span class="n">op_method</span><span class="p">(</span><span class="n">values_to_use</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">flat_array</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">array</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="search_neighborhood">
+<a class="viewcode-back" href="../../_autosummary/autopdex.utility.search_neighborhood.html#autopdex.utility.search_neighborhood">[docs]</a>
+<span class="k">def</span> <span class="nf">search_neighborhood</span><span class="p">(</span><span class="n">x_nodes</span><span class="p">,</span> <span class="n">x_query</span><span class="p">,</span> <span class="n">support_radius</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Neighbor search within a radius based on scipy&#39;s KDTree.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">      x_nodes (array): Coordinates of the nodes.</span>
+<span class="sd">      x_query (array): Coordinates of the query points.</span>
+<span class="sd">      support_radius (float): Radius within which to search for neighbors.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">      tuple:</span>
+<span class="sd">        - num_neighbors (array): Number of neighbors for each query point.</span>
+<span class="sd">        - max_neighbors (int): Maximum number of neighbors.</span>
+<span class="sd">        - min_neighbors (int): Minimum number of neighbors.</span>
+<span class="sd">        - neighbor_list (array): List of neighbors for each query point.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">import</span> <span class="nn">scipy</span>
+
+    <span class="n">tree</span> <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">spatial</span><span class="o">.</span><span class="n">cKDTree</span><span class="p">(</span><span class="n">x_nodes</span><span class="p">)</span>
+    <span class="n">num_neighbors</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span>
+        <span class="n">tree</span><span class="o">.</span><span class="n">query_ball_point</span><span class="p">(</span>
+            <span class="n">x_query</span><span class="p">,</span> <span class="n">support_radius</span><span class="p">,</span> <span class="n">return_sorted</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">return_length</span><span class="o">=</span><span class="kc">True</span>
+        <span class="p">)</span>
+    <span class="p">)</span>
+    <span class="n">max_neighbors</span> <span class="o">=</span> <span class="n">num_neighbors</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
+    <span class="n">min_neighbors</span> <span class="o">=</span> <span class="n">num_neighbors</span><span class="o">.</span><span class="n">min</span><span class="p">()</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
+    <span class="n">_</span><span class="p">,</span> <span class="n">ii</span> <span class="o">=</span> <span class="n">tree</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">x_query</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="n">max_neighbors</span><span class="p">)</span>
+    <span class="n">neighbor_list</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">ii</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span>
+        <span class="s2">&quot;Neighbor search finished. Min/max neighbors: &quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">min_neighbors</span><span class="p">,</span> <span class="n">max_neighbors</span><span class="p">)</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">num_neighbors</span><span class="p">,</span> <span class="n">max_neighbors</span><span class="p">,</span> <span class="n">min_neighbors</span><span class="p">,</span> <span class="n">neighbor_list</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="get_condition_number">
+<a class="viewcode-back" href="../../_autosummary/autopdex.utility.get_condition_number.html#autopdex.utility.get_condition_number">[docs]</a>
+<span class="nd">@jit_with_docstring</span><span class="p">(</span><span class="n">static_argnames</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;static_settings&quot;</span><span class="p">])</span>
+<span class="k">def</span> <span class="nf">get_condition_number</span><span class="p">(</span><span class="n">dofs</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Computes the condition number of the assembled tangent matrix.</span>
+
+<span class="sd">    Notes:</span>
+<span class="sd">     - Computes a dense tangent. Therefore only useful for small problems.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">      dofs (jnp.ndarray): Degrees of freedom.</span>
+<span class="sd">      settings (dict): Settings for the assembly process.</span>
+<span class="sd">      static_settings (dict): Static settings.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">      float: Condition number of the tangent matrix.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span> <span class="nn">autopdex</span> <span class="kn">import</span> <span class="n">assembler</span>
+
+    <span class="p">(</span><span class="n">eig</span><span class="p">,</span> <span class="n">_</span><span class="p">)</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">eig</span><span class="p">(</span>
+        <span class="n">assembler</span><span class="o">.</span><span class="n">assemble_tangent</span><span class="p">(</span><span class="n">dofs</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">)</span><span class="o">.</span><span class="n">todense</span><span class="p">()</span>
+    <span class="p">)</span>
+    <span class="n">conditioning</span> <span class="o">=</span> <span class="n">eig</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">/</span> <span class="n">eig</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">conditioning</span></div>
+
+
+
+<div class="viewcode-block" id="symmetry_check">
+<a class="viewcode-back" href="../../_autosummary/autopdex.utility.symmetry_check.html#autopdex.utility.symmetry_check">[docs]</a>
+<span class="nd">@jit_with_docstring</span><span class="p">(</span><span class="n">static_argnames</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;static_settings&quot;</span><span class="p">])</span>
+<span class="k">def</span> <span class="nf">symmetry_check</span><span class="p">(</span><span class="n">dofs</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Checks the symmetry of the assembled tangent matrix.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">      dofs (jnp.ndarray): Degrees of freedom.</span>
+<span class="sd">      settings (dict): Settings for the assembly process.</span>
+<span class="sd">      static_settings (dict): Static settings.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">      float: Sum of absolute differences between the matrix and its transpose.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span> <span class="nn">autopdex</span> <span class="kn">import</span> <span class="n">assembler</span>
+
+    <span class="n">mat</span> <span class="o">=</span> <span class="n">assembler</span><span class="o">.</span><span class="n">assemble_tangent</span><span class="p">(</span><span class="n">dofs</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">sparse</span><span class="o">.</span><span class="n">sparsify</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">sum</span><span class="p">)(</span>
+        <span class="n">sparse</span><span class="o">.</span><span class="n">sparsify</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">abs</span><span class="p">)(</span><span class="n">mat</span> <span class="o">-</span> <span class="n">sparse</span><span class="o">.</span><span class="n">bcoo_transpose</span><span class="p">(</span><span class="n">mat</span><span class="p">,</span> <span class="n">permutation</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)))</span>
+    <span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="dof_select">
+<a class="viewcode-back" href="../../_autosummary/autopdex.utility.dof_select.html#autopdex.utility.dof_select">[docs]</a>
+<span class="k">def</span> <span class="nf">dof_select</span><span class="p">(</span><span class="n">dirichlet_nodes</span><span class="p">,</span> <span class="n">selected_fields</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    DOF selection for the nodal imposition of boundary conditions (jitted).</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">      dirichlet_nodes: list of bools, indicating, which nods are dirichlet_nods</span>
+<span class="sd">      selected_fields: bool or list of bools</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">      dirichlet_dofs: list of bools, indicating, which dofs are dirichlet_dofs</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">selected_fields</span><span class="p">,</span> <span class="nb">bool</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">dirichlet_nodes</span> <span class="o">*</span> <span class="n">selected_fields</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">jnp</span><span class="o">.</span><span class="n">outer</span><span class="p">(</span><span class="n">dirichlet_nodes</span><span class="p">,</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">selected_fields</span><span class="p">))</span></div>
+
+
+
+<div class="viewcode-block" id="jnp_to_tuple">
+<a class="viewcode-back" href="../../_autosummary/autopdex.utility.jnp_to_tuple.html#autopdex.utility.jnp_to_tuple">[docs]</a>
+<span class="k">def</span> <span class="nf">jnp_to_tuple</span><span class="p">(</span><span class="n">jnp_array</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Converts a JAX array to a tuple. Also works for dicts of JAX arrays.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">      jnp.ndarray: JAX array to convert.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">      tuple: Converted tuple or flax.core.FrozenDict of tuples.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">jnp_array</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">FrozenDict</span><span class="p">(</span>
+            <span class="p">{</span><span class="n">key</span><span class="p">:</span> <span class="n">jnp_to_tuple</span><span class="p">(</span><span class="n">jnp_array</span><span class="p">[</span><span class="n">key</span><span class="p">])</span> <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">jnp_array</span><span class="o">.</span><span class="n">keys</span><span class="p">())}</span>
+        <span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">as_list</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">jnp_array</span><span class="p">)</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">jnp_to_tuple</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">as_list</span><span class="p">)</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">as_list</span></div>
+
 
 
 <div class="viewcode-block" id="to_jax_function">
 <a class="viewcode-back" href="../../_autosummary/autopdex.utility.to_jax_function.html#autopdex.utility.to_jax_function">[docs]</a>
 <span class="k">def</span> <span class="nf">to_jax_function</span><span class="p">(</span><span class="n">subexpr</span><span class="p">,</span> <span class="n">reduced_expr</span><span class="p">):</span>
-<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">  Generation of a pure JAX function based on subexpressions and reduced return-value. Can be combined with sympys common subexpression eliminator. </span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Generation of a pure JAX function based on subexpressions and reduced return-value. Can be combined with sympys common subexpression eliminator.</span>
 
-<span class="sd">  Return value of the function will be an jnp.ndarray  </span>
-<span class="sd">  Warning: Works currently only functions with basic operations. Special functions as exp() may not be jax-conforming...</span>
-<span class="sd">  Warning: arguments and function name have to be set manually. The function may have to be adjusted manually.</span>
-<span class="sd">  &quot;&quot;&quot;</span>
-  <span class="n">assignment_statements</span> <span class="o">=</span> <span class="p">[]</span>
-  <span class="k">for</span> <span class="n">var</span><span class="p">,</span> <span class="n">expr</span> <span class="ow">in</span> <span class="n">subexpr</span><span class="p">:</span>
-      <span class="n">assignment_statements</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">var</span><span class="si">}</span><span class="s2"> = </span><span class="si">{</span><span class="n">expr</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="sd">    Return value of the function will be an jnp.ndarray</span>
+<span class="sd">    Warning: Works currently only functions with basic operations. Special functions as exp() may not be jax-conforming...</span>
+<span class="sd">    Warning: arguments and function name have to be set manually. The function may have to be adjusted manually.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">assignment_statements</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">var</span><span class="p">,</span> <span class="n">expr</span> <span class="ow">in</span> <span class="n">subexpr</span><span class="p">:</span>
+        <span class="n">assignment_statements</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">var</span><span class="si">}</span><span class="s2"> = </span><span class="si">{</span><span class="n">expr</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
-  <span class="c1"># Create the function body</span>
-  <span class="n">function_body</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">  &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">assignment_statements</span><span class="p">)</span>
+    <span class="c1"># Create the function body</span>
+    <span class="n">function_body</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">  &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">assignment_statements</span><span class="p">)</span>
 
-  <span class="c1"># Combine everything into a function definition</span>
-  <span class="n">function_code</span> <span class="o">=</span> <span class="s2">&quot;def shape_functions(xi):</span><span class="se">\n</span><span class="s2">&quot;</span>
-  <span class="n">function_code</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;  </span><span class="si">{</span><span class="n">function_body</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
-  <span class="n">function_code</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;  return jnp.asarray(</span><span class="si">{</span><span class="n">reduced_expr</span><span class="si">}</span><span class="s2">)</span><span class="se">\n</span><span class="s2">&quot;</span>
+    <span class="c1"># Combine everything into a function definition</span>
+    <span class="n">function_code</span> <span class="o">=</span> <span class="s2">&quot;def shape_functions(xi):</span><span class="se">\n</span><span class="s2">&quot;</span>
+    <span class="n">function_code</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;  </span><span class="si">{</span><span class="n">function_body</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
+    <span class="n">function_code</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;  return jnp.asarray(</span><span class="si">{</span><span class="n">reduced_expr</span><span class="si">}</span><span class="s2">)</span><span class="se">\n</span><span class="s2">&quot;</span>
 
-  <span class="c1"># Write the function code to a Python file</span>
-  <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;lagrange_polynomials.py&#39;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-      <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">function_code</span><span class="p">)</span>
+    <span class="c1"># Write the function code to a Python file</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;lagrange_polynomials.py&quot;</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">function_code</span><span class="p">)</span>
 
-  <span class="c1"># Print the generated function definition</span>
-  <span class="nb">print</span><span class="p">(</span><span class="n">function_code</span><span class="p">)</span></div>
+    <span class="c1"># Print the generated function definition</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">function_code</span><span class="p">)</span></div>
 
 
-<span class="nd">@jit_with_docstring</span><span class="p">(</span><span class="n">static_argnames</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;fun&#39;</span><span class="p">,</span> <span class="s1">&#39;derivative_order&#39;</span><span class="p">,</span> <span class="s1">&#39;argnum&#39;</span><span class="p">])</span>
+
+<div class="viewcode-block" id="jacfwd_upto_n_scalar_args">
+<a class="viewcode-back" href="../../_autosummary/autopdex.utility.jacfwd_upto_n_scalar_args.html#autopdex.utility.jacfwd_upto_n_scalar_args">[docs]</a>
+<span class="nd">@jit_with_docstring</span><span class="p">(</span><span class="n">static_argnames</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;fun&quot;</span><span class="p">,</span> <span class="s2">&quot;derivative_order&quot;</span><span class="p">,</span> <span class="s2">&quot;argnum&quot;</span><span class="p">])</span>
 <span class="k">def</span> <span class="nf">jacfwd_upto_n_scalar_args</span><span class="p">(</span><span class="n">fun</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">derivative_order</span><span class="p">,</span> <span class="n">argnum</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Computes all up to the nth derivative of a function `f` using a single pass.</span>
 
 <span class="sd">    The function is designed for the use in sensitivity analysis, where the primal evaluation can be very expensive.</span>
 <span class="sd">    By using recursive jvps, the function computes all the derivatives in pass and does not rely on XLA to delete duplicated code.</span>
-<span class="sd">    </span>
-<span class="sd">    This function supports computing derivatives of any order with respect to individual or multiple </span>
-<span class="sd">    scalar arguments in a tuple. The derivatives are returned either as a single value or as a collection </span>
+
+<span class="sd">    This function supports computing derivatives of any order with respect to individual or multiple</span>
+<span class="sd">    scalar arguments in a tuple. The derivatives are returned either as a single value or as a collection</span>
 <span class="sd">    of values, depending on the input type of `argnum`.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        fun (Callable): The function for which derivatives are to be computed. This function should accept </span>
+<span class="sd">        fun (Callable): The function for which derivatives are to be computed. This function should accept</span>
 <span class="sd">            a sequence of scalar inputs and return a scalar output or jnp.ndarray.</span>
-<span class="sd">        args (tuple): A tuple of input values at which the derivatives are evaluated. The length of `args` </span>
+<span class="sd">        args (tuple): A tuple of input values at which the derivatives are evaluated. The length of `args`</span>
 <span class="sd">            should match the number of arguments expected by `fun`.</span>
 <span class="sd">        derivative_order (int): The order of the derivatives to compute. For instance, `n=2` computes the value, first and second derivative.</span>
-<span class="sd">        argnum (Union[int, tuple]): The index or indices of the argument(s) with respect to which the derivative </span>
+<span class="sd">        argnum (Union[int, tuple]): The index or indices of the argument(s) with respect to which the derivative</span>
 <span class="sd">            is computed. If an integer is provided, the derivative is computed with respect to a single argument.</span>
 <span class="sd">            If a tuple of integers is provided, the derivative is computed with respect to multiple arguments.</span>
 
@@ -353,15 +693,15 @@
 <span class="sd">        - k an further indices come from the output shape of the example function</span>
 
 <span class="sd">    Example:</span>
-<span class="sd">      def example_function(x, y):</span>
-<span class="sd">        return jnp.asarray([x**3, 2*x*y**3, x*y])</span>
-
-<span class="sd">      args = (2.0, 3.0)  # Example input values for x and y</span>
-<span class="sd">      order = 4  # Up to the fourth derivative</span>
-<span class="sd">      argnum = (0, 1) # Differentiate with respect to both x and y</span>
-<span class="sd">      result = jacfwd_upto_n_scalar_args(example_function, args, order, argnum)</span>
-<span class="sd">      print(&quot;Derivatives:&quot;, result)</span>
-<span class="sd">      print(&quot;Derivatives:&quot;, result.shape) # Output: (2, 5, 3), like the dimensions of (argnum, 1+order, output_of_example_fun)</span>
+<span class="sd">        &gt;&gt;&gt; def example_function(x, y):</span>
+<span class="sd">        &gt;&gt;&gt;     return jnp.asarray([x**3, 2*x*y**3, x*y])</span>
+<span class="sd">        &gt;&gt;&gt; </span>
+<span class="sd">        &gt;&gt;&gt; args = (2.0, 3.0)  # Example input values for x and y</span>
+<span class="sd">        &gt;&gt;&gt; order = 4  # Up to the fourth derivative</span>
+<span class="sd">        &gt;&gt;&gt; argnum = (0, 1) # Differentiate with respect to both x and y</span>
+<span class="sd">        &gt;&gt;&gt; result = jacfwd_upto_n_scalar_args(example_function, args, order, argnum)</span>
+<span class="sd">        &gt;&gt;&gt; print(&quot;Derivatives:&quot;, result)</span>
+<span class="sd">        &gt;&gt;&gt; print(&quot;Derivatives:&quot;, result.shape) # Output: (2, 5, 3), like the dimensions of (argnum, 1+order, output_of_example_fun)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="nf">nth_derivative_as_tuple</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">index</span><span class="p">):</span>
         <span class="c1"># Set the direction for differentiation for the specified argumentz</span>
@@ -372,8 +712,8 @@
             <span class="k">return</span> <span class="n">f</span><span class="p">(</span><span class="o">*</span><span class="n">x</span><span class="p">)</span>
         <span class="k">elif</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">jax</span><span class="o">.</span><span class="n">jvp</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">tangent_directions</span><span class="p">))</span>
-        <span class="k">else</span><span class="p">:</span> <span class="c1"># Recursive call of jvp</span>
-            <span class="n">df</span> <span class="o">=</span> <span class="k">lambda</span> <span class="o">*</span><span class="n">y</span><span class="p">:</span> <span class="n">nth_derivative_as_tuple</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">index</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>  <span class="c1"># Recursive call of jvp</span>
+            <span class="n">df</span> <span class="o">=</span> <span class="k">lambda</span> <span class="o">*</span><span class="n">y</span><span class="p">:</span> <span class="n">nth_derivative_as_tuple</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">index</span><span class="p">)</span>
             <span class="n">values</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">jvp</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">tangent_directions</span><span class="p">))</span>
             <span class="k">return</span> <span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="p">(</span><span class="n">values</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">],)</span>
 
@@ -384,9 +724,13 @@
         <span class="n">fun_vmap</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">idx</span><span class="p">:</span> <span class="n">nth_derivative_as_tuple</span><span class="p">(</span><span class="n">fun</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">derivative_order</span><span class="p">,</span> <span class="n">idx</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">jax</span><span class="o">.</span><span class="n">vmap</span><span class="p">(</span><span class="n">fun_vmap</span><span class="p">)(</span><span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">argnum</span><span class="p">)))</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;argnum must be an integer or a tuple of integers.&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;argnum must be an integer or a tuple of integers.&quot;</span><span class="p">)</span></div>
 
-<span class="nd">@jit_with_docstring</span><span class="p">(</span><span class="n">static_argnames</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;fun&#39;</span><span class="p">,</span> <span class="s1">&#39;n&#39;</span><span class="p">])</span>
+
+
+<div class="viewcode-block" id="jacfwd_upto_n_one_vector_arg">
+<a class="viewcode-back" href="../../_autosummary/autopdex.utility.jacfwd_upto_n_one_vector_arg.html#autopdex.utility.jacfwd_upto_n_one_vector_arg">[docs]</a>
+<span class="nd">@jit_with_docstring</span><span class="p">(</span><span class="n">static_argnames</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;fun&quot;</span><span class="p">,</span> <span class="s2">&quot;n&quot;</span><span class="p">])</span>
 <span class="k">def</span> <span class="nf">jacfwd_upto_n_one_vector_arg</span><span class="p">(</span><span class="n">fun</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Computes up to the nth derivative of a function `fun` with respect to a vector argument `x` using a single pass.</span>
@@ -399,35 +743,36 @@
 <span class="sd">    are returned as a tuple, where each entry corresponds to the function&#39;s value or a derivative of increasing order.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        fun (Callable): The function for which derivatives are to be computed. This function should accept a single `jnp.ndarray` </span>
+<span class="sd">        fun (Callable): The function for which derivatives are to be computed. This function should accept a single `jnp.ndarray`</span>
 <span class="sd">            argument `x` and return a scalar output or `jnp.ndarray`.</span>
 <span class="sd">        x (jnp.ndarray): The vector input at which the derivatives are evaluated.</span>
 <span class="sd">        n (int): The order of the derivatives to compute. For instance, `n=3` computes the value, first, second, and third derivatives.</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        tuple: A tuple containing the function value and its derivatives up to the nth order. </span>
+<span class="sd">        tuple: A tuple containing the function value and its derivatives up to the nth order.</span>
 <span class="sd">        The structure of the tuple is as follows:</span>
 <span class="sd">        - The first entry is the value of the function `fun(x)`.</span>
 <span class="sd">        - Subsequent entries are the first, second, and higher-order derivatives.</span>
 <span class="sd">        - For a function returning a multi-dimensional array, the array dimensions are appended to derivative dimensions (see example below)</span>
 
 <span class="sd">    Example:</span>
-<span class="sd">      def example_fun(x): # input shape (2,)</span>
-<span class="sd">          return jnp.asarray([</span>
-<span class="sd">              [x[0], x[1], x[0] + x[1], x[0] * x[1]],</span>
-<span class="sd">              [x[1] - x[0], x[0] / (x[1] + 1e-5), x[0]**2, x[1]**2],</span>
-<span class="sd">              [x[0] + 1, x[1] + 1, x[0] * x[0], x[1] * x[1]] </span>
-<span class="sd">          ]) # output shape (3, 4)</span>
-
-<span class="sd">      x = jnp.asarray([1.0, 2.0])  # Example vector input</span>
-<span class="sd">      n = 3  # Up to the third derivative</span>
-<span class="sd">      derivatives = jacfwd_upto_n_one_vector_arg(example_fun, x, n)</span>
-
-<span class="sd">      print(&quot;Function value:&quot;, derivatives[0].shape) # shape (3, 4)</span>
-<span class="sd">      print(&quot;First derivative:&quot;, derivatives[1].shape)  # shape (2, 3, 4)</span>
-<span class="sd">      print(&quot;Second derivative:&quot;, derivatives[2].shape) # shape (2, 2, 3, 4)</span>
-<span class="sd">      print(&quot;Third derivative:&quot;, derivatives[3].shape) # shape (2, 2, 2, 3, 4)</span>
+<span class="sd">        &gt;&gt;&gt; def example_fun(x): # input shape (2,)</span>
+<span class="sd">        &gt;&gt;&gt;     return jnp.asarray([</span>
+<span class="sd">        &gt;&gt;&gt;         [x[0], x[1], x[0] + x[1], x[0] * x[1]],</span>
+<span class="sd">        &gt;&gt;&gt;         [x[1] - x[0], x[0] / (x[1] + 1e-5), x[0]**2, x[1]**2],</span>
+<span class="sd">        &gt;&gt;&gt;         [x[0] + 1, x[1] + 1, x[0] * x[0], x[1] * x[1]]</span>
+<span class="sd">        &gt;&gt;&gt;     ]) # output shape (3, 4)</span>
+<span class="sd">        &gt;&gt;&gt; </span>
+<span class="sd">        &gt;&gt;&gt; x = jnp.asarray([1.0, 2.0])  # Example vector input</span>
+<span class="sd">        &gt;&gt;&gt; n = 3  # Up to the third derivative</span>
+<span class="sd">        &gt;&gt;&gt; derivatives = jacfwd_upto_n_one_vector_arg(example_fun, x, n)</span>
+<span class="sd">        &gt;&gt;&gt; </span>
+<span class="sd">        &gt;&gt;&gt; print(&quot;Function value:&quot;, derivatives[0].shape) # shape (3, 4)</span>
+<span class="sd">        &gt;&gt;&gt; print(&quot;First derivative:&quot;, derivatives[1].shape)  # shape (2, 3, 4)</span>
+<span class="sd">        &gt;&gt;&gt; print(&quot;Second derivative:&quot;, derivatives[2].shape) # shape (2, 2, 3, 4)</span>
+<span class="sd">        &gt;&gt;&gt; print(&quot;Third derivative:&quot;, derivatives[3].shape) # shape (2, 2, 2, 3, 4)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="k">def</span> <span class="nf">flatten_tuple</span><span class="p">(</span><span class="n">nested_tuple</span><span class="p">):</span>
         <span class="n">flat_tuple</span> <span class="o">=</span> <span class="p">()</span>
         <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">nested_tuple</span><span class="p">:</span>
@@ -449,7 +794,7 @@
                 <span class="n">values</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">jvp</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="p">(</span><span class="n">x</span><span class="p">,),</span> <span class="p">(</span><span class="n">tangent_directions</span><span class="p">,))</span>
                 <span class="k">return</span> <span class="p">(</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">],)</span> <span class="o">+</span> <span class="p">(</span><span class="n">values</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],)</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="n">df</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">y</span><span class="p">:</span> <span class="n">jacfwd_upto_n_one_vector_arg_tmp</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+                <span class="n">df</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">y</span><span class="p">:</span> <span class="n">jacfwd_upto_n_one_vector_arg_tmp</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
                 <span class="n">values</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">jvp</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="p">(</span><span class="n">x</span><span class="p">,),</span> <span class="p">(</span><span class="n">tangent_directions</span><span class="p">,))</span>
                 <span class="k">return</span> <span class="p">(</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">],)</span> <span class="o">+</span> <span class="p">(</span><span class="n">values</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],)</span>
 
@@ -457,12 +802,15 @@
             <span class="k">return</span> <span class="p">(</span><span class="n">f</span><span class="p">(</span><span class="n">x</span><span class="p">),)</span>
         <span class="k">elif</span> <span class="n">n</span> <span class="o">&gt;=</span> <span class="mi">1</span><span class="p">:</span>
             <span class="c1"># Vectorize over each component of x</span>
-            <span class="n">jvp_values</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">vmap</span><span class="p">(</span><span class="n">single_component_derivative</span><span class="p">,</span> <span class="n">in_axes</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">))(</span><span class="n">jnp</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="n">f</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
+            <span class="n">jvp_values</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">vmap</span><span class="p">(</span><span class="n">single_component_derivative</span><span class="p">,</span> <span class="n">in_axes</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">))(</span>
+                <span class="n">jnp</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="n">f</span><span class="p">,</span> <span class="n">n</span>
+            <span class="p">)</span>
             <span class="k">return</span> <span class="p">(</span><span class="n">jvp_values</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">],)</span> <span class="o">+</span> <span class="p">(</span><span class="n">jvp_values</span><span class="p">[</span><span class="mi">1</span><span class="p">],)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;n must be a non-negative integer.&quot;</span><span class="p">)</span>
-    
-    <span class="k">return</span> <span class="n">flatten_tuple</span><span class="p">(</span><span class="n">jacfwd_upto_n_one_vector_arg_tmp</span><span class="p">(</span><span class="n">fun</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">n</span><span class="p">))</span>
+
+    <span class="k">return</span> <span class="n">flatten_tuple</span><span class="p">(</span><span class="n">jacfwd_upto_n_one_vector_arg_tmp</span><span class="p">(</span><span class="n">fun</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">n</span><span class="p">))</span></div>
+
 </pre></div>
 
            </div>

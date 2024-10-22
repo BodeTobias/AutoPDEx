@@ -6,7 +6,6 @@ Seeder
 
 Generation of nodes
 -------------------
-
 .. autosummary::
    :toctree: _autosummary
 
@@ -14,16 +13,15 @@ Generation of nodes
    regular_in_box
    quasi_random_in_psdf
    quasi_random_in_box
-   just_in_psdf
+   gauss_points_in_psdf
    estimate_size
+   just_in_psdf
 
-Numerical Integration
+Numerical integration
 ---------------------
-
 .. autosummary::
    :toctree: _autosummary
 
-   gauss_points_in_psdf
    tensor_product_two_coordinate_arrays
    tensor_product_rule
    gauss_legendre_1d
@@ -38,3 +36,4 @@ Numerical Integration
    int_pts_in_line_mesh
    int_pts_in_tri_mesh
    int_pts_in_tet_mesh
+

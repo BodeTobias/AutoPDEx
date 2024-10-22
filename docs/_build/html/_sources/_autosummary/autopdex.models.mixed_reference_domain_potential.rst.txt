@@ -1,0 +1,6 @@
+﻿autopdex.models.mixed\_reference\_domain\_potential
+===================================================
+
+.. currentmodule:: autopdex.models
+
+.. autofunction:: mixed_reference_domain_potential

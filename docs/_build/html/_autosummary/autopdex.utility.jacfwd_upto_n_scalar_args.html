@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>autopdex.utility.jacfwd_upto_n_scalar_args &mdash; AutoPDEx  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../_static/jupyter-sphinx.css?v=572af1d6" />
+      <link rel="stylesheet" type="text/css" href="../_static/thebelab.css" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=acfd50eb" />
+      <link rel="stylesheet" type="text/css" href="../_static/dark_mode_css/general.css?v=c0a7eb24" />
+      <link rel="stylesheet" type="text/css" href="../_static/dark_mode_css/dark.css?v=70edf1c7" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="../_static/copybutton.js?v=f281be69"></script>
+        <script src="../_static/thebelab-helper.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script src="../_static/dark_mode_js/default_light.js?v=c2e647ce"></script>
+        <script src="../_static/dark_mode_js/theme_switcher.js?v=358d3910"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="autopdex.utility.jacfwd_upto_n_one_vector_arg" href="autopdex.utility.jacfwd_upto_n_one_vector_arg.html" />
+    <link rel="prev" title="autopdex.utility.to_jax_function" href="autopdex.utility.to_jax_function.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            AutoPDEx
+              <img src="../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                1.0.3
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../notebooks/quickstart.html">Quickstart to AutoPDEx</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">High level operations</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../solver.html">Solver</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../models.html">Models</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Settings</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../settings.html">Settings and static_settings</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../example_notebooks.html">Example notebooks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples.html">Examplary input files</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Lower level operations</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../assembler.html">Assembler</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../implicit_diff.html">Implicit_diff</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spaces.html">Spaces</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../solution_structures.html">Solution structures</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../variational_schemes.html">Variational_schemes</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Pre- and postprocessing</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../geometry.html">Geometry</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../seeder.html">Seeder</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../utility.html">Utility</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="autopdex.utility.jit_with_docstring.html">autopdex.utility.jit_with_docstring</a></li>
+<li class="toctree-l2"><a class="reference internal" href="autopdex.utility.dict_zeros_like.html">autopdex.utility.dict_zeros_like</a></li>
+<li class="toctree-l2"><a class="reference internal" href="autopdex.utility.dict_flatten.html">autopdex.utility.dict_flatten</a></li>
+<li class="toctree-l2"><a class="reference internal" href="autopdex.utility.reshape_as.html">autopdex.utility.reshape_as</a></li>
+<li class="toctree-l2"><a class="reference internal" href="autopdex.utility.mask_set.html">autopdex.utility.mask_set</a></li>
+<li class="toctree-l2"><a class="reference internal" href="autopdex.utility.mask_select.html">autopdex.utility.mask_select</a></li>
+<li class="toctree-l2"><a class="reference internal" href="autopdex.utility.mask_op.html">autopdex.utility.mask_op</a></li>
+<li class="toctree-l2"><a class="reference internal" href="autopdex.utility.search_neighborhood.html">autopdex.utility.search_neighborhood</a></li>
+<li class="toctree-l2"><a class="reference internal" href="autopdex.utility.get_condition_number.html">autopdex.utility.get_condition_number</a></li>
+<li class="toctree-l2"><a class="reference internal" href="autopdex.utility.symmetry_check.html">autopdex.utility.symmetry_check</a></li>
+<li class="toctree-l2"><a class="reference internal" href="autopdex.utility.dof_select.html">autopdex.utility.dof_select</a></li>
+<li class="toctree-l2"><a class="reference internal" href="autopdex.utility.jnp_to_tuple.html">autopdex.utility.jnp_to_tuple</a></li>
+<li class="toctree-l2"><a class="reference internal" href="autopdex.utility.to_jax_function.html">autopdex.utility.to_jax_function</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">autopdex.utility.jacfwd_upto_n_scalar_args</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#autopdex.utility.jacfwd_upto_n_scalar_args"><code class="docutils literal notranslate"><span class="pre">jacfwd_upto_n_scalar_args()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="autopdex.utility.jacfwd_upto_n_one_vector_arg.html">autopdex.utility.jacfwd_upto_n_one_vector_arg</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../plotter.html">Plotter</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../mesher.html">Mesher</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Source code</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/BodeTobias/AutoPDEx">GitHub Project</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">AutoPDEx</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../utility.html">Utility</a></li>
+      <li class="breadcrumb-item active">autopdex.utility.jacfwd_upto_n_scalar_args</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/BodeTobias/AutoPDEx/blob/main/docs/_autosummary/autopdex.utility.jacfwd_upto_n_scalar_args.rst" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="autopdex-utility-jacfwd-upto-n-scalar-args">
+<h1>autopdex.utility.jacfwd_upto_n_scalar_args<a class="headerlink" href="#autopdex-utility-jacfwd-upto-n-scalar-args" title="Link to this heading"></a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="autopdex.utility.jacfwd_upto_n_scalar_args">
+<span class="sig-prename descclassname"><span class="pre">autopdex.utility.</span></span><span class="sig-name descname"><span class="pre">jacfwd_upto_n_scalar_args</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fun</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">derivative_order</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">argnum</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/autopdex/utility.html#jacfwd_upto_n_scalar_args"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#autopdex.utility.jacfwd_upto_n_scalar_args" title="Link to this definition"></a></dt>
+<dd><p>Computes all up to the nth derivative of a function <cite>f</cite> using a single pass.</p>
+<p>The function is designed for the use in sensitivity analysis, where the primal evaluation can be very expensive.
+By using recursive jvps, the function computes all the derivatives in pass and does not rely on XLA to delete duplicated code.</p>
+<p>This function supports computing derivatives of any order with respect to individual or multiple
+scalar arguments in a tuple. The derivatives are returned either as a single value or as a collection
+of values, depending on the input type of <cite>argnum</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fun</strong> (<em>Callable</em>) – The function for which derivatives are to be computed. This function should accept
+a sequence of scalar inputs and return a scalar output or jnp.ndarray.</p></li>
+<li><p><strong>args</strong> (<em>tuple</em>) – A tuple of input values at which the derivatives are evaluated. The length of <cite>args</cite>
+should match the number of arguments expected by <cite>fun</cite>.</p></li>
+<li><p><strong>derivative_order</strong> (<em>int</em>) – The order of the derivatives to compute. For instance, <cite>n=2</cite> computes the value, first and second derivative.</p></li>
+<li><p><strong>argnum</strong> (<em>Union</em><em>[</em><em>int</em><em>, </em><em>tuple</em><em>]</em>) – The index or indices of the argument(s) with respect to which the derivative
+is computed. If an integer is provided, the derivative is computed with respect to a single argument.
+If a tuple of integers is provided, the derivative is computed with respect to multiple arguments.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p>The jnp.ndarray has the following order: results[i][j][k]</p></li>
+<li><p>i (optional) selects the argument in the argnum tuple. This dimension dissapears in case argnum is a scalar</p></li>
+<li><p>j is the j-th derivative order</p></li>
+<li><p>k an further indices come from the output shape of the example function</p></li>
+</ul>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>jnp.ndarray</p>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">example_function</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="k">return</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">([</span><span class="n">x</span><span class="o">**</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="o">*</span><span class="n">x</span><span class="o">*</span><span class="n">y</span><span class="o">**</span><span class="mi">3</span><span class="p">,</span> <span class="n">x</span><span class="o">*</span><span class="n">y</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">args</span> <span class="o">=</span> <span class="p">(</span><span class="mf">2.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">)</span>  <span class="c1"># Example input values for x and y</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">order</span> <span class="o">=</span> <span class="mi">4</span>  <span class="c1"># Up to the fourth derivative</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">argnum</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="c1"># Differentiate with respect to both x and y</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">result</span> <span class="o">=</span> <span class="n">jacfwd_upto_n_scalar_args</span><span class="p">(</span><span class="n">example_function</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">order</span><span class="p">,</span> <span class="n">argnum</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Derivatives:&quot;</span><span class="p">,</span> <span class="n">result</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Derivatives:&quot;</span><span class="p">,</span> <span class="n">result</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="c1"># Output: (2, 5, 3), like the dimensions of (argnum, 1+order, output_of_example_fun)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="autopdex.utility.to_jax_function.html" class="btn btn-neutral float-left" title="autopdex.utility.to_jax_function" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="autopdex.utility.jacfwd_upto_n_one_vector_arg.html" class="btn btn-neutral float-right" title="autopdex.utility.jacfwd_upto_n_one_vector_arg" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Tobias Bode.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

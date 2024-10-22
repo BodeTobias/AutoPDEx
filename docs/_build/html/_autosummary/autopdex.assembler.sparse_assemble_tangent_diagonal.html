@@ -94,12 +94,14 @@
 <li class="toctree-l3"><a class="reference internal" href="autopdex.assembler.sparse_assemble_tangent.html">autopdex.assembler.sparse_assemble_tangent</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../assembler.html#assembling-for-user-potentials-residuals-and-elements">Assembling for user potentials, residuals and elements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../assembler.html#assembling-for-user-potentials">Assembling for user potentials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../assembler.html#assembling-for-user-residuals">Assembling for user residuals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../assembler.html#assembling-for-user-elements">Assembling for user elements</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../implicit_diff.html">Implicit_diff</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../spaces.html">Spaces</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../solution_structures.html">Solution_structures</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../solution_structures.html">Solution structures</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../variational_schemes.html">Variational_schemes</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Pre- and postprocessing</span></p>
@@ -108,6 +110,11 @@
 <li class="toctree-l1"><a class="reference internal" href="../seeder.html">Seeder</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../utility.html">Utility</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../plotter.html">Plotter</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../mesher.html">Mesher</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Source code</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/BodeTobias/AutoPDEx">GitHub Project</a></li>
 </ul>
 
         </div>
@@ -144,10 +151,10 @@
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>dofs</strong> (<em>jnp.ndarray</em>) – Degrees of freedom.</p></li>
-<li><p><strong>settings</strong> (<em>dict</em>) – Settings for the integration.</p></li>
-<li><p><strong>static_settings</strong> (<em>flax.core.FrozenDict</em>) – Static settings including assembling modes.</p></li>
-<li><p><strong>set</strong> (<em>int</em>) – The set index.</p></li>
+<li><p><strong>dofs</strong> (<em>jnp.ndarray</em><em> or </em><em>dict</em>) – Degrees of freedom.</p></li>
+<li><p><strong>settings</strong> (<em>dict</em>) – Settings dictionary.</p></li>
+<li><p><strong>static_settings</strong> (<em>flax.core.FrozenDict</em>) – Static settings as frozen dictionary.</p></li>
+<li><p><strong>set</strong> (<em>int</em>) – The domain number.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>

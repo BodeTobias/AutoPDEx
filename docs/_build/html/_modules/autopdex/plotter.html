@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>autopdex.plotter &mdash; AutoPDEx 1.0.2 documentation</title>
+  <title>autopdex.plotter &mdash; AutoPDEx  documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
@@ -20,7 +20,7 @@
   
         <script src="../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../_static/documentation_options.js?v=1ed6394b"></script>
+        <script src="../../_static/documentation_options.js?v=5929fcd5"></script>
         <script src="../../_static/doctools.js?v=9a2dae69"></script>
         <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -48,6 +48,9 @@
             AutoPDEx
               <img src="../../_static/logo.png" class="logo" alt="Logo"/>
           </a>
+              <div class="version">
+                1.0.3
+              </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
@@ -87,6 +90,11 @@
 <li class="toctree-l1"><a class="reference internal" href="../../seeder.html">Seeder</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../utility.html">Utility</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../plotter.html">Plotter</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../mesher.html">Mesher</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Source code</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/BodeTobias/AutoPDEx">GitHub Project</a></li>
 </ul>
 
         </div>
@@ -99,7 +107,7 @@
       </nav>
 
       <div class="wy-nav-content">
-        <div class="rst-content">
+        <div class="rst-content style-external-links">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
@@ -140,97 +148,130 @@
 
 <div class="viewcode-block" id="pv_plot">
 <a class="viewcode-back" href="../../_autosummary/autopdex.plotter.pv_plot.html#autopdex.plotter.pv_plot">[docs]</a>
-<span class="k">def</span> <span class="nf">pv_plot</span><span class="p">(</span><span class="n">x_vis</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">export_vtk</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">groupname</span><span class="o">=</span><span class="s1">&#39;group&#39;</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="s1">&#39;frame&#39;</span><span class="p">,</span> <span class="n">fieldname</span><span class="o">=</span><span class="s1">&#39;data&#39;</span><span class="p">,</span> <span class="n">scale_range</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">data_on_z</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">  Plots and optionally exports 3D data using PyVista.</span>
+<span class="k">def</span> <span class="nf">pv_plot</span><span class="p">(</span>
+    <span class="n">x_vis</span><span class="p">,</span>
+    <span class="n">data</span><span class="p">,</span>
+    <span class="n">export_vtk</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">show</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">groupname</span><span class="o">=</span><span class="s2">&quot;group&quot;</span><span class="p">,</span>
+    <span class="n">filename</span><span class="o">=</span><span class="s2">&quot;frame&quot;</span><span class="p">,</span>
+    <span class="n">fieldname</span><span class="o">=</span><span class="s2">&quot;data&quot;</span><span class="p">,</span>
+    <span class="n">scale_range</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+    <span class="n">data_on_z</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Plots and optionally exports 3D data using PyVista.</span>
 
-<span class="sd">  Parameters:</span>
-<span class="sd">    - x_vis (np.ndarray): Array of coordinates for visualization points.</span>
-<span class="sd">    - data (np.ndarray): Data to be visualized at the points.</span>
-<span class="sd">    - export_vtk (bool, optional): Whether to export the plot to a VTK file. Default is False.</span>
-<span class="sd">    - show (bool, optional): Whether to show the plot. Default is True.</span>
-<span class="sd">    - groupname (str, optional): Name of the group folder for VTK export. Default is &#39;group&#39;.</span>
-<span class="sd">    - filename (str, optional): Name of the file for VTK export. Default is &#39;frame&#39;.</span>
-<span class="sd">    - fieldname (str, optional): Name of the data field in the VTK file. Default is &#39;data&#39;.</span>
-<span class="sd">    - scale_range (float, optional): Scale range for data visualization. Default is 1.0.</span>
-<span class="sd">    - data_on_z (bool, optional): Whether to plot data on the z-axis. Default is True.</span>
+<span class="sd">    Args:</span>
+<span class="sd">      - x_vis (np.ndarray): Array of coordinates for visualization points.</span>
+<span class="sd">      - data (np.ndarray): Data to be visualized at the points.</span>
+<span class="sd">      - export_vtk (bool, optional): Whether to export the plot to a VTK file. Default is False.</span>
+<span class="sd">      - show (bool, optional): Whether to show the plot. Default is True.</span>
+<span class="sd">      - groupname (str, optional): Name of the group folder for VTK export. Default is &#39;group&#39;.</span>
+<span class="sd">      - filename (str, optional): Name of the file for VTK export. Default is &#39;frame&#39;.</span>
+<span class="sd">      - fieldname (str, optional): Name of the data field in the VTK file. Default is &#39;data&#39;.</span>
+<span class="sd">      - scale_range (float, optional): Scale range for data visualization. Default is 1.0.</span>
+<span class="sd">      - data_on_z (bool, optional): Whether to plot data on the z-axis. Default is True.</span>
 
-<span class="sd">  Notes:</span>
-<span class="sd">    - Only supports 2d and 3d</span>
-<span class="sd">  &quot;&quot;&quot;</span>
-  <span class="kn">import</span> <span class="nn">pyvista</span> <span class="k">as</span> <span class="nn">pv</span>
-  <span class="n">pv</span><span class="o">.</span><span class="n">global_theme</span><span class="o">.</span><span class="n">cmap</span> <span class="o">=</span> <span class="s1">&#39;jet&#39;</span>
+<span class="sd">    Notes:</span>
+<span class="sd">      - Only supports 2d and 3d</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">import</span> <span class="nn">pyvista</span> <span class="k">as</span> <span class="nn">pv</span>
 
-  <span class="k">if</span> <span class="n">x_vis</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]:</span>
-      <span class="k">raise</span> <span class="ne">AssertionError</span><span class="p">(</span><span class="s2">&quot;Currently not implemented for dimensions other than 2 or 3.&quot;</span><span class="p">)</span>
+    <span class="n">pv</span><span class="o">.</span><span class="n">global_theme</span><span class="o">.</span><span class="n">cmap</span> <span class="o">=</span> <span class="s2">&quot;jet&quot;</span>
 
-  <span class="k">if</span> <span class="n">x_vis</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
-      <span class="n">x_range</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">nanmax</span><span class="p">(</span><span class="n">x_vis</span><span class="o">.</span><span class="n">flatten</span><span class="p">())</span> <span class="o">-</span> <span class="n">jnp</span><span class="o">.</span><span class="n">nanmin</span><span class="p">(</span><span class="n">x_vis</span><span class="o">.</span><span class="n">flatten</span><span class="p">())</span>
-      <span class="n">data_range</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">nanmax</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> <span class="o">-</span> <span class="n">jnp</span><span class="o">.</span><span class="n">nanmin</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
-      <span class="n">scaled_data</span> <span class="o">=</span> <span class="n">scale_range</span> <span class="o">*</span> <span class="p">(</span><span class="n">x_range</span> <span class="o">/</span> <span class="n">data_range</span><span class="p">)</span> <span class="o">*</span> <span class="n">data</span> <span class="k">if</span> <span class="n">data_range</span> <span class="o">&gt;</span> <span class="mf">1e-8</span> <span class="k">else</span> <span class="n">data</span>
-      <span class="n">positions</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">column_stack</span><span class="p">((</span><span class="n">x_vis</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">x_vis</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">scaled_data</span> <span class="k">if</span> <span class="n">data_on_z</span> <span class="k">else</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">scaled_data</span><span class="p">)))</span>
-  <span class="k">else</span><span class="p">:</span>
-      <span class="n">positions</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">x_vis</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">x_vis</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]:</span>
+        <span class="k">raise</span> <span class="ne">AssertionError</span><span class="p">(</span>
+            <span class="s2">&quot;Currently not implemented for dimensions other than 2 or 3.&quot;</span>
+        <span class="p">)</span>
 
-  <span class="n">points</span> <span class="o">=</span> <span class="n">pv</span><span class="o">.</span><span class="n">PolyData</span><span class="p">(</span><span class="n">positions</span><span class="p">)</span>
-  <span class="n">points</span><span class="o">.</span><span class="n">point_data</span><span class="p">[</span><span class="n">fieldname</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">x_vis</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="n">x_range</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">nanmax</span><span class="p">(</span><span class="n">x_vis</span><span class="o">.</span><span class="n">flatten</span><span class="p">())</span> <span class="o">-</span> <span class="n">jnp</span><span class="o">.</span><span class="n">nanmin</span><span class="p">(</span><span class="n">x_vis</span><span class="o">.</span><span class="n">flatten</span><span class="p">())</span>
+        <span class="n">data_range</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">nanmax</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> <span class="o">-</span> <span class="n">jnp</span><span class="o">.</span><span class="n">nanmin</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+        <span class="n">scaled_data</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">scale_range</span> <span class="o">*</span> <span class="p">(</span><span class="n">x_range</span> <span class="o">/</span> <span class="n">data_range</span><span class="p">)</span> <span class="o">*</span> <span class="n">data</span> <span class="k">if</span> <span class="n">data_range</span> <span class="o">&gt;</span> <span class="mf">1e-8</span> <span class="k">else</span> <span class="n">data</span>
+        <span class="p">)</span>
+        <span class="n">positions</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">column_stack</span><span class="p">(</span>
+            <span class="p">(</span>
+                <span class="n">x_vis</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span>
+                <span class="n">x_vis</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span>
+                <span class="n">scaled_data</span> <span class="k">if</span> <span class="n">data_on_z</span> <span class="k">else</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">scaled_data</span><span class="p">),</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">positions</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">x_vis</span><span class="p">)</span>
 
-  <span class="k">if</span> <span class="n">show</span><span class="p">:</span>
-      <span class="n">points</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">point_size</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s1">&#39;points&#39;</span><span class="p">)</span>
+    <span class="n">points</span> <span class="o">=</span> <span class="n">pv</span><span class="o">.</span><span class="n">PolyData</span><span class="p">(</span><span class="n">positions</span><span class="p">)</span>
+    <span class="n">points</span><span class="o">.</span><span class="n">point_data</span><span class="p">[</span><span class="n">fieldname</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
 
-  <span class="k">if</span> <span class="n">export_vtk</span><span class="p">:</span>
-      <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">groupname</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-      <span class="n">points</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">groupname</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">filename</span><span class="si">}</span><span class="s1">.vtp&#39;</span><span class="p">))</span></div>
+    <span class="k">if</span> <span class="n">show</span><span class="p">:</span>
+        <span class="n">points</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">point_size</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s2">&quot;points&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">export_vtk</span><span class="p">:</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">groupname</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">points</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">groupname</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">filename</span><span class="si">}</span><span class="s2">.vtp&quot;</span><span class="p">))</span></div>
+
 
 
 <div class="viewcode-block" id="pv_function_plot">
 <a class="viewcode-back" href="../../_autosummary/autopdex.plotter.pv_function_plot.html#autopdex.plotter.pv_function_plot">[docs]</a>
-<span class="k">def</span> <span class="nf">pv_function_plot</span><span class="p">(</span><span class="n">x_vis</span><span class="p">,</span> <span class="n">fun</span><span class="p">,</span> <span class="n">scale_range</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">data_on_z</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">isosurf</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">n_surfaces</span><span class="o">=</span><span class="mi">20</span><span class="p">):</span>
-<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">  Convenience function for visualizing/debugging smooth distance functions.</span>
+<span class="k">def</span> <span class="nf">pv_function_plot</span><span class="p">(</span>
+    <span class="n">x_vis</span><span class="p">,</span> <span class="n">fun</span><span class="p">,</span> <span class="n">scale_range</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">data_on_z</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">isosurf</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">n_surfaces</span><span class="o">=</span><span class="mi">20</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Convenience function for visualizing/debugging smooth distance functions.</span>
 
-<span class="sd">  Parameters:</span>
-<span class="sd">    - x_vis (np.ndarray): Array containing the coordinates of nodes for visualization.</span>
-<span class="sd">    - fun (function): Function to be visualized depending on x.</span>
-<span class="sd">    - scale_range (float, optional): Scale range for data visualization. Default is 1.0.</span>
-<span class="sd">    - data_on_z (bool, optional): Whether to plot data on the z-axis. Default is True.</span>
-<span class="sd">    - isosurf (bool, optional): Whether to plot isosurfaces for structured 3D grids. Default is False.</span>
-<span class="sd">    - n_surfaces (int, optional): Number of isosurfaces to plot. Default is 20.</span>
-<span class="sd">  &quot;&quot;&quot;</span>
-  <span class="n">data</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">jit</span><span class="p">(</span><span class="n">jax</span><span class="o">.</span><span class="n">vmap</span><span class="p">(</span><span class="n">fun</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="mi">0</span><span class="p">))(</span><span class="n">x_vis</span><span class="p">)</span>
-  <span class="k">if</span> <span class="n">isosurf</span><span class="p">:</span>
-      <span class="n">isosurface</span><span class="p">(</span><span class="n">x_vis</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">n_surfaces</span><span class="p">)</span>
-  <span class="k">else</span><span class="p">:</span>
-      <span class="n">pv_plot</span><span class="p">(</span><span class="n">x_vis</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">export_vtk</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">scale_range</span><span class="o">=</span><span class="n">scale_range</span><span class="p">,</span> <span class="n">data_on_z</span><span class="o">=</span><span class="n">data_on_z</span><span class="p">)</span></div>
+<span class="sd">    Args:</span>
+<span class="sd">      - x_vis (np.ndarray): Array containing the coordinates of nodes for visualization.</span>
+<span class="sd">      - fun (function): Function to be visualized depending on x.</span>
+<span class="sd">      - scale_range (float, optional): Scale range for data visualization. Default is 1.0.</span>
+<span class="sd">      - data_on_z (bool, optional): Whether to plot data on the z-axis. Default is True.</span>
+<span class="sd">      - isosurf (bool, optional): Whether to plot isosurfaces for structured 3D grids. Default is False.</span>
+<span class="sd">      - n_surfaces (int, optional): Number of isosurfaces to plot. Default is 20.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">jit</span><span class="p">(</span><span class="n">jax</span><span class="o">.</span><span class="n">vmap</span><span class="p">(</span><span class="n">fun</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="mi">0</span><span class="p">))(</span><span class="n">x_vis</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">isosurf</span><span class="p">:</span>
+        <span class="n">isosurface</span><span class="p">(</span><span class="n">x_vis</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">n_surfaces</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">pv_plot</span><span class="p">(</span>
+            <span class="n">x_vis</span><span class="p">,</span>
+            <span class="n">data</span><span class="p">,</span>
+            <span class="n">export_vtk</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="n">show</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="n">scale_range</span><span class="o">=</span><span class="n">scale_range</span><span class="p">,</span>
+            <span class="n">data_on_z</span><span class="o">=</span><span class="n">data_on_z</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
 
 
 <div class="viewcode-block" id="isosurface">
 <a class="viewcode-back" href="../../_autosummary/autopdex.plotter.isosurface.html#autopdex.plotter.isosurface">[docs]</a>
 <span class="k">def</span> <span class="nf">isosurface</span><span class="p">(</span><span class="n">x_vis</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">n_surfaces</span><span class="o">=</span><span class="mi">20</span><span class="p">):</span>
-<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">  Plots isosurfaces for structured 3D data using Plotly.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Plots isosurfaces for structured 3D data using Plotly.</span>
 
-<span class="sd">  Parameters:</span>
-<span class="sd">    - x_vis (np.ndarray): Array of coordinates for visualization points.</span>
-<span class="sd">    - data (np.ndarray): Data to be visualized at the points.</span>
-<span class="sd">    - n_surfaces (int, optional): Number of isosurfaces to plot. Default is 20.</span>
-<span class="sd">  &quot;&quot;&quot;</span>
-  <span class="kn">import</span> <span class="nn">plotly.graph_objects</span> <span class="k">as</span> <span class="nn">go</span>
+<span class="sd">    Args:</span>
+<span class="sd">      - x_vis (np.ndarray): Array of coordinates for visualization points.</span>
+<span class="sd">      - data (np.ndarray): Data to be visualized at the points.</span>
+<span class="sd">      - n_surfaces (int, optional): Number of isosurfaces to plot. Default is 20.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">import</span> <span class="nn">plotly.graph_objects</span> <span class="k">as</span> <span class="nn">go</span>
 
-  <span class="n">fig</span> <span class="o">=</span> <span class="n">go</span><span class="o">.</span><span class="n">Figure</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">go</span><span class="o">.</span><span class="n">Isosurface</span><span class="p">(</span>
-      <span class="n">x</span><span class="o">=</span><span class="n">x_vis</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span>
-      <span class="n">y</span><span class="o">=</span><span class="n">x_vis</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span>
-      <span class="n">z</span><span class="o">=</span><span class="n">x_vis</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">],</span>
-      <span class="n">value</span><span class="o">=</span><span class="n">data</span><span class="p">,</span>
-      <span class="n">opacity</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
-      <span class="n">isomin</span><span class="o">=</span><span class="n">jnp</span><span class="o">.</span><span class="n">nanmin</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="o">.</span><span class="n">item</span><span class="p">(),</span>
-      <span class="n">isomax</span><span class="o">=</span><span class="n">jnp</span><span class="o">.</span><span class="n">nanmax</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="o">.</span><span class="n">item</span><span class="p">(),</span>
-      <span class="n">colorscale</span><span class="o">=</span><span class="s1">&#39;Rainbow&#39;</span><span class="p">,</span>
-      <span class="n">surface_count</span><span class="o">=</span><span class="n">n_surfaces</span><span class="p">,</span>
-      <span class="n">caps</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">x_show</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">y_show</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-  <span class="p">))</span>
-  <span class="n">fig</span><span class="o">.</span><span class="n">show</span><span class="p">()</span></div>
-
+    <span class="n">fig</span> <span class="o">=</span> <span class="n">go</span><span class="o">.</span><span class="n">Figure</span><span class="p">(</span>
+        <span class="n">data</span><span class="o">=</span><span class="n">go</span><span class="o">.</span><span class="n">Isosurface</span><span class="p">(</span>
+            <span class="n">x</span><span class="o">=</span><span class="n">x_vis</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span>
+            <span class="n">y</span><span class="o">=</span><span class="n">x_vis</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span>
+            <span class="n">z</span><span class="o">=</span><span class="n">x_vis</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">],</span>
+            <span class="n">value</span><span class="o">=</span><span class="n">data</span><span class="p">,</span>
+            <span class="n">opacity</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+            <span class="n">isomin</span><span class="o">=</span><span class="n">jnp</span><span class="o">.</span><span class="n">nanmin</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="o">.</span><span class="n">item</span><span class="p">(),</span>
+            <span class="n">isomax</span><span class="o">=</span><span class="n">jnp</span><span class="o">.</span><span class="n">nanmax</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="o">.</span><span class="n">item</span><span class="p">(),</span>
+            <span class="n">colorscale</span><span class="o">=</span><span class="s2">&quot;Rainbow&quot;</span><span class="p">,</span>
+            <span class="n">surface_count</span><span class="o">=</span><span class="n">n_surfaces</span><span class="p">,</span>
+            <span class="n">caps</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">x_show</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">y_show</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span>
+        <span class="p">)</span>
+    <span class="p">)</span>
+    <span class="n">fig</span><span class="o">.</span><span class="n">show</span><span class="p">()</span></div>
 
 </pre></div>
 

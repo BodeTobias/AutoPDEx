@@ -81,7 +81,7 @@
 <li class="toctree-l1"><a class="reference internal" href="assembler.html">Assembler</a></li>
 <li class="toctree-l1"><a class="reference internal" href="implicit_diff.html">Implicit_diff</a></li>
 <li class="toctree-l1"><a class="reference internal" href="spaces.html">Spaces</a></li>
-<li class="toctree-l1"><a class="reference internal" href="solution_structures.html">Solution_structures</a></li>
+<li class="toctree-l1"><a class="reference internal" href="solution_structures.html">Solution structures</a></li>
 <li class="toctree-l1"><a class="reference internal" href="variational_schemes.html">Variational_schemes</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Pre- and postprocessing</span></p>
@@ -90,6 +90,7 @@
 <li class="toctree-l1"><a class="reference internal" href="seeder.html">Seeder</a></li>
 <li class="toctree-l1"><a class="reference internal" href="utility.html">Utility</a></li>
 <li class="toctree-l1"><a class="reference internal" href="plotter.html">Plotter</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mesher.html">Mesher</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Source code</span></p>
 <ul>
@@ -174,10 +175,12 @@
 <h2 id="C">C</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="_autosummary/autopdex.geometry.centroid.html#autopdex.geometry.centroid">centroid() (in module autopdex.geometry)</a>
+      <li><a href="_autosummary/autopdex.models.central_differences.html#autopdex.models.central_differences">central_differences() (in module autopdex.models)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="_autosummary/autopdex.geometry.centroid.html#autopdex.geometry.centroid">centroid() (in module autopdex.geometry)</a>
+</li>
       <li><a href="_autosummary/autopdex.implicit_diff.custom_root.html#autopdex.implicit_diff.custom_root">custom_root() (in module autopdex.implicit_diff)</a>
 </li>
   </ul></td>
@@ -194,11 +197,15 @@
 </li>
       <li><a href="_autosummary/autopdex.assembler.dense_assemble_residual.html#autopdex.assembler.dense_assemble_residual">dense_assemble_residual() (in module autopdex.assembler)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="_autosummary/autopdex.assembler.dense_assemble_tangent.html#autopdex.assembler.dense_assemble_tangent">dense_assemble_tangent() (in module autopdex.assembler)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="_autosummary/autopdex.assembler.dense_integrate_functional.html#autopdex.assembler.dense_integrate_functional">dense_integrate_functional() (in module autopdex.assembler)</a>
+</li>
+      <li><a href="_autosummary/autopdex.utility.dict_flatten.html#autopdex.utility.dict_flatten">dict_flatten() (in module autopdex.utility)</a>
+</li>
+      <li><a href="_autosummary/autopdex.utility.dict_zeros_like.html#autopdex.utility.dict_zeros_like">dict_zeros_like() (in module autopdex.utility)</a>
 </li>
       <li><a href="_autosummary/autopdex.variational_schemes.direct_residual_at_int_point.html#autopdex.variational_schemes.direct_residual_at_int_point">direct_residual_at_int_point() (in module autopdex.variational_schemes)</a>
 </li>
@@ -294,10 +301,10 @@
 </li>
       <li><a href="_autosummary/autopdex.seeder.int_pts_line.html#autopdex.seeder.int_pts_line">int_pts_line() (in module autopdex.seeder)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="_autosummary/autopdex.seeder.int_pts_ref_tet.html#autopdex.seeder.int_pts_ref_tet">int_pts_ref_tet() (in module autopdex.seeder)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="_autosummary/autopdex.seeder.int_pts_ref_tri.html#autopdex.seeder.int_pts_ref_tri">int_pts_ref_tri() (in module autopdex.seeder)</a>
 </li>
       <li><a href="_autosummary/autopdex.seeder.int_pts_tet.html#autopdex.seeder.int_pts_tet">int_pts_tet() (in module autopdex.seeder)</a>
@@ -305,6 +312,8 @@
       <li><a href="_autosummary/autopdex.seeder.int_pts_tri.html#autopdex.seeder.int_pts_tri">int_pts_tri() (in module autopdex.seeder)</a>
 </li>
       <li><a href="_autosummary/autopdex.assembler.integrate_functional.html#autopdex.assembler.integrate_functional">integrate_functional() (in module autopdex.assembler)</a>
+</li>
+      <li><a href="_autosummary/autopdex.models.isochoric_neo_hooke.html#autopdex.models.isochoric_neo_hooke">isochoric_neo_hooke() (in module autopdex.models)</a>
 </li>
       <li><a href="_autosummary/autopdex.models.isoparametric_domain_element_galerkin.html#autopdex.models.isoparametric_domain_element_galerkin">isoparametric_domain_element_galerkin() (in module autopdex.models)</a>
 </li>
@@ -320,10 +329,16 @@
 <h2 id="J">J</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="_autosummary/autopdex.utility.jacfwd_upto_n_one_vector_arg.html#autopdex.utility.jacfwd_upto_n_one_vector_arg">jacfwd_upto_n_one_vector_arg() (in module autopdex.utility)</a>
+</li>
+      <li><a href="_autosummary/autopdex.utility.jacfwd_upto_n_scalar_args.html#autopdex.utility.jacfwd_upto_n_scalar_args">jacfwd_upto_n_scalar_args() (in module autopdex.utility)</a>
+</li>
       <li><a href="_autosummary/autopdex.solver.jacobi_method.html#autopdex.solver.jacobi_method">jacobi_method() (in module autopdex.solver)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="_autosummary/autopdex.utility.jit_with_docstring.html#autopdex.utility.jit_with_docstring">jit_with_docstring() (in module autopdex.utility)</a>
+</li>
       <li><a href="_autosummary/autopdex.utility.jnp_to_tuple.html#autopdex.utility.jnp_to_tuple">jnp_to_tuple() (in module autopdex.utility)</a>
 </li>
       <li><a href="_autosummary/autopdex.seeder.just_in_psdf.html#autopdex.seeder.just_in_psdf">just_in_psdf() (in module autopdex.seeder)</a>
@@ -364,10 +379,22 @@
 <h2 id="M">M</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="_autosummary/autopdex.utility.mask_op.html#autopdex.utility.mask_op">mask_op() (in module autopdex.utility)</a>
+</li>
+      <li><a href="_autosummary/autopdex.utility.mask_select.html#autopdex.utility.mask_select">mask_select() (in module autopdex.utility)</a>
+</li>
       <li><a href="_autosummary/autopdex.utility.mask_set.html#autopdex.utility.mask_set">mask_set() (in module autopdex.utility)</a>
+</li>
+      <li><a href="_autosummary/autopdex.models.mixed_reference_domain_potential.html#autopdex.models.mixed_reference_domain_potential">mixed_reference_domain_potential() (in module autopdex.models)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="_autosummary/autopdex.models.mixed_reference_domain_residual.html#autopdex.models.mixed_reference_domain_residual">mixed_reference_domain_residual() (in module autopdex.models)</a>
+</li>
+      <li><a href="_autosummary/autopdex.models.mixed_reference_surface_potential.html#autopdex.models.mixed_reference_surface_potential">mixed_reference_surface_potential() (in module autopdex.models)</a>
+</li>
+      <li><a href="_autosummary/autopdex.models.mixed_reference_surface_residual.html#autopdex.models.mixed_reference_surface_residual">mixed_reference_surface_residual() (in module autopdex.models)</a>
+</li>
       <li><a href="_autosummary/autopdex.spaces.moving_least_squares.html#autopdex.spaces.moving_least_squares">moving_least_squares() (in module autopdex.spaces)</a>
 </li>
   </ul></td>
@@ -458,6 +485,8 @@
 </li>
       <li><a href="_autosummary/autopdex.geometry.psdf_trimmed_line.html#autopdex.geometry.psdf_trimmed_line">psdf_trimmed_line() (in module autopdex.geometry)</a>
 </li>
+      <li><a href="_autosummary/autopdex.geometry.psdf_unification.html#autopdex.geometry.psdf_unification">psdf_unification() (in module autopdex.geometry)</a>
+</li>
       <li><a href="_autosummary/autopdex.plotter.pv_function_plot.html#autopdex.plotter.pv_function_plot">pv_function_plot() (in module autopdex.plotter)</a>
 </li>
       <li><a href="_autosummary/autopdex.plotter.pv_plot.html#autopdex.plotter.pv_plot">pv_plot() (in module autopdex.plotter)</a>
@@ -486,13 +515,15 @@
 </li>
       <li><a href="_autosummary/autopdex.geometry.r_equivalence.html#autopdex.geometry.r_equivalence">r_equivalence() (in module autopdex.geometry)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="_autosummary/autopdex.geometry.r_trimming.html#autopdex.geometry.r_trimming">r_trimming() (in module autopdex.geometry)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="_autosummary/autopdex.seeder.regular_in_box.html#autopdex.seeder.regular_in_box">regular_in_box() (in module autopdex.seeder)</a>
 </li>
       <li><a href="_autosummary/autopdex.seeder.regular_in_psdf.html#autopdex.seeder.regular_in_psdf">regular_in_psdf() (in module autopdex.seeder)</a>
+</li>
+      <li><a href="_autosummary/autopdex.utility.reshape_as.html#autopdex.utility.reshape_as">reshape_as() (in module autopdex.utility)</a>
 </li>
       <li><a href="_autosummary/autopdex.variational_schemes.residual_from_deriv_at_int_point.html#autopdex.variational_schemes.residual_from_deriv_at_int_point">residual_from_deriv_at_int_point() (in module autopdex.variational_schemes)</a>
 </li>
@@ -572,6 +603,8 @@
 </li>
       <li><a href="_autosummary/autopdex.variational_schemes.strong_form_galerkin.html#autopdex.variational_schemes.strong_form_galerkin">strong_form_galerkin() (in module autopdex.variational_schemes)</a>
 </li>
+      <li><a href="_autosummary/autopdex.mesher.structured_mesh.html#autopdex.mesher.structured_mesh">structured_mesh() (in module autopdex.mesher)</a>
+</li>
       <li><a href="_autosummary/autopdex.geometry.subelem_in_elem.html#autopdex.geometry.subelem_in_elem">subelem_in_elem() (in module autopdex.geometry)</a>
 </li>
       <li><a href="_autosummary/autopdex.geometry.subelem_in_elems.html#autopdex.geometry.subelem_in_elems">subelem_in_elems() (in module autopdex.geometry)</a>
@@ -594,6 +627,8 @@
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="_autosummary/autopdex.geometry.transfinite_interpolation.html#autopdex.geometry.transfinite_interpolation">transfinite_interpolation() (in module autopdex.geometry)</a>
+</li>
       <li><a href="_autosummary/autopdex.models.transport_equation.html#autopdex.models.transport_equation">transport_equation() (in module autopdex.models)</a>
 </li>
       <li><a href="_autosummary/autopdex.geometry.triangle_area.html#autopdex.geometry.triangle_area">triangle_area() (in module autopdex.geometry)</a>
@@ -614,11 +649,13 @@
 </li>
       <li><a href="_autosummary/autopdex.assembler.user_potential_assemble_residual.html#autopdex.assembler.user_potential_assemble_residual">user_potential_assemble_residual() (in module autopdex.assembler)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="_autosummary/autopdex.assembler.user_potential_assemble_tangent.html#autopdex.assembler.user_potential_assemble_tangent">user_potential_assemble_tangent() (in module autopdex.assembler)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="_autosummary/autopdex.assembler.user_potential_assemble_tangent_diagonal.html#autopdex.assembler.user_potential_assemble_tangent_diagonal">user_potential_assemble_tangent_diagonal() (in module autopdex.assembler)</a>
+</li>
+      <li><a href="_autosummary/autopdex.assembler.user_potential_integrate_functional.html#autopdex.assembler.user_potential_integrate_functional">user_potential_integrate_functional() (in module autopdex.assembler)</a>
 </li>
       <li><a href="_autosummary/autopdex.assembler.user_residual_assemble_residual.html#autopdex.assembler.user_residual_assemble_residual">user_residual_assemble_residual() (in module autopdex.assembler)</a>
 </li>
