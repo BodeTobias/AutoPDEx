@@ -1198,35 +1198,35 @@ def mixed_reference_domain_potential(
     Constructs a multi-field 'user potential' for integration of a potential in the reference configuration of finite elements. Works for DOFs as a dict of jnp.ndarrays.
 
     Args:
-      integrand_fun (callable): Function that evaluates the integrand given the integration point, trial ansatz, settings, static settings, and element number.
-      ansatz_fun (dict of callables): Functions that constructs the ansatz functions for each field. Keywords have to match with those defined in the DOFs dictionary.
-      ref_int_coor (jnp.ndarray): Reference integration coordinates for the isoparametric element.
-      ref_int_weights (jnp.ndarray): Reference integration weights for the isoparametric element.
-      mapping_key (string): Which solution space to use for the isoparametric mapping.
+        integrand_fun (callable): Function that evaluates the integrand given the integration point, trial ansatz, settings, static settings, and element number.
+        ansatz_fun (dict of callables): Functions that constructs the ansatz functions for each field. Keywords have to match with those defined in the DOFs dictionary.
+        ref_int_coor (jnp.ndarray): Reference integration coordinates for the isoparametric element.
+        ref_int_weights (jnp.ndarray): Reference integration weights for the isoparametric element.
+        mapping_key (string): Which solution space to use for the isoparametric mapping.
 
     Returns:
-      function
-          A function that evaluates the integrand for the isoparametric element.
+        function
+            A function that evaluates the integrand for the isoparametric element.
 
     The returned function has the following parameters:
-      - fI (dict of jnp.ndarray): Element nodal values.
-      - xI (dict of jnp.ndarray): Element nodal coordinates.
-      - elem_number (int): Element number.
-      - settings (dict): Settings for the computation.
-      - static_settings (dict): Static settings for the computation.
+        - fI (dict of jnp.ndarray): Element nodal values.
+        - xI (dict of jnp.ndarray): Element nodal coordinates.
+        - elem_number (int): Element number.
+        - settings (dict): Settings for the computation.
+        - static_settings (dict): Static settings for the computation.
 
     Exemplary integrand function:
-      def integrand_fun(x_int, ansatz_fun, settings, static_settings, elem_number, set):
-          # Definition of custom functional
-          x = ansatz_fun['physical coor'](x_int)      # Physical coordinates via isoparametric mapping
-          phi_fun = ansatz_fun['phi']                 # Field approximation function with key words as defined in the DOFs dictionary
-          phi = phi_fun(x_int)
-          dphi_dx = jax.jacrev(phi_fun)(x_int)
-
-          x_1 = x
-          x_2 = x - jnp.array([1., 0.5])
-          source_term = 20 * (jnp.sin(10 * x_1 @ x_1) - jnp.cos(10 * x_2 @ x_2))
-          return (1/2) * dphi_dx @ dphi_dx - source_term * phi                    # Returns a scalar potential that is to be integrated in reference configuration
+        --> def integrand_fun(x_int, ansatz_fun, settings, static_settings, elem_number, set):
+        -->     # Definition of custom functional
+        -->     x = ansatz_fun['physical coor'](x_int)      # Physical coordinates via isoparametric mapping
+        -->     phi_fun = ansatz_fun['phi']                 # Field approximation function with key words as defined in the DOFs dictionary
+        -->     phi = phi_fun(x_int)
+        -->     dphi_dx = jax.jacrev(phi_fun)(x_int)
+        --> 
+        -->     x_1 = x
+        -->     x_2 = x - jnp.array([1., 0.5])
+        -->     source_term = 20 * (jnp.sin(10 * x_1 @ x_1) - jnp.cos(10 * x_2 @ x_2))
+        -->     return (1/2) * dphi_dx @ dphi_dx - source_term * phi                    # Returns a scalar potential that is to be integrated in reference configuration
 
     Notes:
       This models works for DOFs as a dict of jnp.ndarrays.

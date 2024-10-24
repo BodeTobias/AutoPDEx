@@ -142,13 +142,7 @@ def solver(dofs, settings, static_settings, **kwargs):
         "multiplier_settings",
         "path_dependent",
         "implicit_diff_mode",
-        "max_multiplier",
-        "min_increment",
-        "max_increment",
-        "init_increment",
-        "target_num_newton_iter",
         "max_load_steps",
-        "newton_tol",
         "**kwargs",
     ]
 )
@@ -888,7 +882,8 @@ def damped_newton(
       dofs_0 (jnp.ndarray or dict): Initial guess for the degrees of freedom.
       residual_fun (callable): Function to compute the residual of the system.
       lin_solve_fun (callable): Function to solve the linearized system for the Newton step.
-      free_dofs (jnp.ndarray): Boolean array indicating the free degrees of freedom.
+      free_dofs (jnp.ndarray or None): Boolean array indicating the free degrees of freedom. 
+            If None, all degrees of freedom are free.      
       newton_tol (float): Tolerance for the Newton method convergence criterion.
       maxiter (int): Maximum number of iterations for the Newton method.
       damping_coefficient (float): Damping coefficient for the Newton updates.
@@ -902,42 +897,52 @@ def damped_newton(
             - diverged (bool): Flag indicating whether the method diverged.
     """
 
+
     def step(carry):
         dofs_i, itt, _, res_norm_old, _ = carry
 
         # Update formula of newton scheme
         delta_x_i = lin_solve_fun(dofs_i)
 
-        # Update free dofs
-        delta_x_i = utility.mask_op(
-            delta_x_i, free_dofs, mode="apply", ufunc=lambda x: damping_coefficient * x
-        )
-        dofs_i = utility.mask_op(dofs_i, free_dofs, delta_x_i, "add")
+        # If free_dofs is None, apply update to all dofs, otherwise apply masking
+        if free_dofs is not None:
+            # Apply damping to the Newton step on free dofs
+            delta_x_i = utility.mask_op(
+                delta_x_i, free_dofs, mode="apply", ufunc=lambda x: damping_coefficient * x
+            )
+            # Update free dofs with the damped step
+            dofs_i = utility.mask_op(dofs_i, free_dofs, delta_x_i, "add")
 
-        # Set boundary conditions
-        if isinstance(free_dofs, dict):
-            dirichlet_dofs = {key: np.invert(val) for (key, val) in free_dofs.items()}
+            # Set boundary conditions for dirichlet_dofs
+            if isinstance(free_dofs, dict):
+                dirichlet_dofs = {key: np.invert(val) for (key, val) in free_dofs.items()}
+            else:
+                dirichlet_dofs = np.invert(free_dofs)
+            dofs_i = utility.mask_op(dofs_i, dirichlet_dofs, delta_x_i, "set")
         else:
-            dirichlet_dofs = np.invert(free_dofs)
-        dofs_i = utility.mask_op(dofs_i, dirichlet_dofs, delta_x_i, "set")
+            # If free_dofs is None, apply the update to all dofs directly
+            dofs_i += damping_coefficient * delta_x_i
 
-        # Compute residual in next step as convergence test
+        # Compute residual for next step as convergence test
         residual = residual_fun(dofs_i)
-        residual_flat = utility.dict_flatten(
-            utility.mask_op(residual, free_dofs, mode="get")
-        )
+        if free_dofs is not None:
+            residual_flat = utility.dict_flatten(
+                utility.mask_op(residual, free_dofs, mode="get")
+            )
+        else:
+            residual_flat = utility.dict_flatten(residual)  # Use full residual if no mask
         res_norm = jnp.linalg.norm(residual_flat)
         not_stop = jnp.where(res_norm > newton_tol, True, False)
 
         def report():
             if verbose > 0:
                 jax.debug.print(
-                    "Residual after Newton itteration {x}: {y}", x=itt + 1, y=res_norm
+                    "Residual after Newton iteration {x}: {y}", x=itt + 1, y=res_norm
                 )
                 if verbose > 1:
                     jax.debug.print("")
 
-            # Check convergence
+            # Check for divergence
             divergence = jnp.where(
                 jnp.logical_and(res_norm / res_norm_old > 10, itt > 1), True, False
             )
@@ -960,6 +965,7 @@ def damped_newton(
         _, _, not_stop, _, _ = carry
         return not_stop
 
+    # Start Newton iteration loop
     sol, load_steps, _, res_norm, divergence = lax.while_loop(
         convergence_check, step, (dofs_0, 0, True, 0.0, False)
     )

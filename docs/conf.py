@@ -15,7 +15,7 @@ project = 'AutoPDEx'
 copyright = '2024, Tobias Bode'
 author = 'Tobias Bode'
 # version = setuptools_scm.get_version()
-version = '1.0.3'
+version = '1.0.5'
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration

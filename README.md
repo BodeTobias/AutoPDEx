@@ -1,5 +1,5 @@
 <div align="center">
-    <img src="docs/_static/logo.png" width="300"/>
+    <img src="https://github.com/BodeTobias/AutoPDEx/blob/main/docs/_static/logo.png" width="300"/>
 </div>
 
 AutoPDEx is a free open source partial differential equation (PDE) solver based on the automatic code transformation capabilities of [JAX](https://github.com/jax-ml/jax).
@@ -8,7 +8,7 @@ The idea of the project is to develop a modular and easily extendable environmen
 
 The documentation with more examples is available [here](https://bodetobias.github.io/AutoPDEx/index.html).
 
-![](docs/_static/demos_small.png)
+![](https://github.com/BodeTobias/AutoPDEx/blob/main/docs/_static/demos_small.png)
 
 ## Installation
 
@@ -127,7 +127,7 @@ meshio.Mesh(
 ```
 
 <div align="center">
-    <img src="docs/_static/short_example.png" width="500"/>
+    <img src="https://github.com/BodeTobias/AutoPDEx/blob/main/docs/_static/short_example.png" width="500"/>
 </div>
 
 
