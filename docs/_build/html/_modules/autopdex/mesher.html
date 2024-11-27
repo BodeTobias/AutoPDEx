@@ -49,7 +49,7 @@
               <img src="../../_static/logo.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                1.0.3
+                1.0.5
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
@@ -81,7 +81,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../assembler.html">Assembler</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../implicit_diff.html">Implicit_diff</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../spaces.html">Spaces</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../solution_structures.html">Solution_structures</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../solution_structures.html">Solution structures</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../variational_schemes.html">Variational_schemes</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Pre- and postprocessing</span></p>
@@ -146,27 +146,22 @@
 
 <span class="kn">from</span> <span class="nn">autopdex.utility</span> <span class="kn">import</span> <span class="n">jit_with_docstring</span>
 
-
 <div class="viewcode-block" id="structured_mesh">
 <a class="viewcode-back" href="../../_autosummary/autopdex.mesher.structured_mesh.html#autopdex.mesher.structured_mesh">[docs]</a>
-<span class="nd">@jit_with_docstring</span><span class="p">(</span>
-    <span class="n">static_argnames</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;n_elements&quot;</span><span class="p">,</span> <span class="s2">&quot;type&quot;</span><span class="p">],</span>
-<span class="p">)</span>
+<span class="nd">@jit_with_docstring</span><span class="p">(</span><span class="n">static_argnames</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;n_elements&quot;</span><span class="p">,</span> <span class="s2">&quot;type&quot;</span><span class="p">])</span>
 <span class="k">def</span> <span class="nf">structured_mesh</span><span class="p">(</span><span class="n">n_elements</span><span class="p">,</span> <span class="n">vertices</span><span class="p">,</span> <span class="nb">type</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Generates a structured 2D mesh over a quadrilateral domain.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Generates a structured 2D mesh over a quadrilateral domain.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        n_elements (tuple of int): A tuple `(nx, ny)` specifying the number of elements (divisions) along the x-axis (`nx`) and y-axis (`ny`).</span>
-<span class="sd">        vertices (array-like): A 4x2 array defining the coordinates of the domain&#39;s corner points in anti-clockwise order.</span>
-<span class="sd">        type (str): The element type to use for the mesh. Currently, only quadrilateral meshes (`&#39;quad&#39;`) are supported.</span>
-<span class="sd">        order (int, optional): The polynomial order of the elements. Higher orders are not yet implemented.</span>
+<span class="sd">      n_elements (tuple of int): A tuple `(nx, ny)` specifying the number of elements (divisions) along the x-axis (`nx`) and y-axis (`ny`).</span>
+<span class="sd">      vertices (array-like): A 4x2 array defining the coordinates of the domain&#39;s corner points in anti-clockwise order.</span>
+<span class="sd">      type (str): The element type to use for the mesh. Currently, only quadrilateral meshes (`&#39;quad&#39;`) are supported.</span>
+<span class="sd">      order (int, optional): The polynomial order of the elements. Higher orders are not yet implemented.</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        coords (jax.numpy.ndarray): A 2D array of shape `((nx + 1) * (ny + 1), 2)` containing the (x, y) coordinates of each node in the mesh.</span>
-<span class="sd">        elements (jax.numpy.ndarray): A 2D array of shape `(nx * ny, 4)` containing the vertex indices</span>
-<span class="sd">                                      for each quadrilateral element in the mesh. The indices refer</span>
-<span class="sd">                                      to the positions in the `coords` array.</span>
+<span class="sd">      (coords, elements)</span>
+<span class="sd">        - coords (jnp.ndarray): A 2D array of shape `((nx + 1) * (ny + 1), 2)` containing the (x, y) coordinates of each node in the mesh.</span>
+<span class="sd">        - elements (jnp.ndarray): A 2D array of shape `(nx * ny, 4)` containing the vertex indices for each quadrilateral element in the mesh. The indices refer to the positions in the `coords` array.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="p">(</span><span class="n">nx</span><span class="p">,</span> <span class="n">ny</span><span class="p">)</span> <span class="o">=</span> <span class="n">n_elements</span>
     <span class="n">vertices</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">vertices</span><span class="p">)</span>

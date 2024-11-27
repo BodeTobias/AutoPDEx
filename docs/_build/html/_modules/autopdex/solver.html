@@ -49,7 +49,7 @@
               <img src="../../_static/logo.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                1.0.3
+                1.0.5
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
@@ -81,7 +81,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../assembler.html">Assembler</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../implicit_diff.html">Implicit_diff</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../spaces.html">Spaces</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../solution_structures.html">Solution_structures</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../solution_structures.html">Solution structures</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../variational_schemes.html">Variational_schemes</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Pre- and postprocessing</span></p>
@@ -271,13 +271,7 @@
         <span class="s2">&quot;multiplier_settings&quot;</span><span class="p">,</span>
         <span class="s2">&quot;path_dependent&quot;</span><span class="p">,</span>
         <span class="s2">&quot;implicit_diff_mode&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;max_multiplier&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;min_increment&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;max_increment&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;init_increment&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;target_num_newton_iter&quot;</span><span class="p">,</span>
         <span class="s2">&quot;max_load_steps&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;newton_tol&quot;</span><span class="p">,</span>
         <span class="s2">&quot;**kwargs&quot;</span><span class="p">,</span>
     <span class="p">]</span>
 <span class="p">)</span>
@@ -1033,7 +1027,8 @@
 <span class="sd">      dofs_0 (jnp.ndarray or dict): Initial guess for the degrees of freedom.</span>
 <span class="sd">      residual_fun (callable): Function to compute the residual of the system.</span>
 <span class="sd">      lin_solve_fun (callable): Function to solve the linearized system for the Newton step.</span>
-<span class="sd">      free_dofs (jnp.ndarray): Boolean array indicating the free degrees of freedom.</span>
+<span class="sd">      free_dofs (jnp.ndarray or None): Boolean array indicating the free degrees of freedom. </span>
+<span class="sd">            If None, all degrees of freedom are free.      </span>
 <span class="sd">      newton_tol (float): Tolerance for the Newton method convergence criterion.</span>
 <span class="sd">      maxiter (int): Maximum number of iterations for the Newton method.</span>
 <span class="sd">      damping_coefficient (float): Damping coefficient for the Newton updates.</span>
@@ -1047,42 +1042,52 @@
 <span class="sd">            - diverged (bool): Flag indicating whether the method diverged.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
+
     <span class="k">def</span> <span class="nf">step</span><span class="p">(</span><span class="n">carry</span><span class="p">):</span>
         <span class="n">dofs_i</span><span class="p">,</span> <span class="n">itt</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">res_norm_old</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">carry</span>
 
         <span class="c1"># Update formula of newton scheme</span>
         <span class="n">delta_x_i</span> <span class="o">=</span> <span class="n">lin_solve_fun</span><span class="p">(</span><span class="n">dofs_i</span><span class="p">)</span>
 
-        <span class="c1"># Update free dofs</span>
-        <span class="n">delta_x_i</span> <span class="o">=</span> <span class="n">utility</span><span class="o">.</span><span class="n">mask_op</span><span class="p">(</span>
-            <span class="n">delta_x_i</span><span class="p">,</span> <span class="n">free_dofs</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;apply&quot;</span><span class="p">,</span> <span class="n">ufunc</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">damping_coefficient</span> <span class="o">*</span> <span class="n">x</span>
-        <span class="p">)</span>
-        <span class="n">dofs_i</span> <span class="o">=</span> <span class="n">utility</span><span class="o">.</span><span class="n">mask_op</span><span class="p">(</span><span class="n">dofs_i</span><span class="p">,</span> <span class="n">free_dofs</span><span class="p">,</span> <span class="n">delta_x_i</span><span class="p">,</span> <span class="s2">&quot;add&quot;</span><span class="p">)</span>
+        <span class="c1"># If free_dofs is None, apply update to all dofs, otherwise apply masking</span>
+        <span class="k">if</span> <span class="n">free_dofs</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="c1"># Apply damping to the Newton step on free dofs</span>
+            <span class="n">delta_x_i</span> <span class="o">=</span> <span class="n">utility</span><span class="o">.</span><span class="n">mask_op</span><span class="p">(</span>
+                <span class="n">delta_x_i</span><span class="p">,</span> <span class="n">free_dofs</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;apply&quot;</span><span class="p">,</span> <span class="n">ufunc</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">damping_coefficient</span> <span class="o">*</span> <span class="n">x</span>
+            <span class="p">)</span>
+            <span class="c1"># Update free dofs with the damped step</span>
+            <span class="n">dofs_i</span> <span class="o">=</span> <span class="n">utility</span><span class="o">.</span><span class="n">mask_op</span><span class="p">(</span><span class="n">dofs_i</span><span class="p">,</span> <span class="n">free_dofs</span><span class="p">,</span> <span class="n">delta_x_i</span><span class="p">,</span> <span class="s2">&quot;add&quot;</span><span class="p">)</span>
 
-        <span class="c1"># Set boundary conditions</span>
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">free_dofs</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
-            <span class="n">dirichlet_dofs</span> <span class="o">=</span> <span class="p">{</span><span class="n">key</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">invert</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="k">for</span> <span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">val</span><span class="p">)</span> <span class="ow">in</span> <span class="n">free_dofs</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+            <span class="c1"># Set boundary conditions for dirichlet_dofs</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">free_dofs</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+                <span class="n">dirichlet_dofs</span> <span class="o">=</span> <span class="p">{</span><span class="n">key</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">invert</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="k">for</span> <span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">val</span><span class="p">)</span> <span class="ow">in</span> <span class="n">free_dofs</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">dirichlet_dofs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">invert</span><span class="p">(</span><span class="n">free_dofs</span><span class="p">)</span>
+            <span class="n">dofs_i</span> <span class="o">=</span> <span class="n">utility</span><span class="o">.</span><span class="n">mask_op</span><span class="p">(</span><span class="n">dofs_i</span><span class="p">,</span> <span class="n">dirichlet_dofs</span><span class="p">,</span> <span class="n">delta_x_i</span><span class="p">,</span> <span class="s2">&quot;set&quot;</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">dirichlet_dofs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">invert</span><span class="p">(</span><span class="n">free_dofs</span><span class="p">)</span>
-        <span class="n">dofs_i</span> <span class="o">=</span> <span class="n">utility</span><span class="o">.</span><span class="n">mask_op</span><span class="p">(</span><span class="n">dofs_i</span><span class="p">,</span> <span class="n">dirichlet_dofs</span><span class="p">,</span> <span class="n">delta_x_i</span><span class="p">,</span> <span class="s2">&quot;set&quot;</span><span class="p">)</span>
+            <span class="c1"># If free_dofs is None, apply the update to all dofs directly</span>
+            <span class="n">dofs_i</span> <span class="o">+=</span> <span class="n">damping_coefficient</span> <span class="o">*</span> <span class="n">delta_x_i</span>
 
-        <span class="c1"># Compute residual in next step as convergence test</span>
+        <span class="c1"># Compute residual for next step as convergence test</span>
         <span class="n">residual</span> <span class="o">=</span> <span class="n">residual_fun</span><span class="p">(</span><span class="n">dofs_i</span><span class="p">)</span>
-        <span class="n">residual_flat</span> <span class="o">=</span> <span class="n">utility</span><span class="o">.</span><span class="n">dict_flatten</span><span class="p">(</span>
-            <span class="n">utility</span><span class="o">.</span><span class="n">mask_op</span><span class="p">(</span><span class="n">residual</span><span class="p">,</span> <span class="n">free_dofs</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;get&quot;</span><span class="p">)</span>
-        <span class="p">)</span>
+        <span class="k">if</span> <span class="n">free_dofs</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">residual_flat</span> <span class="o">=</span> <span class="n">utility</span><span class="o">.</span><span class="n">dict_flatten</span><span class="p">(</span>
+                <span class="n">utility</span><span class="o">.</span><span class="n">mask_op</span><span class="p">(</span><span class="n">residual</span><span class="p">,</span> <span class="n">free_dofs</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;get&quot;</span><span class="p">)</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">residual_flat</span> <span class="o">=</span> <span class="n">utility</span><span class="o">.</span><span class="n">dict_flatten</span><span class="p">(</span><span class="n">residual</span><span class="p">)</span>  <span class="c1"># Use full residual if no mask</span>
         <span class="n">res_norm</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">residual_flat</span><span class="p">)</span>
         <span class="n">not_stop</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">res_norm</span> <span class="o">&gt;</span> <span class="n">newton_tol</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
 
         <span class="k">def</span> <span class="nf">report</span><span class="p">():</span>
             <span class="k">if</span> <span class="n">verbose</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
                 <span class="n">jax</span><span class="o">.</span><span class="n">debug</span><span class="o">.</span><span class="n">print</span><span class="p">(</span>
-                    <span class="s2">&quot;Residual after Newton itteration </span><span class="si">{x}</span><span class="s2">: </span><span class="si">{y}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="n">itt</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">res_norm</span>
+                    <span class="s2">&quot;Residual after Newton iteration </span><span class="si">{x}</span><span class="s2">: </span><span class="si">{y}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="n">itt</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">res_norm</span>
                 <span class="p">)</span>
                 <span class="k">if</span> <span class="n">verbose</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
                     <span class="n">jax</span><span class="o">.</span><span class="n">debug</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
 
-            <span class="c1"># Check convergence</span>
+            <span class="c1"># Check for divergence</span>
             <span class="n">divergence</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">where</span><span class="p">(</span>
                 <span class="n">jnp</span><span class="o">.</span><span class="n">logical_and</span><span class="p">(</span><span class="n">res_norm</span> <span class="o">/</span> <span class="n">res_norm_old</span> <span class="o">&gt;</span> <span class="mi">10</span><span class="p">,</span> <span class="n">itt</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">),</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">False</span>
             <span class="p">)</span>
@@ -1105,6 +1110,7 @@
         <span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">not_stop</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">carry</span>
         <span class="k">return</span> <span class="n">not_stop</span>
 
+    <span class="c1"># Start Newton iteration loop</span>
     <span class="n">sol</span><span class="p">,</span> <span class="n">load_steps</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">res_norm</span><span class="p">,</span> <span class="n">divergence</span> <span class="o">=</span> <span class="n">lax</span><span class="o">.</span><span class="n">while_loop</span><span class="p">(</span>
         <span class="n">convergence_check</span><span class="p">,</span> <span class="n">step</span><span class="p">,</span> <span class="p">(</span><span class="n">dofs_0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
     <span class="p">)</span>

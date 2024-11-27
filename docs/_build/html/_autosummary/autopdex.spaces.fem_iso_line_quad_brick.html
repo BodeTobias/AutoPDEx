@@ -52,7 +52,7 @@
               <img src="../_static/logo.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                1.0.3
+                1.0.5
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
@@ -141,7 +141,7 @@
 <dl class="py function">
 <dt class="sig sig-object py" id="autopdex.spaces.fem_iso_line_quad_brick">
 <span class="sig-prename descclassname"><span class="pre">autopdex.spaces.</span></span><span class="sig-name descname"><span class="pre">fem_iso_line_quad_brick</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xI</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fI</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">settings</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">overwrite_diff</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_dim</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/autopdex/spaces.html#fem_iso_line_quad_brick"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#autopdex.spaces.fem_iso_line_quad_brick" title="Link to this definition"></a></dt>
-<dd><p>Compute finite element shape functions for line, quadrilateral, and brick elements in the initial/physical configuration.</p>
+<dd><p>Compute isoparametric finite element shape functions for line, quadrilateral, and brick elements.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -164,7 +164,7 @@
 <ul class="simple">
 <li><p>This function currently supports line elements up to order 20, quadrilateral elements up to order 20, and brick elements up to order 2.</p></li>
 <li><p>Though the input <cite>x</cite> is a reference coordinate, its derivative is replaced with respect to the initial configuration when <cite>overwrite_diff</cite> is True.</p></li>
-<li><p>Warning: Only first-order derivatives are supported in the custom JVP implementation with overwritten derivatives.</p></li>
+<li><p>Warning: Only first-order spatial derivatives are supported in the custom JVP implementation with overwritten derivatives.</p></li>
 <li><p>Warning: The derivatives with respect to xI are set to zero.</p></li>
 </ul>
 </dd></dl>

@@ -22,25 +22,20 @@ import jax.numpy as jnp
 
 from autopdex.utility import jit_with_docstring
 
-
-@jit_with_docstring(
-    static_argnames=["n_elements", "type"],
-)
+@jit_with_docstring(static_argnames=["n_elements", "type"])
 def structured_mesh(n_elements, vertices, type, order=1):
-    """
-    Generates a structured 2D mesh over a quadrilateral domain.
+    """Generates a structured 2D mesh over a quadrilateral domain.
 
     Args:
-        n_elements (tuple of int): A tuple `(nx, ny)` specifying the number of elements (divisions) along the x-axis (`nx`) and y-axis (`ny`).
-        vertices (array-like): A 4x2 array defining the coordinates of the domain's corner points in anti-clockwise order.
-        type (str): The element type to use for the mesh. Currently, only quadrilateral meshes (`'quad'`) are supported.
-        order (int, optional): The polynomial order of the elements. Higher orders are not yet implemented.
+      n_elements (tuple of int): A tuple `(nx, ny)` specifying the number of elements (divisions) along the x-axis (`nx`) and y-axis (`ny`).
+      vertices (array-like): A 4x2 array defining the coordinates of the domain's corner points in anti-clockwise order.
+      type (str): The element type to use for the mesh. Currently, only quadrilateral meshes (`'quad'`) are supported.
+      order (int, optional): The polynomial order of the elements. Higher orders are not yet implemented.
 
     Returns:
-        coords (jax.numpy.ndarray): A 2D array of shape `((nx + 1) * (ny + 1), 2)` containing the (x, y) coordinates of each node in the mesh.
-        elements (jax.numpy.ndarray): A 2D array of shape `(nx * ny, 4)` containing the vertex indices
-                                      for each quadrilateral element in the mesh. The indices refer
-                                      to the positions in the `coords` array.
+      (coords, elements)
+        - coords (jnp.ndarray): A 2D array of shape `((nx + 1) * (ny + 1), 2)` containing the (x, y) coordinates of each node in the mesh.
+        - elements (jnp.ndarray): A 2D array of shape `(nx * ny, 4)` containing the vertex indices for each quadrilateral element in the mesh. The indices refer to the positions in the `coords` array.
     """
     (nx, ny) = n_elements
     vertices = jnp.asarray(vertices)

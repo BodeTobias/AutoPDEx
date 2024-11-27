@@ -38,8 +38,6 @@ from autopdex import solution_structures
 
 
 ### Linear equations
-
-
 def transport_equation(c):
     """
     Transport equation: du/dt + c * du/dx = 0
@@ -782,8 +780,6 @@ def neumann_weak(neumann_fun):
 
 
 ### Nonlinear equations
-
-
 def burgers_equation_inviscid():
     """
     Constructs the inviscid Burgers' equation: du/dt + u * du/dx = 0.
@@ -1123,8 +1119,6 @@ def navier_stokes_incompressible(
 
 
 ### Strain energy functions
-
-
 def neo_hooke(F, param):
     """
     Computes the strain energy for a neo-Hookean material model of Ciarlet type given the deformation gradient.
@@ -1233,7 +1227,7 @@ def mixed_reference_domain_potential(
     """
     field_keys = list(ansatz_fun.keys())
 
-    def user_element(fI, xI, elem_number, settings, static_settings, set):
+    def user_potential(fI, xI, elem_number, settings, static_settings, set):
         n_dim = xI[field_keys[0]].shape[-1]
 
         # Define solution spaces
@@ -1272,7 +1266,7 @@ def mixed_reference_domain_potential(
         )
         return functional_contrib.sum(axis=0)
 
-    return user_element
+    return user_potential
 
 
 def mixed_reference_domain_residual(
@@ -1304,7 +1298,7 @@ def mixed_reference_domain_residual(
     """
     field_keys = list(ansatz_fun.keys())
 
-    def user_element(fI, xI, elem_number, settings, static_settings, set):
+    def user_residual(fI, xI, elem_number, settings, static_settings, set):
         n_dim = xI[field_keys[0]].shape[-1]
 
         def integrated_weak_form(test_fI):
@@ -1360,7 +1354,7 @@ def mixed_reference_domain_residual(
         residual = jax.jacrev(integrated_weak_form)(fI)
         return residual
 
-    return user_element
+    return user_residual
 
 
 def mixed_reference_surface_potential(
@@ -1392,7 +1386,7 @@ def mixed_reference_surface_potential(
     """
     field_keys = list(ansatz_fun.keys())
 
-    def user_element(fI, xI, elem_number, settings, static_settings, set):
+    def user_potential(fI, xI, elem_number, settings, static_settings, set):
         n_dim = xI[field_keys[0]].shape[-1]
 
         # Define solution spaces
@@ -1443,7 +1437,7 @@ def mixed_reference_surface_potential(
 
         return potential
 
-    return user_element
+    return user_potential
 
 
 def mixed_reference_surface_residual(
@@ -1475,7 +1469,7 @@ def mixed_reference_surface_residual(
     """
     field_keys = list(ansatz_fun.keys())
 
-    def user_element(fI, xI, elem_number, settings, static_settings, set):
+    def user_residual(fI, xI, elem_number, settings, static_settings, set):
         n_dim = xI[field_keys[0]].shape[-1]
 
         def integrated_weak_form(test_fI):
@@ -1543,14 +1537,14 @@ def mixed_reference_surface_residual(
         residual = jax.jacrev(integrated_weak_form)(fI)
         return residual
 
-    return user_element
+    return user_residual
 
 
 def isoparametric_domain_integrate_potential(
     integrand_fun, ansatz_fun, ref_int_coor, ref_int_weights, initial_config=True
 ):
     """
-    Constructs a local integrand fun for integration of functions in the reference configuration of isoparametric elements. Works for DOFs as a jnp.ndarray.
+    Constructs a local integrand fun (user potential) for integration of functions in the reference configuration of isoparametric elements. Works for DOFs as a jnp.ndarray.
 
     Args:
       integrand_fun (callable): Function that evaluates the integrand given the integration point, trial ansatz, settings, static settings, and element number.
@@ -1574,7 +1568,7 @@ def isoparametric_domain_integrate_potential(
       - This models works for DOFs as a jnp.ndarray.
     """
 
-    def user_element(fI, xI, elem_number, settings, static_settings, set):
+    def user_potential(fI, xI, elem_number, settings, static_settings, set):
         n_dofs = fI.flatten().shape[0]
         n_dim = xI.shape[-1]
 
@@ -1616,7 +1610,7 @@ def isoparametric_domain_integrate_potential(
         )
         return functional_contrib.sum(axis=0)
 
-    return user_element
+    return user_potential
 
 
 def isoparametric_domain_element_galerkin(

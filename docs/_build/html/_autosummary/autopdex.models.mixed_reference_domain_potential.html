@@ -52,7 +52,7 @@
               <img src="../_static/logo.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                1.0.3
+                1.0.5
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
@@ -168,7 +168,7 @@
 </p>
 </dd>
 </dl>
-<dl>
+<dl class="simple">
 <dt>The returned function has the following parameters:</dt><dd><ul class="simple">
 <li><p>fI (dict of jnp.ndarray): Element nodal values.</p></li>
 <li><p>xI (dict of jnp.ndarray): Element nodal coordinates.</p></li>
@@ -177,18 +177,17 @@
 <li><p>static_settings (dict): Static settings for the computation.</p></li>
 </ul>
 </dd>
-<dt>Exemplary integrand function:</dt><dd><dl>
-<dt>def integrand_fun(x_int, ansatz_fun, settings, static_settings, elem_number, set):</dt><dd><p># Definition of custom functional
-x = ansatz_fun[‘physical coor’](x_int)      # Physical coordinates via isoparametric mapping
-phi_fun = ansatz_fun[‘phi’]                 # Field approximation function with key words as defined in the DOFs dictionary
-phi = phi_fun(x_int)
-dphi_dx = jax.jacrev(phi_fun)(x_int)</p>
-<p>x_1 = x
-x_2 = x - jnp.array([1., 0.5])
-source_term = 20 * (jnp.sin(10 * x_1 &#64; x_1) - jnp.cos(10 * x_2 &#64; x_2))
-return (1/2) * dphi_dx &#64; dphi_dx - source_term * phi                    # Returns a scalar potential that is to be integrated in reference configuration</p>
-</dd>
-</dl>
+<dt>Exemplary integrand function:</dt><dd><p>–&gt; def integrand_fun(x_int, ansatz_fun, settings, static_settings, elem_number, set):
+–&gt;     # Definition of custom functional
+–&gt;     x = ansatz_fun[‘physical coor’](x_int)      # Physical coordinates via isoparametric mapping
+–&gt;     phi_fun = ansatz_fun[‘phi’]                 # Field approximation function with key words as defined in the DOFs dictionary
+–&gt;     phi = phi_fun(x_int)
+–&gt;     dphi_dx = jax.jacrev(phi_fun)(x_int)
+–&gt;
+–&gt;     x_1 = x
+–&gt;     x_2 = x - jnp.array([1., 0.5])
+–&gt;     source_term = 20 * (jnp.sin(10 * x_1 &#64; x_1) - jnp.cos(10 * x_2 &#64; x_2))
+–&gt;     return (1/2) * dphi_dx &#64; dphi_dx - source_term * phi                    # Returns a scalar potential that is to be integrated in reference configuration</p>
 </dd>
 </dl>
 <p class="rubric">Notes</p>

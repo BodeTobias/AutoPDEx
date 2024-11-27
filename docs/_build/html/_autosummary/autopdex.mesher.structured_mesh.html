@@ -51,7 +51,7 @@
               <img src="../_static/logo.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                1.0.3
+                1.0.5
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
@@ -146,16 +146,14 @@
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p><p>A 2D array of shape <cite>((nx + 1) * (ny + 1), 2)</cite> containing the (x, y) coordinates of each node in the mesh.
-elements (jax.numpy.ndarray): A 2D array of shape <cite>(nx * ny, 4)</cite> containing the vertex indices</p>
-<blockquote>
-<div><p>for each quadrilateral element in the mesh. The indices refer
-to the positions in the <cite>coords</cite> array.</p>
-</div></blockquote>
-</p>
+<dd class="field-even"><p><dl class="simple">
+<dt>(coords, elements)</dt><dd><ul class="simple">
+<li><p>coords (jnp.ndarray): A 2D array of shape <cite>((nx + 1) * (ny + 1), 2)</cite> containing the (x, y) coordinates of each node in the mesh.</p></li>
+<li><p>elements (jnp.ndarray): A 2D array of shape <cite>(nx * ny, 4)</cite> containing the vertex indices for each quadrilateral element in the mesh. The indices refer to the positions in the <cite>coords</cite> array.</p></li>
+</ul>
 </dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>coords (jax.numpy.ndarray)</p>
+</dl>
+</p>
 </dd>
 </dl>
 </dd></dl>

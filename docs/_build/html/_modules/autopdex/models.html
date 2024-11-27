@@ -49,7 +49,7 @@
               <img src="../../_static/logo.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                1.0.3
+                1.0.5
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
@@ -81,7 +81,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../assembler.html">Assembler</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../implicit_diff.html">Implicit_diff</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../spaces.html">Spaces</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../solution_structures.html">Solution_structures</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../solution_structures.html">Solution structures</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../variational_schemes.html">Variational_schemes</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Pre- and postprocessing</span></p>
@@ -148,6 +148,9 @@
 <span class="sd">  - static_settings (dict): Static settings for the computation.</span>
 <span class="sd">  - int_point_number (int): Integration point number.</span>
 <span class="sd">  - set: Number of domain.</span>
+
+<span class="sd">Note: Some of the models work for degrees of freedoms (dofs) as a jnp.ndarray</span>
+<span class="sd">and some work for dicts of jnp.ndarrays. It is specified in each docstring.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="kn">from</span> <span class="nn">inspect</span> <span class="kn">import</span> <span class="n">signature</span>
@@ -159,8 +162,6 @@
 
 
 <span class="c1">### Linear equations</span>
-
-
 <div class="viewcode-block" id="transport_equation">
 <a class="viewcode-back" href="../../_autosummary/autopdex.models.transport_equation.html#autopdex.models.transport_equation">[docs]</a>
 <span class="k">def</span> <span class="nf">transport_equation</span><span class="p">(</span><span class="n">c</span><span class="p">):</span>
@@ -939,8 +940,6 @@
 
 
 <span class="c1">### Nonlinear equations</span>
-
-
 <div class="viewcode-block" id="burgers_equation_inviscid">
 <a class="viewcode-back" href="../../_autosummary/autopdex.models.burgers_equation_inviscid.html#autopdex.models.burgers_equation_inviscid">[docs]</a>
 <span class="k">def</span> <span class="nf">burgers_equation_inviscid</span><span class="p">():</span>
@@ -1295,8 +1294,6 @@
 
 
 <span class="c1">### Strain energy functions</span>
-
-
 <div class="viewcode-block" id="neo_hooke">
 <a class="viewcode-back" href="../../_autosummary/autopdex.models.neo_hooke.html#autopdex.models.neo_hooke">[docs]</a>
 <span class="k">def</span> <span class="nf">neo_hooke</span><span class="p">(</span><span class="n">F</span><span class="p">,</span> <span class="n">param</span><span class="p">):</span>
@@ -1327,6 +1324,8 @@
 
 
 
+<div class="viewcode-block" id="isochoric_neo_hooke">
+<a class="viewcode-back" href="../../_autosummary/autopdex.models.isochoric_neo_hooke.html#autopdex.models.isochoric_neo_hooke">[docs]</a>
 <span class="k">def</span> <span class="nf">isochoric_neo_hooke</span><span class="p">(</span><span class="n">F</span><span class="p">,</span> <span class="n">mu</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Computes the strain energy for an isochoric neo-Hookean material model.</span>
@@ -1342,7 +1341,8 @@
     <span class="n">tr_C</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s2">&quot;ij, ij&quot;</span><span class="p">,</span> <span class="n">F</span><span class="p">,</span> <span class="n">F</span><span class="p">)</span>
 
     <span class="c1"># Strain energy function</span>
-    <span class="k">return</span> <span class="p">(</span><span class="n">mu</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">tr_C</span> <span class="o">-</span> <span class="mi">3</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">mu</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">tr_C</span> <span class="o">-</span> <span class="mi">3</span><span class="p">)</span></div>
+
 
 
 <div class="viewcode-block" id="linear_elastic_strain_energy">
@@ -1369,6 +1369,8 @@
 
 
 <span class="c1">### User potentials/elements</span>
+<div class="viewcode-block" id="mixed_reference_domain_potential">
+<a class="viewcode-back" href="../../_autosummary/autopdex.models.mixed_reference_domain_potential.html#autopdex.models.mixed_reference_domain_potential">[docs]</a>
 <span class="k">def</span> <span class="nf">mixed_reference_domain_potential</span><span class="p">(</span>
     <span class="n">integrand_fun</span><span class="p">,</span> <span class="n">ansatz_fun</span><span class="p">,</span> <span class="n">ref_int_coor</span><span class="p">,</span> <span class="n">ref_int_weights</span><span class="p">,</span> <span class="n">mapping_key</span>
 <span class="p">):</span>
@@ -1376,42 +1378,42 @@
 <span class="sd">    Constructs a multi-field &#39;user potential&#39; for integration of a potential in the reference configuration of finite elements. Works for DOFs as a dict of jnp.ndarrays.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">      integrand_fun (callable): Function that evaluates the integrand given the integration point, trial ansatz, settings, static settings, and element number.</span>
-<span class="sd">      ansatz_fun (dict of callables): Functions that constructs the ansatz functions for each field. Keywords have to match with those defined in the DOFs dictionary.</span>
-<span class="sd">      ref_int_coor (jnp.ndarray): Reference integration coordinates for the isoparametric element.</span>
-<span class="sd">      ref_int_weights (jnp.ndarray): Reference integration weights for the isoparametric element.</span>
-<span class="sd">      mapping_key (string): Which solution space to use for the isoparametric mapping.</span>
+<span class="sd">        integrand_fun (callable): Function that evaluates the integrand given the integration point, trial ansatz, settings, static settings, and element number.</span>
+<span class="sd">        ansatz_fun (dict of callables): Functions that constructs the ansatz functions for each field. Keywords have to match with those defined in the DOFs dictionary.</span>
+<span class="sd">        ref_int_coor (jnp.ndarray): Reference integration coordinates for the isoparametric element.</span>
+<span class="sd">        ref_int_weights (jnp.ndarray): Reference integration weights for the isoparametric element.</span>
+<span class="sd">        mapping_key (string): Which solution space to use for the isoparametric mapping.</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">      function</span>
-<span class="sd">          A function that evaluates the integrand for the isoparametric element.</span>
+<span class="sd">        function</span>
+<span class="sd">            A function that evaluates the integrand for the isoparametric element.</span>
 
 <span class="sd">    The returned function has the following parameters:</span>
-<span class="sd">      - fI (dict of jnp.ndarray): Element nodal values.</span>
-<span class="sd">      - xI (dict of jnp.ndarray): Element nodal coordinates.</span>
-<span class="sd">      - elem_number (int): Element number.</span>
-<span class="sd">      - settings (dict): Settings for the computation.</span>
-<span class="sd">      - static_settings (dict): Static settings for the computation.</span>
+<span class="sd">        - fI (dict of jnp.ndarray): Element nodal values.</span>
+<span class="sd">        - xI (dict of jnp.ndarray): Element nodal coordinates.</span>
+<span class="sd">        - elem_number (int): Element number.</span>
+<span class="sd">        - settings (dict): Settings for the computation.</span>
+<span class="sd">        - static_settings (dict): Static settings for the computation.</span>
 
 <span class="sd">    Exemplary integrand function:</span>
-<span class="sd">      def integrand_fun(x_int, ansatz_fun, settings, static_settings, elem_number, set):</span>
-<span class="sd">          # Definition of custom functional</span>
-<span class="sd">          x = ansatz_fun[&#39;physical coor&#39;](x_int)      # Physical coordinates via isoparametric mapping</span>
-<span class="sd">          phi_fun = ansatz_fun[&#39;phi&#39;]                 # Field approximation function with key words as defined in the DOFs dictionary</span>
-<span class="sd">          phi = phi_fun(x_int)</span>
-<span class="sd">          dphi_dx = jax.jacrev(phi_fun)(x_int)</span>
-
-<span class="sd">          x_1 = x</span>
-<span class="sd">          x_2 = x - jnp.array([1., 0.5])</span>
-<span class="sd">          source_term = 20 * (jnp.sin(10 * x_1 @ x_1) - jnp.cos(10 * x_2 @ x_2))</span>
-<span class="sd">          return (1/2) * dphi_dx @ dphi_dx - source_term * phi                    # Returns a scalar potential that is to be integrated in reference configuration</span>
+<span class="sd">        --&gt; def integrand_fun(x_int, ansatz_fun, settings, static_settings, elem_number, set):</span>
+<span class="sd">        --&gt;     # Definition of custom functional</span>
+<span class="sd">        --&gt;     x = ansatz_fun[&#39;physical coor&#39;](x_int)      # Physical coordinates via isoparametric mapping</span>
+<span class="sd">        --&gt;     phi_fun = ansatz_fun[&#39;phi&#39;]                 # Field approximation function with key words as defined in the DOFs dictionary</span>
+<span class="sd">        --&gt;     phi = phi_fun(x_int)</span>
+<span class="sd">        --&gt;     dphi_dx = jax.jacrev(phi_fun)(x_int)</span>
+<span class="sd">        --&gt; </span>
+<span class="sd">        --&gt;     x_1 = x</span>
+<span class="sd">        --&gt;     x_2 = x - jnp.array([1., 0.5])</span>
+<span class="sd">        --&gt;     source_term = 20 * (jnp.sin(10 * x_1 @ x_1) - jnp.cos(10 * x_2 @ x_2))</span>
+<span class="sd">        --&gt;     return (1/2) * dphi_dx @ dphi_dx - source_term * phi                    # Returns a scalar potential that is to be integrated in reference configuration</span>
 
 <span class="sd">    Notes:</span>
 <span class="sd">      This models works for DOFs as a dict of jnp.ndarrays.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">field_keys</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">ansatz_fun</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
 
-    <span class="k">def</span> <span class="nf">user_element</span><span class="p">(</span><span class="n">fI</span><span class="p">,</span> <span class="n">xI</span><span class="p">,</span> <span class="n">elem_number</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">,</span> <span class="nb">set</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">user_potential</span><span class="p">(</span><span class="n">fI</span><span class="p">,</span> <span class="n">xI</span><span class="p">,</span> <span class="n">elem_number</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">,</span> <span class="nb">set</span><span class="p">):</span>
         <span class="n">n_dim</span> <span class="o">=</span> <span class="n">xI</span><span class="p">[</span><span class="n">field_keys</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
 
         <span class="c1"># Define solution spaces</span>
@@ -1450,9 +1452,12 @@
         <span class="p">)</span>
         <span class="k">return</span> <span class="n">functional_contrib</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 
-    <span class="k">return</span> <span class="n">user_element</span>
+    <span class="k">return</span> <span class="n">user_potential</span></div>
 
 
+
+<div class="viewcode-block" id="mixed_reference_domain_residual">
+<a class="viewcode-back" href="../../_autosummary/autopdex.models.mixed_reference_domain_residual.html#autopdex.models.mixed_reference_domain_residual">[docs]</a>
 <span class="k">def</span> <span class="nf">mixed_reference_domain_residual</span><span class="p">(</span>
     <span class="n">integrand_fun</span><span class="p">,</span> <span class="n">ansatz_fun</span><span class="p">,</span> <span class="n">ref_int_coor</span><span class="p">,</span> <span class="n">ref_int_weights</span><span class="p">,</span> <span class="n">mapping_key</span>
 <span class="p">):</span>
@@ -1482,7 +1487,7 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">field_keys</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">ansatz_fun</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
 
-    <span class="k">def</span> <span class="nf">user_element</span><span class="p">(</span><span class="n">fI</span><span class="p">,</span> <span class="n">xI</span><span class="p">,</span> <span class="n">elem_number</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">,</span> <span class="nb">set</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">user_residual</span><span class="p">(</span><span class="n">fI</span><span class="p">,</span> <span class="n">xI</span><span class="p">,</span> <span class="n">elem_number</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">,</span> <span class="nb">set</span><span class="p">):</span>
         <span class="n">n_dim</span> <span class="o">=</span> <span class="n">xI</span><span class="p">[</span><span class="n">field_keys</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
 
         <span class="k">def</span> <span class="nf">integrated_weak_form</span><span class="p">(</span><span class="n">test_fI</span><span class="p">):</span>
@@ -1538,9 +1543,12 @@
         <span class="n">residual</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">jacrev</span><span class="p">(</span><span class="n">integrated_weak_form</span><span class="p">)(</span><span class="n">fI</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">residual</span>
 
-    <span class="k">return</span> <span class="n">user_element</span>
+    <span class="k">return</span> <span class="n">user_residual</span></div>
 
 
+
+<div class="viewcode-block" id="mixed_reference_surface_potential">
+<a class="viewcode-back" href="../../_autosummary/autopdex.models.mixed_reference_surface_potential.html#autopdex.models.mixed_reference_surface_potential">[docs]</a>
 <span class="k">def</span> <span class="nf">mixed_reference_surface_potential</span><span class="p">(</span>
     <span class="n">integrand_fun</span><span class="p">,</span> <span class="n">ansatz_fun</span><span class="p">,</span> <span class="n">ref_int_coor</span><span class="p">,</span> <span class="n">ref_int_weights</span><span class="p">,</span> <span class="n">mapping_key</span>
 <span class="p">):</span>
@@ -1570,7 +1578,7 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">field_keys</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">ansatz_fun</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
 
-    <span class="k">def</span> <span class="nf">user_element</span><span class="p">(</span><span class="n">fI</span><span class="p">,</span> <span class="n">xI</span><span class="p">,</span> <span class="n">elem_number</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">,</span> <span class="nb">set</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">user_potential</span><span class="p">(</span><span class="n">fI</span><span class="p">,</span> <span class="n">xI</span><span class="p">,</span> <span class="n">elem_number</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">,</span> <span class="nb">set</span><span class="p">):</span>
         <span class="n">n_dim</span> <span class="o">=</span> <span class="n">xI</span><span class="p">[</span><span class="n">field_keys</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
 
         <span class="c1"># Define solution spaces</span>
@@ -1621,9 +1629,12 @@
 
         <span class="k">return</span> <span class="n">potential</span>
 
-    <span class="k">return</span> <span class="n">user_element</span>
+    <span class="k">return</span> <span class="n">user_potential</span></div>
 
 
+
+<div class="viewcode-block" id="mixed_reference_surface_residual">
+<a class="viewcode-back" href="../../_autosummary/autopdex.models.mixed_reference_surface_residual.html#autopdex.models.mixed_reference_surface_residual">[docs]</a>
 <span class="k">def</span> <span class="nf">mixed_reference_surface_residual</span><span class="p">(</span>
     <span class="n">integrand_fun</span><span class="p">,</span> <span class="n">ansatz_fun</span><span class="p">,</span> <span class="n">ref_int_coor</span><span class="p">,</span> <span class="n">ref_int_weights</span><span class="p">,</span> <span class="n">mapping_key</span>
 <span class="p">):</span>
@@ -1653,7 +1664,7 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">field_keys</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">ansatz_fun</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
 
-    <span class="k">def</span> <span class="nf">user_element</span><span class="p">(</span><span class="n">fI</span><span class="p">,</span> <span class="n">xI</span><span class="p">,</span> <span class="n">elem_number</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">,</span> <span class="nb">set</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">user_residual</span><span class="p">(</span><span class="n">fI</span><span class="p">,</span> <span class="n">xI</span><span class="p">,</span> <span class="n">elem_number</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">,</span> <span class="nb">set</span><span class="p">):</span>
         <span class="n">n_dim</span> <span class="o">=</span> <span class="n">xI</span><span class="p">[</span><span class="n">field_keys</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
 
         <span class="k">def</span> <span class="nf">integrated_weak_form</span><span class="p">(</span><span class="n">test_fI</span><span class="p">):</span>
@@ -1721,7 +1732,8 @@
         <span class="n">residual</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">jacrev</span><span class="p">(</span><span class="n">integrated_weak_form</span><span class="p">)(</span><span class="n">fI</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">residual</span>
 
-    <span class="k">return</span> <span class="n">user_element</span>
+    <span class="k">return</span> <span class="n">user_residual</span></div>
+
 
 
 <div class="viewcode-block" id="isoparametric_domain_integrate_potential">
@@ -1730,7 +1742,7 @@
     <span class="n">integrand_fun</span><span class="p">,</span> <span class="n">ansatz_fun</span><span class="p">,</span> <span class="n">ref_int_coor</span><span class="p">,</span> <span class="n">ref_int_weights</span><span class="p">,</span> <span class="n">initial_config</span><span class="o">=</span><span class="kc">True</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Constructs a local integrand fun for integration of functions in the reference configuration of isoparametric elements. Works for DOFs as a jnp.ndarray.</span>
+<span class="sd">    Constructs a local integrand fun (user potential) for integration of functions in the reference configuration of isoparametric elements. Works for DOFs as a jnp.ndarray.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">      integrand_fun (callable): Function that evaluates the integrand given the integration point, trial ansatz, settings, static settings, and element number.</span>
@@ -1754,7 +1766,7 @@
 <span class="sd">      - This models works for DOFs as a jnp.ndarray.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="nf">user_element</span><span class="p">(</span><span class="n">fI</span><span class="p">,</span> <span class="n">xI</span><span class="p">,</span> <span class="n">elem_number</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">,</span> <span class="nb">set</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">user_potential</span><span class="p">(</span><span class="n">fI</span><span class="p">,</span> <span class="n">xI</span><span class="p">,</span> <span class="n">elem_number</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">,</span> <span class="nb">set</span><span class="p">):</span>
         <span class="n">n_dofs</span> <span class="o">=</span> <span class="n">fI</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
         <span class="n">n_dim</span> <span class="o">=</span> <span class="n">xI</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
 
@@ -1796,7 +1808,7 @@
         <span class="p">)</span>
         <span class="k">return</span> <span class="n">functional_contrib</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 
-    <span class="k">return</span> <span class="n">user_element</span></div>
+    <span class="k">return</span> <span class="n">user_potential</span></div>
 
 
 
@@ -2108,6 +2120,8 @@
 
 
 
+<div class="viewcode-block" id="central_differences">
+<a class="viewcode-back" href="../../_autosummary/autopdex.models.central_differences.html#autopdex.models.central_differences">[docs]</a>
 <span class="k">def</span> <span class="nf">central_differences</span><span class="p">(</span><span class="n">density_fun</span><span class="p">,</span> <span class="n">damping</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Constructs weak form contributions for acceleration (and optional damping) term based on central differences.</span>
@@ -2178,7 +2192,8 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">density</span> <span class="o">*</span> <span class="n">jnp</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">test_function</span><span class="p">,</span> <span class="n">a_n</span><span class="p">)</span>
 
-    <span class="k">return</span> <span class="n">weak_form_fun</span>
+    <span class="k">return</span> <span class="n">weak_form_fun</span></div>
+
 </pre></div>
 
            </div>
