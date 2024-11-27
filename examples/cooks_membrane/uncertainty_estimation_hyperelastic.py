@@ -207,7 +207,6 @@ if __name__ == "__main__":
             settings['poisson ratio'] = nu
             return solver.adaptive_load_stepping(dofs, settings, static_settings, multiplier_settings, False, 'forward', newton_tol=1e-8)[0]
 
-
         ## Sensitivity analysis
         # # Version 1 using jacfwd_upto_n_scalar_args
         # forward_and_sensitivity = lambda Em, nu: compute_dofs(dofs_0, settings, Em, nu)

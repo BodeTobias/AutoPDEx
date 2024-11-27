@@ -143,6 +143,12 @@ def solver(dofs, settings, static_settings, **kwargs):
         "path_dependent",
         "implicit_diff_mode",
         "max_load_steps",
+        "max_multiplier",
+        "min_increment",
+        "max_increment",
+        "init_increment",
+        "target_num_newton_iter",
+        "newton_tol",
         "**kwargs",
     ]
 )

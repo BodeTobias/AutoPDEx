@@ -169,6 +169,7 @@ def test_implicit_diff():
     assert jnp.allclose(dudnu_rev, test3), 'Incorrect in first order sensitivity in backward mode.'
     assert jnp.allclose(d2udnu2_rev, test7), 'Incorrect in first order sensitivity in backward mode.'
 
-    # computing_time = time.time() - start
-    # print('All tests passed. Compute time: ', computing_time)
+#     computing_time = time.time() - start
+#     print('All tests passed. Compute time: ', computing_time)
 
+# test_implicit_diff()
