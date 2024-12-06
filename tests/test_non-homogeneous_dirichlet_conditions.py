@@ -107,3 +107,5 @@ def test_nonhomogeneous_dirichlet():
        [ 0.        ,  0.        ],
        [ 0.00834901,  0.02592409],
        [-0.02664544,  0.03728282]]))
+
+# test_nonhomogeneous_dirichlet()

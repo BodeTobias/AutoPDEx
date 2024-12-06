@@ -19,6 +19,7 @@ classifiers = [
 requires-python = ">=3.10"
 
 dependencies = [
+    "equinox",
     "flax>=0.8.1",
     "jax>=0.4.26",
     "jaxlib>=0.4.26",
@@ -39,8 +40,7 @@ dev = [
     "pyamg",
     "pypardiso",
     "petsc4py",
-    "sparse_dot_mkl",
-    "equinox"
+    "sparse_dot_mkl"
 ]
 
 [project.scripts]

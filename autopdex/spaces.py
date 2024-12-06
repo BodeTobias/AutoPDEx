@@ -28,7 +28,7 @@ import jax
 import jax.numpy as jnp
 import numpy as np
 
-from autopdex.utility import jit_with_docstring
+from autopdex.utility import jit_with_docstring, invert_matrix
 
 
 ## Helper functions
@@ -12173,7 +12173,8 @@ def fem_iso_line_quad_brick(x, xI, fI, settings, overwrite_diff, n_dim):
             fun = lambda xi: shape_functions(xi) @ fI
             df_dxi = jax.jacfwd(fun)(xi)
             dX_dxi = jax.jacfwd(initial_coor)(xi)
-            tangent_out = df_dxi @ jnp.linalg.solve(dX_dxi, x_dot)
+            # tangent_out = df_dxi @ jnp.linalg.solve(dX_dxi, x_dot)
+            tangent_out = df_dxi @ invert_matrix(dX_dxi) @ x_dot
 
             # Add tangent with respect to fI
             if fI_dot is not None:
@@ -14992,7 +14993,8 @@ def fem_iso_line_tri_tet(x, xI, fI, settings, overwrite_diff, n_dim):
             fun = lambda xi: shape_functions(xi) @ fI
             df_dxi = jax.jacfwd(fun)(xi)
             dX_dxi = jax.jacfwd(initial_coor)(xi)
-            tangent_out = df_dxi @ jnp.linalg.solve(dX_dxi, x_dot)
+            # tangent_out = df_dxi @ jnp.linalg.solve(dX_dxi, x_dot)
+            tangent_out = df_dxi @ invert_matrix(dX_dxi) @ x_dot
 
             # Add tangent with respect to fI
             if fI_dot is not None:

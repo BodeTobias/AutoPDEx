@@ -198,4 +198,4 @@ def test_different_solvers():
                                            [-0.38273308]])), 'Problem with jax solver'
 
 
-test_different_solvers()
+# test_different_solvers()

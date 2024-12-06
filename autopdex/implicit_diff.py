@@ -44,7 +44,7 @@ import jax.numpy as jnp
 import numpy as np
 
 from autopdex import utility
-
+from flax.core import FrozenDict
 
 def tree_scalar_mul(scalar, tree_x):
     """Compute scalar * tree_x."""
@@ -128,6 +128,7 @@ def _root_vjp(
       each argument. Each ``vjps[i]`` has the same pytree structure as
       ``args[i]``.
     """
+    free_dofs_flat = None
     if free_dofs is not None:
         free_dofs_flat = utility.dict_flatten(free_dofs)
 
@@ -187,10 +188,11 @@ def _root_vjp(
 
     if free_dofs is not None:
         constrained_dofs = utility.reshape_as(
-            np.invert(utility.dict_flatten(free_dofs)), free_dofs
+            jnp.invert(utility.dict_flatten(free_dofs)), free_dofs
+            # np.invert(utility.dict_flatten(free_dofs)), free_dofs
         )
 
-        v_flat = utility.dict_flatten(v)[free_dofs_flat]
+        v_flat = utility.dict_flatten(v)#Fixme [free_dofs_flat]
         u_f = diffable_solve_fun(mat.T, v_flat)
         u_flat = utility.mask_op(
             utility.dict_flatten(utility.dict_zeros_like(v)), free_dofs_flat, u_f, "set"
@@ -235,6 +237,7 @@ def _root_jvp(
     tangents: Tuple,
     solve_fun: Callable,
     free_dofs: Any,
+    # dirichlet_dofs: Any,
 ) -> Any:
     """
     Jacobian-vector product of a root.
@@ -253,52 +256,54 @@ def _root_jvp(
     Returns:
       a pytree with the same structure as ``sol``.
     """
+    free_dofs_flat = None
     if free_dofs is not None:
-        free_dofs_flat = utility.dict_flatten(free_dofs)
+        free_dofs_flat = jax.tree.map(lambda x: x.flatten(), free_dofs)
 
     # Compute tangent matrix
     A = mat_fun(sol, *args)
     mat_shape = A.shape
 
     # Forward differentiable sparse linear solver
-    @jax.custom_jvp
+    # @jax.custom_jvp
     def linear_solver_fun_jvp(data, indices, b):
         A = jax.experimental.sparse.BCOO((data, indices), shape=mat_shape)
         return solve_fun(A, b)
 
-    @linear_solver_fun_jvp.defjvp
-    def linear_solver_fun_jvp_rule(primals, tangents):
-        data, indices, b = primals
-        data_dot, _, b_dot = tangents
+    # @linear_solver_fun_jvp.defjvp
+    # def linear_solver_fun_jvp_rule(primals, tangents):
+    #     data, indices, b = primals
+    #     data_dot, _, b_dot = tangents
 
-        # Compute the primal result using the linear solver function
-        primal_result = linear_solver_fun_jvp(data, indices, b)
+    #     # Compute the primal result using the linear solver function
+    #     primal_result = linear_solver_fun_jvp(data, indices, b)
 
-        # ToDo: is it somehow possible without A_dot via jvps?
-        A_dot = jax.experimental.sparse.BCOO((data_dot, indices), shape=mat_shape)
+    #     # ToDo: is it somehow possible without A_dot via jvps?
+    #     A_dot = jax.experimental.sparse.BCOO((data_dot, indices), shape=mat_shape)
 
-        # Handle the tangent calculation
-        if free_dofs is not None:
-            primal_result_tmp = utility.mask_op(
-                jnp.zeros((mat_shape[0],), dtype=jnp.float64),
-                free_dofs_flat,
-                primal_result,
-            )
-            rhs = b_dot - (A_dot @ primal_result_tmp)[free_dofs_flat]
-            result_dot = linear_solver_fun_jvp(data, indices, rhs)
-        else:
-            result_dot = linear_solver_fun_jvp(
-                data, indices, b_dot - A_dot @ primal_result
-            )
+    #     # Handle the tangent calculation
+    #     if free_dofs is not None:
+    #         primal_result_tmp = utility.mask_op(
+    #             jnp.zeros((mat_shape[0],), dtype=jnp.float64),
+    #             free_dofs_flat,
+    #             primal_result,
+    #         )
+    #         rhs = b_dot - (A_dot @ primal_result_tmp)#Fixme [free_dofs_flat]
+    #         result_dot = linear_solver_fun_jvp(data, indices, rhs)
+    #     else:
+    #         result_dot = linear_solver_fun_jvp(
+    #             data, indices, b_dot - A_dot @ primal_result
+    #         )
 
-        return primal_result, result_dot
+    #     return primal_result, result_dot
 
     # Assign the jvp-enabled solver function
     solve_func = linear_solver_fun_jvp
 
     if free_dofs is not None:
         constrained_dofs = utility.reshape_as(
-            np.invert(utility.dict_flatten(free_dofs)), free_dofs
+            # np.invert(utility.dict_flatten(free_dofs)), free_dofs
+            jnp.invert(free_dofs_flat), free_dofs
         )
 
         # Explicit imposition of DOFs in order to be able to take derivatives w.r.t. nodally imposed DOFs
@@ -309,7 +314,7 @@ def _root_jvp(
             return residual_fun(sol_with_bc, *args)
 
         Bv = _jvp_args(residual_fun_tmp, sol, args, tangents)
-        Bv_free = utility.dict_flatten(Bv)[free_dofs_flat]
+        Bv_free = utility.dict_flatten(Bv)#Fixme [free_dofs_flat]
         Jv_free = solve_func(A.data, A.indices, -Bv_free)
 
         empty_flat = utility.dict_flatten(utility.dict_zeros_like(sol))
@@ -322,6 +327,7 @@ def _root_jvp(
         )
 
     else:
+        Bv = _jvp_args(residual_fun, sol, args, tangents)
         Jv = utility.reshape_as(
             solve_func(A.data, A.indices, -utility.dict_flatten(Bv)), Bv
         )
