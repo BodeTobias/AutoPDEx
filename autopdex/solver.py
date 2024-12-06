@@ -37,39 +37,6 @@ from autopdex import assembler, implicit_diff, utility, implicit_diff_v2
 
 
 
-def custom_root_decorator(residual_fun, tangent_fun, lin_solve_fun, free_dofs=None, dirichlet_conditions=None, has_aux=False):
-    def decorator(root_solve_fun):
-        def wrapped(x):
-            # def tangent_solve_fun(g, y):
-            #     J = tangent_fun(x)
-            #     return lin_solve_fun(J, y)
-
-            def tangent_solve_fun(g, y):
-                J = tangent_fun(x)
-                solve = lambda matvec, x: lin_solve_fun(J, x)
-                transpose_solve = lambda vecmat, x: lin_solve_fun(J.T, x)
-                matvec = lambda x: utility.reshape_as(J @ utility.dict_flatten(x), x)
-                return jax.lax.custom_linear_solve(matvec, y, solve, transpose_solve)
-
-            solution = implicit_diff_v2.custom_root(
-                f=residual_fun,
-                initial_guess=x,
-                solve=lambda f_func, x0: root_solve_fun(x0),
-                tangent_solve=tangent_solve_fun,
-                free_dofs=free_dofs,
-                dirichlet_conditions=dirichlet_conditions,
-                has_aux=False
-            )
-            return solution
-            # if has_aux:
-            #     return solution, aux
-            # else:
-            #     return solution
-
-        return wrapped
-    return decorator
-
-
 ### Solvers as specified by the static_settings and settings
 @utility.jit_with_docstring(static_argnames=["static_settings", "**kwargs"])
 def solver(dofs, settings, static_settings, **kwargs):
@@ -308,21 +275,20 @@ def adaptive_load_stepping(
         #     lin_solve_fun, jnp.zeros(rhs.shape, rhs.dtype), mat, rhs, free_dofs_flat
         # )
 
-        # def lin_solve_callback_fun(mat, rhs):
-        #     rhs_flat = utility.dict_flatten(rhs)
-        #     # sol = jax.pure_callback(lin_solve_fun, jnp.zeros(rhs_flat.shape, rhs_flat.dtype), mat, rhs_flat, free_dofs_flat)
-        #     sol = jax.pure_callback(lin_solve_fun, jnp.zeros(rhs_flat.shape, rhs_flat.dtype), mat, rhs_flat, None)
-        #     return utility.reshape_as(sol, rhs)
-
-        def lin_solve_callback_fun(mat, rhs):
+        def lin_solve_callback_fun(mat, rhs, free_dofs_flat):
             rhs_flat = utility.dict_flatten(rhs)
-            # linear_solver = lambda mat, rhs: jax.pure_callback(lin_solve_fun, jnp.zeros(rhs_flat.shape, rhs_flat.dtype), mat, rhs_flat, None)
-            linear_solver = lambda mat, rhs: jax.pure_callback(lin_solve_fun, jnp.zeros(rhs_flat.shape, rhs_flat.dtype), mat, rhs_flat, free_dofs_flat)
-            solve = lambda matvec, x: linear_solver(mat, x)
-            transpose_solve = lambda vecmat, x: linear_solver(mat.T, x)
-            matvec = lambda x: utility.reshape_as(mat @ utility.dict_flatten(x), x)
-            sol = jax.lax.custom_linear_solve(matvec, rhs_flat, solve, transpose_solve)
+            sol = jax.pure_callback(lin_solve_fun, jnp.zeros(rhs_flat.shape, rhs_flat.dtype), mat, rhs_flat, free_dofs_flat)
             return utility.reshape_as(sol, rhs)
+
+        # def lin_solve_callback_fun(mat, rhs, free_dofs_flat):
+        #     rhs_flat = utility.dict_flatten(rhs)
+        #     # linear_solver = lambda mat, rhs: jax.pure_callback(lin_solve_fun, jnp.zeros(rhs_flat.shape, rhs_flat.dtype), mat, rhs_flat, None)
+        #     linear_solver = lambda mat, rhs: jax.pure_callback(lin_solve_fun, jnp.zeros(rhs_flat.shape, rhs_flat.dtype), mat, rhs_flat, free_dofs_flat)
+        #     solve = lambda matvec, x: linear_solver(mat, x)
+        #     transpose_solve = lambda vecmat, x: linear_solver(mat.T, x)
+        #     matvec = lambda x: utility.reshape_as(mat @ utility.dict_flatten(x), x)
+        #     sol = jax.lax.custom_linear_solve(matvec, rhs_flat, solve, transpose_solve)
+        #     return utility.reshape_as(sol, rhs)
 
 
 
@@ -420,45 +386,17 @@ def adaptive_load_stepping(
                 residual_fun,
                 tangent_fun,
                 lin_solve_callback_fun,
-                None,# Fixme
+                True,# Fixme
                 # free_dofs,
                 False,# Fixme
                 implicit_diff_mode,
             )
             def diffable_adaptive_load_stepping(dofs, settings):
                 (dofs, multiplier, increment, load_step, settings, res_norm_free_dofs) = jax.lax.while_loop(continue_check, step, (dofs, 0.0, init_increment, 0, settings, 0.0))
-                # return dofs, (multiplier, increment, load_step, settings, res_norm_free_dofs) # Fixme: auxilary values cause problem...
+                # return dofs, (multiplier, increment, load_step, settings, res_norm_free_dofs)
                 return dofs#, (multiplier, increment, load_step, res_norm_free_dofs) # Fixme: auxilary values cause problem...
 
             return diffable_adaptive_load_stepping(dofs, settings)
-
-
-
-
-            # # Fixme: add differentiability of linear solver via jax.lax.custom_linear_solver and handle tangents['dirichlet conditions']...
-            # # Make linear solver functions differentiable
-            # residual_fun = lambda dofs: assembler.assemble_residual(dofs, settings, static_settings)
-            # tangent_fun = lambda dofs: assembler.assemble_tangent(dofs, settings, static_settings)
-            # dirichlet_conditions = settings["dirichlet conditions"]
-            # @custom_root_decorator(residual_fun, tangent_fun, lin_solve_callback_fun, free_dofs, dirichlet_conditions, has_aux=False)
-            # def diffable_adaptive_load_stepping(dofs):
-            #     def with_settings(dofs, settings):
-            #         (dofs, multiplier, increment, load_step, settings, res_norm_free_dofs) = jax.lax.while_loop(continue_check, step, (dofs, 0.0, init_increment, 0, settings, 0.0))
-            #         return dofs#, (multiplier, increment, load_step, settings, res_norm_free_dofs) # Fixme: auxilary values cause problem...
-            #     return with_settings(dofs, settings) # Fixme: handle auxilary data...
-
-            # return diffable_adaptive_load_stepping(dofs)
-
-
-
-
-
-            # def diffable_adaptive_load_stepping(dofs, settings):
-            #     return jax.lax.while_loop(
-            #         continue_check, step, (dofs, 0.0, init_increment, 0, settings, 0.0)
-            #     )
-
-            # return diffable_adaptive_load_stepping(dofs, settings)
 
         else:  # Pathdependent problem; uses fori_loop with static limits for supporting reverse mode differentiation
 
