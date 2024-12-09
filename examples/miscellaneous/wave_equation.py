@@ -130,9 +130,9 @@ if __name__ == "__main__":
     'solver backend': 'pardiso',
     'solver': 'lu',
     'verbose': 1,
-    'connectivity': (utility.jnp_to_tuple(neighbor_list),),
   })
   settings = {
+    'connectivity': (neighbor_list,),
     'beta': (3,),
     'node coordinates': x_nodes,
     'integration coordinates': (x_int,),

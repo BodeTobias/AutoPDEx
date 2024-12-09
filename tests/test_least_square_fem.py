@@ -113,9 +113,9 @@ def test_least_square_fem():
     'solver backend': 'scipy',
     'solver': 'lapack',
     'verbose': 0,
-    'connectivity': (utility.jnp_to_tuple(domain_connectivity),),
     })
     settings = {
+    'connectivity': (domain_connectivity,),
     'node coordinates': x_nodes,
     'integration coordinates': (x_int,),
     'integration weights': (w_int,),

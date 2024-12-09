@@ -128,9 +128,9 @@ def test_different_solvers():
     # 'solver': 'lbfgs',          # lbfgs, gradient descent, nonlinear cg, bfgs, gauss newton, levenberg marquart
 
     'verbose': -1,
-    'connectivity': (utility.jnp_to_tuple(neighbor_list),),
     })
     settings = {
+    'connectivity': (neighbor_list,),
     'beta': (3,),
     'node coordinates': x_nodes,
     'integration coordinates': (x_int,),

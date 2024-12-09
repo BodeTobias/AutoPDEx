@@ -335,10 +335,10 @@ static_settings = flax.core.FrozenDict({
   'solver backend': 'pardiso',
   'solver': 'lu',
   'verbose': 1,
-  'connectivity': (utility.jnp_to_tuple(domain_connectivity), utility.jnp_to_tuple(surf_connectivity), utility.jnp_to_tuple(domain_connectivity)),
 })
 
 settings = {
+  'connectivity': (domain_connectivity, surf_connectivity, domain_connectivity),
   'dofs n': dofs_0,
   'node coordinates': x_nodes,
   'integration coordinates': (x_int, x_surf_int, x_int),

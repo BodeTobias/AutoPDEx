@@ -96,8 +96,7 @@ def test_implicit_diff():
     ### Settings
     n_fields = 2
     dofs_0 = jnp.zeros((n_nodes, n_fields))
-    static_settings = {
-    # static_settings = flax.core.FrozenDict({
+    static_settings = flax.core.FrozenDict({
     'number of fields': (n_fields, n_fields),
     'assembling mode': ('user element', 'user element'),
     'solution structure': ('nodal imposition', 'nodal imposition'),
@@ -106,12 +105,10 @@ def test_implicit_diff():
     'solver backend': 'scipy',
     'solver': 'lapack',
     'verbose': -1,
-    # 'dirichlet dofs': utility.jnp_to_tuple(dirichlet_dofs),
-    # 'connectivity': (utility.jnp_to_tuple(elements), utility.jnp_to_tuple(neumann_elements)),
+    })
+    settings = {
     'dirichlet dofs': dirichlet_dofs,
     'connectivity': (elements, neumann_elements),
-    }#)
-    settings = {
     'load multiplier': q_0,
     'node coordinates': x_nodes,
     'dirichlet conditions': dirichlet_conditions,
@@ -123,8 +120,7 @@ def test_implicit_diff():
     nu_mean = 0.3
 
     # Compare backward and forward mode implicit diff with precomputed values
-    # @partial(jax.jit, static_argnames=['static_settings']) # Fixme: change that in all examples and mention as breaking change
-    # @equinox.filter_jit
+    @partial(jax.jit, static_argnames=['static_settings'])
     def test_results(dofs_0, settings, static_settings):
         # Second order mixed sensitivities, forward mode
         def fun(dofs, settings, Em, nu):
@@ -151,9 +147,7 @@ def test_implicit_diff():
 
         return dofs, du_dEm, du_dnu, d2u_dEm2, d2u_dEmdnu, d2u_dnudEm, d2u_dnu2, sol_rev, dudnu_rev, d2udnu2_rev
 
-    with jax.checking_leaks():
-        dofs, du_dEm, du_dnu, d2u_dEm2, d2u_dEmdnu, d2u_dnudEm, d2u_dnu2, sol_rev, dudnu_rev, d2udnu2_rev = test_results(dofs_0, settings, static_settings)
-
+    dofs, du_dEm, du_dnu, d2u_dEm2, d2u_dEmdnu, d2u_dnudEm, d2u_dnu2, sol_rev, dudnu_rev, d2udnu2_rev = test_results(dofs_0, settings, static_settings)
 
         # Precomputed values:
     test1, test2, test3, test4, test5, test6, test7 = (
@@ -178,7 +172,7 @@ def test_implicit_diff():
     assert jnp.allclose(dudnu_rev, test3), 'Incorrect in first order sensitivity in backward mode.'
     assert jnp.allclose(d2udnu2_rev, test7), 'Incorrect in first order sensitivity in backward mode.'
 
-    computing_time = time.time() - start
-    print('All tests passed. Compute time: ', computing_time)
+#     computing_time = time.time() - start
+#     print('All tests passed. Compute time: ', computing_time)
 
 # test_implicit_diff()

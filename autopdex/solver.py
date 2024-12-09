@@ -33,7 +33,7 @@ import numpy as np
 import scipy as scp
 from flax.core import FrozenDict
 
-from autopdex import assembler, implicit_diff, utility, implicit_diff_v2
+from autopdex import assembler, implicit_diff, utility
 
 
 
@@ -208,12 +208,17 @@ def adaptive_load_stepping(
         try:
             dirichlet_dofs = settings["dirichlet dofs"]
         except KeyError:
+            # Warning if it was defined in static_settings
+            assert "dirichlet dofs" not in static_settings, \
+                "'dirichlet dofs' has been moved to 'settings' in order to reduce compile time. \
+                Further, you should not transform it to a tuple of tuples anymore."
             pass
         free_dofs = None
         free_dofs_flat = None
         if dirichlet_dofs is not None:
             free_dofs = utility.mask_op(dirichlet_dofs, utility.dict_ones_like(dirichlet_dofs), mode="apply", ufunc=lambda x: ~x)
             free_dofs_flat = utility.dict_flatten(free_dofs)
+        is_constrained = True if free_dofs is not None else False
 
         solver_backend = static_settings["solver backend"]
         solver_subtype = static_settings["solver"]
@@ -271,26 +276,21 @@ def adaptive_load_stepping(
                 raise ValueError(
                     "Specified sensitivity solver backend not available. Choose 'pardiso', 'petsc', 'pyamg' or 'scipy'."
                 )
-        # lin_solve_callback_fun = lambda mat, rhs: jax.pure_callback(
-        #     lin_solve_fun, jnp.zeros(rhs.shape, rhs.dtype), mat, rhs, free_dofs_flat
-        # )
 
         def lin_solve_callback_fun(mat, rhs, free_dofs_flat):
             rhs_flat = utility.dict_flatten(rhs)
-            sol = jax.pure_callback(lin_solve_fun, jnp.zeros(rhs_flat.shape, rhs_flat.dtype), mat, rhs_flat, free_dofs_flat)
+            sol = jax.pure_callback(lin_solve_fun, jnp.zeros(rhs_flat.shape, rhs_flat.dtype), mat, rhs_flat, free_dofs_flat, vmap_method='sequential')
             return utility.reshape_as(sol, rhs)
 
         # def lin_solve_callback_fun(mat, rhs, free_dofs_flat):
         #     rhs_flat = utility.dict_flatten(rhs)
-        #     # linear_solver = lambda mat, rhs: jax.pure_callback(lin_solve_fun, jnp.zeros(rhs_flat.shape, rhs_flat.dtype), mat, rhs_flat, None)
-        #     linear_solver = lambda mat, rhs: jax.pure_callback(lin_solve_fun, jnp.zeros(rhs_flat.shape, rhs_flat.dtype), mat, rhs_flat, free_dofs_flat)
+        #     # linear_solver = lambda mat, rhs: jax.pure_callback(lin_solve_fun, jnp.zeros(rhs_flat.shape, rhs_flat.dtype), mat, rhs_flat, None, vmap_method='sequential')
+        #     linear_solver = lambda mat, rhs: jax.pure_callback(lin_solve_fun, jnp.zeros(rhs_flat.shape, rhs_flat.dtype), mat, rhs_flat, free_dofs_flat, vmap_method='sequential')
         #     solve = lambda matvec, x: linear_solver(mat, x)
         #     transpose_solve = lambda vecmat, x: linear_solver(mat.T, x)
         #     matvec = lambda x: utility.reshape_as(mat @ utility.dict_flatten(x), x)
         #     sol = jax.lax.custom_linear_solve(matvec, rhs_flat, solve, transpose_solve)
         #     return utility.reshape_as(sol, rhs)
-
-
 
     # Set up functions for adaptive load stepping loop
     def continue_check(carry):
@@ -327,21 +327,24 @@ def adaptive_load_stepping(
             path_dependent and implicit_diff_mode is not None
         ):  # Add implicit differentiation for each load step
 
-            @implicit_diff.custom_root(     # Fixme
+            @implicit_diff.custom_root(
                 residual_fun,
                 tangent_fun,
                 lin_solve_callback_fun,
-                free_dofs,
+                is_constrained,
                 True,
                 implicit_diff_mode,
             )
             def diffable_solve(dofs0, settings):
-                return solver(
+                dofs, (needed_steps, res_norm_free_dofs, divergence) = solver(
                     dofs0, settings, static_settings, newton_tol=newton_tol, **kwargs
                 )
+                return dofs, (needed_steps.astype(float), res_norm_free_dofs, divergence.astype(float))
 
             dofs, infos = diffable_solve(dofs0, settings)
             needed_steps, res_norm_free_dofs, divergence = infos
+            divergence = divergence.astype(bool)
+
 
         else:  # Add implicit diff wrapper on the adaptive load stepping level
             dofs, infos = solver(
@@ -386,17 +389,20 @@ def adaptive_load_stepping(
                 residual_fun,
                 tangent_fun,
                 lin_solve_callback_fun,
-                True,# Fixme
-                # free_dofs,
-                False,# Fixme
+                is_constrained,
+                True,
                 implicit_diff_mode,
             )
             def diffable_adaptive_load_stepping(dofs, settings):
-                (dofs, multiplier, increment, load_step, settings, res_norm_free_dofs) = jax.lax.while_loop(continue_check, step, (dofs, 0.0, init_increment, 0, settings, 0.0))
-                # return dofs, (multiplier, increment, load_step, settings, res_norm_free_dofs)
-                return dofs#, (multiplier, increment, load_step, res_norm_free_dofs) # Fixme: auxilary values cause problem...
+                (dofs, multiplier, increment, load_step, settings, res_norm_free_dofs) = \
+                    jax.lax.while_loop(
+                        continue_check, step, (dofs, 0.0, init_increment, 0, settings, 0.0)
+                        )
+                return dofs, (multiplier, increment, load_step, res_norm_free_dofs)
 
-            return diffable_adaptive_load_stepping(dofs, settings)
+            dofs, (multiplier, increment, load_step, res_norm_free_dofs) = \
+                diffable_adaptive_load_stepping(dofs, settings)
+            return dofs, (multiplier, increment, load_step, settings, res_norm_free_dofs)
 
         else:  # Pathdependent problem; uses fori_loop with static limits for supporting reverse mode differentiation
 
@@ -447,7 +453,7 @@ def adaptive_load_stepping(
 
     else:  # No definition of implicit derivatives
         return jax.lax.while_loop(
-            continue_check, step, (dofs, 0.0, init_increment, 0, settings, 0.0)
+            continue_check, step, (dofs, 0.0, init_increment, 0., settings, 0.0)
         )
 
 
@@ -642,7 +648,7 @@ def solve_linear(dofs, settings, static_settings, **kwargs):
 
     # Compose solution dofs
     if nodal_imposition:
-        sol = jax.pure_callback(solve_fun, result_shape_dtype, mat, rhs, free_dofs_flat)
+        sol = jax.pure_callback(solve_fun, result_shape_dtype, mat, rhs, free_dofs_flat, vmap_method='sequential')
         if isinstance(settings["dirichlet dofs"], (dict, FrozenDict)):
             free_dofs_dict = {
                 key: jnp.invert(jnp.asarray(val))
@@ -653,7 +659,7 @@ def solve_linear(dofs, settings, static_settings, **kwargs):
         else:
             return utility.mask_op(dofs, free_dofs_flat, sol)
     else:
-        sol = jax.pure_callback(solve_fun, result_shape_dtype, mat, rhs, None)
+        sol = jax.pure_callback(solve_fun, result_shape_dtype, mat, rhs, None, vmap_method='sequential')
         return utility.reshape_as(sol, dofs)
 
 

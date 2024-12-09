@@ -130,7 +130,7 @@ def _get_indices(connectivity, dofs):
             row_indices = jnp.repeat(global_dofs, n_dofs_element)
             col_indices = jnp.tile(global_dofs, n_dofs_element)
             indices = jnp.stack([row_indices, col_indices], axis=-1)
-            return indices
+            return indices.astype(int)
 
         all_elem_indices = jax.vmap(one_elem_idx)(connectivity)
         indices = all_elem_indices.reshape(-1, 2)
@@ -152,16 +152,20 @@ def _get_element_quantities(dofs, settings, static_settings, set):
     model_fun = static_settings["model"][set]
     x_nodes = settings["node coordinates"]
 
+    # Warning if it was defined in static_settings
+    assert "connectivity" not in static_settings, \
+        "'connectivity' has been moved to 'settings' in order to reduce compile time. \
+        Further, you should not transform it to a tuple of tuples anymore."
+
     if isinstance(dofs, dict):
         assert isinstance(
             x_nodes, dict
         ), "If 'dofs' is a dict, 'settings['node coordinates']' must also be a dict."
 
-        # connectivity_dict = static_settings["connectivity"][set]
-        connectivity_dict = settings["connectivity"][set] # Fixme
+        connectivity_dict = settings["connectivity"][set]
         assert isinstance(
             connectivity_dict, (dict, FrozenDict)
-        ), "If 'dofs' is a dict, 'static_settings['connectivity'][set]' must be a FrozenDict."
+        ), "If 'dofs' is a dict, 'settings['connectivity'][set]' must also be a dict."
 
         field_keys = list(dofs.keys())
         connectivity = {key: jnp.asarray(connectivity_dict[key]) for key in connectivity_dict}
@@ -170,8 +174,7 @@ def _get_element_quantities(dofs, settings, static_settings, set):
         local_node_coor = jax.tree.map(lambda x, y: x.at[y].get(), x_nodes, connectivity)
 
     else:
-        # connectivity_list = jnp.asarray(static_settings["connectivity"][set])
-        connectivity_list = jnp.asarray(settings["connectivity"][set]) # Fixme
+        connectivity_list = jnp.asarray(settings["connectivity"][set])
         local_dofs = dofs[connectivity_list]
         local_node_coor = x_nodes[connectivity_list]
         elem_numbers = jnp.arange(connectivity_list.shape[0])

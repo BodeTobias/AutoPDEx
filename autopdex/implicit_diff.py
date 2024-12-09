@@ -28,7 +28,8 @@
 """
 These functions are a modification and extension of the functions in jaxopt._src.implicit_diff for
 external solve functions with a jax.experimental.sparse.BCOO matrix as an argument instead of a matvec function.
-The root_vjp and root_jvp functions were modified in a way that external solvers can be used via a pure_callback.
+The root_vjp and root_jvp functions were modified in a way that external solvers 
+can be used via a pure_callback and constraints can be taken into account.
 With the wrapper custom_root, root solvers can be made differentiable both in forward or reverse mode of arbitrary order.
 Mixing the differentiation mode is currently not possible.
 """
@@ -45,7 +46,6 @@ import jax.numpy as jnp
 from autopdex import utility
 from flax.core import FrozenDict
 
-# Fixme: update docstrings
 
 def tree_scalar_mul(scalar, tree_x):
     """Compute scalar * tree_x."""
@@ -131,6 +131,8 @@ def _root_vjp(
     """
     free_dofs_flat = None
     if free_dofs is not None:
+        assert "dirichlet conditions" in args[0], "'dirichlet conditions' \
+        have to be defined in a dict as the second argument of the root solver function."
         dirichlet_dofs_flat = utility.dict_flatten(args[0]["dirichlet dofs"])
         free_dofs_flat = ~dirichlet_dofs_flat
 
@@ -257,6 +259,8 @@ def _root_jvp(
     """
     free_dofs_flat = None
     if free_dofs is not None:
+        assert "dirichlet conditions" in args[0], "'dirichlet conditions' \
+        have to be defined in a dict as the second argument of the root solver function."
         dirichlet_dofs_flat = utility.dict_flatten(args[0]["dirichlet dofs"])
         free_dofs_flat = ~dirichlet_dofs_flat
 
@@ -265,6 +269,7 @@ def _root_jvp(
     mat_shape = A.shape
 
     # Forward differentiable sparse linear solver
+    # TODO: register as primitive in order to allow mixed jacfwd/jacrev
     @jax.custom_jvp
     def linear_solver_fun_jvp(data, indices, b, free_dofs_flat):
         A = jax.experimental.sparse.BCOO((data, indices), shape=mat_shape)
@@ -396,6 +401,8 @@ def _custom_root(
             if has_aux:
                 sol = primal_sol[0]
                 aux_data = primal_sol[1:]
+
+                # TODO: allow integer and boolean auxilary data
             else:
                 sol = primal_sol
 
@@ -480,7 +487,7 @@ def custom_root(
     residual_fun: Callable,
     mat_fun: Callable,
     solve: Callable,
-    free_dofs: Any = None,
+    free_dofs: bool = False,
     has_aux: bool = False,
     mode="reverse",
     reference_signature: Optional[Callable] = None,
@@ -494,9 +501,11 @@ def custom_root(
       mat_fun: A callable that returns the sparse tangent matrix as a jax.experimental.BCOO with dofs and
         args as arguments. Can also be a pure callback.
       solve: A linear solver of the form ``solve(mat[jax.experimental.BCOO], b[jnp.ndarray])``.
-      free_dofs: For constraining certain degrees of freedom. free_dofs has to be a boolean mask with the
-        same structure of dofs (jnp.ndarray or dict of jnp.ndarrays) indicating the dofs that are not constrained.
-        Requires args[1]['dirichlet conditions'] to be defined (see source code of _root_jvp and _root_vjp
+      free_dofs: For constraining certain degrees of freedom. In case of True, the second argument of the solver
+        has to be a dictionary having the keys 'dirichlet dofs' and 'dirichlet conditions'. The first one is a
+        dictionary of jnp.ndarrays with the same structure as dofs, where the entries are boolean masks indicating
+        the dofs that are constrained. The second one is a dictionary of jnp.ndarrays with the same structure as dofs,
+        where the entries are the values of the constrained dofs (see source code of _root_jvp and _root_vjp
         for details or solver.adaptive_load_stepping for exemplary use).
       has_aux: whether the decorated root solver function returns auxiliary data.
       mode: The differentiation mode ('forward' or 'reverse'/'backward').
