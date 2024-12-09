@@ -49,7 +49,7 @@
               <img src="../../_static/logo.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                1.0.3
+                1.0.5
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
@@ -158,7 +158,7 @@
 <span class="kn">from</span> <span class="nn">flax.core</span> <span class="kn">import</span> <span class="n">FrozenDict</span>
 
 <span class="kn">from</span> <span class="nn">autopdex</span> <span class="kn">import</span> <span class="n">variational_schemes</span>
-<span class="kn">from</span> <span class="nn">autopdex.utility</span> <span class="kn">import</span> <span class="n">jit_with_docstring</span><span class="p">,</span> <span class="n">dict_zeros_like</span><span class="p">,</span> <span class="n">dict_flatten</span>
+<span class="kn">from</span> <span class="nn">autopdex.utility</span> <span class="kn">import</span> <span class="n">jit_with_docstring</span><span class="p">,</span> <span class="n">dict_zeros_like</span><span class="p">,</span> <span class="n">dict_flatten</span><span class="p">,</span> <span class="n">reshape_as</span>
 
 
 <span class="c1">## Helper functions</span>
@@ -189,7 +189,7 @@
         <span class="n">indices_list</span> <span class="o">=</span> <span class="p">[]</span>
 
         <span class="n">num_elems</span> <span class="o">=</span> <span class="n">connectivity</span><span class="p">[</span><span class="n">field_keys</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-        <span class="n">elem_indices</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">num_elems</span><span class="p">)</span>
+        <span class="n">elem_indices</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">num_elems</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
 
         <span class="c1"># Für jedes Feldpaar in der gewünschten Reihenfolge Indizes generieren</span>
         <span class="k">for</span> <span class="n">field_i</span> <span class="ow">in</span> <span class="n">field_keys</span><span class="p">:</span>
@@ -203,11 +203,12 @@
                     <span class="k">else</span><span class="p">:</span>
                         <span class="n">dofs_per_node_i</span> <span class="o">=</span> <span class="n">dofs</span><span class="p">[</span><span class="n">field_i</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
                     <span class="n">field_offset_i</span> <span class="o">=</span> <span class="n">field_offsets</span><span class="p">[</span><span class="n">field_i</span><span class="p">]</span>
-                    <span class="n">dof_local_i</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">dofs_per_node_i</span><span class="p">)</span>
+                    <span class="n">dof_local_i</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">dofs_per_node_i</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
                     <span class="n">dof_indices_i</span> <span class="o">=</span> <span class="p">(</span>
                         <span class="n">field_offset_i</span> <span class="o">+</span> <span class="n">conn_i</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">*</span> <span class="n">dofs_per_node_i</span> <span class="o">+</span> <span class="n">dof_local_i</span>
                     <span class="p">)</span>
-                    <span class="n">global_dofs_i</span> <span class="o">=</span> <span class="n">dof_indices_i</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+                    <span class="c1"># global_dofs_i = dof_indices_i.flatten()</span>
+                    <span class="n">global_dofs_i</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">dof_indices_i</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
 
                     <span class="c1"># Globale DOFs für field_j</span>
                     <span class="n">conn_j</span> <span class="o">=</span> <span class="n">connectivity</span><span class="p">[</span><span class="n">field_j</span><span class="p">][</span><span class="n">elem_idx</span><span class="p">]</span>
@@ -216,11 +217,12 @@
                     <span class="k">else</span><span class="p">:</span>
                         <span class="n">dofs_per_node_j</span> <span class="o">=</span> <span class="n">dofs</span><span class="p">[</span><span class="n">field_j</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
                     <span class="n">field_offset_j</span> <span class="o">=</span> <span class="n">field_offsets</span><span class="p">[</span><span class="n">field_j</span><span class="p">]</span>
-                    <span class="n">dof_local_j</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">dofs_per_node_j</span><span class="p">)</span>
+                    <span class="n">dof_local_j</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">dofs_per_node_j</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
                     <span class="n">dof_indices_j</span> <span class="o">=</span> <span class="p">(</span>
                         <span class="n">field_offset_j</span> <span class="o">+</span> <span class="n">conn_j</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">*</span> <span class="n">dofs_per_node_j</span> <span class="o">+</span> <span class="n">dof_local_j</span>
                     <span class="p">)</span>
-                    <span class="n">global_dofs_j</span> <span class="o">=</span> <span class="n">dof_indices_j</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+                    <span class="c1"># global_dofs_j = dof_indices_j.flatten()</span>
+                    <span class="n">global_dofs_j</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">dof_indices_j</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
 
                     <span class="c1"># Indizes generieren</span>
                     <span class="n">row_indices</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">repeat</span><span class="p">(</span><span class="n">global_dofs_i</span><span class="p">,</span> <span class="n">global_dofs_j</span><span class="o">.</span><span class="n">size</span><span class="p">)</span>
@@ -252,12 +254,11 @@
             <span class="n">row_indices</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">repeat</span><span class="p">(</span><span class="n">global_dofs</span><span class="p">,</span> <span class="n">n_dofs_element</span><span class="p">)</span>
             <span class="n">col_indices</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">tile</span><span class="p">(</span><span class="n">global_dofs</span><span class="p">,</span> <span class="n">n_dofs_element</span><span class="p">)</span>
             <span class="n">indices</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">stack</span><span class="p">([</span><span class="n">row_indices</span><span class="p">,</span> <span class="n">col_indices</span><span class="p">],</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
-            <span class="k">return</span> <span class="n">indices</span>
+            <span class="k">return</span> <span class="n">indices</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
 
         <span class="n">all_elem_indices</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">vmap</span><span class="p">(</span><span class="n">one_elem_idx</span><span class="p">)(</span><span class="n">connectivity</span><span class="p">)</span>
         <span class="n">indices</span> <span class="o">=</span> <span class="n">all_elem_indices</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">indices</span>
-
 
 <span class="k">def</span> <span class="nf">_get_element_quantities</span><span class="p">(</span><span class="n">dofs</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">,</span> <span class="nb">set</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -275,35 +276,35 @@
     <span class="n">model_fun</span> <span class="o">=</span> <span class="n">static_settings</span><span class="p">[</span><span class="s2">&quot;model&quot;</span><span class="p">][</span><span class="nb">set</span><span class="p">]</span>
     <span class="n">x_nodes</span> <span class="o">=</span> <span class="n">settings</span><span class="p">[</span><span class="s2">&quot;node coordinates&quot;</span><span class="p">]</span>
 
+    <span class="c1"># Warning if it was defined in static_settings</span>
+    <span class="k">assert</span> <span class="s2">&quot;connectivity&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">static_settings</span><span class="p">,</span> \
+        <span class="s2">&quot;&#39;connectivity&#39; has been moved to &#39;settings&#39; in order to reduce compile time. </span><span class="se">\</span>
+<span class="s2">        Further, you should not transform it to a tuple of tuples anymore.&quot;</span>
+
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">dofs</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
         <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span>
             <span class="n">x_nodes</span><span class="p">,</span> <span class="nb">dict</span>
         <span class="p">),</span> <span class="s2">&quot;If &#39;dofs&#39; is a dict, &#39;settings[&#39;node coordinates&#39;]&#39; must also be a dict.&quot;</span>
 
-        <span class="n">connectivity_dict</span> <span class="o">=</span> <span class="n">static_settings</span><span class="p">[</span><span class="s2">&quot;connectivity&quot;</span><span class="p">][</span><span class="nb">set</span><span class="p">]</span>
+        <span class="n">connectivity_dict</span> <span class="o">=</span> <span class="n">settings</span><span class="p">[</span><span class="s2">&quot;connectivity&quot;</span><span class="p">][</span><span class="nb">set</span><span class="p">]</span>
         <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span>
             <span class="n">connectivity_dict</span><span class="p">,</span> <span class="p">(</span><span class="nb">dict</span><span class="p">,</span> <span class="n">FrozenDict</span><span class="p">)</span>
-        <span class="p">),</span> <span class="s2">&quot;If &#39;dofs&#39; is a dict, &#39;static_settings[&#39;connectivity&#39;][set]&#39; must be a FrozenDict.&quot;</span>
+        <span class="p">),</span> <span class="s2">&quot;If &#39;dofs&#39; is a dict, &#39;settings[&#39;connectivity&#39;][set]&#39; must also be a dict.&quot;</span>
 
         <span class="n">field_keys</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">dofs</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
-        <span class="n">connectivity</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="n">local_dofs</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="n">local_node_coor</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">field_keys</span><span class="p">:</span>
-            <span class="n">connectivity_list</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">connectivity_dict</span><span class="p">[</span><span class="n">key</span><span class="p">])</span>
-            <span class="n">local_dofs</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">dofs</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="n">connectivity_list</span><span class="p">]</span>
-            <span class="n">local_node_coor</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">x_nodes</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="n">connectivity_list</span><span class="p">]</span>
-            <span class="n">connectivity</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">connectivity_list</span>
-        <span class="n">elem_numbers</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">connectivity_list</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="n">connectivity</span> <span class="o">=</span> <span class="p">{</span><span class="n">key</span><span class="p">:</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">connectivity_dict</span><span class="p">[</span><span class="n">key</span><span class="p">])</span> <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">connectivity_dict</span><span class="p">}</span>
+        <span class="n">elem_numbers</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">connectivity</span><span class="p">[</span><span class="n">field_keys</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="n">local_dofs</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">at</span><span class="p">[</span><span class="n">y</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(),</span> <span class="n">dofs</span><span class="p">,</span> <span class="n">connectivity</span><span class="p">)</span>
+        <span class="n">local_node_coor</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">at</span><span class="p">[</span><span class="n">y</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(),</span> <span class="n">x_nodes</span><span class="p">,</span> <span class="n">connectivity</span><span class="p">)</span>
+
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">connectivity_list</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">static_settings</span><span class="p">[</span><span class="s2">&quot;connectivity&quot;</span><span class="p">][</span><span class="nb">set</span><span class="p">])</span>
+        <span class="n">connectivity_list</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">settings</span><span class="p">[</span><span class="s2">&quot;connectivity&quot;</span><span class="p">][</span><span class="nb">set</span><span class="p">])</span>
         <span class="n">local_dofs</span> <span class="o">=</span> <span class="n">dofs</span><span class="p">[</span><span class="n">connectivity_list</span><span class="p">]</span>
         <span class="n">local_node_coor</span> <span class="o">=</span> <span class="n">x_nodes</span><span class="p">[</span><span class="n">connectivity_list</span><span class="p">]</span>
         <span class="n">elem_numbers</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">connectivity_list</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
         <span class="n">connectivity</span> <span class="o">=</span> <span class="n">connectivity_list</span>
 
     <span class="k">return</span> <span class="n">model_fun</span><span class="p">,</span> <span class="n">local_dofs</span><span class="p">,</span> <span class="n">local_node_coor</span><span class="p">,</span> <span class="n">elem_numbers</span><span class="p">,</span> <span class="n">connectivity</span>
-
 
 <span class="k">def</span> <span class="nf">_get_tangent_diagonal</span><span class="p">(</span><span class="n">tangent_contributions</span><span class="p">,</span> <span class="n">connectivity</span><span class="p">,</span> <span class="n">dofs</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -416,7 +417,6 @@
 
     <span class="k">return</span> <span class="n">diag</span>
 
-
 <span class="k">def</span> <span class="nf">_get_residual</span><span class="p">(</span><span class="n">residual_contributions</span><span class="p">,</span> <span class="n">connectivity</span><span class="p">,</span> <span class="n">dofs</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Assembles the global residual vector from the residual contributions,</span>
@@ -433,8 +433,8 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">dofs</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
         <span class="n">field_keys</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">dofs</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
-        <span class="n">n_elems</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="nb">iter</span><span class="p">(</span><span class="n">connectivity</span><span class="o">.</span><span class="n">values</span><span class="p">()))</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>  <span class="c1"># Number of elements</span>
-
+        <span class="n">n_elems</span> <span class="o">=</span> <span class="n">connectivity</span><span class="p">[</span><span class="n">field_keys</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        
         <span class="c1"># Initialize the residual dictionary</span>
         <span class="n">residual</span> <span class="o">=</span> <span class="p">{}</span>
 
@@ -483,6 +483,7 @@
             <span class="n">residual</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">field_residual</span>
 
         <span class="k">return</span> <span class="n">residual</span>
+
     <span class="k">else</span><span class="p">:</span>
         <span class="c1"># For the array case</span>
         <span class="n">n_elems</span> <span class="o">=</span> <span class="n">connectivity</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
@@ -603,9 +604,7 @@
 
         <span class="c1"># Handle both cases dict and jnp.ndarray</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">add</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
-            <span class="n">integrated_residual</span> <span class="o">=</span> <span class="p">{</span>
-                <span class="n">key</span><span class="p">:</span> <span class="n">integrated_residual</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">+</span> <span class="n">add</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">add</span>
-            <span class="p">}</span>
+            <span class="n">integrated_residual</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span><span class="p">,</span> <span class="n">integrated_residual</span><span class="p">,</span> <span class="n">add</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">integrated_residual</span> <span class="o">+=</span> <span class="n">add</span>
 
@@ -1140,7 +1139,6 @@
     <span class="k">return</span> <span class="n">functional_contributions</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span></div>
 
 
-
 <div class="viewcode-block" id="user_potential_assemble_residual">
 <a class="viewcode-back" href="../../_autosummary/autopdex.assembler.user_potential_assemble_residual.html#autopdex.assembler.user_potential_assemble_residual">[docs]</a>
 <span class="nd">@jit_with_docstring</span><span class="p">(</span><span class="n">static_argnames</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;static_settings&quot;</span><span class="p">,</span> <span class="s2">&quot;set&quot;</span><span class="p">])</span>
@@ -1226,6 +1224,7 @@
     <span class="n">num_dofs</span> <span class="o">=</span> <span class="p">(</span>
         <span class="n">dofs</span><span class="o">.</span><span class="n">size</span> <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">dofs</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)</span> <span class="k">else</span> <span class="nb">sum</span><span class="p">(</span><span class="n">v</span><span class="o">.</span><span class="n">size</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">dofs</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
     <span class="p">)</span>
+
     <span class="n">tangent_matrix</span> <span class="o">=</span> <span class="n">sparse</span><span class="o">.</span><span class="n">BCOO</span><span class="p">((</span><span class="n">data</span><span class="p">,</span> <span class="n">indices</span><span class="p">),</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">num_dofs</span><span class="p">,</span> <span class="n">num_dofs</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">tangent_matrix</span></div>
 

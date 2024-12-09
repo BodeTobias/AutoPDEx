@@ -18,7 +18,6 @@ def test_implicit_diff():
     from jax import config
     import jax.numpy as jnp
     import flax
-    import equinox
 
     from autopdex import seeder, geometry, solver, utility, models, spaces
 

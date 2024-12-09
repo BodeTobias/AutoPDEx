@@ -55,7 +55,7 @@
               <img src="../_static/logo.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                1.0.5
+                1.0.6
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
@@ -292,8 +292,6 @@ impose the Dirichlet boundary conditions.</p>
   <span class="s1">&#39;assembling mode&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s1">&#39;user element&#39;</span><span class="p">,</span> <span class="s1">&#39;user element&#39;</span><span class="p">),</span>
   <span class="s1">&#39;solution structure&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s1">&#39;nodal imposition&#39;</span><span class="p">,</span> <span class="s1">&#39;nodal imposition&#39;</span><span class="p">),</span>
   <span class="s1">&#39;model&#39;</span><span class="p">:</span> <span class="p">(</span><span class="n">user_elem_1</span><span class="p">,</span> <span class="n">user_elem_2</span><span class="p">),</span>
-  <span class="s1">&#39;dirichlet dofs&#39;</span><span class="p">:</span> <span class="n">utility</span><span class="o">.</span><span class="n">jnp_to_tuple</span><span class="p">(</span><span class="n">dirichlet_dofs</span><span class="p">),</span>
-  <span class="s1">&#39;connectivity&#39;</span><span class="p">:</span> <span class="p">(</span><span class="n">utility</span><span class="o">.</span><span class="n">jnp_to_tuple</span><span class="p">(</span><span class="n">elements</span><span class="p">),</span> <span class="n">utility</span><span class="o">.</span><span class="n">jnp_to_tuple</span><span class="p">(</span><span class="n">neumann_elements</span><span class="p">)),</span>
   <span class="s1">&#39;solver type&#39;</span><span class="p">:</span> <span class="s1">&#39;newton&#39;</span><span class="p">,</span>
   <span class="s1">&#39;solver backend&#39;</span><span class="p">:</span> <span class="s1">&#39;scipy&#39;</span><span class="p">,</span>      <span class="c1"># One could also use &#39;pardiso&#39; (if installed) which is usually faster</span>
   <span class="s1">&#39;solver&#39;</span><span class="p">:</span> <span class="s1">&#39;lapack&#39;</span><span class="p">,</span>             <span class="c1"># &#39;lu&#39; in case of &#39;pardiso&#39;</span>
@@ -301,6 +299,8 @@ impose the Dirichlet boundary conditions.</p>
 <span class="p">})</span>
 
 <span class="n">settings</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="s1">&#39;dirichlet dofs&#39;</span><span class="p">:</span> <span class="n">dirichlet_dofs</span><span class="p">,</span>
+  <span class="s1">&#39;connectivity&#39;</span><span class="p">:</span> <span class="p">(</span><span class="n">elements</span><span class="p">,</span> <span class="n">neumann_elements</span><span class="p">),</span>
   <span class="s1">&#39;load multiplier&#39;</span><span class="p">:</span> <span class="mf">0.</span><span class="p">,</span>
   <span class="s1">&#39;poisson ratio&#39;</span><span class="p">:</span> <span class="n">poisson_ratio</span><span class="p">,</span>
   <span class="s1">&#39;node coordinates&#39;</span><span class="p">:</span> <span class="n">x_nodes</span><span class="p">,</span>
@@ -314,7 +314,7 @@ impose the Dirichlet boundary conditions.</p>
 <h2>Analysis<a class="headerlink" href="#Analysis" title="Link to this heading"></a></h2>
 <p>Compile and run the adaptive load stepping.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dofs_0</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">n_nodes</span><span class="p">,</span> <span class="n">n_fields</span><span class="p">))</span> <span class="c1"># Initial guess for the degrees of freedom</span>
@@ -329,43 +329,43 @@ impose the Dirichlet boundary conditions.</p>
 <div class="highlight"><pre>
 
 Multiplier: 0.2
-Residual after Newton itteration 1: 30.12382634767878
-Residual after Newton itteration 2: 7.484234761117217
-Residual after Newton itteration 3: 0.8521793502482032
-Residual after Newton itteration 4: 0.010471309029119018
-Residual after Newton itteration 5: 1.831106619467243e-06
-Residual after Newton itteration 6: 1.0063048206397892e-12
+Residual after Newton iteration 1: 30.123826347678822
+Residual after Newton iteration 2: 7.48423476111715
+Residual after Newton iteration 3: 0.8521793502481395
+Residual after Newton iteration 4: 0.010471309029167198
+Residual after Newton iteration 5: 1.831106604002347e-06
+Residual after Newton iteration 6: 9.358166936206188e-13
 
 Multiplier: 0.4142857142857143
-Residual after Newton itteration 1: 26.044600550086084
-Residual after Newton itteration 2: 6.552331902727499
-Residual after Newton itteration 3: 0.924562644528941
-Residual after Newton itteration 4: 0.03481961828141885
-Residual after Newton itteration 5: 5.320097906008942e-05
-Residual after Newton itteration 6: 1.280873763608432e-10
-Residual after Newton itteration 7: 3.0462434535856185e-12
+Residual after Newton iteration 1: 26.04460055008704
+Residual after Newton iteration 2: 6.552331902728143
+Residual after Newton iteration 3: 0.9245626445292311
+Residual after Newton iteration 4: 0.03481961828140734
+Residual after Newton iteration 5: 5.320097874391832e-05
+Residual after Newton iteration 6: 1.28059213491389e-10
+Residual after Newton iteration 7: 3.1763707692407665e-12
 
 Multiplier: 0.6285714285714286
-Residual after Newton itteration 1: 21.84487496054915
-Residual after Newton itteration 2: 3.0302573859327406
-Residual after Newton itteration 3: 0.1712492491272352
-Residual after Newton itteration 4: 0.0012620383197058645
-Residual after Newton itteration 5: 6.663582949152351e-08
-Residual after Newton itteration 6: 6.174778315261028e-12
+Residual after Newton iteration 1: 21.84487496055028
+Residual after Newton iteration 2: 3.0302573859330524
+Residual after Newton iteration 3: 0.17124924912723274
+Residual after Newton iteration 4: 0.0012620383200161686
+Residual after Newton iteration 5: 6.663510128525136e-08
+Residual after Newton iteration 6: 7.22060262572491e-12
 
 Multiplier: 0.8581632653061224
-Residual after Newton itteration 1: 26.204713524279192
-Residual after Newton itteration 2: 3.187869256332363
-Residual after Newton itteration 3: 0.05592446538387442
-Residual after Newton itteration 4: 4.4266060157441995e-05
-Residual after Newton itteration 5: 5.3272088192209546e-11
+Residual after Newton iteration 1: 26.20471352427841
+Residual after Newton iteration 2: 3.187869256333001
+Residual after Newton iteration 3: 0.05592446538240887
+Residual after Newton iteration 4: 4.4266060191330814e-05
+Residual after Newton iteration 5: 5.333765168769642e-11
 
 Multiplier: 1.0
-Residual after Newton itteration 1: 7.73557212617914
-Residual after Newton itteration 2: 0.2883951631973963
-Residual after Newton itteration 3: 0.0005834065418212796
-Residual after Newton itteration 4: 2.5651830481774524e-09
-Residual after Newton itteration 5: 1.9107217355798856e-11
+Residual after Newton iteration 1: 7.735572126180305
+Residual after Newton iteration 2: 0.28839516319654035
+Residual after Newton iteration 3: 0.0005834065417498413
+Residual after Newton iteration 4: 2.5653678823568773e-09
+Residual after Newton iteration 5: 2.055029756258562e-11
 </pre></div></div>
 </div>
 <p>The adaptive_load_stepping function is automatically made differentiable with respect to the settings (currently execept the nodally imposed boundary conditions) by specifying the differentiation mode. Here, we exemplarily compute the derivative of the degrees of freedom with respect to the Poisson ratio. For taking derivatives of many values (dofs) with respect to a few variables (poisson ratio), the forward mode performs best.</p>
@@ -397,7 +397,7 @@ Residual after Newton itteration 5: 1.9107217355798856e-11
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-6.54 s ± 0 ns per loop (mean ± std. dev. of 1 run, 1 loop each)
+4.52 s ± 0 ns per loop (mean ± std. dev. of 1 run, 1 loop each)
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
@@ -413,7 +413,7 @@ Residual after Newton itteration 5: 1.9107217355798856e-11
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-907 ms ± 26.1 ms per loop (mean ± std. dev. of 7 runs, 1 loop each)
+613 ms ± 7.63 ms per loop (mean ± std. dev. of 7 runs, 1 loop each)
 </pre></div></div>
 </div>
 <p>Computing the sensitivity takes in this case only marginally longer</p>
@@ -430,7 +430,7 @@ Residual after Newton itteration 5: 1.9107217355798856e-11
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-957 ms ± 66.3 ms per loop (mean ± std. dev. of 7 runs, 1 loop each)
+639 ms ± 11.5 ms per loop (mean ± std. dev. of 7 runs, 1 loop each)
 </pre></div></div>
 </div>
 </section>
@@ -476,14 +476,6 @@ Residual after Newton itteration 5: 1.9107217355798856e-11
 </div>
 <div class="output_area docutils container">
 <img alt="../_images/notebooks_quickstart_38_0.png" src="../_images/notebooks_quickstart_38_0.png" />
-</div>
-</div>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
-</pre></div>
 </div>
 </div>
 </section>

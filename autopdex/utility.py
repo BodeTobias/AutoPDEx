@@ -27,8 +27,6 @@ import jax.numpy as jnp
 import numpy as np
 from flax.core import FrozenDict
 from jax.experimental import sparse
-from equinox import filter_jit
-
 
 def jit_with_docstring(static_argnames=None):
     """JIT wrapper that keeps the originial docstring of the function."""

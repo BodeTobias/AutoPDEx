@@ -2096,11 +2096,14 @@
         <span class="c1"># Test function</span>
         <span class="n">test_function</span> <span class="o">=</span> <span class="n">test_ansatz</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
 
+        <span class="c1"># Warning if it was defined in static_settings</span>
+        <span class="k">assert</span> <span class="s2">&quot;connectivity&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">static_settings</span><span class="p">,</span> \
+            <span class="s2">&quot;&#39;connectivity&#39; has been moved to &#39;settings&#39; in order to reduce compile time. </span><span class="se">\</span>
+<span class="s2">            Further, you should not transform it to a tuple of tuples anymore.&quot;</span>
+
         <span class="c1"># Primary field evaluated at n and n+1</span>
         <span class="n">dofs_n</span> <span class="o">=</span> <span class="n">settings</span><span class="p">[</span><span class="s2">&quot;dofs n&quot;</span><span class="p">]</span>
-        <span class="n">neighbor_list</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">static_settings</span><span class="p">[</span><span class="s2">&quot;connectivity&quot;</span><span class="p">][</span><span class="nb">set</span><span class="p">])[</span>
-            <span class="n">int_point_number</span>
-        <span class="p">]</span>
+        <span class="n">neighbor_list</span> <span class="o">=</span> <span class="n">settings</span><span class="p">[</span><span class="s2">&quot;connectivity&quot;</span><span class="p">][</span><span class="nb">set</span><span class="p">][</span><span class="n">int_point_number</span><span class="p">]</span>
         <span class="n">local_dofs_n</span> <span class="o">=</span> <span class="n">dofs_n</span><span class="p">[</span><span class="n">neighbor_list</span><span class="p">]</span>
         <span class="n">ansatz_n</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">solution_structures</span><span class="o">.</span><span class="n">solution_structure</span><span class="p">(</span>
             <span class="n">x</span><span class="p">,</span> <span class="n">int_point_number</span><span class="p">,</span> <span class="n">local_dofs_n</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">,</span> <span class="nb">set</span>
@@ -2158,12 +2161,15 @@
         <span class="c1"># Test function</span>
         <span class="n">test_function</span> <span class="o">=</span> <span class="n">test_ansatz</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
 
+        <span class="c1"># Warning if it was defined in static_settings</span>
+        <span class="k">assert</span> <span class="s2">&quot;connectivity&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">static_settings</span><span class="p">,</span> \
+            <span class="s2">&quot;&#39;connectivity&#39; has been moved to &#39;settings&#39; in order to reduce compile time. </span><span class="se">\</span>
+<span class="s2">            Further, you should not transform it to a tuple of tuples anymore.&quot;</span>
+
         <span class="c1"># Primary field evaluated at n-1, n and n+1</span>
         <span class="n">dofs_n</span> <span class="o">=</span> <span class="n">settings</span><span class="p">[</span><span class="s2">&quot;dofs n&quot;</span><span class="p">]</span>
         <span class="n">dofs_n_min_1</span> <span class="o">=</span> <span class="n">settings</span><span class="p">[</span><span class="s2">&quot;dofs n-1&quot;</span><span class="p">]</span>
-        <span class="n">neighbor_list</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">static_settings</span><span class="p">[</span><span class="s2">&quot;connectivity&quot;</span><span class="p">][</span><span class="nb">set</span><span class="p">])[</span>
-            <span class="n">int_point_number</span>
-        <span class="p">]</span>
+        <span class="n">neighbor_list</span> <span class="o">=</span> <span class="n">settings</span><span class="p">[</span><span class="s2">&quot;connectivity&quot;</span><span class="p">][</span><span class="nb">set</span><span class="p">][</span><span class="n">int_point_number</span><span class="p">]</span>
         <span class="n">ansatz_n</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">solution_structures</span><span class="o">.</span><span class="n">solution_structure</span><span class="p">(</span>
             <span class="n">x</span><span class="p">,</span> <span class="n">int_point_number</span><span class="p">,</span> <span class="n">dofs_n</span><span class="p">[</span><span class="n">neighbor_list</span><span class="p">],</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">,</span> <span class="nb">set</span>
         <span class="p">)</span>

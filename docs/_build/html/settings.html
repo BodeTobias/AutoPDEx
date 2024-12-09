@@ -52,7 +52,7 @@
               <img src="_static/logo.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                1.0.5
+                1.0.6
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -319,23 +319,6 @@ option can be used, for example, for elements that are integrated in a reference
 <td><p>Level of verbosity of output (-1,0,1,2)</p></td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><p>‘dirichlet dofs’</p>
-<p>(for solution structure</p>
-<p>‘nodal imposition’)</p>
-</td>
-<td><p>Tuple of tuples (Bool)</p>
-<p>or dict of tuples of tuples</p>
-</td>
-<td><p>Boolean tuple-Mask for selection DOFs for nodal Dirichlet boundary imposition</p></td>
-<td><p><a class="reference external" href="https://github.com/BodeTobias/AutoPDEx/tree/main/examples/cooks_membrane/non-homogeneous_dirichlet_conditions.py">non-homogeneous_dirichlet_conditions.py</a></p></td>
-</tr>
-<tr class="row-even"><td><p>‘connectivity’</p></td>
-<td><p>Tuple of tuples (Float)</p>
-<p>or dict of tuple of tuples</p>
-</td>
-<td><p>List of node numbers for each element/neighborhood in a domain</p></td>
-<td></td>
-</tr>
 </tbody>
 </table>
 </section>
@@ -354,6 +337,23 @@ option can be used, for example, for elements that are integrated in a reference
 </tr>
 </thead>
 <tbody>
+<tr class="row-even"><td><p>‘dirichlet dofs’</p>
+<p>(for solution structure</p>
+<p>‘nodal imposition’)</p>
+</td>
+<td><p>jnp.ndarray</p>
+<p>or dict jnp.ndarrays</p>
+</td>
+<td><p>Mask for selection DOFs for nodal Dirichlet boundary imposition</p>
+<p>Has to have the same structures as the DOFs</p>
+</td>
+</tr>
+<tr class="row-odd"><td><p>‘connectivity’</p></td>
+<td><p>jnp.ndarray</p>
+<p>or dict jnp.ndarrays</p>
+</td>
+<td><p>List of node numbers for each element/neighborhood in a domain</p></td>
+</tr>
 <tr class="row-even"><td><p>‘node coordinates’</p></td>
 <td><p>jnp.ndarray</p>
 <p>or dict of jnp.ndarrays</p>

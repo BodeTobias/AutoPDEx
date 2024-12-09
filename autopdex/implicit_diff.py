@@ -44,7 +44,6 @@ import jax
 import jax.numpy as jnp
 
 from autopdex import utility
-from flax.core import FrozenDict
 
 
 def tree_scalar_mul(scalar, tree_x):
