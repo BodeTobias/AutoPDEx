@@ -28,7 +28,7 @@ import jax
 import jax.numpy as jnp
 import numpy as np
 
-from autopdex.utility import jit_with_docstring
+from autopdex.utility import jit_with_docstring, invert_matrix
 
 
 ## Helper functions
@@ -12173,7 +12173,8 @@ def fem_iso_line_quad_brick(x, xI, fI, settings, overwrite_diff, n_dim):
             fun = lambda xi: shape_functions(xi) @ fI
             df_dxi = jax.jacfwd(fun)(xi)
             dX_dxi = jax.jacfwd(initial_coor)(xi)
-            tangent_out = df_dxi @ jnp.linalg.solve(dX_dxi, x_dot)
+            # tangent_out = df_dxi @ jnp.linalg.solve(dX_dxi, x_dot)
+            tangent_out = df_dxi @ invert_matrix(dX_dxi) @ x_dot
 
             # Add tangent with respect to fI
             if fI_dot is not None:
@@ -14992,7 +14993,8 @@ def fem_iso_line_tri_tet(x, xI, fI, settings, overwrite_diff, n_dim):
             fun = lambda xi: shape_functions(xi) @ fI
             df_dxi = jax.jacfwd(fun)(xi)
             dX_dxi = jax.jacfwd(initial_coor)(xi)
-            tangent_out = df_dxi @ jnp.linalg.solve(dX_dxi, x_dot)
+            # tangent_out = df_dxi @ jnp.linalg.solve(dX_dxi, x_dot)
+            tangent_out = df_dxi @ invert_matrix(dX_dxi) @ x_dot
 
             # Add tangent with respect to fI
             if fI_dot is not None:
@@ -15030,11 +15032,16 @@ def solution_space(x, int_point_number, local_dofs, settings, static_settings, s
     if isinstance(local_dofs, dict):
         raise TypeError("solution_space does currently not support DOFs as dicts.")
 
+    # Warning if it was defined in static_settings
+    assert "connectivity" not in static_settings, \
+        "'connectivity' has been moved to 'settings' in order to reduce compile time. \
+        Further, you should not transform it to a tuple of tuples anymore."
+
     space_type = static_settings["solution space"][set]
     if space_type == "mls":
         beta = settings["beta"][set]
         x_nodes = settings["node coordinates"]
-        neighbor_list = jnp.asarray(static_settings["connectivity"][set])
+        neighbor_list = settings["connectivity"][set]
         support_radius = settings["support radius"][set]
         x_local_nodes = x_nodes[neighbor_list[int_point_number]]
         return moving_least_squares(
@@ -15042,7 +15049,7 @@ def solution_space(x, int_point_number, local_dofs, settings, static_settings, s
         )
     elif space_type == "fem simplex":
         x_nodes = settings["node coordinates"]
-        connectivity_list = jnp.asarray(static_settings["connectivity"][set])
+        connectivity_list = settings["connectivity"][set]
         x_local_nodes = x_nodes[connectivity_list[int_point_number]]
         return fem_ini_simplex(x, x_local_nodes, local_dofs, static_settings, set)
     elif space_type == "nodal values":
@@ -15307,7 +15314,12 @@ def precompute_shape_functions(dofs, settings, static_settings, set, num_diff):
     if isinstance(dofs, dict):
         raise TypeError("precompute_shape_functions does currently not support DOFs as dicts.")
 
-    neighbor_list = jnp.asarray(static_settings["connectivity"][set])
+    # Warning if it was defined in static_settings
+    assert "connectivity" not in static_settings, \
+        "'connectivity' has been moved to 'settings' in order to reduce compile time. \
+        Further, you should not transform it to a tuple of tuples anymore."
+
+    neighbor_list = settings["connectivity"][set]
     local_dofs = dofs[neighbor_list]
     x_int = settings["integration coordinates"][set]
     int_point_numbers = jnp.arange(0, x_int.shape[0], 1)

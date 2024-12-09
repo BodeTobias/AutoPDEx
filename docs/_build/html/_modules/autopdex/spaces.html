@@ -152,7 +152,7 @@
 <span class="kn">import</span> <span class="nn">jax.numpy</span> <span class="k">as</span> <span class="nn">jnp</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
-<span class="kn">from</span> <span class="nn">autopdex.utility</span> <span class="kn">import</span> <span class="n">jit_with_docstring</span>
+<span class="kn">from</span> <span class="nn">autopdex.utility</span> <span class="kn">import</span> <span class="n">jit_with_docstring</span><span class="p">,</span> <span class="n">invert_matrix</span>
 
 
 <span class="c1">## Helper functions</span>
@@ -12299,7 +12299,8 @@
             <span class="n">fun</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">xi</span><span class="p">:</span> <span class="n">shape_functions</span><span class="p">(</span><span class="n">xi</span><span class="p">)</span> <span class="o">@</span> <span class="n">fI</span>
             <span class="n">df_dxi</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">jacfwd</span><span class="p">(</span><span class="n">fun</span><span class="p">)(</span><span class="n">xi</span><span class="p">)</span>
             <span class="n">dX_dxi</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">jacfwd</span><span class="p">(</span><span class="n">initial_coor</span><span class="p">)(</span><span class="n">xi</span><span class="p">)</span>
-            <span class="n">tangent_out</span> <span class="o">=</span> <span class="n">df_dxi</span> <span class="o">@</span> <span class="n">jnp</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">dX_dxi</span><span class="p">,</span> <span class="n">x_dot</span><span class="p">)</span>
+            <span class="c1"># tangent_out = df_dxi @ jnp.linalg.solve(dX_dxi, x_dot)</span>
+            <span class="n">tangent_out</span> <span class="o">=</span> <span class="n">df_dxi</span> <span class="o">@</span> <span class="n">invert_matrix</span><span class="p">(</span><span class="n">dX_dxi</span><span class="p">)</span> <span class="o">@</span> <span class="n">x_dot</span>
 
             <span class="c1"># Add tangent with respect to fI</span>
             <span class="k">if</span> <span class="n">fI_dot</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
@@ -15119,7 +15120,8 @@
             <span class="n">fun</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">xi</span><span class="p">:</span> <span class="n">shape_functions</span><span class="p">(</span><span class="n">xi</span><span class="p">)</span> <span class="o">@</span> <span class="n">fI</span>
             <span class="n">df_dxi</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">jacfwd</span><span class="p">(</span><span class="n">fun</span><span class="p">)(</span><span class="n">xi</span><span class="p">)</span>
             <span class="n">dX_dxi</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">jacfwd</span><span class="p">(</span><span class="n">initial_coor</span><span class="p">)(</span><span class="n">xi</span><span class="p">)</span>
-            <span class="n">tangent_out</span> <span class="o">=</span> <span class="n">df_dxi</span> <span class="o">@</span> <span class="n">jnp</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">dX_dxi</span><span class="p">,</span> <span class="n">x_dot</span><span class="p">)</span>
+            <span class="c1"># tangent_out = df_dxi @ jnp.linalg.solve(dX_dxi, x_dot)</span>
+            <span class="n">tangent_out</span> <span class="o">=</span> <span class="n">df_dxi</span> <span class="o">@</span> <span class="n">invert_matrix</span><span class="p">(</span><span class="n">dX_dxi</span><span class="p">)</span> <span class="o">@</span> <span class="n">x_dot</span>
 
             <span class="c1"># Add tangent with respect to fI</span>
             <span class="k">if</span> <span class="n">fI_dot</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
@@ -15159,11 +15161,16 @@
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">local_dofs</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
         <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;solution_space does currently not support DOFs as dicts.&quot;</span><span class="p">)</span>
 
+    <span class="c1"># Warning if it was defined in static_settings</span>
+    <span class="k">assert</span> <span class="s2">&quot;connectivity&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">static_settings</span><span class="p">,</span> \
+        <span class="s2">&quot;&#39;connectivity&#39; has been moved to &#39;settings&#39; in order to reduce compile time. </span><span class="se">\</span>
+<span class="s2">        Further, you should not transform it to a tuple of tuples anymore.&quot;</span>
+
     <span class="n">space_type</span> <span class="o">=</span> <span class="n">static_settings</span><span class="p">[</span><span class="s2">&quot;solution space&quot;</span><span class="p">][</span><span class="nb">set</span><span class="p">]</span>
     <span class="k">if</span> <span class="n">space_type</span> <span class="o">==</span> <span class="s2">&quot;mls&quot;</span><span class="p">:</span>
         <span class="n">beta</span> <span class="o">=</span> <span class="n">settings</span><span class="p">[</span><span class="s2">&quot;beta&quot;</span><span class="p">][</span><span class="nb">set</span><span class="p">]</span>
         <span class="n">x_nodes</span> <span class="o">=</span> <span class="n">settings</span><span class="p">[</span><span class="s2">&quot;node coordinates&quot;</span><span class="p">]</span>
-        <span class="n">neighbor_list</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">static_settings</span><span class="p">[</span><span class="s2">&quot;connectivity&quot;</span><span class="p">][</span><span class="nb">set</span><span class="p">])</span>
+        <span class="n">neighbor_list</span> <span class="o">=</span> <span class="n">settings</span><span class="p">[</span><span class="s2">&quot;connectivity&quot;</span><span class="p">][</span><span class="nb">set</span><span class="p">]</span>
         <span class="n">support_radius</span> <span class="o">=</span> <span class="n">settings</span><span class="p">[</span><span class="s2">&quot;support radius&quot;</span><span class="p">][</span><span class="nb">set</span><span class="p">]</span>
         <span class="n">x_local_nodes</span> <span class="o">=</span> <span class="n">x_nodes</span><span class="p">[</span><span class="n">neighbor_list</span><span class="p">[</span><span class="n">int_point_number</span><span class="p">]]</span>
         <span class="k">return</span> <span class="n">moving_least_squares</span><span class="p">(</span>
@@ -15171,7 +15178,7 @@
         <span class="p">)</span>
     <span class="k">elif</span> <span class="n">space_type</span> <span class="o">==</span> <span class="s2">&quot;fem simplex&quot;</span><span class="p">:</span>
         <span class="n">x_nodes</span> <span class="o">=</span> <span class="n">settings</span><span class="p">[</span><span class="s2">&quot;node coordinates&quot;</span><span class="p">]</span>
-        <span class="n">connectivity_list</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">static_settings</span><span class="p">[</span><span class="s2">&quot;connectivity&quot;</span><span class="p">][</span><span class="nb">set</span><span class="p">])</span>
+        <span class="n">connectivity_list</span> <span class="o">=</span> <span class="n">settings</span><span class="p">[</span><span class="s2">&quot;connectivity&quot;</span><span class="p">][</span><span class="nb">set</span><span class="p">]</span>
         <span class="n">x_local_nodes</span> <span class="o">=</span> <span class="n">x_nodes</span><span class="p">[</span><span class="n">connectivity_list</span><span class="p">[</span><span class="n">int_point_number</span><span class="p">]]</span>
         <span class="k">return</span> <span class="n">fem_ini_simplex</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">x_local_nodes</span><span class="p">,</span> <span class="n">local_dofs</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">,</span> <span class="nb">set</span><span class="p">)</span>
     <span class="k">elif</span> <span class="n">space_type</span> <span class="o">==</span> <span class="s2">&quot;nodal values&quot;</span><span class="p">:</span>
@@ -15445,7 +15452,12 @@
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">dofs</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
         <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;precompute_shape_functions does currently not support DOFs as dicts.&quot;</span><span class="p">)</span>
 
-    <span class="n">neighbor_list</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">static_settings</span><span class="p">[</span><span class="s2">&quot;connectivity&quot;</span><span class="p">][</span><span class="nb">set</span><span class="p">])</span>
+    <span class="c1"># Warning if it was defined in static_settings</span>
+    <span class="k">assert</span> <span class="s2">&quot;connectivity&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">static_settings</span><span class="p">,</span> \
+        <span class="s2">&quot;&#39;connectivity&#39; has been moved to &#39;settings&#39; in order to reduce compile time. </span><span class="se">\</span>
+<span class="s2">        Further, you should not transform it to a tuple of tuples anymore.&quot;</span>
+
+    <span class="n">neighbor_list</span> <span class="o">=</span> <span class="n">settings</span><span class="p">[</span><span class="s2">&quot;connectivity&quot;</span><span class="p">][</span><span class="nb">set</span><span class="p">]</span>
     <span class="n">local_dofs</span> <span class="o">=</span> <span class="n">dofs</span><span class="p">[</span><span class="n">neighbor_list</span><span class="p">]</span>
     <span class="n">x_int</span> <span class="o">=</span> <span class="n">settings</span><span class="p">[</span><span class="s2">&quot;integration coordinates&quot;</span><span class="p">][</span><span class="nb">set</span><span class="p">]</span>
     <span class="n">int_point_numbers</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">x_int</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">1</span><span class="p">)</span>

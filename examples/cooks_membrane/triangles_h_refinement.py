@@ -112,11 +112,11 @@ for i in range(1,3):
     # 'type of preconditioner': 'ilu',
 
     'verbose': 2,
-    'dirichlet dofs': utility.jnp_to_tuple(dirichlet_dofs),
-    'connectivity': (utility.jnp_to_tuple(domain_connectivity),utility.jnp_to_tuple(surf_connectivity)),
   })
 
   settings = {
+    'dirichlet dofs': dirichlet_dofs,
+    'connectivity': (domain_connectivity, surf_connectivity),
     'node coordinates': x_nodes,
     'dirichlet conditions': dirichlet_conditions,
     'integration coordinates': (x_int, x_surf_int),

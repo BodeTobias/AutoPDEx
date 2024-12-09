@@ -34,7 +34,7 @@ from jax.experimental import sparse
 from flax.core import FrozenDict
 
 from autopdex import variational_schemes
-from autopdex.utility import jit_with_docstring, dict_zeros_like, dict_flatten
+from autopdex.utility import jit_with_docstring, dict_zeros_like, dict_flatten, reshape_as
 
 
 ## Helper functions
@@ -65,7 +65,7 @@ def _get_indices(connectivity, dofs):
         indices_list = []
 
         num_elems = connectivity[field_keys[0]].shape[0]
-        elem_indices = jnp.arange(num_elems)
+        elem_indices = jnp.arange(num_elems, dtype=int)
 
         # Für jedes Feldpaar in der gewünschten Reihenfolge Indizes generieren
         for field_i in field_keys:
@@ -79,11 +79,12 @@ def _get_indices(connectivity, dofs):
                     else:
                         dofs_per_node_i = dofs[field_i].shape[-1]
                     field_offset_i = field_offsets[field_i]
-                    dof_local_i = jnp.arange(dofs_per_node_i)
+                    dof_local_i = jnp.arange(dofs_per_node_i, dtype=int)
                     dof_indices_i = (
                         field_offset_i + conn_i[:, None] * dofs_per_node_i + dof_local_i
                     )
-                    global_dofs_i = dof_indices_i.flatten()
+                    # global_dofs_i = dof_indices_i.flatten()
+                    global_dofs_i = jnp.asarray(dof_indices_i, dtype=int).flatten()
 
                     # Globale DOFs für field_j
                     conn_j = connectivity[field_j][elem_idx]
@@ -92,11 +93,12 @@ def _get_indices(connectivity, dofs):
                     else:
                         dofs_per_node_j = dofs[field_j].shape[-1]
                     field_offset_j = field_offsets[field_j]
-                    dof_local_j = jnp.arange(dofs_per_node_j)
+                    dof_local_j = jnp.arange(dofs_per_node_j, dtype=int)
                     dof_indices_j = (
                         field_offset_j + conn_j[:, None] * dofs_per_node_j + dof_local_j
                     )
-                    global_dofs_j = dof_indices_j.flatten()
+                    # global_dofs_j = dof_indices_j.flatten()
+                    global_dofs_j = jnp.asarray(dof_indices_j, dtype=int).flatten()
 
                     # Indizes generieren
                     row_indices = jnp.repeat(global_dofs_i, global_dofs_j.size)
@@ -128,12 +130,11 @@ def _get_indices(connectivity, dofs):
             row_indices = jnp.repeat(global_dofs, n_dofs_element)
             col_indices = jnp.tile(global_dofs, n_dofs_element)
             indices = jnp.stack([row_indices, col_indices], axis=-1)
-            return indices
+            return indices.astype(int)
 
         all_elem_indices = jax.vmap(one_elem_idx)(connectivity)
         indices = all_elem_indices.reshape(-1, 2)
         return indices
-
 
 def _get_element_quantities(dofs, settings, static_settings, set):
     """
@@ -151,35 +152,35 @@ def _get_element_quantities(dofs, settings, static_settings, set):
     model_fun = static_settings["model"][set]
     x_nodes = settings["node coordinates"]
 
+    # Warning if it was defined in static_settings
+    assert "connectivity" not in static_settings, \
+        "'connectivity' has been moved to 'settings' in order to reduce compile time. \
+        Further, you should not transform it to a tuple of tuples anymore."
+
     if isinstance(dofs, dict):
         assert isinstance(
             x_nodes, dict
         ), "If 'dofs' is a dict, 'settings['node coordinates']' must also be a dict."
 
-        connectivity_dict = static_settings["connectivity"][set]
+        connectivity_dict = settings["connectivity"][set]
         assert isinstance(
             connectivity_dict, (dict, FrozenDict)
-        ), "If 'dofs' is a dict, 'static_settings['connectivity'][set]' must be a FrozenDict."
+        ), "If 'dofs' is a dict, 'settings['connectivity'][set]' must also be a dict."
 
         field_keys = list(dofs.keys())
-        connectivity = {}
-        local_dofs = {}
-        local_node_coor = {}
-        for key in field_keys:
-            connectivity_list = jnp.asarray(connectivity_dict[key])
-            local_dofs[key] = dofs[key][connectivity_list]
-            local_node_coor[key] = x_nodes[key][connectivity_list]
-            connectivity[key] = connectivity_list
-        elem_numbers = jnp.arange(connectivity_list.shape[0])
+        connectivity = {key: jnp.asarray(connectivity_dict[key]) for key in connectivity_dict}
+        elem_numbers = jnp.arange(connectivity[field_keys[0]].shape[0])
+        local_dofs = jax.tree.map(lambda x, y: x.at[y].get(), dofs, connectivity)
+        local_node_coor = jax.tree.map(lambda x, y: x.at[y].get(), x_nodes, connectivity)
+
     else:
-        connectivity_list = jnp.asarray(static_settings["connectivity"][set])
+        connectivity_list = jnp.asarray(settings["connectivity"][set])
         local_dofs = dofs[connectivity_list]
         local_node_coor = x_nodes[connectivity_list]
         elem_numbers = jnp.arange(connectivity_list.shape[0])
         connectivity = connectivity_list
 
     return model_fun, local_dofs, local_node_coor, elem_numbers, connectivity
-
 
 def _get_tangent_diagonal(tangent_contributions, connectivity, dofs):
     """
@@ -292,7 +293,6 @@ def _get_tangent_diagonal(tangent_contributions, connectivity, dofs):
 
     return diag
 
-
 def _get_residual(residual_contributions, connectivity, dofs):
     """
     Assembles the global residual vector from the residual contributions,
@@ -309,8 +309,8 @@ def _get_residual(residual_contributions, connectivity, dofs):
     """
     if isinstance(dofs, dict):
         field_keys = list(dofs.keys())
-        n_elems = next(iter(connectivity.values())).shape[0]  # Number of elements
-
+        n_elems = connectivity[field_keys[0]].shape[0]
+        
         # Initialize the residual dictionary
         residual = {}
 
@@ -359,6 +359,7 @@ def _get_residual(residual_contributions, connectivity, dofs):
             residual[key] = field_residual
 
         return residual
+
     else:
         # For the array case
         n_elems = connectivity.shape[0]
@@ -474,9 +475,7 @@ def assemble_residual(dofs, settings, static_settings):
 
         # Handle both cases dict and jnp.ndarray
         if isinstance(add, dict):
-            integrated_residual = {
-                key: integrated_residual[key] + add[key] for key in add
-            }
+            integrated_residual = jax.tree.map(lambda x, y: x + y, integrated_residual, add)
         else:
             integrated_residual += add
 
@@ -980,7 +979,6 @@ def user_potential_integrate_functional(dofs, settings, static_settings, set):
 
     return functional_contributions.sum()
 
-
 @jit_with_docstring(static_argnames=["static_settings", "set"])
 def user_potential_assemble_residual(dofs, settings, static_settings, set):
     """
@@ -1058,6 +1056,7 @@ def user_potential_assemble_tangent(dofs, settings, static_settings, set):
     num_dofs = (
         dofs.size if not isinstance(dofs, dict) else sum(v.size for v in dofs.values())
     )
+
     tangent_matrix = sparse.BCOO((data, indices), shape=(num_dofs, num_dofs))
     return tangent_matrix
 

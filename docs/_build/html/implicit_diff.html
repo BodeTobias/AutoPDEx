@@ -52,7 +52,7 @@
               <img src="_static/logo.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                1.0.5
+                1.0.6
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -134,7 +134,8 @@
 <h1>Implicit_diff<a class="headerlink" href="#implicit-diff" title="Link to this heading"></a></h1>
 <p>These functions are a modification and extension of the functions in jaxopt._src.implicit_diff for
 external solve functions with a jax.experimental.sparse.BCOO matrix as an argument instead of a matvec function.
-The root_vjp and root_jvp functions were modified in a way that external solvers can be used via a pure_callback.
+The root_vjp and root_jvp functions were modified in a way that external solvers
+can be used via a pure_callback and constraints can be taken into account.
 With the wrapper custom_root, root solvers can be made differentiable both in forward or reverse mode of arbitrary order.
 Mixing the differentiation mode is currently not possible.</p>
 <p>For an example, see <a class="reference external" href="https://github.com/BodeTobias/AutoPDEx/tree/main/examples/cooks_membrane/uncertainty_estimation_hyperelastic.py">uncertainty_estimation_hyperelastic.py</a>.</p>

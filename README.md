@@ -96,14 +96,14 @@ static_settings = flax.core.FrozenDict({
   'assembling mode': ('user potential',),
   'solution structure': ('nodal imposition',),
   'model': (user_potential, ),
-  'connectivity': (utility.jnp_to_tuple(connectivity), ),
-  'dirichlet dofs': utility.jnp_to_tuple(dirichlet_dofs),
   'solver type': 'newton',
   'solver backend': 'scipy',
   'solver': 'lapack',
   'verbose': 1,
 })
 settings = {
+  'connectivity': (connectivity,),
+  'dirichlet dofs': dirichlet_dofs,
   'node coordinates': node_coordinates,
   'dirichlet conditions': dirichlet_conditions,
 }

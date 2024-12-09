@@ -152,7 +152,8 @@
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">These functions are a modification and extension of the functions in jaxopt._src.implicit_diff for</span>
 <span class="sd">external solve functions with a jax.experimental.sparse.BCOO matrix as an argument instead of a matvec function.</span>
-<span class="sd">The root_vjp and root_jvp functions were modified in a way that external solvers can be used via a pure_callback.</span>
+<span class="sd">The root_vjp and root_jvp functions were modified in a way that external solvers </span>
+<span class="sd">can be used via a pure_callback and constraints can be taken into account.</span>
 <span class="sd">With the wrapper custom_root, root solvers can be made differentiable both in forward or reverse mode of arbitrary order.</span>
 <span class="sd">Mixing the differentiation mode is currently not possible.</span>
 <span class="sd">&quot;&quot;&quot;</span>
@@ -165,7 +166,6 @@
 
 <span class="kn">import</span> <span class="nn">jax</span>
 <span class="kn">import</span> <span class="nn">jax.numpy</span> <span class="k">as</span> <span class="nn">jnp</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
 <span class="kn">from</span> <span class="nn">autopdex</span> <span class="kn">import</span> <span class="n">utility</span>
 
@@ -252,33 +252,37 @@
 <span class="sd">      each argument. Each ``vjps[i]`` has the same pytree structure as</span>
 <span class="sd">      ``args[i]``.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">free_dofs_flat</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="k">if</span> <span class="n">free_dofs</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">free_dofs_flat</span> <span class="o">=</span> <span class="n">utility</span><span class="o">.</span><span class="n">dict_flatten</span><span class="p">(</span><span class="n">free_dofs</span><span class="p">)</span>
+        <span class="k">assert</span> <span class="s2">&quot;dirichlet conditions&quot;</span> <span class="ow">in</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="s2">&quot;&#39;dirichlet conditions&#39; </span><span class="se">\</span>
+<span class="s2">        have to be defined in a dict as the second argument of the root solver function.&quot;</span>
+        <span class="n">dirichlet_dofs_flat</span> <span class="o">=</span> <span class="n">utility</span><span class="o">.</span><span class="n">dict_flatten</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;dirichlet dofs&quot;</span><span class="p">])</span>
+        <span class="n">free_dofs_flat</span> <span class="o">=</span> <span class="o">~</span><span class="n">dirichlet_dofs_flat</span>
 
     <span class="nd">@jax</span><span class="o">.</span><span class="n">custom_vjp</span>
-    <span class="k">def</span> <span class="nf">linear_solver_fun_vjp</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">solve_fun</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>  <span class="c1"># Here can be an external callback</span>
+    <span class="k">def</span> <span class="nf">linear_solver_fun_vjp</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">free_dofs_flat</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">solve_fun</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">free_dofs_flat</span><span class="p">)</span>  <span class="c1"># Here can be an external callback</span>
 
-    <span class="k">def</span> <span class="nf">linear_solver_fun_vjp_fwd</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
-        <span class="n">result</span> <span class="o">=</span> <span class="n">linear_solver_fun_vjp</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">result</span><span class="p">,</span> <span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">result</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">linear_solver_fun_vjp_fwd</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">free_dofs_flat</span><span class="p">):</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">linear_solver_fun_vjp</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">free_dofs_flat</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">result</span><span class="p">,</span> <span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">free_dofs_flat</span><span class="p">,</span> <span class="n">result</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">linear_solver_fun_vjp_bwd</span><span class="p">(</span><span class="n">res</span><span class="p">,</span> <span class="n">g</span><span class="p">):</span>
-        <span class="n">A</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">result</span> <span class="o">=</span> <span class="n">res</span>
+        <span class="n">A</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">free_dofs_flat</span><span class="p">,</span> <span class="n">result</span> <span class="o">=</span> <span class="n">res</span>
 
         <span class="c1"># Ensure g matches the size of the expected gradient</span>
         <span class="k">if</span> <span class="n">free_dofs</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
 
             <span class="c1"># Sparse outer product</span>
-            <span class="n">result_dot</span> <span class="o">=</span> <span class="n">linear_solver_fun_vjp</span><span class="p">(</span><span class="n">A</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">g</span><span class="p">)</span>
+            <span class="n">result_dot</span> <span class="o">=</span> <span class="n">linear_solver_fun_vjp</span><span class="p">(</span><span class="n">A</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">free_dofs_flat</span><span class="p">)</span>
 
             <span class="n">size</span> <span class="o">=</span> <span class="n">A</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-            <span class="n">empty</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">size</span><span class="p">,),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">jnp</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
+            <span class="n">empty</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">size</span><span class="p">,),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
             <span class="n">result_tmp</span> <span class="o">=</span> <span class="n">utility</span><span class="o">.</span><span class="n">mask_op</span><span class="p">(</span><span class="n">empty</span><span class="p">,</span> <span class="n">free_dofs_flat</span><span class="p">,</span> <span class="n">result</span><span class="p">,</span> <span class="s2">&quot;set&quot;</span><span class="p">)</span>
             <span class="n">result_dot_tmp</span> <span class="o">=</span> <span class="n">utility</span><span class="o">.</span><span class="n">mask_op</span><span class="p">(</span><span class="n">empty</span><span class="p">,</span> <span class="n">free_dofs_flat</span><span class="p">,</span> <span class="n">result_dot</span><span class="p">,</span> <span class="s2">&quot;set&quot;</span><span class="p">)</span>
 
             <span class="c1"># # Use the sparsity structure of A to build Fx_dot</span>
-            <span class="n">indices</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">A</span><span class="o">.</span><span class="n">indices</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">jnp</span><span class="o">.</span><span class="n">int64</span><span class="p">)</span>
+            <span class="n">indices</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">A</span><span class="o">.</span><span class="n">indices</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
             <span class="n">data</span> <span class="o">=</span> <span class="o">-</span><span class="n">result_dot_tmp</span><span class="p">[</span><span class="n">indices</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]]</span> <span class="o">*</span> <span class="n">result_tmp</span><span class="p">[</span><span class="n">indices</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]]</span>
 
             <span class="c1"># Construct Fx_dot with the same sparsity pattern</span>
@@ -286,10 +290,10 @@
             <span class="n">Fy_dot</span> <span class="o">=</span> <span class="n">result_dot</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="c1"># Sparse outer product</span>
-            <span class="n">result_dot</span> <span class="o">=</span> <span class="n">linear_solver_fun_vjp</span><span class="p">(</span><span class="n">A</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">g</span><span class="p">)</span>
+            <span class="n">result_dot</span> <span class="o">=</span> <span class="n">linear_solver_fun_vjp</span><span class="p">(</span><span class="n">A</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
 
             <span class="c1"># Use the sparsity structure of A to build Fx_dot</span>
-            <span class="n">indices</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">A</span><span class="o">.</span><span class="n">indices</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">jnp</span><span class="o">.</span><span class="n">int64</span><span class="p">)</span>
+            <span class="n">indices</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">A</span><span class="o">.</span><span class="n">indices</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
             <span class="n">data</span> <span class="o">=</span> <span class="o">-</span><span class="n">result_dot</span><span class="p">[</span><span class="n">indices</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]]</span> <span class="o">*</span> <span class="n">result</span><span class="p">[</span><span class="n">indices</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]]</span>
 
             <span class="c1"># Construct Fx_dot with the same sparsity pattern</span>
@@ -297,7 +301,7 @@
             <span class="n">Fy_dot</span> <span class="o">=</span> <span class="n">result_dot</span>
 
         <span class="c1"># Correctly return the shapes that match the input arguments</span>
-        <span class="k">return</span> <span class="p">(</span><span class="n">Fx_dot</span><span class="p">,</span> <span class="n">Fy_dot</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">Fx_dot</span><span class="p">,</span> <span class="n">Fy_dot</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
 
     <span class="n">linear_solver_fun_vjp</span><span class="o">.</span><span class="n">defvjp</span><span class="p">(</span><span class="n">linear_solver_fun_vjp_fwd</span><span class="p">,</span> <span class="n">linear_solver_fun_vjp_bwd</span><span class="p">)</span>
     <span class="n">diffable_solve_fun</span> <span class="o">=</span> <span class="n">linear_solver_fun_vjp</span>
@@ -310,12 +314,10 @@
     <span class="n">v</span> <span class="o">=</span> <span class="n">tree_scalar_mul</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">cotangent</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">free_dofs</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">constrained_dofs</span> <span class="o">=</span> <span class="n">utility</span><span class="o">.</span><span class="n">reshape_as</span><span class="p">(</span>
-            <span class="n">np</span><span class="o">.</span><span class="n">invert</span><span class="p">(</span><span class="n">utility</span><span class="o">.</span><span class="n">dict_flatten</span><span class="p">(</span><span class="n">free_dofs</span><span class="p">)),</span> <span class="n">free_dofs</span>
-        <span class="p">)</span>
+        <span class="n">dirichlet_dofs</span> <span class="o">=</span> <span class="n">utility</span><span class="o">.</span><span class="n">reshape_as</span><span class="p">(</span><span class="n">dirichlet_dofs_flat</span><span class="p">,</span> <span class="n">sol</span><span class="p">)</span>
 
-        <span class="n">v_flat</span> <span class="o">=</span> <span class="n">utility</span><span class="o">.</span><span class="n">dict_flatten</span><span class="p">(</span><span class="n">v</span><span class="p">)[</span><span class="n">free_dofs_flat</span><span class="p">]</span>
-        <span class="n">u_f</span> <span class="o">=</span> <span class="n">diffable_solve_fun</span><span class="p">(</span><span class="n">mat</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">v_flat</span><span class="p">)</span>
+        <span class="n">v_flat</span> <span class="o">=</span> <span class="n">utility</span><span class="o">.</span><span class="n">dict_flatten</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+        <span class="n">u_f</span> <span class="o">=</span> <span class="n">diffable_solve_fun</span><span class="p">(</span><span class="n">mat</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">v_flat</span><span class="p">,</span> <span class="n">free_dofs_flat</span><span class="p">)</span>
         <span class="n">u_flat</span> <span class="o">=</span> <span class="n">utility</span><span class="o">.</span><span class="n">mask_op</span><span class="p">(</span>
             <span class="n">utility</span><span class="o">.</span><span class="n">dict_flatten</span><span class="p">(</span><span class="n">utility</span><span class="o">.</span><span class="n">dict_zeros_like</span><span class="p">(</span><span class="n">v</span><span class="p">)),</span> <span class="n">free_dofs_flat</span><span class="p">,</span> <span class="n">u_f</span><span class="p">,</span> <span class="s2">&quot;set&quot;</span>
         <span class="p">)</span>
@@ -324,7 +326,7 @@
             <span class="k">def</span> <span class="nf">residual_fun_tmp</span><span class="p">(</span><span class="n">sol</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
                 <span class="n">dirichlet_values</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;dirichlet conditions&quot;</span><span class="p">]</span>
                 <span class="n">sol_with_bc</span> <span class="o">=</span> <span class="n">utility</span><span class="o">.</span><span class="n">mask_op</span><span class="p">(</span>
-                    <span class="n">sol</span><span class="p">,</span> <span class="n">constrained_dofs</span><span class="p">,</span> <span class="n">dirichlet_values</span><span class="p">,</span> <span class="s2">&quot;set&quot;</span>
+                    <span class="n">sol</span><span class="p">,</span> <span class="n">dirichlet_dofs</span><span class="p">,</span> <span class="n">dirichlet_values</span><span class="p">,</span> <span class="s2">&quot;set&quot;</span>
                 <span class="p">)</span>
                 <span class="k">return</span> <span class="n">residual_fun</span><span class="p">(</span><span class="n">sol_with_bc</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">)</span>
 
@@ -337,7 +339,7 @@
             <span class="k">return</span> <span class="n">residual_fun</span><span class="p">(</span><span class="n">sol</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">)</span>
 
         <span class="n">v_flat</span> <span class="o">=</span> <span class="n">utility</span><span class="o">.</span><span class="n">dict_flatten</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
-        <span class="n">u</span> <span class="o">=</span> <span class="n">utility</span><span class="o">.</span><span class="n">reshape_as</span><span class="p">(</span><span class="n">diffable_solve_fun</span><span class="p">(</span><span class="n">mat</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">v_flat</span><span class="p">),</span> <span class="n">v</span><span class="p">)</span>
+        <span class="n">u</span> <span class="o">=</span> <span class="n">utility</span><span class="o">.</span><span class="n">reshape_as</span><span class="p">(</span><span class="n">diffable_solve_fun</span><span class="p">(</span><span class="n">mat</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">v_flat</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span> <span class="n">v</span><span class="p">)</span>
 
     <span class="n">_</span><span class="p">,</span> <span class="n">vjp_fun_args</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">vjp</span><span class="p">(</span><span class="n">fun_args</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">)</span>
     <span class="n">args_vjp</span> <span class="o">=</span> <span class="n">vjp_fun_args</span><span class="p">(</span><span class="n">u</span><span class="p">)</span>
@@ -345,7 +347,7 @@
     <span class="k">if</span> <span class="n">free_dofs</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">updated_args0</span> <span class="o">=</span> <span class="n">args_vjp</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
         <span class="n">updated_args0</span><span class="p">[</span><span class="s2">&quot;dirichlet conditions&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">utility</span><span class="o">.</span><span class="n">mask_op</span><span class="p">(</span>
-            <span class="n">updated_args0</span><span class="p">[</span><span class="s2">&quot;dirichlet conditions&quot;</span><span class="p">],</span> <span class="n">constrained_dofs</span><span class="p">,</span> <span class="n">cotangent</span><span class="p">,</span> <span class="s2">&quot;add&quot;</span>
+            <span class="n">updated_args0</span><span class="p">[</span><span class="s2">&quot;dirichlet conditions&quot;</span><span class="p">],</span> <span class="n">dirichlet_dofs</span><span class="p">,</span> <span class="n">cotangent</span><span class="p">,</span> <span class="s2">&quot;add&quot;</span>
         <span class="p">)</span>
         <span class="n">args_vjp</span> <span class="o">=</span> <span class="p">(</span><span class="n">updated_args0</span><span class="p">,)</span> <span class="o">+</span> <span class="n">args_vjp</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
 
@@ -359,6 +361,7 @@
     <span class="n">tangents</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">,</span>
     <span class="n">solve_fun</span><span class="p">:</span> <span class="n">Callable</span><span class="p">,</span>
     <span class="n">free_dofs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
+    <span class="c1"># dirichlet_dofs: Any,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Jacobian-vector product of a root.</span>
@@ -377,26 +380,31 @@
 <span class="sd">    Returns:</span>
 <span class="sd">      a pytree with the same structure as ``sol``.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">free_dofs_flat</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="k">if</span> <span class="n">free_dofs</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">free_dofs_flat</span> <span class="o">=</span> <span class="n">utility</span><span class="o">.</span><span class="n">dict_flatten</span><span class="p">(</span><span class="n">free_dofs</span><span class="p">)</span>
+        <span class="k">assert</span> <span class="s2">&quot;dirichlet conditions&quot;</span> <span class="ow">in</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="s2">&quot;&#39;dirichlet conditions&#39; </span><span class="se">\</span>
+<span class="s2">        have to be defined in a dict as the second argument of the root solver function.&quot;</span>
+        <span class="n">dirichlet_dofs_flat</span> <span class="o">=</span> <span class="n">utility</span><span class="o">.</span><span class="n">dict_flatten</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;dirichlet dofs&quot;</span><span class="p">])</span>
+        <span class="n">free_dofs_flat</span> <span class="o">=</span> <span class="o">~</span><span class="n">dirichlet_dofs_flat</span>
 
     <span class="c1"># Compute tangent matrix</span>
     <span class="n">A</span> <span class="o">=</span> <span class="n">mat_fun</span><span class="p">(</span><span class="n">sol</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">)</span>
     <span class="n">mat_shape</span> <span class="o">=</span> <span class="n">A</span><span class="o">.</span><span class="n">shape</span>
 
     <span class="c1"># Forward differentiable sparse linear solver</span>
+    <span class="c1"># TODO: register as primitive in order to allow mixed jacfwd/jacrev</span>
     <span class="nd">@jax</span><span class="o">.</span><span class="n">custom_jvp</span>
-    <span class="k">def</span> <span class="nf">linear_solver_fun_jvp</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">indices</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">linear_solver_fun_jvp</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">indices</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">free_dofs_flat</span><span class="p">):</span>
         <span class="n">A</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">experimental</span><span class="o">.</span><span class="n">sparse</span><span class="o">.</span><span class="n">BCOO</span><span class="p">((</span><span class="n">data</span><span class="p">,</span> <span class="n">indices</span><span class="p">),</span> <span class="n">shape</span><span class="o">=</span><span class="n">mat_shape</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">solve_fun</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">solve_fun</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">free_dofs_flat</span><span class="p">)</span>
 
     <span class="nd">@linear_solver_fun_jvp</span><span class="o">.</span><span class="n">defjvp</span>
     <span class="k">def</span> <span class="nf">linear_solver_fun_jvp_rule</span><span class="p">(</span><span class="n">primals</span><span class="p">,</span> <span class="n">tangents</span><span class="p">):</span>
-        <span class="n">data</span><span class="p">,</span> <span class="n">indices</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="n">primals</span>
-        <span class="n">data_dot</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">b_dot</span> <span class="o">=</span> <span class="n">tangents</span>
+        <span class="n">data</span><span class="p">,</span> <span class="n">indices</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">free_dofs_flat</span> <span class="o">=</span> <span class="n">primals</span>
+        <span class="n">data_dot</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">b_dot</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">tangents</span>
 
         <span class="c1"># Compute the primal result using the linear solver function</span>
-        <span class="n">primal_result</span> <span class="o">=</span> <span class="n">linear_solver_fun_jvp</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">indices</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+        <span class="n">primal_result</span> <span class="o">=</span> <span class="n">linear_solver_fun_jvp</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">indices</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">free_dofs_flat</span><span class="p">)</span>
 
         <span class="c1"># ToDo: is it somehow possible without A_dot via jvps?</span>
         <span class="n">A_dot</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">experimental</span><span class="o">.</span><span class="n">sparse</span><span class="o">.</span><span class="n">BCOO</span><span class="p">((</span><span class="n">data_dot</span><span class="p">,</span> <span class="n">indices</span><span class="p">),</span> <span class="n">shape</span><span class="o">=</span><span class="n">mat_shape</span><span class="p">)</span>
@@ -404,15 +412,15 @@
         <span class="c1"># Handle the tangent calculation</span>
         <span class="k">if</span> <span class="n">free_dofs</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">primal_result_tmp</span> <span class="o">=</span> <span class="n">utility</span><span class="o">.</span><span class="n">mask_op</span><span class="p">(</span>
-                <span class="n">jnp</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">mat_shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">jnp</span><span class="o">.</span><span class="n">float64</span><span class="p">),</span>
+                <span class="n">jnp</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">mat_shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">),</span>
                 <span class="n">free_dofs_flat</span><span class="p">,</span>
                 <span class="n">primal_result</span><span class="p">,</span>
             <span class="p">)</span>
-            <span class="n">rhs</span> <span class="o">=</span> <span class="n">b_dot</span> <span class="o">-</span> <span class="p">(</span><span class="n">A_dot</span> <span class="o">@</span> <span class="n">primal_result_tmp</span><span class="p">)[</span><span class="n">free_dofs_flat</span><span class="p">]</span>
-            <span class="n">result_dot</span> <span class="o">=</span> <span class="n">linear_solver_fun_jvp</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">indices</span><span class="p">,</span> <span class="n">rhs</span><span class="p">)</span>
+            <span class="n">rhs</span> <span class="o">=</span> <span class="n">b_dot</span> <span class="o">-</span> <span class="p">(</span><span class="n">A_dot</span> <span class="o">@</span> <span class="n">primal_result_tmp</span><span class="p">)</span>
+            <span class="n">result_dot</span> <span class="o">=</span> <span class="n">linear_solver_fun_jvp</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">indices</span><span class="p">,</span> <span class="n">rhs</span><span class="p">,</span> <span class="n">free_dofs_flat</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">result_dot</span> <span class="o">=</span> <span class="n">linear_solver_fun_jvp</span><span class="p">(</span>
-                <span class="n">data</span><span class="p">,</span> <span class="n">indices</span><span class="p">,</span> <span class="n">b_dot</span> <span class="o">-</span> <span class="n">A_dot</span> <span class="o">@</span> <span class="n">primal_result</span>
+                <span class="n">data</span><span class="p">,</span> <span class="n">indices</span><span class="p">,</span> <span class="n">b_dot</span> <span class="o">-</span> <span class="n">A_dot</span> <span class="o">@</span> <span class="n">primal_result</span><span class="p">,</span> <span class="kc">None</span>
             <span class="p">)</span>
 
         <span class="k">return</span> <span class="n">primal_result</span><span class="p">,</span> <span class="n">result_dot</span>
@@ -421,20 +429,18 @@
     <span class="n">solve_func</span> <span class="o">=</span> <span class="n">linear_solver_fun_jvp</span>
 
     <span class="k">if</span> <span class="n">free_dofs</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">constrained_dofs</span> <span class="o">=</span> <span class="n">utility</span><span class="o">.</span><span class="n">reshape_as</span><span class="p">(</span>
-            <span class="n">np</span><span class="o">.</span><span class="n">invert</span><span class="p">(</span><span class="n">utility</span><span class="o">.</span><span class="n">dict_flatten</span><span class="p">(</span><span class="n">free_dofs</span><span class="p">)),</span> <span class="n">free_dofs</span>
-        <span class="p">)</span>
+        <span class="n">dirichlet_dofs</span> <span class="o">=</span> <span class="n">utility</span><span class="o">.</span><span class="n">reshape_as</span><span class="p">(</span><span class="n">dirichlet_dofs_flat</span><span class="p">,</span> <span class="n">sol</span><span class="p">)</span>
 
         <span class="c1"># Explicit imposition of DOFs in order to be able to take derivatives w.r.t. nodally imposed DOFs</span>
         <span class="k">def</span> <span class="nf">residual_fun_tmp</span><span class="p">(</span><span class="n">sol</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
             <span class="n">sol_with_bc</span> <span class="o">=</span> <span class="n">utility</span><span class="o">.</span><span class="n">mask_op</span><span class="p">(</span>
-                <span class="n">sol</span><span class="p">,</span> <span class="n">constrained_dofs</span><span class="p">,</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;dirichlet conditions&quot;</span><span class="p">],</span> <span class="s2">&quot;set&quot;</span>
+                <span class="n">sol</span><span class="p">,</span> <span class="n">dirichlet_dofs</span><span class="p">,</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;dirichlet conditions&quot;</span><span class="p">],</span> <span class="s2">&quot;set&quot;</span>
             <span class="p">)</span>
             <span class="k">return</span> <span class="n">residual_fun</span><span class="p">(</span><span class="n">sol_with_bc</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">)</span>
 
         <span class="n">Bv</span> <span class="o">=</span> <span class="n">_jvp_args</span><span class="p">(</span><span class="n">residual_fun_tmp</span><span class="p">,</span> <span class="n">sol</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">tangents</span><span class="p">)</span>
-        <span class="n">Bv_free</span> <span class="o">=</span> <span class="n">utility</span><span class="o">.</span><span class="n">dict_flatten</span><span class="p">(</span><span class="n">Bv</span><span class="p">)[</span><span class="n">free_dofs_flat</span><span class="p">]</span>
-        <span class="n">Jv_free</span> <span class="o">=</span> <span class="n">solve_func</span><span class="p">(</span><span class="n">A</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">A</span><span class="o">.</span><span class="n">indices</span><span class="p">,</span> <span class="o">-</span><span class="n">Bv_free</span><span class="p">)</span>
+        <span class="n">Bv_free</span> <span class="o">=</span> <span class="n">utility</span><span class="o">.</span><span class="n">dict_flatten</span><span class="p">(</span><span class="n">Bv</span><span class="p">)</span>
+        <span class="n">Jv_free</span> <span class="o">=</span> <span class="n">solve_func</span><span class="p">(</span><span class="n">A</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">A</span><span class="o">.</span><span class="n">indices</span><span class="p">,</span> <span class="o">-</span><span class="n">Bv_free</span><span class="p">,</span> <span class="n">free_dofs_flat</span><span class="p">)</span>
 
         <span class="n">empty_flat</span> <span class="o">=</span> <span class="n">utility</span><span class="o">.</span><span class="n">dict_flatten</span><span class="p">(</span><span class="n">utility</span><span class="o">.</span><span class="n">dict_zeros_like</span><span class="p">(</span><span class="n">sol</span><span class="p">))</span>
         <span class="n">Jv</span> <span class="o">=</span> <span class="n">utility</span><span class="o">.</span><span class="n">reshape_as</span><span class="p">(</span>
@@ -442,12 +448,13 @@
         <span class="p">)</span>
 
         <span class="n">Jv</span> <span class="o">=</span> <span class="n">utility</span><span class="o">.</span><span class="n">mask_op</span><span class="p">(</span>
-            <span class="n">Jv</span><span class="p">,</span> <span class="n">constrained_dofs</span><span class="p">,</span> <span class="n">tangents</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;dirichlet conditions&quot;</span><span class="p">],</span> <span class="s2">&quot;set&quot;</span>
+            <span class="n">Jv</span><span class="p">,</span> <span class="n">dirichlet_dofs</span><span class="p">,</span> <span class="n">tangents</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;dirichlet conditions&quot;</span><span class="p">],</span> <span class="s2">&quot;set&quot;</span>
         <span class="p">)</span>
 
     <span class="k">else</span><span class="p">:</span>
+        <span class="n">Bv</span> <span class="o">=</span> <span class="n">_jvp_args</span><span class="p">(</span><span class="n">residual_fun</span><span class="p">,</span> <span class="n">sol</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">tangents</span><span class="p">)</span>
         <span class="n">Jv</span> <span class="o">=</span> <span class="n">utility</span><span class="o">.</span><span class="n">reshape_as</span><span class="p">(</span>
-            <span class="n">solve_func</span><span class="p">(</span><span class="n">A</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">A</span><span class="o">.</span><span class="n">indices</span><span class="p">,</span> <span class="o">-</span><span class="n">utility</span><span class="o">.</span><span class="n">dict_flatten</span><span class="p">(</span><span class="n">Bv</span><span class="p">)),</span> <span class="n">Bv</span>
+            <span class="n">solve_func</span><span class="p">(</span><span class="n">A</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">A</span><span class="o">.</span><span class="n">indices</span><span class="p">,</span> <span class="o">-</span><span class="n">utility</span><span class="o">.</span><span class="n">dict_flatten</span><span class="p">(</span><span class="n">Bv</span><span class="p">),</span> <span class="kc">None</span><span class="p">),</span> <span class="n">Bv</span>
         <span class="p">)</span>
 
     <span class="k">return</span> <span class="n">Jv</span>
@@ -517,6 +524,8 @@
             <span class="k">if</span> <span class="n">has_aux</span><span class="p">:</span>
                 <span class="n">sol</span> <span class="o">=</span> <span class="n">primal_sol</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
                 <span class="n">aux_data</span> <span class="o">=</span> <span class="n">primal_sol</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+
+                <span class="c1"># TODO: allow integer and boolean auxilary data</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">sol</span> <span class="o">=</span> <span class="n">primal_sol</span>
 
@@ -603,7 +612,7 @@
     <span class="n">residual_fun</span><span class="p">:</span> <span class="n">Callable</span><span class="p">,</span>
     <span class="n">mat_fun</span><span class="p">:</span> <span class="n">Callable</span><span class="p">,</span>
     <span class="n">solve</span><span class="p">:</span> <span class="n">Callable</span><span class="p">,</span>
-    <span class="n">free_dofs</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">free_dofs</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="n">has_aux</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;reverse&quot;</span><span class="p">,</span>
     <span class="n">reference_signature</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Callable</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -617,9 +626,11 @@
 <span class="sd">      mat_fun: A callable that returns the sparse tangent matrix as a jax.experimental.BCOO with dofs and</span>
 <span class="sd">        args as arguments. Can also be a pure callback.</span>
 <span class="sd">      solve: A linear solver of the form ``solve(mat[jax.experimental.BCOO], b[jnp.ndarray])``.</span>
-<span class="sd">      free_dofs: For constraining certain degrees of freedom. free_dofs has to be a boolean mask with the</span>
-<span class="sd">        same structure of dofs (jnp.ndarray or dict of jnp.ndarrays) indicating the dofs that are not constrained.</span>
-<span class="sd">        Requires args[1][&#39;dirichlet conditions&#39;] to be defined (see source code of _root_jvp and _root_vjp</span>
+<span class="sd">      free_dofs: For constraining certain degrees of freedom. In case of True, the second argument of the solver</span>
+<span class="sd">        has to be a dictionary having the keys &#39;dirichlet dofs&#39; and &#39;dirichlet conditions&#39;. The first one is a</span>
+<span class="sd">        dictionary of jnp.ndarrays with the same structure as dofs, where the entries are boolean masks indicating</span>
+<span class="sd">        the dofs that are constrained. The second one is a dictionary of jnp.ndarrays with the same structure as dofs,</span>
+<span class="sd">        where the entries are the values of the constrained dofs (see source code of _root_jvp and _root_vjp</span>
 <span class="sd">        for details or solver.adaptive_load_stepping for exemplary use).</span>
 <span class="sd">      has_aux: whether the decorated root solver function returns auxiliary data.</span>
 <span class="sd">      mode: The differentiation mode (&#39;forward&#39; or &#39;reverse&#39;/&#39;backward&#39;).</span>

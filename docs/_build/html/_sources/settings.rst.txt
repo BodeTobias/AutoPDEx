@@ -208,22 +208,6 @@ Configuration Options for `static_settings`
      - Integer
      - Level of verbosity of output (-1,0,1,2)
      - 
-   * - 'dirichlet dofs'
-
-       (for solution structure
-
-       'nodal imposition')
-     - Tuple of tuples (Bool)
-
-       or dict of tuples of tuples
-     - Boolean tuple-Mask for selection DOFs for nodal Dirichlet boundary imposition
-     - `non-homogeneous_dirichlet_conditions.py <https://github.com/BodeTobias/AutoPDEx/tree/main/examples/cooks_membrane/non-homogeneous_dirichlet_conditions.py>`_
-   * - 'connectivity'
-     - Tuple of tuples (Float)
-
-       or dict of tuple of tuples
-     - List of node numbers for each element/neighborhood in a domain
-     - 
 
 Configuration Options for `settings`
 ------------------------------------
@@ -235,6 +219,22 @@ Configuration Options for `settings`
    * - Keyword
      - Type
      - Description
+   * - 'dirichlet dofs'
+
+       (for solution structure
+
+       'nodal imposition')
+     - jnp.ndarray
+
+       or dict jnp.ndarrays
+     - Mask for selection DOFs for nodal Dirichlet boundary imposition
+
+       Has to have the same structures as the DOFs
+   * - 'connectivity'
+     - jnp.ndarray
+
+       or dict jnp.ndarrays
+     - List of node numbers for each element/neighborhood in a domain
    * - 'node coordinates'
      - jnp.ndarray
 

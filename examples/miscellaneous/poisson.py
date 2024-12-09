@@ -106,9 +106,9 @@ static_settings = flax.core.FrozenDict({
   # 'hvp type': 'fwdrev',
 
   'verbose': 2,
-  'connectivity': (utility.jnp_to_tuple(neighbor_list),),
 })
 settings = {
+  'connectivity': (neighbor_list,),
   'node coordinates': x_nodes,
   'beta': (3,),
   'integration coordinates': (x_int,),

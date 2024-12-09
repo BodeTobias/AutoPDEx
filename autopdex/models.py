@@ -1889,11 +1889,14 @@ def forward_backward_euler_weak(inertia_coeff_fun):
         # Test function
         test_function = test_ansatz(x)
 
+        # Warning if it was defined in static_settings
+        assert "connectivity" not in static_settings, \
+            "'connectivity' has been moved to 'settings' in order to reduce compile time. \
+            Further, you should not transform it to a tuple of tuples anymore."
+
         # Primary field evaluated at n and n+1
         dofs_n = settings["dofs n"]
-        neighbor_list = jnp.asarray(static_settings["connectivity"][set])[
-            int_point_number
-        ]
+        neighbor_list = settings["connectivity"][set][int_point_number]
         local_dofs_n = dofs_n[neighbor_list]
         ansatz_n = lambda x: solution_structures.solution_structure(
             x, int_point_number, local_dofs_n, settings, static_settings, set
@@ -1948,12 +1951,15 @@ def central_differences(density_fun, damping):
         # Test function
         test_function = test_ansatz(x)
 
+        # Warning if it was defined in static_settings
+        assert "connectivity" not in static_settings, \
+            "'connectivity' has been moved to 'settings' in order to reduce compile time. \
+            Further, you should not transform it to a tuple of tuples anymore."
+
         # Primary field evaluated at n-1, n and n+1
         dofs_n = settings["dofs n"]
         dofs_n_min_1 = settings["dofs n-1"]
-        neighbor_list = jnp.asarray(static_settings["connectivity"][set])[
-            int_point_number
-        ]
+        neighbor_list = settings["connectivity"][set][int_point_number]
         ansatz_n = lambda x: solution_structures.solution_structure(
             x, int_point_number, dofs_n[neighbor_list], settings, static_settings, set
         )

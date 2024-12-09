@@ -28,7 +28,6 @@ import numpy as np
 from flax.core import FrozenDict
 from jax.experimental import sparse
 
-
 def jit_with_docstring(static_argnames=None):
     """JIT wrapper that keeps the originial docstring of the function."""
     def decorator(fun):
@@ -44,11 +43,9 @@ def jit_with_docstring(static_argnames=None):
         @wraps(fun)
         def wrapper(*args, **kwargs):
             return jitted_fun(*args, **kwargs)
-
         return wrapper
 
     return decorator
-
 
 def dict_zeros_like(arr, **keyargs):
     """Wrapper around zeros_like, that works also for dicts with jnp.ndarray entries."""
@@ -60,6 +57,17 @@ def dict_zeros_like(arr, **keyargs):
         return res
     else:
         return jnp.zeros_like(arr, **keyargs)
+
+def dict_ones_like(arr, **keyargs):
+    """Wrapper around ones_like, that works also for dicts with jnp.ndarray entries."""
+    if isinstance(arr, dict):
+        res = {}
+        fields = list(arr.keys())
+        for key in fields:
+            res[key] = jnp.ones_like(arr[key], **keyargs)
+        return res
+    else:
+        return jnp.ones_like(arr, **keyargs)
 
 
 def dict_flatten(arr):
@@ -73,12 +81,8 @@ def dict_flatten(arr):
     Returns:
         array: A single flat array containing all elements, with the same type as the input arrays.
     """
-    if isinstance(arr, dict):
-        flat_arrays = []
-        # Sort keys for consistent ordering
-        for key in arr.keys():
-            flat_array = dict_flatten(arr[key])
-            flat_arrays.append(flat_array)
+    if isinstance(arr, (dict, FrozenDict)):
+        flat_arrays = [dict_flatten(arr[key]) for key in arr.keys()]
         if not flat_arrays:
             return np.array([]) if isinstance(flat_array, np.ndarray) else jnp.array([])
         else:
@@ -87,11 +91,10 @@ def dict_flatten(arr):
                 if isinstance(flat_arrays[0], jnp.ndarray)
                 else np.concatenate(flat_arrays)
             )
-    elif isinstance(arr, np.ndarray) or isinstance(arr, jnp.ndarray):
+    elif isinstance(arr, (np.ndarray, jnp.ndarray)):
         return arr.flatten()
     else:
         raise TypeError("Input must be a nested dict of arrays or an array.")
-
 
 def reshape_as(flat_array, signature_array):
     """
@@ -164,7 +167,6 @@ def reshape_as(flat_array, signature_array):
     else:
         raise TypeError("signature_array must be an array or a dict of arrays.")
 
-
 def mask_set(array, selection, values):
     """
     Changes values in a JAX array or dict of arrays based on a boolean mask.
@@ -214,17 +216,17 @@ def mask_set(array, selection, values):
             )
         return flat_array.reshape(array.shape)
 
-
 def mask_select(array, selection):
     """
     Selects elements from a JAX array or dictionary of arrays based on a boolean mask.
+    Non-selected elements are set to zero.
 
     Args:
         array (jnp.ndarray or dict): JAX array or dictionary of JAX arrays.
         selection (jnp.ndarray or dict): Boolean mask or dictionary of boolean masks.
 
     Returns:
-        Selected elements as an array or dictionary of arrays.
+        jnp.ndarray or dict: Array or dictionary of arrays with non-selected elements set to zero.
     """
     if isinstance(array, dict):
         # Ensure that 'selection' is also a dictionary with the same keys
@@ -237,14 +239,15 @@ def mask_select(array, selection):
         # Recursively apply 'mask_select' to each element in the dictionary
         return {key: mask_select(array[key], selection[key]) for key in array}
     else:
+        flat_selection = selection.flatten()
+        flat_array = array.flatten()
+
         # 'array' and 'selection' are JAX arrays
         # Ensure that the shapes match
-        if array.shape != selection.shape:
+        if flat_array.shape != flat_selection.shape:
             raise ValueError("The shape of 'array' and 'selection' must match.")
-        # Select elements where the mask is True
-        selected_elements = array[selection]
-        return selected_elements
-
+        # Set elements where the mask is False to zero
+        return jnp.where(flat_selection, flat_array, 0).reshape(array.shape)
 
 def mask_op(array, selection, values=None, mode="set", ufunc=None):
     """
@@ -253,8 +256,8 @@ def mask_op(array, selection, values=None, mode="set", ufunc=None):
     Args:
         array (jnp.ndarray or dict): JAX array or dict of JAX arrays to update.
         selection (jnp.ndarray or dict): Boolean mask or dict of boolean masks.
-        values (jnp.ndarray or dict, optional): Values to use in the operation. Required for modes except 'get' and 'apply'.
-        mode (str): Operation mode. One of 'set', 'add', 'multiply', 'divide', 'power', 'min', 'max', 'apply', 'get'.
+        values (jnp.ndarray or dict, optional): Values to use in the operation. Required for modes except 'apply'.
+        mode (str): Operation mode. One of 'set', 'add', 'multiply', 'divide', 'power', 'min', 'max', 'apply'.
         ufunc (callable, optional): A unary function to apply when mode is 'apply'.
 
     Returns:
@@ -271,7 +274,6 @@ def mask_op(array, selection, values=None, mode="set", ufunc=None):
         "min": "min",
         "max": "max",
         "apply": "apply",
-        "get": "get",
     }
 
     if mode not in mode_methods:
@@ -306,9 +308,9 @@ def mask_op(array, selection, values=None, mode="set", ufunc=None):
         return result
     else:
         if not (
-            isinstance(selection, np.ndarray) or isinstance(selection, jnp.ndarray)
+            isinstance(selection, jnp.ndarray)
         ):
-            raise TypeError("'selection' must be a NumPy or JAX array.")
+            raise TypeError("'selection' must be a JAX array.")
 
         if mode not in ("get", "apply") and values is None:
             raise ValueError(f"'values' must be provided for mode '{mode}'.")
@@ -316,39 +318,27 @@ def mask_op(array, selection, values=None, mode="set", ufunc=None):
         # Flatten the array and selection
         flat_array = array.flatten()
         flat_selection = selection.flatten()
-        idx = jnp.arange(flat_array.size)
-        selected_indices = idx[flat_selection]
 
-        if mode == "get":
-            # Return the selected elements
-            return flat_array[selected_indices]
-        elif mode == "apply":
+        if mode == "apply":
             if ufunc is None:
                 raise ValueError("ufunc must be provided when mode is 'apply'.")
             # Apply the ufunc to the selected elements
-            updated_values = ufunc(flat_array[selected_indices])
-            flat_array = flat_array.at[selected_indices].set(updated_values)
-        else:
+            updated_values = ufunc(flat_array)
+            flat_array = jnp.where(flat_selection, updated_values, flat_array)
+        elif mode == "set":
             # Flatten values
             flat_values = values.flatten()
+            flat_array = jnp.where(flat_selection, flat_values, flat_array)
+        else:
+            flat_values = values.flatten()
+            values_to_use = jnp.where(flat_selection, flat_values, flat_array)
 
-            # Determine how to select values based on their size
-            if flat_values.size == selected_indices.size:
-                values_to_use = flat_values
-            elif flat_values.size == flat_array.size:
-                values_to_use = flat_values[selected_indices]
-            else:
-                raise ValueError(
-                    "Values size must be either equal to the number of selected elements or the size of the array."
-                )
-
-            # Use getattr to get the appropriate method
+            # Perform the operation
             method_name = mode_methods[mode]
-            op_method = getattr(flat_array.at[selected_indices], method_name)
-            flat_array = op_method(values_to_use)
+            op_method = getattr(jnp, method_name)
+            flat_array = op_method(flat_array, values_to_use)
 
         return flat_array.reshape(array.shape)
-
 
 def search_neighborhood(x_nodes, x_query, support_radius):
     """
@@ -384,7 +374,6 @@ def search_neighborhood(x_nodes, x_query, support_radius):
     )
     return (num_neighbors, max_neighbors, min_neighbors, neighbor_list)
 
-
 @jit_with_docstring(static_argnames=["static_settings"])
 def get_condition_number(dofs, settings, static_settings):
     """
@@ -409,7 +398,6 @@ def get_condition_number(dofs, settings, static_settings):
     conditioning = eig[0] / eig[-1]
     return conditioning
 
-
 @jit_with_docstring(static_argnames=["static_settings"])
 def symmetry_check(dofs, settings, static_settings):
     """
@@ -430,7 +418,6 @@ def symmetry_check(dofs, settings, static_settings):
         sparse.sparsify(jnp.abs)(mat - sparse.bcoo_transpose(mat, permutation=(1, 0)))
     )
 
-
 def dof_select(dirichlet_nodes, selected_fields):
     """
     DOF selection for the nodal imposition of boundary conditions (jitted).
@@ -446,7 +433,6 @@ def dof_select(dirichlet_nodes, selected_fields):
         return dirichlet_nodes * selected_fields
     else:
         return jnp.outer(dirichlet_nodes, jnp.asarray(selected_fields))
-
 
 def jnp_to_tuple(jnp_array):
     """
@@ -468,7 +454,6 @@ def jnp_to_tuple(jnp_array):
             return tuple(jnp_to_tuple(i) for i in as_list)
         except:
             return as_list
-
 
 def to_jax_function(subexpr, reduced_expr):
     """
@@ -496,7 +481,6 @@ def to_jax_function(subexpr, reduced_expr):
 
     # Print the generated function definition
     print(function_code)
-
 
 @jit_with_docstring(static_argnames=["fun", "derivative_order", "argnum"])
 def jacfwd_upto_n_scalar_args(fun, args, derivative_order, argnum):
@@ -560,7 +544,6 @@ def jacfwd_upto_n_scalar_args(fun, args, derivative_order, argnum):
         return jnp.asarray(jax.vmap(fun_vmap)(jnp.asarray(argnum)))
     else:
         raise TypeError("argnum must be an integer or a tuple of integers.")
-
 
 @jit_with_docstring(static_argnames=["fun", "n"])
 def jacfwd_upto_n_one_vector_arg(fun, x, n):
@@ -642,3 +625,61 @@ def jacfwd_upto_n_one_vector_arg(fun, x, n):
             raise ValueError("n must be a non-negative integer.")
 
     return flatten_tuple(jacfwd_upto_n_one_vector_arg_tmp(fun, x, n))
+
+def invert_matrix(mat):
+    """
+    Inverts a square matrix of size 1x1, 2x2, or 3x3.
+
+    Parameters:
+    -----------
+    mat : jnp.ndarray
+        A square matrix of shape (1,1), (2,2), or (3,3).
+
+    Returns:
+    --------
+    inv_mat : jnp.ndarray
+        The inverse of the input matrix.
+    """
+    
+    # Check if the matrix is two-dimensional and square
+    if mat.ndim != 2 or mat.shape[0] != mat.shape[1]:
+        raise ValueError("Input matrix must be square (n x n).")
+    
+    n = mat.shape[0]
+
+    if n == 1:
+        # Inversion of a 1x1 matrix
+        inv_mat = 1.0 / mat
+    elif n == 2:
+        # Inversion of a 2x2 matrix using the explicit formula
+        a, b = mat[0, 0], mat[0, 1]
+        c, d = mat[1, 0], mat[1, 1]
+        det = a * d - b * c
+        inv_det = 1.0 / det
+        inv_mat = inv_det * jnp.array([[ d, -b],
+                                       [-c,  a]])
+    elif n == 3:
+        # Inversion of a 3x3 matrix using the adjugate method
+        a, b, c = mat[0, 0], mat[0, 1], mat[0, 2]
+        d, e, f = mat[1, 0], mat[1, 1], mat[1, 2]
+        g, h, i = mat[2, 0], mat[2, 1], mat[2, 2]
+
+        # Compute the determinant using the rule of Sarrus
+        det = (a * (e * i - f * h) -
+               b * (d * i - f * g) +
+               c * (d * h - e * g))
+        inv_det = 1.0 / det
+
+        # Compute the adjugate matrix (transpose of cofactors)
+        adjugate = jnp.array([
+            [ e * i - f * h, c * h - b * i, b * f - c * e],
+            [ f * g - d * i, a * i - c * g, c * d - a * f],
+            [ d * h - e * g, b * g - a * h, a * e - b * d]
+        ])
+
+        # The inverse is the adjugate divided by the determinant
+        inv_mat = inv_det * adjugate
+    else:
+        raise ValueError("Function only supports matrices of size 1x1, 2x2, or 3x3.")
+
+    return inv_mat

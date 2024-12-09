@@ -318,7 +318,7 @@ def test_example_forward_euler():
   def laplace_fun_n(x, ansatz, test_ansatz, settings, static_settings, int_point_number, set):
       # Load old dofs from settings
       dofs_n = settings['dofs n']
-      neighbor_list = jnp.asarray(static_settings['connectivity'][set])[int_point_number]
+      neighbor_list = settings['connectivity'][set][int_point_number]
       local_dofs_n = dofs_n[neighbor_list]
       ansatz_n = lambda x: solution_structures.solution_structure(x, int_point_number, local_dofs_n, settings, static_settings, set)
       return laplace_fun(x, ansatz_n, test_ansatz, settings, static_settings, int_point_number, set)
@@ -327,7 +327,7 @@ def test_example_forward_euler():
   def heat_inflow_fun_n(x, ansatz, test_ansatz, settings, static_settings, int_point_number, set):
       # Load old dofs from settings
       dofs_n = settings['dofs n']
-      neighbor_list = jnp.asarray(static_settings['connectivity'][set])[int_point_number]
+      neighbor_list = settings['connectivity'][set][int_point_number]
       local_dofs_n = dofs_n[neighbor_list]
       ansatz_n = lambda x: solution_structures.solution_structure(x, int_point_number, local_dofs_n, settings, static_settings, set)
       return heat_inflow_fun(x, ansatz_n, test_ansatz, settings, static_settings, int_point_number, set)
@@ -352,10 +352,10 @@ def test_example_forward_euler():
     'known sparsity pattern': 'diagonal',
     'solver type': 'diagonal linear',
     'verbose': 1,
-    'connectivity': (utility.jnp_to_tuple(domain_connectivity), utility.jnp_to_tuple(surf_connectivity), utility.jnp_to_tuple(jnp.arange(0, n_nodes).reshape(n_nodes, 1))),
   })
 
   settings = {
+    'connectivity': (domain_connectivity, surf_connectivity, jnp.arange(0, n_nodes).reshape(n_nodes, 1)),
     'node coordinates': x_nodes,
     'integration coordinates': (x_int, x_surf_int, x_nodes),
     'integration weights': (w_int, w_surf_int, collocation_weights),
@@ -390,6 +390,7 @@ def test_example_forward_euler():
   dofs, post_data, _ = lax.fori_loop(0, n_steps, step_fun, (dofs_0, post_data, 0))
 
   check = dofs.flatten().sum()
-#   print(check)
+  print(check)
   assert jnp.isclose(check, 60.74250774270505)
 
+# test_example_forward_euler()

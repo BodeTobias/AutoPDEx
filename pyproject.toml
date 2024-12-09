@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "autopdex"
-version = "1.0.5"
+version = "1.0.6"
 description = "An automized PDE solver for accelerators based on JAX"
 readme = "README.md"
 authors = [
@@ -36,11 +36,11 @@ dependencies = [
 
 [project.optional-dependencies]
 dev = [
+    "equinox",
     "pyamg",
     "pypardiso",
     "petsc4py",
-    "sparse_dot_mkl",
-    "equinox"
+    "sparse_dot_mkl"
 ]
 
 [project.scripts]

@@ -127,9 +127,9 @@ static_settings = flax.core.FrozenDict({
   # 'solver': 'lbfgs',          # lbfgs, gradient descent, nonlinear cg, bfgs, gauss newton, levenberg marquart
 
   'verbose': 2,
-  'connectivity': (utility.jnp_to_tuple(neighbor_list),),
 })
 settings = {
+  'connectivity': (neighbor_list,),
   'beta': (3,),
   'node coordinates': x_nodes,
   'integration coordinates': (x_int,),

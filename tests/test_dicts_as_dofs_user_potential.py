@@ -45,14 +45,14 @@ def test_example():
     'assembling mode': ('user potential',),
     'solution structure': ('nodal imposition',),
     'model': (user_potential, ),
-    'connectivity': (utility.jnp_to_tuple(connectivity), ),
-    'dirichlet dofs': utility.jnp_to_tuple(dirichlet_dofs),
     'solver type': 'newton',
     'solver backend': 'scipy',
     'solver': 'lapack',
     'verbose': -1,
   })
   settings = {
+    'connectivity': (connectivity,),
+    'dirichlet dofs': dirichlet_dofs,
     'node coordinates': node_coordinates,
     'dirichlet conditions': dirichlet_conditions,
   }
@@ -60,4 +60,6 @@ def test_example():
   # Compile, assemble and solve linear system
   initial_guess = utility.dict_zeros_like(dirichlet_dofs, dtype=jnp.float64)
   test = solver.solver(initial_guess, settings, static_settings)[0]['phi'].sum()
-  assert test == 1.9066412530282952
+  assert jnp.isclose(test, 1.9066412530282952)
+
+# test_example()

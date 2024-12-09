@@ -109,9 +109,9 @@ def test_example_wave_equation():
     'solver backend': 'scipy',
     'solver': 'lapack',
     'verbose': 1,
-    'connectivity': (utility.jnp_to_tuple(neighbor_list),),
   })
   settings = {
+    'connectivity': (neighbor_list,),
     'beta': (3,),
     'node coordinates': x_nodes,
     'integration coordinates': (x_int,),

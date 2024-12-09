@@ -52,7 +52,7 @@
               <img src="../_static/logo.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                1.0.5
+                1.0.6
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
@@ -150,7 +150,8 @@
 <dl class="py function">
 <dt class="sig sig-object py" id="autopdex.utility.mask_select">
 <span class="sig-prename descclassname"><span class="pre">autopdex.utility.</span></span><span class="sig-name descname"><span class="pre">mask_select</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">array</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">selection</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/autopdex/utility.html#mask_select"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#autopdex.utility.mask_select" title="Link to this definition"></a></dt>
-<dd><p>Selects elements from a JAX array or dictionary of arrays based on a boolean mask.</p>
+<dd><p>Selects elements from a JAX array or dictionary of arrays based on a boolean mask.
+Non-selected elements are set to zero.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -159,7 +160,10 @@
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Selected elements as an array or dictionary of arrays.</p>
+<dd class="field-even"><p>Array or dictionary of arrays with non-selected elements set to zero.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>jnp.ndarray or dict</p>
 </dd>
 </dl>
 </dd></dl>

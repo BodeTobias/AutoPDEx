@@ -108,10 +108,10 @@ if __name__ == "__main__":
     'solver backend': 'pardiso',
     'solver': 'lu',
     'verbose': 0,
-    'dirichlet dofs': utility.jnp_to_tuple(dirichlet_dofs),
-    'connectivity': (utility.jnp_to_tuple(elements), utility.jnp_to_tuple(neumann_elements)),
     })
     settings = {
+    'dirichlet dofs': dirichlet_dofs,
+    'connectivity': (elements, neumann_elements),
     'load multiplier': q_0,
     'node coordinates': x_nodes,
     'dirichlet conditions': dirichlet_conditions,

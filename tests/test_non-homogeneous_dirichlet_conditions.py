@@ -86,11 +86,11 @@ def test_nonhomogeneous_dirichlet():
     'solver backend': 'scipy',
     'solver': 'lapack',
     'verbose': 0,
-    'dirichlet dofs': utility.jnp_to_tuple(dirichlet_dofs),
-    'connectivity': (utility.jnp_to_tuple(domain_connectivity),),
     })
 
     settings = {
+    'dirichlet dofs': dirichlet_dofs,
+    'connectivity': (domain_connectivity,),
     'node coordinates': x_nodes,
     'dirichlet conditions': dirichlet_conditions,
     'integration coordinates': (x_int,),
@@ -107,3 +107,5 @@ def test_nonhomogeneous_dirichlet():
        [ 0.        ,  0.        ],
        [ 0.00834901,  0.02592409],
        [-0.02664544,  0.03728282]]))
+
+# test_nonhomogeneous_dirichlet()

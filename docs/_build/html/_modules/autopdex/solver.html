@@ -160,6 +160,7 @@
 <span class="kn">from</span> <span class="nn">autopdex</span> <span class="kn">import</span> <span class="n">assembler</span><span class="p">,</span> <span class="n">implicit_diff</span><span class="p">,</span> <span class="n">utility</span>
 
 
+
 <span class="c1">### Solvers as specified by the static_settings and settings</span>
 <div class="viewcode-block" id="solver">
 <a class="viewcode-back" href="../../_autosummary/autopdex.solver.solver.html#autopdex.solver.solver">[docs]</a>
@@ -262,7 +263,6 @@
     <span class="k">return</span> <span class="n">sol</span><span class="p">,</span> <span class="n">infos</span></div>
 
 
-
 <div class="viewcode-block" id="adaptive_load_stepping">
 <a class="viewcode-back" href="../../_autosummary/autopdex.solver.adaptive_load_stepping.html#autopdex.solver.adaptive_load_stepping">[docs]</a>
 <span class="nd">@utility</span><span class="o">.</span><span class="n">jit_with_docstring</span><span class="p">(</span>
@@ -272,6 +272,12 @@
         <span class="s2">&quot;path_dependent&quot;</span><span class="p">,</span>
         <span class="s2">&quot;implicit_diff_mode&quot;</span><span class="p">,</span>
         <span class="s2">&quot;max_load_steps&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;max_multiplier&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;min_increment&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;max_increment&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;init_increment&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;target_num_newton_iter&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;newton_tol&quot;</span><span class="p">,</span>
         <span class="s2">&quot;**kwargs&quot;</span><span class="p">,</span>
     <span class="p">]</span>
 <span class="p">)</span>
@@ -325,25 +331,23 @@
 
     <span class="k">if</span> <span class="n">implicit_diff_mode</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="c1"># Set-up the decorator for implicit differentiation</span>
-        <span class="n">residual_fun</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">dofs</span><span class="p">,</span> <span class="n">settings</span><span class="p">:</span> <span class="n">assembler</span><span class="o">.</span><span class="n">assemble_residual</span><span class="p">(</span>
-            <span class="n">dofs</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span>
-        <span class="p">)</span>
-        <span class="n">tangent_fun</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">dofs</span><span class="p">,</span> <span class="n">settings</span><span class="p">:</span> <span class="n">assembler</span><span class="o">.</span><span class="n">assemble_tangent</span><span class="p">(</span>
-            <span class="n">dofs</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span>
-        <span class="p">)</span>
+        <span class="n">residual_fun</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">dofs</span><span class="p">,</span> <span class="n">settings</span><span class="p">:</span> <span class="n">assembler</span><span class="o">.</span><span class="n">assemble_residual</span><span class="p">(</span><span class="n">dofs</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">)</span>
+        <span class="n">tangent_fun</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">dofs</span><span class="p">,</span> <span class="n">settings</span><span class="p">:</span> <span class="n">assembler</span><span class="o">.</span><span class="n">assemble_tangent</span><span class="p">(</span><span class="n">dofs</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">)</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">dirichlet_dofs</span> <span class="o">=</span> <span class="n">settings</span><span class="p">[</span><span class="s2">&quot;dirichlet dofs&quot;</span><span class="p">]</span>
+        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+            <span class="c1"># Warning if it was defined in static_settings</span>
+            <span class="k">assert</span> <span class="s2">&quot;dirichlet dofs&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">static_settings</span><span class="p">,</span> \
+                <span class="s2">&quot;&#39;dirichlet dofs&#39; has been moved to &#39;settings&#39; in order to reduce compile time. </span><span class="se">\</span>
+<span class="s2">                Further, you should not transform it to a tuple of tuples anymore.&quot;</span>
+            <span class="k">pass</span>
         <span class="n">free_dofs</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="n">free_dofs_flat</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="k">try</span><span class="p">:</span>
-            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">static_settings</span><span class="p">[</span><span class="s2">&quot;dirichlet dofs&quot;</span><span class="p">],</span> <span class="n">FrozenDict</span><span class="p">):</span>
-                <span class="n">free_dofs</span> <span class="o">=</span> <span class="p">{</span>
-                    <span class="n">key</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">invert</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">static_settings</span><span class="p">[</span><span class="s2">&quot;dirichlet dofs&quot;</span><span class="p">][</span><span class="n">key</span><span class="p">]))</span>
-                    <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">static_settings</span><span class="p">[</span><span class="s2">&quot;dirichlet dofs&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
-                <span class="p">}</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="n">free_dofs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">invert</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">static_settings</span><span class="p">[</span><span class="s2">&quot;dirichlet dofs&quot;</span><span class="p">]))</span>
+        <span class="k">if</span> <span class="n">dirichlet_dofs</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">free_dofs</span> <span class="o">=</span> <span class="n">utility</span><span class="o">.</span><span class="n">mask_op</span><span class="p">(</span><span class="n">dirichlet_dofs</span><span class="p">,</span> <span class="n">utility</span><span class="o">.</span><span class="n">dict_ones_like</span><span class="p">(</span><span class="n">dirichlet_dofs</span><span class="p">),</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;apply&quot;</span><span class="p">,</span> <span class="n">ufunc</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="o">~</span><span class="n">x</span><span class="p">)</span>
             <span class="n">free_dofs_flat</span> <span class="o">=</span> <span class="n">utility</span><span class="o">.</span><span class="n">dict_flatten</span><span class="p">(</span><span class="n">free_dofs</span><span class="p">)</span>
-        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
-            <span class="k">pass</span>
+        <span class="n">is_constrained</span> <span class="o">=</span> <span class="kc">True</span> <span class="k">if</span> <span class="n">free_dofs</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="kc">False</span>
 
         <span class="n">solver_backend</span> <span class="o">=</span> <span class="n">static_settings</span><span class="p">[</span><span class="s2">&quot;solver backend&quot;</span><span class="p">]</span>
         <span class="n">solver_subtype</span> <span class="o">=</span> <span class="n">static_settings</span><span class="p">[</span><span class="s2">&quot;solver&quot;</span><span class="p">]</span>
@@ -358,7 +362,7 @@
             <span class="k">case</span> <span class="s2">&quot;petsc&quot;</span><span class="p">:</span>
                 <span class="n">n_fields</span> <span class="o">=</span> <span class="n">static_settings</span><span class="p">[</span><span class="s2">&quot;number of fields&quot;</span><span class="p">]</span>
                 <span class="n">pc_type</span> <span class="o">=</span> <span class="n">static_settings</span><span class="p">[</span><span class="s2">&quot;type of preconditioner&quot;</span><span class="p">]</span>
-                <span class="n">lin_solve_fun</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">mat</span><span class="p">,</span> <span class="n">rhs</span><span class="p">:</span> <span class="n">linear_solve_petsc</span><span class="p">(</span>
+                <span class="n">lin_solve_fun</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">mat</span><span class="p">,</span> <span class="n">rhs</span><span class="p">,</span> <span class="n">free_dofs_flat</span><span class="p">:</span> <span class="n">linear_solve_petsc</span><span class="p">(</span>
                     <span class="n">mat</span><span class="p">,</span>
                     <span class="n">rhs</span><span class="p">,</span>
                     <span class="n">n_fields</span><span class="p">,</span>
@@ -369,7 +373,7 @@
                     <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
                 <span class="p">)</span>
             <span class="k">case</span> <span class="s2">&quot;pardiso&quot;</span><span class="p">:</span>
-                <span class="n">lin_solve_fun</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">mat</span><span class="p">,</span> <span class="n">rhs</span><span class="p">:</span> <span class="n">linear_solve_pardiso</span><span class="p">(</span>
+                <span class="n">lin_solve_fun</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">mat</span><span class="p">,</span> <span class="n">rhs</span><span class="p">,</span> <span class="n">free_dofs_flat</span><span class="p">:</span> <span class="n">linear_solve_pardiso</span><span class="p">(</span>
                     <span class="n">mat</span><span class="p">,</span>
                     <span class="n">rhs</span><span class="p">,</span>
                     <span class="n">sensitivity_solver_subtype</span><span class="p">,</span>
@@ -379,7 +383,7 @@
                 <span class="p">)</span>
             <span class="k">case</span> <span class="s2">&quot;pyamg&quot;</span><span class="p">:</span>
                 <span class="n">pc_type</span> <span class="o">=</span> <span class="n">static_settings</span><span class="p">[</span><span class="s2">&quot;type of preconditioner&quot;</span><span class="p">]</span>
-                <span class="n">lin_solve_fun</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">mat</span><span class="p">,</span> <span class="n">rhs</span><span class="p">:</span> <span class="n">linear_solve_pyamg</span><span class="p">(</span>
+                <span class="n">lin_solve_fun</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">mat</span><span class="p">,</span> <span class="n">rhs</span><span class="p">,</span> <span class="n">free_dofs_flat</span><span class="p">:</span> <span class="n">linear_solve_pyamg</span><span class="p">(</span>
                     <span class="n">mat</span><span class="p">,</span>
                     <span class="n">rhs</span><span class="p">,</span>
                     <span class="n">sensitivity_solver_subtype</span><span class="p">,</span>
@@ -389,7 +393,7 @@
                     <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
                 <span class="p">)</span>
             <span class="k">case</span> <span class="s2">&quot;scipy&quot;</span><span class="p">:</span>
-                <span class="n">lin_solve_fun</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">mat</span><span class="p">,</span> <span class="n">rhs</span><span class="p">:</span> <span class="n">linear_solve_scipy</span><span class="p">(</span>
+                <span class="n">lin_solve_fun</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">mat</span><span class="p">,</span> <span class="n">rhs</span><span class="p">,</span> <span class="n">free_dofs_flat</span><span class="p">:</span> <span class="n">linear_solve_scipy</span><span class="p">(</span>
                     <span class="n">mat</span><span class="p">,</span>
                     <span class="n">rhs</span><span class="p">,</span>
                     <span class="n">sensitivity_solver_subtype</span><span class="p">,</span>
@@ -401,9 +405,21 @@
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
                     <span class="s2">&quot;Specified sensitivity solver backend not available. Choose &#39;pardiso&#39;, &#39;petsc&#39;, &#39;pyamg&#39; or &#39;scipy&#39;.&quot;</span>
                 <span class="p">)</span>
-        <span class="n">lin_solve_callback_fun</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">mat</span><span class="p">,</span> <span class="n">rhs</span><span class="p">:</span> <span class="n">jax</span><span class="o">.</span><span class="n">pure_callback</span><span class="p">(</span>
-            <span class="n">lin_solve_fun</span><span class="p">,</span> <span class="n">jnp</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">rhs</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">rhs</span><span class="o">.</span><span class="n">dtype</span><span class="p">),</span> <span class="n">mat</span><span class="p">,</span> <span class="n">rhs</span>
-        <span class="p">)</span>
+
+        <span class="k">def</span> <span class="nf">lin_solve_callback_fun</span><span class="p">(</span><span class="n">mat</span><span class="p">,</span> <span class="n">rhs</span><span class="p">,</span> <span class="n">free_dofs_flat</span><span class="p">):</span>
+            <span class="n">rhs_flat</span> <span class="o">=</span> <span class="n">utility</span><span class="o">.</span><span class="n">dict_flatten</span><span class="p">(</span><span class="n">rhs</span><span class="p">)</span>
+            <span class="n">sol</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">pure_callback</span><span class="p">(</span><span class="n">lin_solve_fun</span><span class="p">,</span> <span class="n">jnp</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">rhs_flat</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">rhs_flat</span><span class="o">.</span><span class="n">dtype</span><span class="p">),</span> <span class="n">mat</span><span class="p">,</span> <span class="n">rhs_flat</span><span class="p">,</span> <span class="n">free_dofs_flat</span><span class="p">,</span> <span class="n">vmap_method</span><span class="o">=</span><span class="s1">&#39;sequential&#39;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">utility</span><span class="o">.</span><span class="n">reshape_as</span><span class="p">(</span><span class="n">sol</span><span class="p">,</span> <span class="n">rhs</span><span class="p">)</span>
+
+        <span class="c1"># def lin_solve_callback_fun(mat, rhs, free_dofs_flat):</span>
+        <span class="c1">#     rhs_flat = utility.dict_flatten(rhs)</span>
+        <span class="c1">#     # linear_solver = lambda mat, rhs: jax.pure_callback(lin_solve_fun, jnp.zeros(rhs_flat.shape, rhs_flat.dtype), mat, rhs_flat, None, vmap_method=&#39;sequential&#39;)</span>
+        <span class="c1">#     linear_solver = lambda mat, rhs: jax.pure_callback(lin_solve_fun, jnp.zeros(rhs_flat.shape, rhs_flat.dtype), mat, rhs_flat, free_dofs_flat, vmap_method=&#39;sequential&#39;)</span>
+        <span class="c1">#     solve = lambda matvec, x: linear_solver(mat, x)</span>
+        <span class="c1">#     transpose_solve = lambda vecmat, x: linear_solver(mat.T, x)</span>
+        <span class="c1">#     matvec = lambda x: utility.reshape_as(mat @ utility.dict_flatten(x), x)</span>
+        <span class="c1">#     sol = jax.lax.custom_linear_solve(matvec, rhs_flat, solve, transpose_solve)</span>
+        <span class="c1">#     return utility.reshape_as(sol, rhs)</span>
 
     <span class="c1"># Set up functions for adaptive load stepping loop</span>
     <span class="k">def</span> <span class="nf">continue_check</span><span class="p">(</span><span class="n">carry</span><span class="p">):</span>
@@ -444,17 +460,20 @@
                 <span class="n">residual_fun</span><span class="p">,</span>
                 <span class="n">tangent_fun</span><span class="p">,</span>
                 <span class="n">lin_solve_callback_fun</span><span class="p">,</span>
-                <span class="n">free_dofs</span><span class="p">,</span>
+                <span class="n">is_constrained</span><span class="p">,</span>
                 <span class="kc">True</span><span class="p">,</span>
                 <span class="n">implicit_diff_mode</span><span class="p">,</span>
             <span class="p">)</span>
             <span class="k">def</span> <span class="nf">diffable_solve</span><span class="p">(</span><span class="n">dofs0</span><span class="p">,</span> <span class="n">settings</span><span class="p">):</span>
-                <span class="k">return</span> <span class="n">solver</span><span class="p">(</span>
+                <span class="n">dofs</span><span class="p">,</span> <span class="p">(</span><span class="n">needed_steps</span><span class="p">,</span> <span class="n">res_norm_free_dofs</span><span class="p">,</span> <span class="n">divergence</span><span class="p">)</span> <span class="o">=</span> <span class="n">solver</span><span class="p">(</span>
                     <span class="n">dofs0</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">,</span> <span class="n">newton_tol</span><span class="o">=</span><span class="n">newton_tol</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
                 <span class="p">)</span>
+                <span class="k">return</span> <span class="n">dofs</span><span class="p">,</span> <span class="p">(</span><span class="n">needed_steps</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">),</span> <span class="n">res_norm_free_dofs</span><span class="p">,</span> <span class="n">divergence</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">))</span>
 
             <span class="n">dofs</span><span class="p">,</span> <span class="n">infos</span> <span class="o">=</span> <span class="n">diffable_solve</span><span class="p">(</span><span class="n">dofs0</span><span class="p">,</span> <span class="n">settings</span><span class="p">)</span>
             <span class="n">needed_steps</span><span class="p">,</span> <span class="n">res_norm_free_dofs</span><span class="p">,</span> <span class="n">divergence</span> <span class="o">=</span> <span class="n">infos</span>
+            <span class="n">divergence</span> <span class="o">=</span> <span class="n">divergence</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">bool</span><span class="p">)</span>
+
 
         <span class="k">else</span><span class="p">:</span>  <span class="c1"># Add implicit diff wrapper on the adaptive load stepping level</span>
             <span class="n">dofs</span><span class="p">,</span> <span class="n">infos</span> <span class="o">=</span> <span class="n">solver</span><span class="p">(</span>
@@ -486,14 +505,7 @@
             <span class="n">max_multiplier</span> <span class="o">-</span> <span class="n">multiplier</span><span class="p">,</span>
             <span class="n">increment</span><span class="p">,</span>
         <span class="p">)</span>
-        <span class="k">return</span> <span class="p">(</span>
-            <span class="n">dofs</span><span class="p">,</span>
-            <span class="n">multiplier</span><span class="p">,</span>
-            <span class="n">increment</span><span class="p">,</span>
-            <span class="mf">1.0</span> <span class="o">*</span> <span class="n">load_step</span><span class="p">,</span>
-            <span class="n">settings</span><span class="p">,</span>
-            <span class="n">res_norm_free_dofs</span><span class="p">,</span>
-        <span class="p">)</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">dofs</span><span class="p">,</span> <span class="n">multiplier</span><span class="p">,</span> <span class="n">increment</span><span class="p">,</span> <span class="mf">1.0</span> <span class="o">*</span> <span class="n">load_step</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">res_norm_free_dofs</span><span class="p">)</span>
 
     <span class="c1"># Use implicit diff wrappers to make it differentiable</span>
     <span class="k">if</span> <span class="n">implicit_diff_mode</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
@@ -506,18 +518,25 @@
                 <span class="n">residual_fun</span><span class="p">,</span>
                 <span class="n">tangent_fun</span><span class="p">,</span>
                 <span class="n">lin_solve_callback_fun</span><span class="p">,</span>
-                <span class="n">free_dofs</span><span class="p">,</span>
+                <span class="n">is_constrained</span><span class="p">,</span>
                 <span class="kc">True</span><span class="p">,</span>
                 <span class="n">implicit_diff_mode</span><span class="p">,</span>
             <span class="p">)</span>
             <span class="k">def</span> <span class="nf">diffable_adaptive_load_stepping</span><span class="p">(</span><span class="n">dofs</span><span class="p">,</span> <span class="n">settings</span><span class="p">):</span>
-                <span class="k">return</span> <span class="n">jax</span><span class="o">.</span><span class="n">lax</span><span class="o">.</span><span class="n">while_loop</span><span class="p">(</span>
-                    <span class="n">continue_check</span><span class="p">,</span> <span class="n">step</span><span class="p">,</span> <span class="p">(</span><span class="n">dofs</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">init_increment</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
-                <span class="p">)</span>
+                <span class="p">(</span><span class="n">dofs</span><span class="p">,</span> <span class="n">multiplier</span><span class="p">,</span> <span class="n">increment</span><span class="p">,</span> <span class="n">load_step</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">res_norm_free_dofs</span><span class="p">)</span> <span class="o">=</span> \
+                    <span class="n">jax</span><span class="o">.</span><span class="n">lax</span><span class="o">.</span><span class="n">while_loop</span><span class="p">(</span>
+                        <span class="n">continue_check</span><span class="p">,</span> <span class="n">step</span><span class="p">,</span> <span class="p">(</span><span class="n">dofs</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">init_increment</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
+                        <span class="p">)</span>
+                <span class="k">return</span> <span class="n">dofs</span><span class="p">,</span> <span class="p">(</span><span class="n">multiplier</span><span class="p">,</span> <span class="n">increment</span><span class="p">,</span> <span class="n">load_step</span><span class="p">,</span> <span class="n">res_norm_free_dofs</span><span class="p">)</span>
 
-            <span class="k">return</span> <span class="n">diffable_adaptive_load_stepping</span><span class="p">(</span><span class="n">dofs</span><span class="p">,</span> <span class="n">settings</span><span class="p">)</span>
+            <span class="n">dofs</span><span class="p">,</span> <span class="p">(</span><span class="n">multiplier</span><span class="p">,</span> <span class="n">increment</span><span class="p">,</span> <span class="n">load_step</span><span class="p">,</span> <span class="n">res_norm_free_dofs</span><span class="p">)</span> <span class="o">=</span> \
+                <span class="n">diffable_adaptive_load_stepping</span><span class="p">(</span><span class="n">dofs</span><span class="p">,</span> <span class="n">settings</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">dofs</span><span class="p">,</span> <span class="p">(</span><span class="n">multiplier</span><span class="p">,</span> <span class="n">increment</span><span class="p">,</span> <span class="n">load_step</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">res_norm_free_dofs</span><span class="p">)</span>
 
         <span class="k">else</span><span class="p">:</span>  <span class="c1"># Pathdependent problem; uses fori_loop with static limits for supporting reverse mode differentiation</span>
+
+            <span class="c1"># Set Dirichlet conditions for derivative w.r.t. them</span>
+            <span class="n">settings</span> <span class="o">=</span> <span class="n">multiplier_settings</span><span class="p">(</span><span class="n">settings</span><span class="p">,</span> <span class="n">max_multiplier</span><span class="p">)</span>
 
             <span class="k">def</span> <span class="nf">body_fn</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">carry</span><span class="p">):</span>
                 <span class="k">def</span> <span class="nf">continue_check</span><span class="p">(</span><span class="n">carry</span><span class="p">):</span>
@@ -540,44 +559,13 @@
                     <span class="k">return</span> <span class="n">_continue_1</span>
 
                 <span class="k">def</span> <span class="nf">step_extended</span><span class="p">(</span><span class="n">carry</span><span class="p">):</span>
-                    <span class="p">(</span>
-                        <span class="n">dofs</span><span class="p">,</span>
-                        <span class="n">multiplier</span><span class="p">,</span>
-                        <span class="n">increment</span><span class="p">,</span>
-                        <span class="n">load_step</span><span class="p">,</span>
-                        <span class="n">settings</span><span class="p">,</span>
-                        <span class="n">res_norm_free_dofs</span><span class="p">,</span>
-                        <span class="n">stop</span><span class="p">,</span>
-                    <span class="p">)</span> <span class="o">=</span> <span class="n">carry</span>
-                    <span class="n">args</span> <span class="o">=</span> <span class="p">(</span>
-                        <span class="n">dofs</span><span class="p">,</span>
-                        <span class="n">multiplier</span><span class="p">,</span>
-                        <span class="n">increment</span><span class="p">,</span>
-                        <span class="n">load_step</span><span class="p">,</span>
-                        <span class="n">settings</span><span class="p">,</span>
-                        <span class="n">res_norm_free_dofs</span><span class="p">,</span>
-                    <span class="p">)</span>
+                    <span class="p">(</span><span class="n">dofs</span><span class="p">,</span> <span class="n">multiplier</span><span class="p">,</span> <span class="n">increment</span><span class="p">,</span> <span class="n">load_step</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">res_norm_free_dofs</span><span class="p">,</span> <span class="n">stop</span><span class="p">)</span> <span class="o">=</span> <span class="n">carry</span>
+                    <span class="n">args</span> <span class="o">=</span> <span class="p">(</span><span class="n">dofs</span><span class="p">,</span> <span class="n">multiplier</span><span class="p">,</span> <span class="n">increment</span><span class="p">,</span> <span class="n">load_step</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">res_norm_free_dofs</span><span class="p">)</span>
                     <span class="k">return</span> <span class="n">step</span><span class="p">(</span><span class="n">args</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="kc">False</span><span class="p">,)</span>
 
                 <span class="k">def</span> <span class="nf">finish</span><span class="p">(</span><span class="n">carry</span><span class="p">):</span>
-                    <span class="p">(</span>
-                        <span class="n">dofs</span><span class="p">,</span>
-                        <span class="n">multiplier</span><span class="p">,</span>
-                        <span class="n">increment</span><span class="p">,</span>
-                        <span class="n">load_step</span><span class="p">,</span>
-                        <span class="n">settings</span><span class="p">,</span>
-                        <span class="n">res_norm_free_dofs</span><span class="p">,</span>
-                        <span class="n">stop</span><span class="p">,</span>
-                    <span class="p">)</span> <span class="o">=</span> <span class="n">carry</span>
-                    <span class="k">return</span> <span class="p">(</span>
-                        <span class="n">dofs</span><span class="p">,</span>
-                        <span class="n">multiplier</span><span class="p">,</span>
-                        <span class="n">increment</span><span class="p">,</span>
-                        <span class="n">load_step</span><span class="p">,</span>
-                        <span class="n">settings</span><span class="p">,</span>
-                        <span class="n">res_norm_free_dofs</span><span class="p">,</span>
-                        <span class="kc">True</span><span class="p">,</span>
-                    <span class="p">)</span>
+                    <span class="p">(</span><span class="n">dofs</span><span class="p">,</span> <span class="n">multiplier</span><span class="p">,</span> <span class="n">increment</span><span class="p">,</span> <span class="n">load_step</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">res_norm_free_dofs</span><span class="p">,</span> <span class="n">stop</span><span class="p">)</span> <span class="o">=</span> <span class="n">carry</span>
+                    <span class="k">return</span> <span class="p">(</span><span class="n">dofs</span><span class="p">,</span> <span class="n">multiplier</span><span class="p">,</span> <span class="n">increment</span><span class="p">,</span> <span class="n">load_step</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">res_norm_free_dofs</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
 
                 <span class="n">carry</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">lax</span><span class="o">.</span><span class="n">cond</span><span class="p">(</span>
                     <span class="n">continue_check</span><span class="p">(</span><span class="n">carry</span><span class="p">),</span>
@@ -589,13 +577,15 @@
                 <span class="c1"># ToDo: Verify accuracy of derivatives with finite differences.</span>
                 <span class="k">return</span> <span class="n">carry</span>
 
-            <span class="n">init_state</span> <span class="o">=</span> <span class="p">(</span><span class="n">dofs</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">init_increment</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+            <span class="n">init_state</span> <span class="o">=</span> <span class="p">(</span><span class="n">dofs</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">init_increment</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">jax</span><span class="o">.</span><span class="n">lax</span><span class="o">.</span><span class="n">fori_loop</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">max_load_steps</span><span class="p">,</span> <span class="n">body_fn</span><span class="p">,</span> <span class="n">init_state</span><span class="p">)</span>
 
     <span class="k">else</span><span class="p">:</span>  <span class="c1"># No definition of implicit derivatives</span>
         <span class="k">return</span> <span class="n">jax</span><span class="o">.</span><span class="n">lax</span><span class="o">.</span><span class="n">while_loop</span><span class="p">(</span>
-            <span class="n">continue_check</span><span class="p">,</span> <span class="n">step</span><span class="p">,</span> <span class="p">(</span><span class="n">dofs</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">init_increment</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
+            <span class="n">continue_check</span><span class="p">,</span> <span class="n">step</span><span class="p">,</span> <span class="p">(</span><span class="n">dofs</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">init_increment</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
         <span class="p">)</span></div>
+
+
 
 
 
@@ -733,27 +723,24 @@
     <span class="n">nodal_imposition</span> <span class="o">=</span> <span class="s2">&quot;nodal imposition&quot;</span> <span class="ow">in</span> <span class="n">static_settings</span><span class="p">[</span><span class="s2">&quot;solution structure&quot;</span><span class="p">]</span>
     <span class="c1"># Impose nodal dofs</span>
     <span class="k">if</span> <span class="n">nodal_imposition</span><span class="p">:</span>
-        <span class="c1"># dirichlet_conditions = utility.dict_flatten(settings[&#39;dirichlet conditions&#39;])</span>
         <span class="n">dirichlet_conditions</span> <span class="o">=</span> <span class="n">settings</span><span class="p">[</span><span class="s2">&quot;dirichlet conditions&quot;</span><span class="p">]</span>
 
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">static_settings</span><span class="p">[</span><span class="s2">&quot;dirichlet dofs&quot;</span><span class="p">],</span> <span class="n">FrozenDict</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">settings</span><span class="p">[</span><span class="s2">&quot;dirichlet dofs&quot;</span><span class="p">],</span> <span class="p">(</span><span class="nb">dict</span><span class="p">,</span> <span class="n">FrozenDict</span><span class="p">)):</span>
             <span class="n">dirichlet_dofs_dict_flat</span> <span class="o">=</span> <span class="p">{</span>
-                <span class="n">key</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">val</span><span class="p">)</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
-                <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">static_settings</span><span class="p">[</span><span class="s2">&quot;dirichlet dofs&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+                <span class="n">key</span><span class="p">:</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">val</span><span class="p">)</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+                <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">settings</span><span class="p">[</span><span class="s2">&quot;dirichlet dofs&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
             <span class="p">}</span>
-            <span class="n">dirichlet_dofs_flat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span>
+            <span class="n">dirichlet_dofs_flat</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span>
                 <span class="nb">list</span><span class="p">(</span><span class="n">dirichlet_dofs_dict_flat</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
             <span class="p">)</span>
-            <span class="n">dofs</span> <span class="o">=</span> <span class="n">utility</span><span class="o">.</span><span class="n">mask_set</span><span class="p">(</span>
-                <span class="n">dofs</span><span class="p">,</span> <span class="n">dirichlet_dofs_dict_flat</span><span class="p">,</span> <span class="n">dirichlet_conditions</span>
-            <span class="p">)</span>
+            <span class="n">dofs</span> <span class="o">=</span> <span class="n">utility</span><span class="o">.</span><span class="n">mask_op</span><span class="p">(</span><span class="n">dofs</span><span class="p">,</span> <span class="n">dirichlet_dofs_dict_flat</span><span class="p">,</span> <span class="n">dirichlet_conditions</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">dirichlet_dofs_flat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span>
-                <span class="n">static_settings</span><span class="p">[</span><span class="s2">&quot;dirichlet dofs&quot;</span><span class="p">]</span>
+            <span class="n">dirichlet_dofs_flat</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span>
+                <span class="n">settings</span><span class="p">[</span><span class="s2">&quot;dirichlet dofs&quot;</span><span class="p">]</span>
             <span class="p">)</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
-            <span class="n">dofs</span> <span class="o">=</span> <span class="n">utility</span><span class="o">.</span><span class="n">mask_set</span><span class="p">(</span><span class="n">dofs</span><span class="p">,</span> <span class="n">dirichlet_dofs_flat</span><span class="p">,</span> <span class="n">dirichlet_conditions</span><span class="p">)</span>
+            <span class="n">dofs</span> <span class="o">=</span> <span class="n">utility</span><span class="o">.</span><span class="n">mask_op</span><span class="p">(</span><span class="n">dofs</span><span class="p">,</span> <span class="n">dirichlet_dofs_flat</span><span class="p">,</span> <span class="n">dirichlet_conditions</span><span class="p">)</span>
 
-        <span class="n">free_dofs_flat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">invert</span><span class="p">(</span><span class="n">dirichlet_dofs_flat</span><span class="p">)</span>
+        <span class="n">free_dofs_flat</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">invert</span><span class="p">(</span><span class="n">dirichlet_dofs_flat</span><span class="p">)</span>
 
     <span class="c1"># Assembling</span>
     <span class="n">verbose</span> <span class="o">=</span> <span class="n">static_settings</span><span class="p">[</span><span class="s2">&quot;verbose&quot;</span><span class="p">]</span>
@@ -769,10 +756,6 @@
         <span class="ow">and</span> <span class="nb">type</span><span class="p">(</span><span class="n">mat</span><span class="p">)</span> <span class="o">==</span> <span class="n">jnp</span><span class="o">.</span><span class="n">ndarray</span>
     <span class="p">):</span>
         <span class="n">mat</span> <span class="o">=</span> <span class="n">sparse</span><span class="o">.</span><span class="n">bcoo_fromdense</span><span class="p">()</span>
-
-    <span class="c1"># Delete rows</span>
-    <span class="k">if</span> <span class="n">nodal_imposition</span><span class="p">:</span>
-        <span class="n">rhs</span> <span class="o">=</span> <span class="n">rhs</span><span class="p">[</span><span class="n">free_dofs_flat</span><span class="p">]</span>
 
     <span class="k">match</span> <span class="n">solver_backend</span><span class="p">:</span>
         <span class="k">case</span> <span class="s2">&quot;petsc&quot;</span><span class="p">:</span>
@@ -800,19 +783,18 @@
 
     <span class="c1"># Compose solution dofs</span>
     <span class="k">if</span> <span class="n">nodal_imposition</span><span class="p">:</span>
-        <span class="n">sol</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">pure_callback</span><span class="p">(</span><span class="n">solve_fun</span><span class="p">,</span> <span class="n">result_shape_dtype</span><span class="p">,</span> <span class="n">mat</span><span class="p">,</span> <span class="n">rhs</span><span class="p">,</span> <span class="n">free_dofs_flat</span><span class="p">)</span>
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">static_settings</span><span class="p">[</span><span class="s2">&quot;dirichlet dofs&quot;</span><span class="p">],</span> <span class="n">FrozenDict</span><span class="p">):</span>
+        <span class="n">sol</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">pure_callback</span><span class="p">(</span><span class="n">solve_fun</span><span class="p">,</span> <span class="n">result_shape_dtype</span><span class="p">,</span> <span class="n">mat</span><span class="p">,</span> <span class="n">rhs</span><span class="p">,</span> <span class="n">free_dofs_flat</span><span class="p">,</span> <span class="n">vmap_method</span><span class="o">=</span><span class="s1">&#39;sequential&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">settings</span><span class="p">[</span><span class="s2">&quot;dirichlet dofs&quot;</span><span class="p">],</span> <span class="p">(</span><span class="nb">dict</span><span class="p">,</span> <span class="n">FrozenDict</span><span class="p">)):</span>
             <span class="n">free_dofs_dict</span> <span class="o">=</span> <span class="p">{</span>
-                <span class="n">key</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">invert</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">val</span><span class="p">))</span>
-                <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">static_settings</span><span class="p">[</span><span class="s2">&quot;dirichlet dofs&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+                <span class="n">key</span><span class="p">:</span> <span class="n">jnp</span><span class="o">.</span><span class="n">invert</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">val</span><span class="p">))</span>
+                <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">settings</span><span class="p">[</span><span class="s2">&quot;dirichlet dofs&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
             <span class="p">}</span>
-            <span class="n">reduced_dofs</span> <span class="o">=</span> <span class="n">utility</span><span class="o">.</span><span class="n">mask_select</span><span class="p">(</span><span class="n">dofs</span><span class="p">,</span> <span class="n">free_dofs_dict</span><span class="p">)</span>
-            <span class="n">sol</span> <span class="o">=</span> <span class="n">utility</span><span class="o">.</span><span class="n">reshape_as</span><span class="p">(</span><span class="n">sol</span><span class="p">,</span> <span class="n">reduced_dofs</span><span class="p">)</span>
-            <span class="k">return</span> <span class="n">utility</span><span class="o">.</span><span class="n">mask_set</span><span class="p">(</span><span class="n">dofs</span><span class="p">,</span> <span class="n">free_dofs_dict</span><span class="p">,</span> <span class="n">sol</span><span class="p">)</span>
+            <span class="n">sol</span> <span class="o">=</span> <span class="n">utility</span><span class="o">.</span><span class="n">reshape_as</span><span class="p">(</span><span class="n">sol</span><span class="p">,</span> <span class="n">dofs</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">utility</span><span class="o">.</span><span class="n">mask_op</span><span class="p">(</span><span class="n">dofs</span><span class="p">,</span> <span class="n">free_dofs_dict</span><span class="p">,</span> <span class="n">sol</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">utility</span><span class="o">.</span><span class="n">mask_set</span><span class="p">(</span><span class="n">dofs</span><span class="p">,</span> <span class="n">free_dofs_flat</span><span class="p">,</span> <span class="n">sol</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">utility</span><span class="o">.</span><span class="n">mask_op</span><span class="p">(</span><span class="n">dofs</span><span class="p">,</span> <span class="n">free_dofs_flat</span><span class="p">,</span> <span class="n">sol</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">sol</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">pure_callback</span><span class="p">(</span><span class="n">solve_fun</span><span class="p">,</span> <span class="n">result_shape_dtype</span><span class="p">,</span> <span class="n">mat</span><span class="p">,</span> <span class="n">rhs</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="n">sol</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">pure_callback</span><span class="p">(</span><span class="n">solve_fun</span><span class="p">,</span> <span class="n">result_shape_dtype</span><span class="p">,</span> <span class="n">mat</span><span class="p">,</span> <span class="n">rhs</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="n">vmap_method</span><span class="o">=</span><span class="s1">&#39;sequential&#39;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">utility</span><span class="o">.</span><span class="n">reshape_as</span><span class="p">(</span><span class="n">sol</span><span class="p">,</span> <span class="n">dofs</span><span class="p">)</span></div>
 
 
@@ -851,24 +833,24 @@
     <span class="k">if</span> <span class="n">nodal_imposition</span><span class="p">:</span>
         <span class="n">dirichlet_conditions</span> <span class="o">=</span> <span class="n">utility</span><span class="o">.</span><span class="n">dict_flatten</span><span class="p">(</span><span class="n">settings</span><span class="p">[</span><span class="s2">&quot;dirichlet conditions&quot;</span><span class="p">])</span>
 
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">static_settings</span><span class="p">[</span><span class="s2">&quot;dirichlet dofs&quot;</span><span class="p">],</span> <span class="n">FrozenDict</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">settings</span><span class="p">[</span><span class="s2">&quot;dirichlet dofs&quot;</span><span class="p">],</span> <span class="p">(</span><span class="nb">dict</span><span class="p">,</span> <span class="n">FrozenDict</span><span class="p">)):</span>
             <span class="n">dirichlet_dofs_dict_flat</span> <span class="o">=</span> <span class="p">{</span>
-                <span class="n">key</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">val</span><span class="p">)</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
-                <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">static_settings</span><span class="p">[</span><span class="s2">&quot;dirichlet dofs&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+                <span class="n">key</span><span class="p">:</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">val</span><span class="p">)</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+                <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">settings</span><span class="p">[</span><span class="s2">&quot;dirichlet dofs&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
             <span class="p">}</span>
-            <span class="n">dirichlet_dofs_flat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span>
+            <span class="n">dirichlet_dofs_flat</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span>
                 <span class="nb">list</span><span class="p">(</span><span class="n">dirichlet_dofs_dict_flat</span><span class="o">.</span><span class="n">vlaues</span><span class="p">())</span>
             <span class="p">)</span>
-            <span class="n">dofs</span> <span class="o">=</span> <span class="n">utility</span><span class="o">.</span><span class="n">mask_set</span><span class="p">(</span>
+            <span class="n">dofs</span> <span class="o">=</span> <span class="n">utility</span><span class="o">.</span><span class="n">mask_op</span><span class="p">(</span>
                 <span class="n">dofs</span><span class="p">,</span> <span class="n">dirichlet_dofs_dict_flat</span><span class="p">,</span> <span class="n">dirichlet_conditions</span>
             <span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">dirichlet_dofs_flat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span>
-                <span class="n">static_settings</span><span class="p">[</span><span class="s2">&quot;dirichlet dofs&quot;</span><span class="p">]</span>
+            <span class="n">dirichlet_dofs_flat</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span>
+                <span class="n">settings</span><span class="p">[</span><span class="s2">&quot;dirichlet dofs&quot;</span><span class="p">]</span>
             <span class="p">)</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
-            <span class="n">dofs</span> <span class="o">=</span> <span class="n">utility</span><span class="o">.</span><span class="n">mask_set</span><span class="p">(</span><span class="n">dofs</span><span class="p">,</span> <span class="n">dirichlet_dofs_flat</span><span class="p">,</span> <span class="n">dirichlet_conditions</span><span class="p">)</span>
+            <span class="n">dofs</span> <span class="o">=</span> <span class="n">utility</span><span class="o">.</span><span class="n">mask_op</span><span class="p">(</span><span class="n">dofs</span><span class="p">,</span> <span class="n">dirichlet_dofs_flat</span><span class="p">,</span> <span class="n">dirichlet_conditions</span><span class="p">)</span>
 
-        <span class="n">free_dofs_flat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">invert</span><span class="p">(</span><span class="n">dirichlet_dofs_flat</span><span class="p">)</span>
+        <span class="n">free_dofs_flat</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">invert</span><span class="p">(</span><span class="n">dirichlet_dofs_flat</span><span class="p">)</span>
 
     <span class="c1"># Assembling</span>
     <span class="n">rhs</span> <span class="o">=</span> <span class="o">-</span><span class="n">assembler</span><span class="o">.</span><span class="n">assemble_residual</span><span class="p">(</span><span class="n">dofs</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">)</span>
@@ -886,16 +868,15 @@
 
     <span class="c1"># Compose solution dofs</span>
     <span class="k">if</span> <span class="n">nodal_imposition</span><span class="p">:</span>
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">static_settings</span><span class="p">[</span><span class="s2">&quot;dirichlet dofs&quot;</span><span class="p">],</span> <span class="n">FrozenDict</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">settings</span><span class="p">[</span><span class="s2">&quot;dirichlet dofs&quot;</span><span class="p">],</span> <span class="p">(</span><span class="nb">dict</span><span class="p">,</span> <span class="n">FrozenDict</span><span class="p">)):</span>
             <span class="n">free_dofs_dict</span> <span class="o">=</span> <span class="p">{</span>
-                <span class="n">key</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">invert</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">val</span><span class="p">))</span>
-                <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">static_settings</span><span class="p">[</span><span class="s2">&quot;dirichlet dofs&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+                <span class="n">key</span><span class="p">:</span> <span class="n">jnp</span><span class="o">.</span><span class="n">invert</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">val</span><span class="p">))</span>
+                <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">settings</span><span class="p">[</span><span class="s2">&quot;dirichlet dofs&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
             <span class="p">}</span>
-            <span class="n">reduced_dofs</span> <span class="o">=</span> <span class="n">utility</span><span class="o">.</span><span class="n">mask_select</span><span class="p">(</span><span class="n">dofs</span><span class="p">,</span> <span class="n">free_dofs_dict</span><span class="p">)</span>
-            <span class="n">sol</span> <span class="o">=</span> <span class="n">utility</span><span class="o">.</span><span class="n">reshape_as</span><span class="p">(</span><span class="n">sol</span><span class="p">,</span> <span class="n">reduced_dofs</span><span class="p">)</span>
-            <span class="k">return</span> <span class="n">utility</span><span class="o">.</span><span class="n">mask_set</span><span class="p">(</span><span class="n">dofs</span><span class="p">,</span> <span class="n">free_dofs_dict</span><span class="p">,</span> <span class="n">sol</span><span class="p">)</span>
+            <span class="n">sol</span> <span class="o">=</span> <span class="n">utility</span><span class="o">.</span><span class="n">reshape_as</span><span class="p">(</span><span class="n">sol</span><span class="p">,</span> <span class="n">dofs</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">utility</span><span class="o">.</span><span class="n">mask_op</span><span class="p">(</span><span class="n">dofs</span><span class="p">,</span> <span class="n">free_dofs_dict</span><span class="p">,</span> <span class="n">sol</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">utility</span><span class="o">.</span><span class="n">mask_set</span><span class="p">(</span><span class="n">dofs</span><span class="p">,</span> <span class="n">free_dofs_flat</span><span class="p">,</span> <span class="n">sol</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">utility</span><span class="o">.</span><span class="n">mask_op</span><span class="p">(</span><span class="n">dofs</span><span class="p">,</span> <span class="n">free_dofs_flat</span><span class="p">,</span> <span class="n">sol</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">utility</span><span class="o">.</span><span class="n">reshape_as</span><span class="p">(</span><span class="n">sol</span><span class="p">,</span> <span class="n">dofs</span><span class="p">)</span></div>
 
@@ -980,17 +961,17 @@
     <span class="n">nodal_imposition</span> <span class="o">=</span> <span class="s2">&quot;nodal imposition&quot;</span> <span class="ow">in</span> <span class="n">static_settings</span><span class="p">[</span><span class="s2">&quot;solution structure&quot;</span><span class="p">]</span>
     <span class="k">if</span> <span class="n">nodal_imposition</span><span class="p">:</span>
         <span class="c1"># Impose Dirichlet boundaries. Dirichlet dofs has to be concrete, therefore it is passed in static_settings as tuple of tuples</span>
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">static_settings</span><span class="p">[</span><span class="s2">&quot;dirichlet dofs&quot;</span><span class="p">],</span> <span class="n">FrozenDict</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">settings</span><span class="p">[</span><span class="s2">&quot;dirichlet dofs&quot;</span><span class="p">],</span> <span class="p">(</span><span class="nb">dict</span><span class="p">,</span> <span class="n">FrozenDict</span><span class="p">)):</span>
             <span class="n">free_dofs_flat</span> <span class="o">=</span> <span class="p">{</span>
-                <span class="n">key</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">invert</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">val</span><span class="p">)</span><span class="o">.</span><span class="n">flatten</span><span class="p">())</span>
-                <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">static_settings</span><span class="p">[</span><span class="s2">&quot;dirichlet dofs&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+                <span class="n">key</span><span class="p">:</span> <span class="n">jnp</span><span class="o">.</span><span class="n">invert</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">val</span><span class="p">)</span><span class="o">.</span><span class="n">flatten</span><span class="p">())</span>
+                <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">settings</span><span class="p">[</span><span class="s2">&quot;dirichlet dofs&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
             <span class="p">}</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">free_dofs_flat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">invert</span><span class="p">(</span>
-                <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">static_settings</span><span class="p">[</span><span class="s2">&quot;dirichlet dofs&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+            <span class="n">free_dofs_flat</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">invert</span><span class="p">(</span>
+                <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">settings</span><span class="p">[</span><span class="s2">&quot;dirichlet dofs&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
             <span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">free_dofs_flat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">utility</span><span class="o">.</span><span class="n">dict_flatten</span><span class="p">(</span><span class="n">dofs</span><span class="p">)</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">bool_</span><span class="p">)</span>
+        <span class="n">free_dofs_flat</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">utility</span><span class="o">.</span><span class="n">dict_flatten</span><span class="p">(</span><span class="n">dofs</span><span class="p">)</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">jnp</span><span class="o">.</span><span class="n">bool_</span><span class="p">)</span>
 
     <span class="n">verbose</span> <span class="o">=</span> <span class="n">static_settings</span><span class="p">[</span><span class="s2">&quot;verbose&quot;</span><span class="p">]</span>
     <span class="k">return</span> <span class="n">damped_newton</span><span class="p">(</span>
@@ -1041,8 +1022,6 @@
 <span class="sd">            - residual_norm (float): The norm of the residual at the solution.</span>
 <span class="sd">            - diverged (bool): Flag indicating whether the method diverged.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-
-
     <span class="k">def</span> <span class="nf">step</span><span class="p">(</span><span class="n">carry</span><span class="p">):</span>
         <span class="n">dofs_i</span><span class="p">,</span> <span class="n">itt</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">res_norm_old</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">carry</span>
 
@@ -1060,9 +1039,9 @@
 
             <span class="c1"># Set boundary conditions for dirichlet_dofs</span>
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">free_dofs</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
-                <span class="n">dirichlet_dofs</span> <span class="o">=</span> <span class="p">{</span><span class="n">key</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">invert</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="k">for</span> <span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">val</span><span class="p">)</span> <span class="ow">in</span> <span class="n">free_dofs</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+                <span class="n">dirichlet_dofs</span> <span class="o">=</span> <span class="p">{</span><span class="n">key</span><span class="p">:</span> <span class="n">jnp</span><span class="o">.</span><span class="n">invert</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="k">for</span> <span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">val</span><span class="p">)</span> <span class="ow">in</span> <span class="n">free_dofs</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="n">dirichlet_dofs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">invert</span><span class="p">(</span><span class="n">free_dofs</span><span class="p">)</span>
+                <span class="n">dirichlet_dofs</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">invert</span><span class="p">(</span><span class="n">free_dofs</span><span class="p">)</span>
             <span class="n">dofs_i</span> <span class="o">=</span> <span class="n">utility</span><span class="o">.</span><span class="n">mask_op</span><span class="p">(</span><span class="n">dofs_i</span><span class="p">,</span> <span class="n">dirichlet_dofs</span><span class="p">,</span> <span class="n">delta_x_i</span><span class="p">,</span> <span class="s2">&quot;set&quot;</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="c1"># If free_dofs is None, apply the update to all dofs directly</span>
@@ -1071,9 +1050,7 @@
         <span class="c1"># Compute residual for next step as convergence test</span>
         <span class="n">residual</span> <span class="o">=</span> <span class="n">residual_fun</span><span class="p">(</span><span class="n">dofs_i</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">free_dofs</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">residual_flat</span> <span class="o">=</span> <span class="n">utility</span><span class="o">.</span><span class="n">dict_flatten</span><span class="p">(</span>
-                <span class="n">utility</span><span class="o">.</span><span class="n">mask_op</span><span class="p">(</span><span class="n">residual</span><span class="p">,</span> <span class="n">free_dofs</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;get&quot;</span><span class="p">)</span>
-            <span class="p">)</span>
+            <span class="n">residual_flat</span> <span class="o">=</span> <span class="n">utility</span><span class="o">.</span><span class="n">dict_flatten</span><span class="p">(</span><span class="n">utility</span><span class="o">.</span><span class="n">mask_select</span><span class="p">(</span><span class="n">residual</span><span class="p">,</span> <span class="n">free_dofs</span><span class="p">))</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">residual_flat</span> <span class="o">=</span> <span class="n">utility</span><span class="o">.</span><span class="n">dict_flatten</span><span class="p">(</span><span class="n">residual</span><span class="p">)</span>  <span class="c1"># Use full residual if no mask</span>
         <span class="n">res_norm</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">residual_flat</span><span class="p">)</span>
@@ -1172,9 +1149,9 @@
 
     <span class="k">if</span> <span class="n">nodal_imposition</span><span class="p">:</span>
         <span class="c1"># Impose Dirichlet boundaries. Dirichlet dofs has to be concrete, therefore it is passed in static_settings as tuple of tuples</span>
-        <span class="n">dirichlet_dofs_flat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">static_settings</span><span class="p">[</span><span class="s2">&quot;dirichlet dofs&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+        <span class="n">dirichlet_dofs_flat</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">settings</span><span class="p">[</span><span class="s2">&quot;dirichlet dofs&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
         <span class="n">dirichlet_conditions</span> <span class="o">=</span> <span class="n">settings</span><span class="p">[</span><span class="s2">&quot;dirichlet conditions&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
-        <span class="n">free_dofs_flat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">invert</span><span class="p">(</span><span class="n">dirichlet_dofs_flat</span><span class="p">)</span>
+        <span class="n">free_dofs_flat</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">invert</span><span class="p">(</span><span class="n">dirichlet_dofs_flat</span><span class="p">)</span>
 
         <span class="c1"># Impose nodal dofs</span>
         <span class="n">flat_dofs</span> <span class="o">=</span> <span class="n">dofs</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
@@ -1401,9 +1378,7 @@
 
 <div class="viewcode-block" id="linear_solve_petsc">
 <a class="viewcode-back" href="../../_autosummary/autopdex.solver.linear_solve_petsc.html#autopdex.solver.linear_solve_petsc">[docs]</a>
-<span class="k">def</span> <span class="nf">linear_solve_petsc</span><span class="p">(</span>
-    <span class="n">mat</span><span class="p">,</span> <span class="n">rhs</span><span class="p">,</span> <span class="n">n_fields</span><span class="p">,</span> <span class="n">solver</span><span class="p">,</span> <span class="n">pc_type</span><span class="p">,</span> <span class="n">verbose</span><span class="p">,</span> <span class="n">free_dofs</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="mf">1e-8</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
-<span class="p">):</span>
+<span class="k">def</span> <span class="nf">linear_solve_petsc</span><span class="p">(</span><span class="n">mat</span><span class="p">,</span> <span class="n">rhs</span><span class="p">,</span> <span class="n">n_fields</span><span class="p">,</span> <span class="n">solver</span><span class="p">,</span> <span class="n">pc_type</span><span class="p">,</span> <span class="n">verbose</span><span class="p">,</span> <span class="n">free_dofs</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="mf">1e-8</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Solve a linear system using the PETSc solver (requires PETSc and petsc4py to be installed).</span>
 
@@ -1437,7 +1412,12 @@
     <span class="k">except</span> <span class="ne">ModuleNotFoundError</span><span class="p">:</span>
         <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Linear solver requires petsc and petsc4py&quot;</span><span class="p">)</span>
 
-    <span class="n">n_dofs</span> <span class="o">=</span> <span class="n">rhs</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">free_dofs</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">reduced_rhs</span> <span class="o">=</span> <span class="n">rhs</span><span class="p">[</span><span class="n">free_dofs</span><span class="p">]</span>
+        <span class="n">n_dofs</span> <span class="o">=</span> <span class="n">reduced_rhs</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">reduced_rhs</span> <span class="o">=</span> <span class="n">rhs</span>
+        <span class="n">n_dofs</span> <span class="o">=</span> <span class="n">rhs</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 
     <span class="c1"># Transform matrix to csr format and sum duplicates</span>
     <span class="n">tangent_csr</span> <span class="o">=</span> <span class="n">scipy_assembling</span><span class="p">(</span><span class="n">mat</span><span class="p">,</span> <span class="n">verbose</span><span class="p">,</span> <span class="n">free_dofs</span><span class="p">)</span>
@@ -1466,7 +1446,7 @@
     <span class="c1"># Initialization of right hand side and solution vector</span>
     <span class="n">b</span> <span class="o">=</span> <span class="n">PETSc</span><span class="o">.</span><span class="n">Vec</span><span class="p">()</span><span class="o">.</span><span class="n">createSeq</span><span class="p">(</span><span class="n">n_dofs</span><span class="p">)</span>
     <span class="n">b</span><span class="o">.</span><span class="n">setFromOptions</span><span class="p">()</span>
-    <span class="n">b</span><span class="o">.</span><span class="n">setArray</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">rhs</span><span class="p">))</span>
+    <span class="n">b</span><span class="o">.</span><span class="n">setArray</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">reduced_rhs</span><span class="p">))</span>
     <span class="n">x</span> <span class="o">=</span> <span class="n">PETSc</span><span class="o">.</span><span class="n">Vec</span><span class="p">()</span><span class="o">.</span><span class="n">createSeq</span><span class="p">(</span><span class="n">n_dofs</span><span class="p">)</span>
     <span class="n">x</span><span class="o">.</span><span class="n">setFromOptions</span><span class="p">()</span>
 
@@ -1492,7 +1472,13 @@
 
     <span class="c1"># Solving</span>
     <span class="n">ksp</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
-    <span class="n">sol</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">getArray</span><span class="p">())</span>
+
+    <span class="c1"># Fill solution vector with computed values</span>
+    <span class="k">if</span> <span class="n">free_dofs</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">sol</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">rhs</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+        <span class="n">sol</span> <span class="o">=</span> <span class="n">sol</span><span class="o">.</span><span class="n">at</span><span class="p">[</span><span class="n">free_dofs</span><span class="p">]</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">getArray</span><span class="p">())</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">sol</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">getArray</span><span class="p">())</span>
 
     <span class="k">if</span> <span class="n">verbose</span> <span class="o">&gt;=</span> <span class="mi">2</span><span class="p">:</span>
         <span class="n">residual</span> <span class="o">=</span> <span class="n">mat_petsc</span> <span class="o">*</span> <span class="n">x</span> <span class="o">-</span> <span class="n">b</span>
@@ -1531,7 +1517,10 @@
         <span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
 
     <span class="c1"># Prepare right hand side</span>
-    <span class="n">b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">rhs</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">free_dofs</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">rhs</span><span class="p">[</span><span class="n">free_dofs</span><span class="p">])</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">rhs</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">solver</span> <span class="o">==</span> <span class="s2">&quot;lu&quot;</span><span class="p">:</span>
         <span class="k">try</span><span class="p">:</span>
@@ -1540,7 +1529,7 @@
             <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Linear solver requires the installation of pypardiso.&quot;</span><span class="p">)</span>
 
         <span class="c1"># ToDo: make use of symmetries and other settings available#, msglvl=verbose, iparm=iparm</span>
-        <span class="c1"># pypardiso_solver = pypardiso.PyPardisoSolver(mtype=11)</span>
+        <span class="c1"># pypardiso_solver = pypardiso.PyPardisoSolver(mtype=11) # spd: 2</span>
         <span class="c1"># x = pypardiso.spsolve(tangent_csr, b, solver=pypardiso_solver)</span>
         <span class="n">x</span> <span class="o">=</span> <span class="n">pypardiso</span><span class="o">.</span><span class="n">spsolve</span><span class="p">(</span><span class="n">tangent_csr</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
     <span class="k">elif</span> <span class="n">solver</span> <span class="o">==</span> <span class="s2">&quot;qr&quot;</span><span class="p">:</span>
@@ -1553,7 +1542,12 @@
     <span class="k">else</span><span class="p">:</span>
         <span class="k">assert</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;Type of solver not supported. Choose &#39;lu&#39; or &#39;qr&#39;&quot;</span>
 
-    <span class="n">sol</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="c1"># Fill solution vector with computed values</span>
+    <span class="k">if</span> <span class="n">free_dofs</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">sol</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">rhs</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+        <span class="n">sol</span> <span class="o">=</span> <span class="n">sol</span><span class="o">.</span><span class="n">at</span><span class="p">[</span><span class="n">free_dofs</span><span class="p">]</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">sol</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">verbose</span> <span class="o">&gt;=</span> <span class="mi">2</span><span class="p">:</span>
         <span class="n">residual</span> <span class="o">=</span> <span class="n">b</span> <span class="o">-</span> <span class="n">tangent_csr</span> <span class="o">*</span> <span class="n">x</span>
@@ -1616,7 +1610,10 @@
         <span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
 
     <span class="c1"># Prepare right hand side</span>
-    <span class="n">b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">rhs</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">free_dofs</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">rhs</span><span class="p">[</span><span class="n">free_dofs</span><span class="p">])</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">rhs</span><span class="p">)</span>
 
     <span class="c1"># Solving</span>
     <span class="k">if</span> <span class="n">solver</span> <span class="o">==</span> <span class="s2">&quot;cg&quot;</span><span class="p">:</span>
@@ -1628,7 +1625,12 @@
     <span class="k">else</span><span class="p">:</span>
         <span class="k">assert</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;Type of solver not supported. Choose &#39;cg&#39;, &#39;bcgs&#39; or &#39;gmres&#39;&quot;</span>
 
-    <span class="n">sol</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="c1"># Fill solution vector with computed values</span>
+    <span class="k">if</span> <span class="n">free_dofs</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">sol</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">rhs</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+        <span class="n">sol</span> <span class="o">=</span> <span class="n">sol</span><span class="o">.</span><span class="n">at</span><span class="p">[</span><span class="n">free_dofs</span><span class="p">]</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">sol</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">verbose</span> <span class="o">&gt;=</span> <span class="mi">2</span><span class="p">:</span>
         <span class="n">residual</span> <span class="o">=</span> <span class="n">b</span> <span class="o">-</span> <span class="n">pyamg_tangent</span> <span class="o">*</span> <span class="n">x</span>
@@ -1663,7 +1665,10 @@
         <span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
 
     <span class="c1"># Prepare right hand side</span>
-    <span class="n">b</span> <span class="o">=</span> <span class="n">rhs</span>
+    <span class="k">if</span> <span class="n">free_dofs</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">b</span> <span class="o">=</span> <span class="n">rhs</span><span class="p">[</span><span class="n">free_dofs</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">b</span> <span class="o">=</span> <span class="n">rhs</span>
 
     <span class="k">if</span> <span class="n">solver</span> <span class="o">==</span> <span class="s2">&quot;lapack&quot;</span><span class="p">:</span>
         <span class="n">x</span> <span class="o">=</span> <span class="n">scp</span><span class="o">.</span><span class="n">sparse</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">spsolve</span><span class="p">(</span><span class="n">tangent_csr</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
@@ -1672,7 +1677,12 @@
     <span class="k">else</span><span class="p">:</span>
         <span class="k">assert</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;Type of solver not supported. Choose &#39;lapack&#39; or &#39;umfpack&#39;&quot;</span>
 
-    <span class="n">sol</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="c1"># Fill solution vector with computed values</span>
+    <span class="k">if</span> <span class="n">free_dofs</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">sol</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">rhs</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+        <span class="n">sol</span> <span class="o">=</span> <span class="n">sol</span><span class="o">.</span><span class="n">at</span><span class="p">[</span><span class="n">free_dofs</span><span class="p">]</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">sol</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">verbose</span> <span class="o">&gt;=</span> <span class="mi">2</span><span class="p">:</span>
         <span class="n">residual</span> <span class="o">=</span> <span class="n">b</span> <span class="o">-</span> <span class="n">tangent_csr</span> <span class="o">*</span> <span class="n">x</span>
@@ -1733,9 +1743,7 @@
 
 <div class="viewcode-block" id="damped_jacobi_relaxation">
 <a class="viewcode-back" href="../../_autosummary/autopdex.solver.damped_jacobi_relaxation.html#autopdex.solver.damped_jacobi_relaxation">[docs]</a>
-<span class="k">def</span> <span class="nf">damped_jacobi_relaxation</span><span class="p">(</span>
-    <span class="n">hvp_fun</span><span class="p">,</span> <span class="n">diag</span><span class="p">,</span> <span class="n">x_0</span><span class="p">,</span> <span class="n">rhs</span><span class="p">,</span> <span class="n">damping_factor</span><span class="o">=</span><span class="mf">0.3333333</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
-<span class="p">):</span>
+<span class="k">def</span> <span class="nf">damped_jacobi_relaxation</span><span class="p">(</span><span class="n">hvp_fun</span><span class="p">,</span> <span class="n">diag</span><span class="p">,</span> <span class="n">x_0</span><span class="p">,</span> <span class="n">rhs</span><span class="p">,</span> <span class="n">damping_factor</span><span class="o">=</span><span class="mf">0.3333333</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Damped Jacobi smoother (experimental).</span>
 

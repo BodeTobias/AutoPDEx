@@ -36,6 +36,7 @@ from flax.core import FrozenDict
 from autopdex import assembler, implicit_diff, utility
 
 
+
 ### Solvers as specified by the static_settings and settings
 @utility.jit_with_docstring(static_argnames=["static_settings", "**kwargs"])
 def solver(dofs, settings, static_settings, **kwargs):
@@ -135,7 +136,6 @@ def solver(dofs, settings, static_settings, **kwargs):
         pass
     return sol, infos
 
-
 @utility.jit_with_docstring(
     static_argnames=[
         "static_settings",
@@ -202,25 +202,23 @@ def adaptive_load_stepping(
 
     if implicit_diff_mode is not None:
         # Set-up the decorator for implicit differentiation
-        residual_fun = lambda dofs, settings: assembler.assemble_residual(
-            dofs, settings, static_settings
-        )
-        tangent_fun = lambda dofs, settings: assembler.assemble_tangent(
-            dofs, settings, static_settings
-        )
+        residual_fun = lambda dofs, settings: assembler.assemble_residual(dofs, settings, static_settings)
+        tangent_fun = lambda dofs, settings: assembler.assemble_tangent(dofs, settings, static_settings)
+
+        try:
+            dirichlet_dofs = settings["dirichlet dofs"]
+        except KeyError:
+            # Warning if it was defined in static_settings
+            assert "dirichlet dofs" not in static_settings, \
+                "'dirichlet dofs' has been moved to 'settings' in order to reduce compile time. \
+                Further, you should not transform it to a tuple of tuples anymore."
+            pass
         free_dofs = None
         free_dofs_flat = None
-        try:
-            if isinstance(static_settings["dirichlet dofs"], FrozenDict):
-                free_dofs = {
-                    key: np.invert(np.asarray(static_settings["dirichlet dofs"][key]))
-                    for key in static_settings["dirichlet dofs"].keys()
-                }
-            else:
-                free_dofs = np.invert(np.asarray(static_settings["dirichlet dofs"]))
+        if dirichlet_dofs is not None:
+            free_dofs = utility.mask_op(dirichlet_dofs, utility.dict_ones_like(dirichlet_dofs), mode="apply", ufunc=lambda x: ~x)
             free_dofs_flat = utility.dict_flatten(free_dofs)
-        except KeyError:
-            pass
+        is_constrained = True if free_dofs is not None else False
 
         solver_backend = static_settings["solver backend"]
         solver_subtype = static_settings["solver"]
@@ -235,7 +233,7 @@ def adaptive_load_stepping(
             case "petsc":
                 n_fields = static_settings["number of fields"]
                 pc_type = static_settings["type of preconditioner"]
-                lin_solve_fun = lambda mat, rhs: linear_solve_petsc(
+                lin_solve_fun = lambda mat, rhs, free_dofs_flat: linear_solve_petsc(
                     mat,
                     rhs,
                     n_fields,
@@ -246,7 +244,7 @@ def adaptive_load_stepping(
                     **kwargs,
                 )
             case "pardiso":
-                lin_solve_fun = lambda mat, rhs: linear_solve_pardiso(
+                lin_solve_fun = lambda mat, rhs, free_dofs_flat: linear_solve_pardiso(
                     mat,
                     rhs,
                     sensitivity_solver_subtype,
@@ -256,7 +254,7 @@ def adaptive_load_stepping(
                 )
             case "pyamg":
                 pc_type = static_settings["type of preconditioner"]
-                lin_solve_fun = lambda mat, rhs: linear_solve_pyamg(
+                lin_solve_fun = lambda mat, rhs, free_dofs_flat: linear_solve_pyamg(
                     mat,
                     rhs,
                     sensitivity_solver_subtype,
@@ -266,7 +264,7 @@ def adaptive_load_stepping(
                     **kwargs,
                 )
             case "scipy":
-                lin_solve_fun = lambda mat, rhs: linear_solve_scipy(
+                lin_solve_fun = lambda mat, rhs, free_dofs_flat: linear_solve_scipy(
                     mat,
                     rhs,
                     sensitivity_solver_subtype,
@@ -278,9 +276,21 @@ def adaptive_load_stepping(
                 raise ValueError(
                     "Specified sensitivity solver backend not available. Choose 'pardiso', 'petsc', 'pyamg' or 'scipy'."
                 )
-        lin_solve_callback_fun = lambda mat, rhs: jax.pure_callback(
-            lin_solve_fun, jnp.zeros(rhs.shape, rhs.dtype), mat, rhs
-        )
+
+        def lin_solve_callback_fun(mat, rhs, free_dofs_flat):
+            rhs_flat = utility.dict_flatten(rhs)
+            sol = jax.pure_callback(lin_solve_fun, jnp.zeros(rhs_flat.shape, rhs_flat.dtype), mat, rhs_flat, free_dofs_flat, vmap_method='sequential')
+            return utility.reshape_as(sol, rhs)
+
+        # def lin_solve_callback_fun(mat, rhs, free_dofs_flat):
+        #     rhs_flat = utility.dict_flatten(rhs)
+        #     # linear_solver = lambda mat, rhs: jax.pure_callback(lin_solve_fun, jnp.zeros(rhs_flat.shape, rhs_flat.dtype), mat, rhs_flat, None, vmap_method='sequential')
+        #     linear_solver = lambda mat, rhs: jax.pure_callback(lin_solve_fun, jnp.zeros(rhs_flat.shape, rhs_flat.dtype), mat, rhs_flat, free_dofs_flat, vmap_method='sequential')
+        #     solve = lambda matvec, x: linear_solver(mat, x)
+        #     transpose_solve = lambda vecmat, x: linear_solver(mat.T, x)
+        #     matvec = lambda x: utility.reshape_as(mat @ utility.dict_flatten(x), x)
+        #     sol = jax.lax.custom_linear_solve(matvec, rhs_flat, solve, transpose_solve)
+        #     return utility.reshape_as(sol, rhs)
 
     # Set up functions for adaptive load stepping loop
     def continue_check(carry):
@@ -321,17 +331,20 @@ def adaptive_load_stepping(
                 residual_fun,
                 tangent_fun,
                 lin_solve_callback_fun,
-                free_dofs,
+                is_constrained,
                 True,
                 implicit_diff_mode,
             )
             def diffable_solve(dofs0, settings):
-                return solver(
+                dofs, (needed_steps, res_norm_free_dofs, divergence) = solver(
                     dofs0, settings, static_settings, newton_tol=newton_tol, **kwargs
                 )
+                return dofs, (needed_steps.astype(float), res_norm_free_dofs, divergence.astype(float))
 
             dofs, infos = diffable_solve(dofs0, settings)
             needed_steps, res_norm_free_dofs, divergence = infos
+            divergence = divergence.astype(bool)
+
 
         else:  # Add implicit diff wrapper on the adaptive load stepping level
             dofs, infos = solver(
@@ -363,14 +376,7 @@ def adaptive_load_stepping(
             max_multiplier - multiplier,
             increment,
         )
-        return (
-            dofs,
-            multiplier,
-            increment,
-            1.0 * load_step,
-            settings,
-            res_norm_free_dofs,
-        )
+        return (dofs, multiplier, increment, 1.0 * load_step, settings, res_norm_free_dofs)
 
     # Use implicit diff wrappers to make it differentiable
     if implicit_diff_mode is not None:
@@ -383,18 +389,25 @@ def adaptive_load_stepping(
                 residual_fun,
                 tangent_fun,
                 lin_solve_callback_fun,
-                free_dofs,
+                is_constrained,
                 True,
                 implicit_diff_mode,
             )
             def diffable_adaptive_load_stepping(dofs, settings):
-                return jax.lax.while_loop(
-                    continue_check, step, (dofs, 0.0, init_increment, 0, settings, 0.0)
-                )
+                (dofs, multiplier, increment, load_step, settings, res_norm_free_dofs) = \
+                    jax.lax.while_loop(
+                        continue_check, step, (dofs, 0.0, init_increment, 0, settings, 0.0)
+                        )
+                return dofs, (multiplier, increment, load_step, res_norm_free_dofs)
 
-            return diffable_adaptive_load_stepping(dofs, settings)
+            dofs, (multiplier, increment, load_step, res_norm_free_dofs) = \
+                diffable_adaptive_load_stepping(dofs, settings)
+            return dofs, (multiplier, increment, load_step, settings, res_norm_free_dofs)
 
         else:  # Pathdependent problem; uses fori_loop with static limits for supporting reverse mode differentiation
+
+            # Set Dirichlet conditions for derivative w.r.t. them
+            settings = multiplier_settings(settings, max_multiplier)
 
             def body_fn(i, carry):
                 def continue_check(carry):
@@ -417,44 +430,13 @@ def adaptive_load_stepping(
                     return _continue_1
 
                 def step_extended(carry):
-                    (
-                        dofs,
-                        multiplier,
-                        increment,
-                        load_step,
-                        settings,
-                        res_norm_free_dofs,
-                        stop,
-                    ) = carry
-                    args = (
-                        dofs,
-                        multiplier,
-                        increment,
-                        load_step,
-                        settings,
-                        res_norm_free_dofs,
-                    )
+                    (dofs, multiplier, increment, load_step, settings, res_norm_free_dofs, stop) = carry
+                    args = (dofs, multiplier, increment, load_step, settings, res_norm_free_dofs)
                     return step(args) + (False,)
 
                 def finish(carry):
-                    (
-                        dofs,
-                        multiplier,
-                        increment,
-                        load_step,
-                        settings,
-                        res_norm_free_dofs,
-                        stop,
-                    ) = carry
-                    return (
-                        dofs,
-                        multiplier,
-                        increment,
-                        load_step,
-                        settings,
-                        res_norm_free_dofs,
-                        True,
-                    )
+                    (dofs, multiplier, increment, load_step, settings, res_norm_free_dofs, stop) = carry
+                    return (dofs, multiplier, increment, load_step, settings, res_norm_free_dofs, True)
 
                 carry = jax.lax.cond(
                     continue_check(carry),
@@ -466,13 +448,15 @@ def adaptive_load_stepping(
                 # ToDo: Verify accuracy of derivatives with finite differences.
                 return carry
 
-            init_state = (dofs, 0.0, init_increment, 0, settings, 0.0, False)
+            init_state = (dofs, 0.0, init_increment, 0., settings, 0.0, False)
             return jax.lax.fori_loop(0, max_load_steps, body_fn, init_state)
 
     else:  # No definition of implicit derivatives
         return jax.lax.while_loop(
-            continue_check, step, (dofs, 0.0, init_increment, 0, settings, 0.0)
+            continue_check, step, (dofs, 0.0, init_increment, 0., settings, 0.0)
         )
+
+
 
 
 ### Minimizers
@@ -604,27 +588,24 @@ def solve_linear(dofs, settings, static_settings, **kwargs):
     nodal_imposition = "nodal imposition" in static_settings["solution structure"]
     # Impose nodal dofs
     if nodal_imposition:
-        # dirichlet_conditions = utility.dict_flatten(settings['dirichlet conditions'])
         dirichlet_conditions = settings["dirichlet conditions"]
 
-        if isinstance(static_settings["dirichlet dofs"], FrozenDict):
+        if isinstance(settings["dirichlet dofs"], (dict, FrozenDict)):
             dirichlet_dofs_dict_flat = {
-                key: np.asarray(val).flatten()
-                for key, val in static_settings["dirichlet dofs"].items()
+                key: jnp.asarray(val).flatten()
+                for key, val in settings["dirichlet dofs"].items()
             }
-            dirichlet_dofs_flat = np.concatenate(
+            dirichlet_dofs_flat = jnp.concatenate(
                 list(dirichlet_dofs_dict_flat.values())
             )
-            dofs = utility.mask_set(
-                dofs, dirichlet_dofs_dict_flat, dirichlet_conditions
-            )
+            dofs = utility.mask_op(dofs, dirichlet_dofs_dict_flat, dirichlet_conditions)
         else:
-            dirichlet_dofs_flat = np.asarray(
-                static_settings["dirichlet dofs"]
+            dirichlet_dofs_flat = jnp.asarray(
+                settings["dirichlet dofs"]
             ).flatten()
-            dofs = utility.mask_set(dofs, dirichlet_dofs_flat, dirichlet_conditions)
+            dofs = utility.mask_op(dofs, dirichlet_dofs_flat, dirichlet_conditions)
 
-        free_dofs_flat = np.invert(dirichlet_dofs_flat)
+        free_dofs_flat = jnp.invert(dirichlet_dofs_flat)
 
     # Assembling
     verbose = static_settings["verbose"]
@@ -640,10 +621,6 @@ def solve_linear(dofs, settings, static_settings, **kwargs):
         and type(mat) == jnp.ndarray
     ):
         mat = sparse.bcoo_fromdense()
-
-    # Delete rows
-    if nodal_imposition:
-        rhs = rhs[free_dofs_flat]
 
     match solver_backend:
         case "petsc":
@@ -671,19 +648,18 @@ def solve_linear(dofs, settings, static_settings, **kwargs):
 
     # Compose solution dofs
     if nodal_imposition:
-        sol = jax.pure_callback(solve_fun, result_shape_dtype, mat, rhs, free_dofs_flat)
-        if isinstance(static_settings["dirichlet dofs"], FrozenDict):
+        sol = jax.pure_callback(solve_fun, result_shape_dtype, mat, rhs, free_dofs_flat, vmap_method='sequential')
+        if isinstance(settings["dirichlet dofs"], (dict, FrozenDict)):
             free_dofs_dict = {
-                key: np.invert(np.asarray(val))
-                for key, val in static_settings["dirichlet dofs"].items()
+                key: jnp.invert(jnp.asarray(val))
+                for key, val in settings["dirichlet dofs"].items()
             }
-            reduced_dofs = utility.mask_select(dofs, free_dofs_dict)
-            sol = utility.reshape_as(sol, reduced_dofs)
-            return utility.mask_set(dofs, free_dofs_dict, sol)
+            sol = utility.reshape_as(sol, dofs)
+            return utility.mask_op(dofs, free_dofs_dict, sol)
         else:
-            return utility.mask_set(dofs, free_dofs_flat, sol)
+            return utility.mask_op(dofs, free_dofs_flat, sol)
     else:
-        sol = jax.pure_callback(solve_fun, result_shape_dtype, mat, rhs, None)
+        sol = jax.pure_callback(solve_fun, result_shape_dtype, mat, rhs, None, vmap_method='sequential')
         return utility.reshape_as(sol, dofs)
 
 
@@ -719,24 +695,24 @@ def solve_diagonal_linear(dofs, settings, static_settings, **kwargs):
     if nodal_imposition:
         dirichlet_conditions = utility.dict_flatten(settings["dirichlet conditions"])
 
-        if isinstance(static_settings["dirichlet dofs"], FrozenDict):
+        if isinstance(settings["dirichlet dofs"], (dict, FrozenDict)):
             dirichlet_dofs_dict_flat = {
-                key: np.asarray(val).flatten()
-                for key, val in static_settings["dirichlet dofs"].items()
+                key: jnp.asarray(val).flatten()
+                for key, val in settings["dirichlet dofs"].items()
             }
-            dirichlet_dofs_flat = np.concatenate(
+            dirichlet_dofs_flat = jnp.concatenate(
                 list(dirichlet_dofs_dict_flat.vlaues())
             )
-            dofs = utility.mask_set(
+            dofs = utility.mask_op(
                 dofs, dirichlet_dofs_dict_flat, dirichlet_conditions
             )
         else:
-            dirichlet_dofs_flat = np.asarray(
-                static_settings["dirichlet dofs"]
+            dirichlet_dofs_flat = jnp.asarray(
+                settings["dirichlet dofs"]
             ).flatten()
-            dofs = utility.mask_set(dofs, dirichlet_dofs_flat, dirichlet_conditions)
+            dofs = utility.mask_op(dofs, dirichlet_dofs_flat, dirichlet_conditions)
 
-        free_dofs_flat = np.invert(dirichlet_dofs_flat)
+        free_dofs_flat = jnp.invert(dirichlet_dofs_flat)
 
     # Assembling
     rhs = -assembler.assemble_residual(dofs, settings, static_settings)
@@ -754,16 +730,15 @@ def solve_diagonal_linear(dofs, settings, static_settings, **kwargs):
 
     # Compose solution dofs
     if nodal_imposition:
-        if isinstance(static_settings["dirichlet dofs"], FrozenDict):
+        if isinstance(settings["dirichlet dofs"], (dict, FrozenDict)):
             free_dofs_dict = {
-                key: np.invert(np.asarray(val))
-                for key, val in static_settings["dirichlet dofs"].items()
+                key: jnp.invert(jnp.asarray(val))
+                for key, val in settings["dirichlet dofs"].items()
             }
-            reduced_dofs = utility.mask_select(dofs, free_dofs_dict)
-            sol = utility.reshape_as(sol, reduced_dofs)
-            return utility.mask_set(dofs, free_dofs_dict, sol)
+            sol = utility.reshape_as(sol, dofs)
+            return utility.mask_op(dofs, free_dofs_dict, sol)
         else:
-            return utility.mask_set(dofs, free_dofs_flat, sol)
+            return utility.mask_op(dofs, free_dofs_flat, sol)
     else:
         return utility.reshape_as(sol, dofs)
 
@@ -842,17 +817,17 @@ def solve_damped_newton(
     nodal_imposition = "nodal imposition" in static_settings["solution structure"]
     if nodal_imposition:
         # Impose Dirichlet boundaries. Dirichlet dofs has to be concrete, therefore it is passed in static_settings as tuple of tuples
-        if isinstance(static_settings["dirichlet dofs"], FrozenDict):
+        if isinstance(settings["dirichlet dofs"], (dict, FrozenDict)):
             free_dofs_flat = {
-                key: np.invert(np.asarray(val).flatten())
-                for key, val in static_settings["dirichlet dofs"].items()
+                key: jnp.invert(jnp.asarray(val).flatten())
+                for key, val in settings["dirichlet dofs"].items()
             }
         else:
-            free_dofs_flat = np.invert(
-                np.asarray(static_settings["dirichlet dofs"]).flatten()
+            free_dofs_flat = jnp.invert(
+                jnp.asarray(settings["dirichlet dofs"]).flatten()
             )
     else:
-        free_dofs_flat = np.ones(utility.dict_flatten(dofs).shape, dtype=np.bool_)
+        free_dofs_flat = jnp.ones(utility.dict_flatten(dofs).shape, dtype=jnp.bool_)
 
     verbose = static_settings["verbose"]
     return damped_newton(
@@ -902,8 +877,6 @@ def damped_newton(
             - residual_norm (float): The norm of the residual at the solution.
             - diverged (bool): Flag indicating whether the method diverged.
     """
-
-
     def step(carry):
         dofs_i, itt, _, res_norm_old, _ = carry
 
@@ -921,9 +894,9 @@ def damped_newton(
 
             # Set boundary conditions for dirichlet_dofs
             if isinstance(free_dofs, dict):
-                dirichlet_dofs = {key: np.invert(val) for (key, val) in free_dofs.items()}
+                dirichlet_dofs = {key: jnp.invert(val) for (key, val) in free_dofs.items()}
             else:
-                dirichlet_dofs = np.invert(free_dofs)
+                dirichlet_dofs = jnp.invert(free_dofs)
             dofs_i = utility.mask_op(dofs_i, dirichlet_dofs, delta_x_i, "set")
         else:
             # If free_dofs is None, apply the update to all dofs directly
@@ -932,9 +905,7 @@ def damped_newton(
         # Compute residual for next step as convergence test
         residual = residual_fun(dofs_i)
         if free_dofs is not None:
-            residual_flat = utility.dict_flatten(
-                utility.mask_op(residual, free_dofs, mode="get")
-            )
+            residual_flat = utility.dict_flatten(utility.mask_select(residual, free_dofs))
         else:
             residual_flat = utility.dict_flatten(residual)  # Use full residual if no mask
         res_norm = jnp.linalg.norm(residual_flat)
@@ -1031,9 +1002,9 @@ def linear_solve_jax(dofs, settings, static_settings, **kwargs):
 
     if nodal_imposition:
         # Impose Dirichlet boundaries. Dirichlet dofs has to be concrete, therefore it is passed in static_settings as tuple of tuples
-        dirichlet_dofs_flat = np.asarray(static_settings["dirichlet dofs"]).flatten()
+        dirichlet_dofs_flat = jnp.asarray(settings["dirichlet dofs"]).flatten()
         dirichlet_conditions = settings["dirichlet conditions"].flatten()
-        free_dofs_flat = np.invert(dirichlet_dofs_flat)
+        free_dofs_flat = jnp.invert(dirichlet_dofs_flat)
 
         # Impose nodal dofs
         flat_dofs = dofs.flatten()
@@ -1254,9 +1225,7 @@ def scipy_assembling(tangent_with_duplicates, verbose, free_dofs):
     return tangent_csr
 
 
-def linear_solve_petsc(
-    mat, rhs, n_fields, solver, pc_type, verbose, free_dofs, tol=1e-8, **kwargs
-):
+def linear_solve_petsc(mat, rhs, n_fields, solver, pc_type, verbose, free_dofs, tol=1e-8, **kwargs):
     """
     Solve a linear system using the PETSc solver (requires PETSc and petsc4py to be installed).
 
@@ -1290,7 +1259,12 @@ def linear_solve_petsc(
     except ModuleNotFoundError:
         print("Linear solver requires petsc and petsc4py")
 
-    n_dofs = rhs.shape[0]
+    if free_dofs is not None:
+        reduced_rhs = rhs[free_dofs]
+        n_dofs = reduced_rhs.shape[0]
+    else:
+        reduced_rhs = rhs
+        n_dofs = rhs.shape[0]
 
     # Transform matrix to csr format and sum duplicates
     tangent_csr = scipy_assembling(mat, verbose, free_dofs)
@@ -1319,7 +1293,7 @@ def linear_solve_petsc(
     # Initialization of right hand side and solution vector
     b = PETSc.Vec().createSeq(n_dofs)
     b.setFromOptions()
-    b.setArray(np.array(rhs))
+    b.setArray(np.array(reduced_rhs))
     x = PETSc.Vec().createSeq(n_dofs)
     x.setFromOptions()
 
@@ -1345,7 +1319,13 @@ def linear_solve_petsc(
 
     # Solving
     ksp.solve(b, x)
-    sol = jnp.asarray(x.getArray())
+
+    # Fill solution vector with computed values
+    if free_dofs is not None:
+        sol = jnp.zeros(rhs.shape)
+        sol = sol.at[free_dofs].set(x.getArray())
+    else:
+        sol = jnp.array(x.getArray())
 
     if verbose >= 2:
         residual = mat_petsc * x - b
@@ -1381,7 +1361,10 @@ def linear_solve_pardiso(mat, rhs, solver, verbose, free_dofs):
         start = time.time()
 
     # Prepare right hand side
-    b = np.asarray(rhs)
+    if free_dofs is not None:
+        b = np.asarray(rhs[free_dofs])
+    else:
+        b = np.asarray(rhs)
 
     if solver == "lu":
         try:
@@ -1390,7 +1373,7 @@ def linear_solve_pardiso(mat, rhs, solver, verbose, free_dofs):
             print("Linear solver requires the installation of pypardiso.")
 
         # ToDo: make use of symmetries and other settings available#, msglvl=verbose, iparm=iparm
-        # pypardiso_solver = pypardiso.PyPardisoSolver(mtype=11)
+        # pypardiso_solver = pypardiso.PyPardisoSolver(mtype=11) # spd: 2
         # x = pypardiso.spsolve(tangent_csr, b, solver=pypardiso_solver)
         x = pypardiso.spsolve(tangent_csr, b)
     elif solver == "qr":
@@ -1403,7 +1386,12 @@ def linear_solve_pardiso(mat, rhs, solver, verbose, free_dofs):
     else:
         assert False, "Type of solver not supported. Choose 'lu' or 'qr'"
 
-    sol = jnp.asarray(x)
+    # Fill solution vector with computed values
+    if free_dofs is not None:
+        sol = jnp.zeros(rhs.shape)
+        sol = sol.at[free_dofs].set(x)
+    else:
+        sol = jnp.array(x)
 
     if verbose >= 2:
         residual = b - tangent_csr * x
@@ -1463,7 +1451,10 @@ def linear_solve_pyamg(mat, rhs, solver, pc_type, verbose, free_dofs, **kwargs):
         start = time.time()
 
     # Prepare right hand side
-    b = np.asarray(rhs)
+    if free_dofs is not None:
+        b = np.asarray(rhs[free_dofs])
+    else:
+        b = np.asarray(rhs)
 
     # Solving
     if solver == "cg":
@@ -1475,7 +1466,12 @@ def linear_solve_pyamg(mat, rhs, solver, pc_type, verbose, free_dofs, **kwargs):
     else:
         assert False, "Type of solver not supported. Choose 'cg', 'bcgs' or 'gmres'"
 
-    sol = jnp.asarray(x)
+    # Fill solution vector with computed values
+    if free_dofs is not None:
+        sol = jnp.zeros(rhs.shape)
+        sol = sol.at[free_dofs].set(x)
+    else:
+        sol = jnp.array(x)
 
     if verbose >= 2:
         residual = b - pyamg_tangent * x
@@ -1507,7 +1503,10 @@ def linear_solve_scipy(mat, rhs, solver, verbose, free_dofs):
         start = time.time()
 
     # Prepare right hand side
-    b = rhs
+    if free_dofs is not None:
+        b = rhs[free_dofs]
+    else:
+        b = rhs
 
     if solver == "lapack":
         x = scp.sparse.linalg.spsolve(tangent_csr, b)
@@ -1516,7 +1515,12 @@ def linear_solve_scipy(mat, rhs, solver, verbose, free_dofs):
     else:
         assert False, "Type of solver not supported. Choose 'lapack' or 'umfpack'"
 
-    sol = jnp.asarray(x)
+    # Fill solution vector with computed values
+    if free_dofs is not None:
+        sol = jnp.zeros(rhs.shape)
+        sol = sol.at[free_dofs].set(x)
+    else:
+        sol = jnp.array(x)
 
     if verbose >= 2:
         residual = b - tangent_csr * x
@@ -1571,9 +1575,7 @@ def jacobi_method(hvp_fun, diag, x_0, rhs, tol=1e-6, atol=1e-6, maxiter=1000):
     return x_final
 
 
-def damped_jacobi_relaxation(
-    hvp_fun, diag, x_0, rhs, damping_factor=0.3333333, **kwargs
-):
+def damped_jacobi_relaxation(hvp_fun, diag, x_0, rhs, damping_factor=0.3333333, **kwargs):
     """
     Damped Jacobi smoother (experimental).
 

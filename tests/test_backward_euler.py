@@ -331,10 +331,10 @@ def test_example_backward_euler():
     'solver backend': 'scipy',
     'solver': 'lapack',
     'verbose': 1,
-    'connectivity': (utility.jnp_to_tuple(domain_connectivity), utility.jnp_to_tuple(surf_connectivity), utility.jnp_to_tuple(domain_connectivity)),
     })
 
     settings = {
+    'connectivity': (domain_connectivity, surf_connectivity, domain_connectivity),
     'dofs n': dofs_0,
     'node coordinates': x_nodes,
     'integration coordinates': (x_int, x_surf_int, x_int),
@@ -371,3 +371,5 @@ def test_example_backward_euler():
     check = dofs.flatten().sum()
     # print(check)
     assert jnp.isclose(check, 3265875.4534976063)
+
+# test_example_backward_euler()
