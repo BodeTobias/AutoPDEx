@@ -12,17 +12,12 @@
 
 import jax
 import jax.numpy as jnp
-from jax import lax
-import plotly.graph_objects as go
-from plotly.subplots import make_subplots
 
 from autopdex import geometry as geo
 from autopdex import plotter, seeder
 
 jax.config.update("jax_enable_x64", True)
 key = jax.random.PRNGKey(0)
-
-
 
 pts = jnp.asarray([[0.94, 8.68], [0.22, 8.68], [0.22, 8.36], [0.64, 8.36], [0.64, 
   8.24], [0.22, 8.24], [0.22, 7.94], [1.06, 7.94], [1.06, 

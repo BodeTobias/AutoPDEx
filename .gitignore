@@ -38,6 +38,7 @@ examples/results/
 examples/in_progress/
 examples/offline/
 *.vtk
+*output*
 
 # Custom configurations
 git.code-workspace

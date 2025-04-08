@@ -152,7 +152,7 @@
 <span class="kn">import</span> <span class="nn">jax.numpy</span> <span class="k">as</span> <span class="nn">jnp</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
-<span class="kn">from</span> <span class="nn">autopdex.utility</span> <span class="kn">import</span> <span class="n">jit_with_docstring</span><span class="p">,</span> <span class="n">invert_matrix</span>
+<span class="kn">from</span> <span class="nn">autopdex.utility</span> <span class="kn">import</span> <span class="n">jit_with_docstring</span><span class="p">,</span> <span class="n">matrix_inv</span>
 
 
 <span class="c1">## Helper functions</span>
@@ -12300,7 +12300,7 @@
             <span class="n">df_dxi</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">jacfwd</span><span class="p">(</span><span class="n">fun</span><span class="p">)(</span><span class="n">xi</span><span class="p">)</span>
             <span class="n">dX_dxi</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">jacfwd</span><span class="p">(</span><span class="n">initial_coor</span><span class="p">)(</span><span class="n">xi</span><span class="p">)</span>
             <span class="c1"># tangent_out = df_dxi @ jnp.linalg.solve(dX_dxi, x_dot)</span>
-            <span class="n">tangent_out</span> <span class="o">=</span> <span class="n">df_dxi</span> <span class="o">@</span> <span class="n">invert_matrix</span><span class="p">(</span><span class="n">dX_dxi</span><span class="p">)</span> <span class="o">@</span> <span class="n">x_dot</span>
+            <span class="n">tangent_out</span> <span class="o">=</span> <span class="n">df_dxi</span> <span class="o">@</span> <span class="n">matrix_inv</span><span class="p">(</span><span class="n">dX_dxi</span><span class="p">)</span> <span class="o">@</span> <span class="n">x_dot</span>
 
             <span class="c1"># Add tangent with respect to fI</span>
             <span class="k">if</span> <span class="n">fI_dot</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
@@ -15121,7 +15121,7 @@
             <span class="n">df_dxi</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">jacfwd</span><span class="p">(</span><span class="n">fun</span><span class="p">)(</span><span class="n">xi</span><span class="p">)</span>
             <span class="n">dX_dxi</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">jacfwd</span><span class="p">(</span><span class="n">initial_coor</span><span class="p">)(</span><span class="n">xi</span><span class="p">)</span>
             <span class="c1"># tangent_out = df_dxi @ jnp.linalg.solve(dX_dxi, x_dot)</span>
-            <span class="n">tangent_out</span> <span class="o">=</span> <span class="n">df_dxi</span> <span class="o">@</span> <span class="n">invert_matrix</span><span class="p">(</span><span class="n">dX_dxi</span><span class="p">)</span> <span class="o">@</span> <span class="n">x_dot</span>
+            <span class="n">tangent_out</span> <span class="o">=</span> <span class="n">df_dxi</span> <span class="o">@</span> <span class="n">matrix_inv</span><span class="p">(</span><span class="n">dX_dxi</span><span class="p">)</span> <span class="o">@</span> <span class="n">x_dot</span>
 
             <span class="c1"># Add tangent with respect to fI</span>
             <span class="k">if</span> <span class="n">fI_dot</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>

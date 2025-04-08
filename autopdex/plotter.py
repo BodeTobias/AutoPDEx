@@ -12,15 +12,15 @@
 # GNU Affero General Public License for more details.
 
 """
-This module provides some convenience functions for interactive 3D plotting and exporting visualizations using PyVista and Plotly.
+This module provides some visualization functions mainly for debugging smooth distance functions.
+For plotting Simulation results, it is recommended to use meshio for writing VTK files and
+inspecting them in Paraview. See the quickstart guide as an example.
 """
-
 
 import os
 import jax
 import jax.numpy as jnp
 import numpy as np
-
 
 def pv_plot(
     x_vis,
@@ -62,9 +62,12 @@ def pv_plot(
     if x_vis.shape[1] == 2:
         x_range = jnp.nanmax(x_vis.flatten()) - jnp.nanmin(x_vis.flatten())
         data_range = jnp.nanmax(data) - jnp.nanmin(data)
-        scaled_data = (
-            scale_range * (x_range / data_range) * data if data_range > 1e-8 else data
-        )
+        if scale_range:
+            scaled_data = data
+        else:
+            scaled_data = (
+                scale_range * (x_range / data_range) * data if data_range > 1e-8 else data
+            )
         positions = np.column_stack(
             (
                 x_vis[:, 0],
@@ -84,7 +87,6 @@ def pv_plot(
     if export_vtk:
         os.makedirs(groupname, exist_ok=True)
         points.save(os.path.join(groupname, f"{filename}.vtp"))
-
 
 def pv_function_plot(
     x_vis, fun, scale_range=1.0, data_on_z=True, isosurf=False, n_surfaces=20
@@ -112,7 +114,6 @@ def pv_function_plot(
             scale_range=scale_range,
             data_on_z=data_on_z,
         )
-
 
 def isosurface(x_vis, data, n_surfaces=20):
     """

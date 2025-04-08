@@ -36,6 +36,7 @@ To use the Intel MKL Pardiso and PETSc solvers, they have to be installed by the
    :caption: High level operations
 
    solver
+   dae
    models
 
 .. toctree::

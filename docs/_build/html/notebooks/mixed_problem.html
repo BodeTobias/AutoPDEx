@@ -288,7 +288,7 @@ impose the Dirichlet boundary conditions.</p>
 <span class="c1">#     F = jnp.asarray([[H[0,0], H[0,1], 0.],</span>
 <span class="c1">#                      [H[1,0], H[1,1], 0.],</span>
 <span class="c1">#                      [0.,     0.,     0.]]) + jnp.identity(3)</span>
-<span class="c1">#     J = jnp.linalg.det(F)</span>
+<span class="c1">#     J = utility.matrix_det(F)</span>
 
 <span class="c1">#     # Piola-Kirchhoff stress and weak form</span>
 <span class="c1">#     shear_modulus = 92.5</span>
@@ -296,7 +296,7 @@ impose the Dirichlet boundary conditions.</p>
 <span class="c1">#     virtual_p = test_ansatz_fun[&#39;pressure&#39;](x_int)</span>
 
 <span class="c1">#     P_iso = jax.jacrev(models.isochoric_neo_hooke)(F, shear_modulus)</span>
-<span class="c1">#     P_vol = p * J * jnp.linalg.inv(F).T</span>
+<span class="c1">#     P_vol = p * J * matrix_inv(F).T</span>
 <span class="c1">#     P = P_iso + P_vol</span>
 <span class="c1">#     weak_form = jnp.einsum(&quot;ij, ij&quot;, P, virtual_F)</span>
 

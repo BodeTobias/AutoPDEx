@@ -128,6 +128,7 @@ def _root_vjp(
       each argument. Each ``vjps[i]`` has the same pytree structure as
       ``args[i]``.
     """
+
     free_dofs_flat = None
     if free_dofs is not None:
         assert "dirichlet conditions" in args[0], "'dirichlet conditions' \
@@ -222,8 +223,9 @@ def _root_vjp(
 
     if free_dofs is not None:
         updated_args0 = args_vjp[0]
+        tmpl = updated_args0["dirichlet conditions"]
         updated_args0["dirichlet conditions"] = utility.mask_op(
-            updated_args0["dirichlet conditions"], dirichlet_dofs, cotangent, "add"
+            updated_args0["dirichlet conditions"], utility.reshape_as(dirichlet_dofs, tmpl), utility.reshape_as(cotangent, tmpl), "add"
         )
         args_vjp = (updated_args0,) + args_vjp[1:]
 
@@ -486,7 +488,7 @@ def custom_root(
     residual_fun: Callable,
     mat_fun: Callable,
     solve: Callable,
-    free_dofs: bool = False,
+    free_dofs = None,
     has_aux: bool = False,
     mode="reverse",
     reference_signature: Optional[Callable] = None,
@@ -500,7 +502,7 @@ def custom_root(
       mat_fun: A callable that returns the sparse tangent matrix as a jax.experimental.BCOO with dofs and
         args as arguments. Can also be a pure callback.
       solve: A linear solver of the form ``solve(mat[jax.experimental.BCOO], b[jnp.ndarray])``.
-      free_dofs: For constraining certain degrees of freedom. In case of True, the second argument of the solver
+      free_dofs: For constraining certain degrees of freedom. In case free_dofs is not None, the second argument of the solver
         has to be a dictionary having the keys 'dirichlet dofs' and 'dirichlet conditions'. The first one is a
         dictionary of jnp.ndarrays with the same structure as dofs, where the entries are boolean masks indicating
         the dofs that are constrained. The second one is a dictionary of jnp.ndarrays with the same structure as dofs,
