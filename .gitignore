@@ -26,6 +26,7 @@ Thumbs.db
 # Sphinx documentation
 docs/_autosummary/
 docs/generated_rst/
+docs/_build/
 
 # Python egg caches
 *.egg
@@ -47,5 +48,5 @@ git.code-workspace
 
 .vscode/
 .pytest_cache/
-cache
+cache/
 
