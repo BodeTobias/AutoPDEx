@@ -1,0 +1,58 @@
+﻿autopdex.dae.GaussLegendreRungeKutta
+====================================
+
+.. currentmodule:: autopdex.dae
+
+.. autoclass:: GaussLegendreRungeKutta
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~GaussLegendreRungeKutta.__delattr__
+      ~GaussLegendreRungeKutta.__dir__
+      ~GaussLegendreRungeKutta.__eq__
+      ~GaussLegendreRungeKutta.__format__
+      ~GaussLegendreRungeKutta.__ge__
+      ~GaussLegendreRungeKutta.__getattribute__
+      ~GaussLegendreRungeKutta.__getstate__
+      ~GaussLegendreRungeKutta.__gt__
+      ~GaussLegendreRungeKutta.__hash__
+      ~GaussLegendreRungeKutta.__init_subclass__
+      ~GaussLegendreRungeKutta.__le__
+      ~GaussLegendreRungeKutta.__lt__
+      ~GaussLegendreRungeKutta.__ne__
+      ~GaussLegendreRungeKutta.__new__
+      ~GaussLegendreRungeKutta.__reduce__
+      ~GaussLegendreRungeKutta.__reduce_ex__
+      ~GaussLegendreRungeKutta.__repr__
+      ~GaussLegendreRungeKutta.__setattr__
+      ~GaussLegendreRungeKutta.__sizeof__
+      ~GaussLegendreRungeKutta.__str__
+      ~GaussLegendreRungeKutta.__subclasshook__
+      ~GaussLegendreRungeKutta._error_estimate
+      ~GaussLegendreRungeKutta._rule
+      ~GaussLegendreRungeKutta._update
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~GaussLegendreRungeKutta.__abstractmethods__
+      ~GaussLegendreRungeKutta.__annotations__
+      ~GaussLegendreRungeKutta.__dict__
+      ~GaussLegendreRungeKutta.__doc__
+      ~GaussLegendreRungeKutta.__module__
+      ~GaussLegendreRungeKutta.__slots__
+      ~GaussLegendreRungeKutta.__weakref__
+      ~GaussLegendreRungeKutta._abc_impl
+   
+   

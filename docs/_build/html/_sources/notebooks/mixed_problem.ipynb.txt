@@ -207,7 +207,7 @@
     "    F = jnp.asarray([[H[0,0], H[0,1], 0.],\n",
     "                     [H[1,0], H[1,1], 0.],\n",
     "                     [0.,     0.,     0.]]) + jnp.identity(3)\n",
-    "    J = jnp.linalg.det(F)\n",
+    "    J = utility.matrix_det(F)\n",
     "\n",
     "    # Strain energy function\n",
     "    shear_modulus = 92.5\n",
@@ -233,7 +233,7 @@
     "#     F = jnp.asarray([[H[0,0], H[0,1], 0.],\n",
     "#                      [H[1,0], H[1,1], 0.],\n",
     "#                      [0.,     0.,     0.]]) + jnp.identity(3)\n",
-    "#     J = jnp.linalg.det(F)\n",
+    "#     J = utility.matrix_det(F)\n",
     "\n",
     "#     # Piola-Kirchhoff stress and weak form\n",
     "#     shear_modulus = 92.5\n",
@@ -241,7 +241,7 @@
     "#     virtual_p = test_ansatz_fun['pressure'](x_int)\n",
     "\n",
     "#     P_iso = jax.jacrev(models.isochoric_neo_hooke)(F, shear_modulus)\n",
-    "#     P_vol = p * J * jnp.linalg.inv(F).T\n",
+    "#     P_vol = p * J * matrix_inv(F).T\n",
     "#     P = P_iso + P_vol\n",
     "#     weak_form = jnp.einsum(\"ij, ij\", P, virtual_F)\n",
     "    \n",
@@ -421,13 +421,6 @@
     "plotter.view_xy()\n",
     "plotter.show()"
    ]
-  },
-  {
-   "cell_type": "code",
-   "execution_count": null,
-   "metadata": {},
-   "outputs": [],
-   "source": []
   }
  ],
  "metadata": {

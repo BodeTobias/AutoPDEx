@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en">
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nonlinear coupled ODEs (Lotka-Volterra) &mdash; AutoPDEx  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css" />
+      <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+      <link rel="stylesheet" type="text/css" href="../_static/jupyter-sphinx.css" />
+      <link rel="stylesheet" type="text/css" href="../_static/thebelab.css" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css" />
+      <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css" />
+      <link rel="stylesheet" type="text/css" href="../_static/dark_mode_css/general.css" />
+      <link rel="stylesheet" type="text/css" href="../_static/dark_mode_css/dark.css" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
+        <script src="../_static/clipboard.min.js"></script>
+        <script src="../_static/copybutton.js"></script>
+        <script src="../_static/thebelab-helper.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+        <script defer="defer" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script src="../_static/dark_mode_js/default_light.js"></script>
+        <script src="../_static/dark_mode_js/theme_switcher.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Differential-algebraic system of equations (Robertson problem)" href="dae_robertson.html" />
+    <link rel="prev" title="Incompressible hyperelasticity as user potential or user residual" href="mixed_problem.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            AutoPDEx
+              <img src="../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                1.1.1
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quickstart to AutoPDEx</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">High level operations</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../solver.html">Solver</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dae.html">Time stepping</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../models.html">Models</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Examples</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../example_notebooks.html">Example notebooks</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="quickstart.html">Quickstart to AutoPDEx</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mixed_problem.html">Incompressible hyperelasticity as user potential or user residual</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Nonlinear coupled ODEs (Lotka-Volterra)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dae_robertson.html">Differential-algebraic system of equations (Robertson problem)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pdae_navier_stokes_and_energy_balance.html">Incompressible Navier-Stokes with heat conduction and convection</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../examples.html">Examplary input files</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Settings</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../settings.html">Settings and static_settings</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Lower level operations</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../assembler.html">Assembler</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../implicit_diff.html">Implicit_diff</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spaces.html">Spaces</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../solution_structures.html">Solution structures</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../variational_schemes.html">Variational_schemes</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Pre- and postprocessing</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../geometry.html">Geometry</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../seeder.html">Seeder</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../utility.html">Utility</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../plotter.html">Plotter</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../mesher.html">Mesher</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Source code</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/BodeTobias/AutoPDEx">GitHub Project</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">AutoPDEx</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../example_notebooks.html">Example notebooks</a></li>
+      <li class="breadcrumb-item active">Nonlinear coupled ODEs (Lotka-Volterra)</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/BodeTobias/AutoPDEx/blob/main/docs/notebooks/ode_lotka_volterra.ipynb" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="Nonlinear-coupled-ODEs-(Lotka-Volterra)">
+<h1>Nonlinear coupled ODEs (Lotka-Volterra)<a class="headerlink" href="#Nonlinear-coupled-ODEs-(Lotka-Volterra)" title="Permalink to this heading"></a></h1>
+<p><a class="reference external" href="https://github.com/BodeTobias/AutoPDEx/tree/main/docs/notebooks/ode_lotka_volterra.ipynb">Download this notebook</a></p>
+<p>In this example the dae module is used to solve the Lotka-Volterra problem, a set of nonlinear ODEs</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">jax</span>
+<span class="kn">import</span> <span class="nn">jax.numpy</span> <span class="k">as</span> <span class="nn">jnp</span>
+<span class="kn">from</span> <span class="nn">autopdex</span> <span class="kn">import</span> <span class="n">dae</span>
+
+<span class="n">jax</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="s2">&quot;jax_enable_x64&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+<br/></pre></div>
+</div>
+</div>
+<p>The dae module can solve ordinary differential equations expressed in an implicit form. Here, we have the following set of equations:</p>
+<p><span class="math notranslate nohighlight">\(0 = -\frac{du}{dt} + αu − βuv\)</span></p>
+<p><span class="math notranslate nohighlight">\(0 = -\frac{dv}{dt} −γv + δuv\)</span></p>
+<p>Where:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>u(t): prey population
+
+v(t): predator population
+
+α,β,γ,δ: model parameters
+</pre></div>
+</div>
+<p>For autopdex, we can prepare this in a JAX-traceable function as follows:</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">implicit_ode</span><span class="p">(</span><span class="n">q_fun</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">settings</span><span class="p">):</span>
+  <span class="c1"># &#39;q_fun&#39; is a function of time that returns the state variables accessible via their keywords.</span>
+  <span class="n">q_t_fun</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">jacfwd</span><span class="p">(</span><span class="n">q_fun</span><span class="p">)</span>
+  <span class="n">q</span> <span class="o">=</span> <span class="n">q_fun</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+  <span class="n">q_t</span> <span class="o">=</span> <span class="n">q_t_fun</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+
+  <span class="n">u</span> <span class="o">=</span> <span class="n">q</span><span class="p">[</span><span class="s1">&#39;u&#39;</span><span class="p">]</span>
+  <span class="n">v</span> <span class="o">=</span> <span class="n">q</span><span class="p">[</span><span class="s1">&#39;v&#39;</span><span class="p">]</span>
+  <span class="n">u_t</span> <span class="o">=</span> <span class="n">q_t</span><span class="p">[</span><span class="s1">&#39;u&#39;</span><span class="p">]</span>
+  <span class="n">v_t</span> <span class="o">=</span> <span class="n">q_t</span><span class="p">[</span><span class="s1">&#39;v&#39;</span><span class="p">]</span>
+
+  <span class="c1"># Here, we hardcode the parameters, but we could also load them from the settings dictionary and take derivatives with respect to them</span>
+  <span class="n">α</span><span class="p">,</span> <span class="n">β</span><span class="p">,</span> <span class="n">γ</span><span class="p">,</span> <span class="n">δ</span> <span class="o">=</span> <span class="p">(</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.02</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">,</span> <span class="mf">0.02</span><span class="p">)</span>
+
+  <span class="c1"># Define the residuals of the system of ODEs</span>
+  <span class="n">res_u</span> <span class="o">=</span> <span class="n">u_t</span> <span class="o">-</span> <span class="p">(</span><span class="n">α</span> <span class="o">*</span> <span class="n">u</span> <span class="o">-</span> <span class="n">β</span> <span class="o">*</span> <span class="n">u</span> <span class="o">*</span> <span class="n">v</span><span class="p">)</span>
+  <span class="n">res_v</span> <span class="o">=</span> <span class="n">v_t</span> <span class="o">-</span> <span class="p">(</span><span class="o">-</span><span class="n">γ</span> <span class="o">*</span> <span class="n">v</span> <span class="o">+</span> <span class="n">δ</span> <span class="o">*</span> <span class="n">u</span> <span class="o">*</span> <span class="n">v</span><span class="p">)</span>
+  <span class="k">return</span> <span class="n">jnp</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">res_u</span><span class="p">,</span> <span class="n">res_v</span><span class="p">])</span>
+<span class="c1">#</span>
+</pre></div>
+</div>
+</div>
+<p>As in the PDE modules, the time stepping manager uses the dictionaries ‘settings’ and ‘static_settings’ in order to set up the problem. Here, we define the Lotka-Voltera-system as the ‘dae’ to be solved. Further, we chose the integrators for the different fields.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">static_settings</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;dae&#39;</span><span class="p">:</span> <span class="n">implicit_ode</span><span class="p">,</span>
+    <span class="s1">&#39;time integrators&#39;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="c1"># &#39;u&#39;: dae.ForwardEuler(),</span>
+        <span class="c1"># &#39;v&#39;: dae.ForwardEuler(),</span>
+        <span class="c1"># &#39;u&#39;: dae.BackwardEuler(),</span>
+        <span class="c1"># &#39;v&#39;: dae.BackwardEuler(),</span>
+        <span class="c1"># &#39;u&#39;: dae.AdamsBashforth(4),</span>
+        <span class="c1"># &#39;v&#39;: dae.AdamsBashforth(4),</span>
+        <span class="c1"># &#39;u&#39;: dae.AdamsMoulton(1),</span>
+        <span class="c1"># &#39;v&#39;: dae.AdamsMoulton(1),</span>
+        <span class="c1"># &#39;u&#39;: dae.BackwardDiffFormula(3),</span>
+        <span class="c1"># &#39;v&#39;: dae.BackwardDiffFormula(3),</span>
+        <span class="c1"># &#39;u&#39;: dae.DiagonallyImplicitRungeKutta(3),</span>
+        <span class="c1"># &#39;v&#39;: dae.DiagonallyImplicitRungeKutta(3),</span>
+        <span class="s1">&#39;u&#39;</span><span class="p">:</span> <span class="n">dae</span><span class="o">.</span><span class="n">Kvaerno</span><span class="p">(</span><span class="mi">5</span><span class="p">),</span>
+        <span class="s1">&#39;v&#39;</span><span class="p">:</span> <span class="n">dae</span><span class="o">.</span><span class="n">Kvaerno</span><span class="p">(</span><span class="mi">5</span><span class="p">),</span>
+        <span class="c1"># &#39;u&#39;: dae.GaussLegendreRungeKutta(14),</span>
+        <span class="c1"># &#39;v&#39;: dae.GaussLegendreRungeKutta(14),</span>
+        <span class="c1"># &#39;u&#39;: dae.DormandPrince(5),</span>
+        <span class="c1"># &#39;v&#39;: dae.DormandPrince(5),</span>
+        <span class="c1"># &#39;u&#39;: dae.ExplicitRungeKutta(11),</span>
+        <span class="c1"># &#39;v&#39;: dae.ExplicitRungeKutta(11),</span>
+    <span class="p">},</span>
+    <span class="s1">&#39;verbose&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<p>Next, we have to define the policies for time stepping and data saving.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">manager</span> <span class="o">=</span> <span class="n">dae</span><span class="o">.</span><span class="n">TimeSteppingManager</span><span class="p">(</span>
+    <span class="n">static_settings</span><span class="p">,</span>
+    <span class="n">save_policy</span><span class="o">=</span><span class="n">dae</span><span class="o">.</span><span class="n">SaveEquidistantPolicy</span><span class="p">(),</span>
+    <span class="n">step_size_controller</span><span class="o">=</span><span class="n">dae</span><span class="o">.</span><span class="n">PIDController</span><span class="p">(</span><span class="n">rtol</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">,</span> <span class="n">atol</span><span class="o">=</span><span class="mf">1e-9</span><span class="p">)</span>
+    <span class="c1"># step_size_controller=dae.ConstantStepSizeController()</span>
+    <span class="c1"># step_size_controller=dae.RootIterationController(max_step_size = 2.)</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>After specifying the initial values, end time, initial time increment and maximal number of time steps, we can run the time stepping procedure.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dofs_0</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;u&#39;</span><span class="p">:</span> <span class="n">jnp</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">10.0</span><span class="p">]),</span>
+    <span class="s1">&#39;v&#39;</span><span class="p">:</span> <span class="n">jnp</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">10.0</span><span class="p">]),</span>
+<span class="p">}</span>
+<span class="n">t_max</span> <span class="o">=</span> <span class="mf">140.0</span>
+<span class="n">num_time_steps</span> <span class="o">=</span> <span class="mi">2000</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">manager</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">dofs_0</span><span class="p">,</span> <span class="n">t_max</span> <span class="o">/</span> <span class="n">num_time_steps</span><span class="p">,</span> <span class="n">t_max</span><span class="p">,</span> <span class="n">num_time_steps</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Progress: 3%, Time: 4.67e+00, accepted step: True, dt: 1.65e+00, iterations: 2
+Progress: 8%, Time: 1.18e+01, accepted step: True, dt: 2.87e+00, iterations: 2
+Progress: 13%, Time: 1.89e+01, accepted step: True, dt: 1.97e+00, iterations: 3
+Progress: 18%, Time: 2.56e+01, accepted step: True, dt: 1.12e+00, iterations: 3
+Progress: 23%, Time: 3.25e+01, accepted step: True, dt: 1.03e+00, iterations: 3
+Progress: 29%, Time: 4.07e+01, accepted step: True, dt: 1.68e+00, iterations: 2
+Progress: 34%, Time: 4.84e+01, accepted step: True, dt: 2.33e+00, iterations: 3
+Progress: 39%, Time: 5.47e+01, accepted step: True, dt: 2.11e+00, iterations: 3
+Progress: 44%, Time: 6.22e+01, accepted step: True, dt: 1.11e+00, iterations: 3
+Progress: 49%, Time: 6.89e+01, accepted step: True, dt: 1.06e+00, iterations: 3
+Progress: 54%, Time: 7.63e+01, accepted step: True, dt: 1.70e+00, iterations: 2
+Progress: 60%, Time: 8.46e+01, accepted step: True, dt: 2.23e+00, iterations: 3
+Progress: 66%, Time: 9.28e+01, accepted step: True, dt: 1.51e+00, iterations: 3
+Progress: 71%, Time: 9.97e+01, accepted step: True, dt: 8.00e-01, iterations: 3
+Progress: 76%, Time: 1.07e+02, accepted step: True, dt: 1.78e+00, iterations: 3
+Progress: 81%, Time: 1.14e+02, accepted step: True, dt: 1.91e+00, iterations: 2
+Progress: 86%, Time: 1.21e+02, accepted step: True, dt: 2.02e+00, iterations: 2
+Progress: 91%, Time: 1.29e+02, accepted step: True, dt: 1.37e+00, iterations: 3
+Progress: 96%, Time: 1.35e+02, accepted step: True, dt: 8.13e-01, iterations: 3
+</pre></div></div>
+</div>
+<p>Here, we extract the data accumulated during time stepping and visualize it.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Extract data</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">q</span><span class="p">)</span>
+<span class="n">history</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">history</span>
+<span class="n">u_sol</span> <span class="o">=</span> <span class="n">history</span><span class="o">.</span><span class="n">q</span><span class="p">[</span><span class="s1">&#39;u&#39;</span><span class="p">]</span>
+<span class="n">v_sol</span> <span class="o">=</span> <span class="n">history</span><span class="o">.</span><span class="n">q</span><span class="p">[</span><span class="s1">&#39;v&#39;</span><span class="p">]</span>
+<span class="n">ts</span> <span class="o">=</span> <span class="n">history</span><span class="o">.</span><span class="n">t</span>
+
+<span class="c1"># Plot the results</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ts</span><span class="p">,</span> <span class="n">u_sol</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Prey&quot;</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;o&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ts</span><span class="p">,</span> <span class="n">v_sol</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Predator&quot;</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;o&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Time&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Population&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Lotka-Volterra system&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+{&#39;u&#39;: Array([10.12481327], dtype=float64), &#39;v&#39;: Array([10.24348822], dtype=float64)}
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_ode_lotka_volterra_13_1.png" src="../_images/notebooks_ode_lotka_volterra_13_1.png" />
+</div>
+</div>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="mixed_problem.html" class="btn btn-neutral float-left" title="Incompressible hyperelasticity as user potential or user residual" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="dae_robertson.html" class="btn btn-neutral float-right" title="Differential-algebraic system of equations (Robertson problem)" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Tobias Bode.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

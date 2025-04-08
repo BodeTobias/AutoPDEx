@@ -28,7 +28,7 @@ import jax
 import jax.numpy as jnp
 import numpy as np
 
-from autopdex.utility import jit_with_docstring, invert_matrix
+from autopdex.utility import jit_with_docstring, matrix_inv
 
 
 ## Helper functions
@@ -321,6 +321,7 @@ def fem_iso_line_quad_brick(x, xI, fI, settings, overwrite_diff, n_dim):
       - Warning: Only first-order spatial derivatives are supported in the custom JVP implementation with overwritten derivatives.
       - Warning: The derivatives with respect to xI are set to zero.
     """
+
     n_nodes = xI.shape[0]
     match n_dim:
         case 1:
@@ -12118,33 +12119,34 @@ def fem_iso_line_quad_brick(x, xI, fI, settings, overwrite_diff, n_dim):
                         x33 = x20 * x32
                         return jnp.asarray(
                             [
-                                x0 * x6,
-                                x6 * x7,
-                                x10 * x7,
-                                x0 * x10,
-                                x0 * x13,
-                                x13 * x7,
-                                x14 * x7,
-                                x0 * x14,
-                                -x17 * x18,
-                                -x21 * x7,
-                                -x18 * x22,
-                                -x0 * x21,
-                                -x23 * x25,
-                                -x25 * x26,
-                                -x26 * x27,
-                                -x23 * x27,
-                                -x17 * x28,
-                                -x26 * x29,
-                                -x22 * x28,
-                                -x23 * x29,
-                                x31 * x4,
-                                x17 * x32,
-                                x33 * x7,
-                                x22 * x32,
-                                x0 * x33,
-                                x11 * x31,
-                                -x24 * x30,
+                            x0 * x6,
+                            x6 * x7,
+                            x10 * x7,
+                            x0 * x10,
+                            x0 * x13,
+                            x13 * x7,
+                            x14 * x7,
+                            x0 * x14,
+                            -x17 * x18,
+                            -x21 * x7,
+                            -x18 * x22,
+                            -x0 * x21,
+                            -x17 * x28,
+                            -x26 * x29,
+                            -x22 * x28,
+                            -x23 * x29,
+                            -x23 * x25,
+                            -x25 * x26,
+                            -x26 * x27,
+                            -x23 * x27,
+                            x0 * x33,
+                            x33 * x7,
+                            x17 * x32,
+                            x22 * x32,
+                            x31 * x4,
+                            x11 * x31,
+                            -x24 * x30,
+
                             ]
                         )
 
@@ -12155,37 +12157,38 @@ def fem_iso_line_quad_brick(x, xI, fI, settings, overwrite_diff, n_dim):
         case _:
             assert False, "Dimensionality not implemented."
 
+    shape_functions = jax.jit(shape_functions)
+
     if overwrite_diff:
         # Overwrite derivative to be with respect to initial configuration instead of reference configuration
         @jax.custom_jvp
         def ansatz(xi, fI, xI):
-            return shape_functions(xi) @ fI
+            return jnp.einsum('i, i...-> ...', shape_functions(xi), fI)
 
         @ansatz.defjvp
         def f_jvp(primals, tangents):
             xi, fI, xI = primals
             x_dot, fI_dot, _ = tangents
-            primal_out = ansatz(xi, fI, xI)
 
             # Isoparametric mapping
-            initial_coor = lambda xi: shape_functions(xi) @ xI
-
-            fun = lambda xi: shape_functions(xi) @ fI
-            df_dxi = jax.jacfwd(fun)(xi)
+            initial_coor = lambda xi: jnp.einsum('i, i...-> ...', shape_functions(xi), xI)
             dX_dxi = jax.jacfwd(initial_coor)(xi)
-            # tangent_out = df_dxi @ jnp.linalg.solve(dX_dxi, x_dot)
-            tangent_out = df_dxi @ invert_matrix(dX_dxi) @ x_dot
+
+            fun = lambda xi: jnp.einsum('i, i...-> ...', shape_functions(xi), fI)
+            primal_out = fun(xi)
+            df_dxi = jax.jacfwd(fun)(xi)
+
+            tangent_out = jnp.einsum('...i, i-> ...', df_dxi, matrix_inv(dX_dxi) @ x_dot)
 
             # Add tangent with respect to fI
             if fI_dot is not None:
-                tangent_out += shape_functions(xi) @ fI_dot
+                tangent_out += jnp.einsum('i, i...-> ...', shape_functions(xi), fI_dot)
 
             return primal_out, tangent_out
 
         return ansatz(x, fI, xI)
     else:
-        return shape_functions(x) @ fI
-
+        return jnp.einsum('i, i...-> ...', shape_functions(x), fI)
 
 def fem_iso_line_tri_tet(x, xI, fI, settings, overwrite_diff, n_dim):
     """
@@ -14975,36 +14978,38 @@ def fem_iso_line_tri_tet(x, xI, fI, settings, overwrite_diff, n_dim):
         case _:
             assert False, "Dimensionality not implemented."
 
+    shape_functions = jax.jit(shape_functions)
+
     if overwrite_diff:
         # Overwrite derivative to be with respect to initial configuration instead of reference configuration
         @jax.custom_jvp
         def ansatz(xi, fI, xI):
-            return shape_functions(xi) @ fI
+            return jnp.einsum('i, i...-> ...', shape_functions(xi), fI)
 
         @ansatz.defjvp
         def f_jvp(primals, tangents):
             xi, fI, xI = primals
             x_dot, fI_dot, _ = tangents
-            primal_out = ansatz(xi, fI, xI)
 
             # Isoparametric mapping
-            initial_coor = lambda xi: shape_functions(xi) @ xI
-
-            fun = lambda xi: shape_functions(xi) @ fI
-            df_dxi = jax.jacfwd(fun)(xi)
+            initial_coor = lambda xi: jnp.einsum('i, i...-> ...', shape_functions(xi), xI)
             dX_dxi = jax.jacfwd(initial_coor)(xi)
-            # tangent_out = df_dxi @ jnp.linalg.solve(dX_dxi, x_dot)
-            tangent_out = df_dxi @ invert_matrix(dX_dxi) @ x_dot
+
+            fun = lambda xi: jnp.einsum('i, i...-> ...', shape_functions(xi), fI)
+            primal_out = fun(xi)
+            df_dxi = jax.jacfwd(fun)(xi)
+
+            tangent_out = jnp.einsum('...i, i-> ...', df_dxi, matrix_inv(dX_dxi) @ x_dot)
 
             # Add tangent with respect to fI
             if fI_dot is not None:
-                tangent_out += shape_functions(xi) @ fI_dot
+                tangent_out += jnp.einsum('i, i...-> ...', shape_functions(xi), fI_dot)
 
             return primal_out, tangent_out
 
         return ansatz(x, fI, xI)
     else:
-        return shape_functions(x) @ fI
+        return jnp.einsum('i, i...-> ...', shape_functions(x), fI)
 
 
 ### Spaces defined in the physical configuration, for assembling modes sparse/dense

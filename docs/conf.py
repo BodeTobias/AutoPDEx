@@ -14,8 +14,7 @@ sys.path.insert(0, os.path.abspath('..'))
 project = 'AutoPDEx'
 copyright = '2024, Tobias Bode'
 author = 'Tobias Bode'
-# version = setuptools_scm.get_version()
-version = '1.1.0'
+version = '1.1.1'
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
@@ -75,8 +74,14 @@ html_context = {
     'conf_py_path': '/docs/',  # Path to your docs directory
 }
 
+def skip_member(app, what, name, obj, skip, options):
+  if name == '__init__':
+    return True
+  return skip
+
 # Custom CSS
 def setup(app):
-    app.add_css_file('custom.css')
+  app.add_css_file('custom.css')
+  app.connect("autodoc-skip-member", skip_member)
 
 default_dark_mode = False

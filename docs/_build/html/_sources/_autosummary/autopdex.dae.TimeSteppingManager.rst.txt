@@ -1,0 +1,59 @@
+﻿autopdex.dae.TimeSteppingManager
+================================
+
+.. currentmodule:: autopdex.dae
+
+.. autoclass:: TimeSteppingManager
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~TimeSteppingManager.__delattr__
+      ~TimeSteppingManager.__dir__
+      ~TimeSteppingManager.__eq__
+      ~TimeSteppingManager.__format__
+      ~TimeSteppingManager.__ge__
+      ~TimeSteppingManager.__getattribute__
+      ~TimeSteppingManager.__getstate__
+      ~TimeSteppingManager.__gt__
+      ~TimeSteppingManager.__hash__
+      ~TimeSteppingManager.__init_subclass__
+      ~TimeSteppingManager.__le__
+      ~TimeSteppingManager.__lt__
+      ~TimeSteppingManager.__ne__
+      ~TimeSteppingManager.__new__
+      ~TimeSteppingManager.__reduce__
+      ~TimeSteppingManager.__reduce_ex__
+      ~TimeSteppingManager.__repr__
+      ~TimeSteppingManager.__setattr__
+      ~TimeSteppingManager.__sizeof__
+      ~TimeSteppingManager.__str__
+      ~TimeSteppingManager.__subclasshook__
+      ~TimeSteppingManager._assemble_sparse_tangent
+      ~TimeSteppingManager._assemble_sparse_tangent_domain
+      ~TimeSteppingManager._initialize
+      ~TimeSteppingManager._multi_stage_step
+      ~TimeSteppingManager._tree_flatten
+      ~TimeSteppingManager._tree_unflatten
+      ~TimeSteppingManager.run
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~TimeSteppingManager.__annotations__
+      ~TimeSteppingManager.__dict__
+      ~TimeSteppingManager.__doc__
+      ~TimeSteppingManager.__module__
+      ~TimeSteppingManager.__weakref__
+   
+   

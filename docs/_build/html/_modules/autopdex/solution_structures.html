@@ -1,36 +1,36 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" data-content_root="../../">
+<html class="writer-html5" lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>autopdex.solution_structures &mdash; AutoPDEx  documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
-      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=19f00094" />
-      <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
-      <link rel="stylesheet" type="text/css" href="../../_static/jupyter-sphinx.css?v=572af1d6" />
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css" />
+      <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
+      <link rel="stylesheet" type="text/css" href="../../_static/jupyter-sphinx.css" />
       <link rel="stylesheet" type="text/css" href="../../_static/thebelab.css" />
-      <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=acfd50eb" />
-      <link rel="stylesheet" type="text/css" href="../../_static/dark_mode_css/general.css?v=c0a7eb24" />
-      <link rel="stylesheet" type="text/css" href="../../_static/dark_mode_css/dark.css?v=70edf1c7" />
+      <link rel="stylesheet" type="text/css" href="../../_static/custom.css" />
+      <link rel="stylesheet" type="text/css" href="../../_static/dark_mode_css/general.css" />
+      <link rel="stylesheet" type="text/css" href="../../_static/dark_mode_css/dark.css" />
 
   
   <!--[if lt IE 9]>
     <script src="../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script src="../../_static/jquery.js?v=5d32c60e"></script>
-        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../_static/documentation_options.js?v=5929fcd5"></script>
-        <script src="../../_static/doctools.js?v=9a2dae69"></script>
-        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
-        <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
-        <script src="../../_static/copybutton.js?v=f281be69"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/sphinx_highlight.js"></script>
+        <script src="../../_static/clipboard.min.js"></script>
+        <script src="../../_static/copybutton.js"></script>
         <script src="../../_static/thebelab-helper.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-        <script src="../../_static/dark_mode_js/default_light.js?v=c2e647ce"></script>
-        <script src="../../_static/dark_mode_js/theme_switcher.js?v=358d3910"></script>
+        <script src="../../_static/dark_mode_js/default_light.js"></script>
+        <script src="../../_static/dark_mode_js/theme_switcher.js"></script>
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" /> 
@@ -49,7 +49,7 @@
               <img src="../../_static/logo.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                1.0.3
+                1.1.1
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
@@ -65,16 +65,17 @@
 <p class="caption" role="heading"><span class="caption-text">High level operations</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../solver.html">Solver</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../dae.html">Time stepping</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../models.html">Models</a></li>
-</ul>
-<p class="caption" role="heading"><span class="caption-text">Settings</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../../settings.html">Settings and static_settings</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Examples</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../example_notebooks.html">Example notebooks</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../examples.html">Examplary input files</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Settings</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../settings.html">Settings and static_settings</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Lower level operations</span></p>
 <ul>
@@ -178,7 +179,6 @@
 <span class="sd">`space_time_fos_dirichlet_neumann_robin.py &lt;https://github.com/BodeTobias/AutoPDEx/tree/main/examples/heat_conduction/space_time_fos_dirichlet_neumann_robin.py&gt;`_</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
-
 <span class="kn">import</span> <span class="nn">jax</span>
 <span class="kn">import</span> <span class="nn">jax.numpy</span> <span class="k">as</span> <span class="nn">jnp</span>
 
@@ -221,9 +221,7 @@
 
 
 <span class="c1">### Rvachev function solution structures and precompilation utilities</span>
-<div class="viewcode-block" id="solution_structure">
-<a class="viewcode-back" href="../../_autosummary/autopdex.solution_structures.solution_structure.html#autopdex.solution_structures.solution_structure">[docs]</a>
-<span class="nd">@jit_with_docstring</span><span class="p">(</span><span class="n">static_argnames</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;static_settings&quot;</span><span class="p">,</span> <span class="s2">&quot;set&quot;</span><span class="p">])</span>
+<div class="viewcode-block" id="solution_structure"><a class="viewcode-back" href="../../_autosummary/autopdex.solution_structures.solution_structure.html#autopdex.solution_structures.solution_structure">[docs]</a><span class="nd">@jit_with_docstring</span><span class="p">(</span><span class="n">static_argnames</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;static_settings&quot;</span><span class="p">,</span> <span class="s2">&quot;set&quot;</span><span class="p">])</span>
 <span class="k">def</span> <span class="nf">solution_structure</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">int_point_number</span><span class="p">,</span> <span class="n">local_dofs</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">,</span> <span class="nb">set</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Computes the solution structure at a given integration point using various predefined schemes.</span>
@@ -248,6 +246,9 @@
 <span class="sd">      projections are applied to the space. The function uses either direct evaluation or precomputed</span>
 <span class="sd">      shape functions and their derivatives based on the shape function mode.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">local_dofs</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;solution_structure does currently not support DOFs as dicts.&quot;</span><span class="p">)</span>
+
     <span class="k">try</span><span class="p">:</span>
         <span class="n">structure_type</span> <span class="o">=</span> <span class="n">static_settings</span><span class="p">[</span><span class="s2">&quot;solution structure&quot;</span><span class="p">][</span><span class="nb">set</span><span class="p">]</span>
     <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
@@ -383,10 +384,7 @@
         <span class="k">assert</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;Solution structure type not available.&quot;</span></div>
 
 
-
-<div class="viewcode-block" id="precompile">
-<a class="viewcode-back" href="../../_autosummary/autopdex.solution_structures.precompile.html#autopdex.solution_structures.precompile">[docs]</a>
-<span class="nd">@jit_with_docstring</span><span class="p">(</span><span class="n">static_argnames</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;static_settings&quot;</span><span class="p">])</span>
+<div class="viewcode-block" id="precompile"><a class="viewcode-back" href="../../_autosummary/autopdex.solution_structures.precompile.html#autopdex.solution_structures.precompile">[docs]</a><span class="nd">@jit_with_docstring</span><span class="p">(</span><span class="n">static_argnames</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;static_settings&quot;</span><span class="p">])</span>
 <span class="k">def</span> <span class="nf">precompile</span><span class="p">(</span><span class="n">dofs0</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">,</span> <span class="n">max_diff_order</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Manually precompiles solution structures by evaluating and storing shape functions, boundary conditions,</span>
@@ -416,6 +414,9 @@
 <span class="sd">      Warning: The compiled shape function mode does currently not support implicit differentiation,</span>
 <span class="sd">      since only the derivatives with respect to the coordinates (and not other quantities in the settings) are set.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">dofs0</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;precompile does currently not support DOFs as dicts.&quot;</span><span class="p">)</span>
+
     <span class="c1"># Loop over all sets of integration points/ domains</span>
     <span class="n">num_sets</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">static_settings</span><span class="p">[</span><span class="s2">&quot;assembling mode&quot;</span><span class="p">])</span>
     <span class="n">compiled_shps</span> <span class="o">=</span> <span class="p">()</span>
@@ -495,10 +496,7 @@
     <span class="k">return</span> <span class="n">settings</span></div>
 
 
-
-<div class="viewcode-block" id="precompute_function_and_derivatives">
-<a class="viewcode-back" href="../../_autosummary/autopdex.solution_structures.precompute_function_and_derivatives.html#autopdex.solution_structures.precompute_function_and_derivatives">[docs]</a>
-<span class="nd">@jit_with_docstring</span><span class="p">(</span><span class="n">static_argnames</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;fun&quot;</span><span class="p">,</span> <span class="s2">&quot;num_diff&quot;</span><span class="p">])</span>
+<div class="viewcode-block" id="precompute_function_and_derivatives"><a class="viewcode-back" href="../../_autosummary/autopdex.solution_structures.precompute_function_and_derivatives.html#autopdex.solution_structures.precompute_function_and_derivatives">[docs]</a><span class="nd">@jit_with_docstring</span><span class="p">(</span><span class="n">static_argnames</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;fun&quot;</span><span class="p">,</span> <span class="s2">&quot;num_diff&quot;</span><span class="p">])</span>
 <span class="k">def</span> <span class="nf">precompute_function_and_derivatives</span><span class="p">(</span><span class="n">fun</span><span class="p">,</span> <span class="n">x_int</span><span class="p">,</span> <span class="n">num_diff</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Precomputes a function and its derivatives up to a specified order at given integration points.</span>
@@ -529,10 +527,7 @@
     <span class="k">assert</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;Number of differentiations not implemented!&quot;</span></div>
 
 
-
-<div class="viewcode-block" id="precompute_coupled_boundary">
-<a class="viewcode-back" href="../../_autosummary/autopdex.solution_structures.precompute_coupled_boundary.html#autopdex.solution_structures.precompute_coupled_boundary">[docs]</a>
-<span class="nd">@jit_with_docstring</span><span class="p">(</span><span class="n">static_argnames</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;phi_0_fun&quot;</span><span class="p">,</span> <span class="s2">&quot;alpha_fun&quot;</span><span class="p">,</span> <span class="s2">&quot;num_diff&quot;</span><span class="p">])</span>
+<div class="viewcode-block" id="precompute_coupled_boundary"><a class="viewcode-back" href="../../_autosummary/autopdex.solution_structures.precompute_coupled_boundary.html#autopdex.solution_structures.precompute_coupled_boundary">[docs]</a><span class="nd">@jit_with_docstring</span><span class="p">(</span><span class="n">static_argnames</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;phi_0_fun&quot;</span><span class="p">,</span> <span class="s2">&quot;alpha_fun&quot;</span><span class="p">,</span> <span class="s2">&quot;num_diff&quot;</span><span class="p">])</span>
 <span class="k">def</span> <span class="nf">precompute_coupled_boundary</span><span class="p">(</span><span class="n">phi_0_fun</span><span class="p">,</span> <span class="n">alpha_fun</span><span class="p">,</span> <span class="n">x_int</span><span class="p">,</span> <span class="n">num_diff</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Precomputes coupled boundary conditions and their derivatives up to a specified order at given integration points.</span>
@@ -569,10 +564,7 @@
         <span class="k">return</span> <span class="p">(</span><span class="n">fun_i</span><span class="p">,</span> <span class="n">dfun_i</span><span class="p">,</span> <span class="n">ddfun_i</span><span class="p">)</span></div>
 
 
-
-<div class="viewcode-block" id="precompute_projection">
-<a class="viewcode-back" href="../../_autosummary/autopdex.solution_structures.precompute_projection.html#autopdex.solution_structures.precompute_projection">[docs]</a>
-<span class="nd">@jit_with_docstring</span><span class="p">(</span><span class="n">static_argnames</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;psdf_fun&quot;</span><span class="p">,</span> <span class="s2">&quot;alpha_fun&quot;</span><span class="p">,</span> <span class="s2">&quot;num_diff&quot;</span><span class="p">])</span>
+<div class="viewcode-block" id="precompute_projection"><a class="viewcode-back" href="../../_autosummary/autopdex.solution_structures.precompute_projection.html#autopdex.solution_structures.precompute_projection">[docs]</a><span class="nd">@jit_with_docstring</span><span class="p">(</span><span class="n">static_argnames</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;psdf_fun&quot;</span><span class="p">,</span> <span class="s2">&quot;alpha_fun&quot;</span><span class="p">,</span> <span class="s2">&quot;num_diff&quot;</span><span class="p">])</span>
 <span class="k">def</span> <span class="nf">precompute_projection</span><span class="p">(</span><span class="n">psdf_fun</span><span class="p">,</span> <span class="n">alpha_fun</span><span class="p">,</span> <span class="n">x_int</span><span class="p">,</span> <span class="n">num_diff</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Precomputes the projection operator and its derivatives up to a specified order at given integration points.</span>
@@ -614,7 +606,6 @@
     <span class="n">ddfun_i</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">jit</span><span class="p">(</span><span class="n">jax</span><span class="o">.</span><span class="n">vmap</span><span class="p">(</span><span class="n">jax</span><span class="o">.</span><span class="n">jacfwd</span><span class="p">(</span><span class="n">jax</span><span class="o">.</span><span class="n">jacrev</span><span class="p">(</span><span class="n">fun</span><span class="p">)),</span> <span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="mi">0</span><span class="p">))(</span><span class="n">x_int</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">num_diff</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
         <span class="k">return</span> <span class="p">(</span><span class="n">fun_i</span><span class="p">,</span> <span class="n">dfun_i</span><span class="p">,</span> <span class="n">ddfun_i</span><span class="p">)</span></div>
-
 
 </pre></div>
 

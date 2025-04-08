@@ -12,11 +12,12 @@
 # GNU Affero General Public License for more details.
 
 """
-This module contains geometry related functions that can be used for seeding nodes and integration points, impose boundary conditions and to select nodes and elements.
-The main functionality relies on distance functions. Zur Konstruktion von benutzerspezifischen distance functions gibt es die Rvachev-Operationen,
-es gibt aber auch einige vorgefertigte signed distance functions und positive signed distance functions. Die Distanzfunktionen eignen sich zum Beispiel, 
-um zu überprüfen, ob Knoten innerhalb bestimmter Regionen oder auf spezifizierten Oberflächen liegen. Die glatten Abstandsfunktionen eigenen sich außerdem zur
-Konstruktion von Lösungsstrukturen.
+This module contains geometry related functions that can be used for seeding nodes and integration points, 
+impose boundary conditions and to select nodes and elements. The main functionality relies on distance functions. 
+For the construction of user-specific distance functions, there are the Rvachev operations, 
+but there are also some pre-made signed distance functions and positive smooth distance functions. 
+The distance functions are suitable, for example, for verifying whether nodes lie within certain regions or 
+on specified surfaces. Additionally, the smooth distance functions can be used for constructing solution structures.
 """
 
 import jax
@@ -836,36 +837,38 @@ def triangle_areas(x_nodes, elements):
     return areas
 
 
-def in_sdf(x, sdf_fun):
+def in_sdf(x, sdf_fun, tol = 1e-6):
     """
     Check if a point lies on the surface defined by a positive or signed distance function.
 
     Args:
       x (jnp.ndarray): The point to be checked.
       sdf_fun (callable): The distance function.
+      tol (float): The tolerance for isclose check.
 
     Returns:
       bool: True if the point lies on the surface, False otherwise.
     """
     x = jnp.asarray(x)
     sdf = sdf_fun(x)
-    return jnp.where(jnp.isclose(sdf, 0), True, False)
+    return jnp.where(jnp.isclose(sdf, 0, atol=tol), True, False)
 
 
-@jit_with_docstring(static_argnames="sdf_fun")
-def in_sdfs(x, sdf_fun):
+@jit_with_docstring(static_argnames=["sdf_fun"])
+def in_sdfs(x, sdf_fun, tol = 1e-6):
     """
     Check if multiple points lie on the surface defined by a positive or signed distance function.
 
     Args:
       x (jnp.ndarray): Array of points to be checked.
       sdf_fun (callable): The signed distance function.
+      tol (float): The tolerance for isclose check.
 
     Returns:
         jnp.ndarray: Array of booleans indicating whether each point lies on the surface.
     """
     x = jnp.asarray(x)
-    return jax.vmap(in_sdf, (0, None), 0)(x, sdf_fun)
+    return jax.vmap(in_sdf, (0, None, None), 0)(x, sdf_fun, tol)
 
 
 def select_in_sdfs(x, sdf_fun):

@@ -1,42 +1,42 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" data-content_root="./">
+<html class="writer-html5" lang="en">
 <head>
-  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Assembler &mdash; AutoPDEx  documentation</title>
-      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
-      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
-      <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
-      <link rel="stylesheet" type="text/css" href="_static/jupyter-sphinx.css?v=572af1d6" />
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css" />
+      <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+      <link rel="stylesheet" type="text/css" href="_static/jupyter-sphinx.css" />
       <link rel="stylesheet" type="text/css" href="_static/thebelab.css" />
-      <link rel="stylesheet" type="text/css" href="_static/custom.css?v=acfd50eb" />
-      <link rel="stylesheet" type="text/css" href="_static/dark_mode_css/general.css?v=c0a7eb24" />
-      <link rel="stylesheet" type="text/css" href="_static/dark_mode_css/dark.css?v=70edf1c7" />
+      <link rel="stylesheet" type="text/css" href="_static/custom.css" />
+      <link rel="stylesheet" type="text/css" href="_static/dark_mode_css/general.css" />
+      <link rel="stylesheet" type="text/css" href="_static/dark_mode_css/dark.css" />
 
   
   <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script src="_static/jquery.js?v=5d32c60e"></script>
-        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="_static/documentation_options.js?v=5929fcd5"></script>
-        <script src="_static/doctools.js?v=9a2dae69"></script>
-        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
-        <script src="_static/clipboard.min.js?v=a7894cd8"></script>
-        <script src="_static/copybutton.js?v=f281be69"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
+        <script src="_static/clipboard.min.js"></script>
+        <script src="_static/copybutton.js"></script>
         <script src="_static/thebelab-helper.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-        <script src="_static/dark_mode_js/default_light.js?v=c2e647ce"></script>
-        <script src="_static/dark_mode_js/theme_switcher.js?v=358d3910"></script>
+        <script src="_static/dark_mode_js/default_light.js"></script>
+        <script src="_static/dark_mode_js/theme_switcher.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="autopdex.assembler.integrate_functional" href="_autosummary/autopdex.assembler.integrate_functional.html" />
-    <link rel="prev" title="Examplary input files" href="examples.html" /> 
+    <link rel="prev" title="Settings and static_settings" href="settings.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -52,7 +52,7 @@
               <img src="_static/logo.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                1.1.0
+                1.1.1
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -68,16 +68,17 @@
 <p class="caption" role="heading"><span class="caption-text">High level operations</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="solver.html">Solver</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dae.html">Time stepping</a></li>
 <li class="toctree-l1"><a class="reference internal" href="models.html">Models</a></li>
-</ul>
-<p class="caption" role="heading"><span class="caption-text">Settings</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="settings.html">Settings and static_settings</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Examples</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="example_notebooks.html">Example notebooks</a></li>
 <li class="toctree-l1"><a class="reference internal" href="examples.html">Examplary input files</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Settings</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="settings.html">Settings and static_settings</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Lower level operations</span></p>
 <ul class="current">
@@ -165,8 +166,8 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="assembler">
-<h1>Assembler<a class="headerlink" href="#assembler" title="Link to this heading"></a></h1>
+  <section id="module-autopdex.assembler">
+<span id="assembler"></span><h1>Assembler<a class="headerlink" href="#module-autopdex.assembler" title="Permalink to this heading"></a></h1>
 <p>Module for assembling and integrating functionals, residuals and tangents, supporting both
 ‘sparse’ and ‘dense’ modes and ‘user potentials’, ‘user residuals’ and ‘user elements’.</p>
 <p>The assembly modes ‘dense’ and ‘sparse’ use JAX’s automatic differentiation capabilities to
@@ -181,7 +182,7 @@ For an efficient calculation, JAX’s automatic vectorization transformation (vm
 The summation of duplicates is then carried out within the solver module. Currently,
 SciPy is used for this on the CPU.</p>
 <section id="general-assembling-functions">
-<h2>General assembling functions<a class="headerlink" href="#general-assembling-functions" title="Link to this heading"></a></h2>
+<h2>General assembling functions<a class="headerlink" href="#general-assembling-functions" title="Permalink to this heading"></a></h2>
 <table class="autosummary longtable docutils align-default">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/autopdex.assembler.integrate_functional.html#autopdex.assembler.integrate_functional" title="autopdex.assembler.integrate_functional"><code class="xref py py-obj docutils literal notranslate"><span class="pre">integrate_functional</span></code></a>(dofs, settings, ...)</p></td>
@@ -200,7 +201,7 @@ SciPy is used for this on the CPU.</p>
 </table>
 </section>
 <section id="dense-assembling">
-<h2>Dense assembling<a class="headerlink" href="#dense-assembling" title="Link to this heading"></a></h2>
+<h2>Dense assembling<a class="headerlink" href="#dense-assembling" title="Permalink to this heading"></a></h2>
 <table class="autosummary longtable docutils align-default">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/autopdex.assembler.dense_integrate_functional.html#autopdex.assembler.dense_integrate_functional" title="autopdex.assembler.dense_integrate_functional"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dense_integrate_functional</span></code></a>(dofs, settings, ...)</p></td>
@@ -216,7 +217,7 @@ SciPy is used for this on the CPU.</p>
 </table>
 </section>
 <section id="sparse-assembling">
-<h2>Sparse assembling<a class="headerlink" href="#sparse-assembling" title="Link to this heading"></a></h2>
+<h2>Sparse assembling<a class="headerlink" href="#sparse-assembling" title="Permalink to this heading"></a></h2>
 <table class="autosummary longtable docutils align-default">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/autopdex.assembler.sparse_integrate_functional.html#autopdex.assembler.sparse_integrate_functional" title="autopdex.assembler.sparse_integrate_functional"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sparse_integrate_functional</span></code></a>(dofs, settings, ...)</p></td>
@@ -235,7 +236,7 @@ SciPy is used for this on the CPU.</p>
 </table>
 </section>
 <section id="assembling-for-user-potentials">
-<h2>Assembling for user potentials<a class="headerlink" href="#assembling-for-user-potentials" title="Link to this heading"></a></h2>
+<h2>Assembling for user potentials<a class="headerlink" href="#assembling-for-user-potentials" title="Permalink to this heading"></a></h2>
 <table class="autosummary longtable docutils align-default">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/autopdex.assembler.user_potential_integrate_functional.html#autopdex.assembler.user_potential_integrate_functional" title="autopdex.assembler.user_potential_integrate_functional"><code class="xref py py-obj docutils literal notranslate"><span class="pre">user_potential_integrate_functional</span></code></a>(dofs, ...)</p></td>
@@ -254,7 +255,7 @@ SciPy is used for this on the CPU.</p>
 </table>
 </section>
 <section id="assembling-for-user-residuals">
-<h2>Assembling for user residuals<a class="headerlink" href="#assembling-for-user-residuals" title="Link to this heading"></a></h2>
+<h2>Assembling for user residuals<a class="headerlink" href="#assembling-for-user-residuals" title="Permalink to this heading"></a></h2>
 <table class="autosummary longtable docutils align-default">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/autopdex.assembler.user_residual_assemble_residual.html#autopdex.assembler.user_residual_assemble_residual" title="autopdex.assembler.user_residual_assemble_residual"><code class="xref py py-obj docutils literal notranslate"><span class="pre">user_residual_assemble_residual</span></code></a>(dofs, ...)</p></td>
@@ -270,7 +271,7 @@ SciPy is used for this on the CPU.</p>
 </table>
 </section>
 <section id="assembling-for-user-elements">
-<h2>Assembling for user elements<a class="headerlink" href="#assembling-for-user-elements" title="Link to this heading"></a></h2>
+<h2>Assembling for user elements<a class="headerlink" href="#assembling-for-user-elements" title="Permalink to this heading"></a></h2>
 <table class="autosummary longtable docutils align-default">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/autopdex.assembler.user_element_assemble_residual.html#autopdex.assembler.user_element_assemble_residual" title="autopdex.assembler.user_element_assemble_residual"><code class="xref py py-obj docutils literal notranslate"><span class="pre">user_element_assemble_residual</span></code></a>(dofs, ...)</p></td>
@@ -291,7 +292,7 @@ SciPy is used for this on the CPU.</p>
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="examples.html" class="btn btn-neutral float-left" title="Examplary input files" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="settings.html" class="btn btn-neutral float-left" title="Settings and static_settings" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="_autosummary/autopdex.assembler.integrate_functional.html" class="btn btn-neutral float-right" title="autopdex.assembler.integrate_functional" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 

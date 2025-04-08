@@ -11,7 +11,6 @@ Example 1: Cook's membrane (Quadrilaterals in Hyperelasticity)
 **Link:** `quadrilaterals_autopdex_and_acegen.py <https://github.com/BodeTobias/AutoPDEx/tree/main/examples/cooks_membrane/quadrilaterals_autopdex_and_acegen.py>`_
 
 .. automodule:: examples.cooks_membrane.quadrilaterals_autopdex_and_acegen
-    :no-index:
 
 **Figure:** Here is a picture generated with ParaView from the output file of the above code that shows the initial configuration as a wireframe and the deformed configuration with colored horizontal displacements.
 
@@ -35,7 +34,6 @@ Example 2: Transient heat conduction (forward- and backward-Euler)
 **Link:** `maze_forward_euler.py <https://github.com/BodeTobias/AutoPDEx/tree/main/examples/heat_conduction/maze_forward_euler.py>`_
 
 .. automodule:: examples.heat_conduction.maze_forward_euler
-    :no-index:
 
 **Figure:** The image shows a snapshot of the temperature distribution within the maze visualized with ParaView
 
@@ -57,7 +55,6 @@ Example 3: Wave equation (least square method of first order system)
 **Link:** `wave_equation.py <https://github.com/BodeTobias/AutoPDEx/tree/main/examples/miscellaneous/wave_equation.py>`_
 
 .. automodule:: examples.miscellaneous.wave_equation
-    :no-index:
 
 **Figure:** The gauss-point quantities for the field (left), its spatial derivative (middle) and its temporal rate (right) are depicted. One can clearly see the effects of wave propagation, superposition and reflection at the free and clamped end.
 
@@ -73,7 +70,6 @@ Example 4: Steady-state Navier-Stokes equations (adaptive load stepping and nonl
 **Link:** `circle_in_channel.py <https://github.com/BodeTobias/AutoPDEx/tree/main/examples/navier_stokes/circle_in_channel.py>`_
 
 .. automodule:: examples.navier_stokes.circle_in_channel
-    :no-index:
 
 **Figure:** Steady-state flow field of a Moving Least Squares Galerkin solution.
 
@@ -93,7 +89,6 @@ Example 5: Implicit differentiation (uncertainty estimation)
 **Link:** `uncertainty_estimation_hyperelastic.py <https://github.com/BodeTobias/AutoPDEx/tree/main/examples/cooks_membrane/uncertainty_estimation_hyperelastic.py>`_
 
 .. automodule:: examples.cooks_membrane.uncertainty_estimation_hyperelastic
-    :no-index:
 
 **Figure:** The three wireframes represent the scaled standard deviation of the displacement field for three Monte Carlo simulations. With 10,000 samples, the Monte Carlo solution aligns visually with the black nodes of the solution calculated using the Taylor expansion. The coloring represents the sensitivity of the vertical displacement field with respect to Poisson's ratio.
 

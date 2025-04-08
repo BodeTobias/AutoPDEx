@@ -1,0 +1,58 @@
+﻿autopdex.dae.ExplicitRungeKutta
+===============================
+
+.. currentmodule:: autopdex.dae
+
+.. autoclass:: ExplicitRungeKutta
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~ExplicitRungeKutta.__delattr__
+      ~ExplicitRungeKutta.__dir__
+      ~ExplicitRungeKutta.__eq__
+      ~ExplicitRungeKutta.__format__
+      ~ExplicitRungeKutta.__ge__
+      ~ExplicitRungeKutta.__getattribute__
+      ~ExplicitRungeKutta.__getstate__
+      ~ExplicitRungeKutta.__gt__
+      ~ExplicitRungeKutta.__hash__
+      ~ExplicitRungeKutta.__init_subclass__
+      ~ExplicitRungeKutta.__le__
+      ~ExplicitRungeKutta.__lt__
+      ~ExplicitRungeKutta.__ne__
+      ~ExplicitRungeKutta.__new__
+      ~ExplicitRungeKutta.__reduce__
+      ~ExplicitRungeKutta.__reduce_ex__
+      ~ExplicitRungeKutta.__repr__
+      ~ExplicitRungeKutta.__setattr__
+      ~ExplicitRungeKutta.__sizeof__
+      ~ExplicitRungeKutta.__str__
+      ~ExplicitRungeKutta.__subclasshook__
+      ~ExplicitRungeKutta._error_estimate
+      ~ExplicitRungeKutta._rule
+      ~ExplicitRungeKutta._update
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~ExplicitRungeKutta.__abstractmethods__
+      ~ExplicitRungeKutta.__annotations__
+      ~ExplicitRungeKutta.__dict__
+      ~ExplicitRungeKutta.__doc__
+      ~ExplicitRungeKutta.__module__
+      ~ExplicitRungeKutta.__slots__
+      ~ExplicitRungeKutta.__weakref__
+      ~ExplicitRungeKutta._abc_impl
+   
+   

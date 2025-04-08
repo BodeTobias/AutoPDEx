@@ -1,37 +1,37 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" data-content_root="../">
+<html class="writer-html5" lang="en">
 <head>
-  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>autopdex.geometry.select_on_line &mdash; AutoPDEx  documentation</title>
-      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
-      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
-      <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
-      <link rel="stylesheet" type="text/css" href="../_static/jupyter-sphinx.css?v=572af1d6" />
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css" />
+      <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+      <link rel="stylesheet" type="text/css" href="../_static/jupyter-sphinx.css" />
       <link rel="stylesheet" type="text/css" href="../_static/thebelab.css" />
-      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=acfd50eb" />
-      <link rel="stylesheet" type="text/css" href="../_static/dark_mode_css/general.css?v=c0a7eb24" />
-      <link rel="stylesheet" type="text/css" href="../_static/dark_mode_css/dark.css?v=70edf1c7" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css" />
+      <link rel="stylesheet" type="text/css" href="../_static/dark_mode_css/general.css" />
+      <link rel="stylesheet" type="text/css" href="../_static/dark_mode_css/dark.css" />
 
   
   <!--[if lt IE 9]>
     <script src="../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script src="../_static/jquery.js?v=5d32c60e"></script>
-        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../_static/documentation_options.js?v=5929fcd5"></script>
-        <script src="../_static/doctools.js?v=9a2dae69"></script>
-        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
-        <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
-        <script src="../_static/copybutton.js?v=f281be69"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
+        <script src="../_static/clipboard.min.js"></script>
+        <script src="../_static/copybutton.js"></script>
         <script src="../_static/thebelab-helper.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-        <script src="../_static/dark_mode_js/default_light.js?v=c2e647ce"></script>
-        <script src="../_static/dark_mode_js/theme_switcher.js?v=358d3910"></script>
+        <script src="../_static/dark_mode_js/default_light.js"></script>
+        <script src="../_static/dark_mode_js/theme_switcher.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -52,7 +52,7 @@
               <img src="../_static/logo.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                1.1.0
+                1.1.1
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
@@ -68,16 +68,17 @@
 <p class="caption" role="heading"><span class="caption-text">High level operations</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../solver.html">Solver</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dae.html">Time stepping</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../models.html">Models</a></li>
-</ul>
-<p class="caption" role="heading"><span class="caption-text">Settings</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../settings.html">Settings and static_settings</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Examples</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../example_notebooks.html">Example notebooks</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../examples.html">Examplary input files</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Settings</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../settings.html">Settings and static_settings</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Lower level operations</span></p>
 <ul>
@@ -159,10 +160,10 @@
            <div itemprop="articleBody">
              
   <section id="autopdex-geometry-select-on-line">
-<h1>autopdex.geometry.select_on_line<a class="headerlink" href="#autopdex-geometry-select-on-line" title="Link to this heading"></a></h1>
+<h1>autopdex.geometry.select_on_line<a class="headerlink" href="#autopdex-geometry-select-on-line" title="Permalink to this heading"></a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="autopdex.geometry.select_on_line">
-<span class="sig-prename descclassname"><span class="pre">autopdex.geometry.</span></span><span class="sig-name descname"><span class="pre">select_on_line</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x_q</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_p1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_p2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/autopdex/geometry.html#select_on_line"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#autopdex.geometry.select_on_line" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">autopdex.geometry.</span></span><span class="sig-name descname"><span class="pre">select_on_line</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x_q</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_p1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_p2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/autopdex/geometry.html#select_on_line"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#autopdex.geometry.select_on_line" title="Permalink to this definition"></a></dt>
 <dd><p>Select the indices of points that lie on a line segment defined by two points (non-jittable).</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>

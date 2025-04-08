@@ -151,7 +151,7 @@ def solver(dofs, settings, static_settings, **kwargs):
         "newton_tol",
         "**kwargs",
     ]
-)
+    )
 def adaptive_load_stepping(
     dofs,
     settings,
@@ -170,7 +170,7 @@ def adaptive_load_stepping(
     target_num_newton_iter=7,
     newton_tol=1e-10,
     **kwargs,
-):
+    ):
     """
     Performs adaptive load stepping to solve a nonlinear system of equations.
 
@@ -456,9 +456,6 @@ def adaptive_load_stepping(
             continue_check, step, (dofs, 0.0, init_increment, 0., settings, 0.0)
         )
 
-
-
-
 ### Minimizers
 @utility.jit_with_docstring(static_argnames=["static_settings", "**kwargs"])
 def solve_nonlinear_minimization(dofs, settings, static_settings, **kwargs):
@@ -542,7 +539,6 @@ def solve_nonlinear_minimization(dofs, settings, static_settings, **kwargs):
                 "Solver name not set or not available in combination with this solver type. Using static_settings['solver name'] = 'lbfgs' as default."
             )
     return sol
-
 
 ### Root finders
 @utility.jit_with_docstring(static_argnames=["static_settings", "**kwargs"])
@@ -662,7 +658,6 @@ def solve_linear(dofs, settings, static_settings, **kwargs):
         sol = jax.pure_callback(solve_fun, result_shape_dtype, mat, rhs, None, vmap_method='sequential')
         return utility.reshape_as(sol, dofs)
 
-
 @utility.jit_with_docstring(static_argnames=["static_settings", "**kwargs"])
 def solve_diagonal_linear(dofs, settings, static_settings, **kwargs):
     """
@@ -742,11 +737,10 @@ def solve_diagonal_linear(dofs, settings, static_settings, **kwargs):
     else:
         return utility.reshape_as(sol, dofs)
 
-
 @utility.jit_with_docstring(static_argnames=["static_settings", "**kwargs"])
 def solve_newton(
     dofs, settings, static_settings, newton_tol=1e-8, maxiter=30, **kwargs
-):
+    ):
     """
     Solves a nonlinear system using the Newton-Raphson method.
 
@@ -773,7 +767,6 @@ def solve_newton(
         dofs, settings, static_settings, newton_tol, 1.0, maxiter
     )
 
-
 @utility.jit_with_docstring(static_argnames=["static_settings", "**kwargs"])
 def solve_damped_newton(
     dofs,
@@ -783,7 +776,7 @@ def solve_damped_newton(
     damping_coefficient=0.8,
     maxiter=30,
     **kwargs,
-):
+    ):
     """
     Solves a nonlinear system using the damped Newton method.
 
@@ -841,7 +834,6 @@ def solve_damped_newton(
         verbose=verbose,
     )
 
-
 def damped_newton(
     dofs_0,
     residual_fun,
@@ -851,7 +843,7 @@ def damped_newton(
     maxiter,
     damping_coefficient,
     verbose=1,
-):
+    ):
     """
     Performs damped Newton iterations to solve a nonlinear system.
 
@@ -923,6 +915,12 @@ def damped_newton(
             divergence = jnp.where(
                 jnp.logical_and(res_norm / res_norm_old > 10, itt > 1), True, False
             )
+            # If nan or inf in residual, set divergence
+            divergence = jnp.where(
+                jnp.any(jnp.logical_or(jnp.isnan(residual_flat), jnp.isinf(residual_flat))),
+                True,
+                divergence,
+            )
             return jnp.invert(divergence), divergence
 
         def stop_newton():
@@ -948,7 +946,6 @@ def damped_newton(
     )
 
     return (sol, (load_steps, res_norm, divergence))
-
 
 ### Linear solvers for different backends
 @utility.jit_with_docstring(static_argnames=["static_settings", "**kwargs"])
@@ -1180,7 +1177,6 @@ def linear_solve_jax(dofs, settings, static_settings, **kwargs):
     else:
         return sol
 
-
 def scipy_assembling(tangent_with_duplicates, verbose, free_dofs):
     """
     Convert a JAX BCOO matrix to a SciPy CSR matrix while summing duplicates.
@@ -1211,6 +1207,7 @@ def scipy_assembling(tangent_with_duplicates, verbose, free_dofs):
     tangent_coo = scp.sparse.coo_matrix(
         (data, (rows, cols)), shape=tangent_with_duplicates.shape
     )
+
     tangent_csr = scp.sparse.csr_matrix(tangent_coo)
 
     # Row deletion for Dirichlet-DOFs
@@ -1220,10 +1217,9 @@ def scipy_assembling(tangent_with_duplicates, verbose, free_dofs):
         tangent_csr = tangent_csr[free_dofs]
 
     if verbose >= 2:
-        print("Time for summing duplicates / assemble tangent: ", time.time() - start)
+        print("Time for summing duplicates: ", time.time() - start)
 
     return tangent_csr
-
 
 def linear_solve_petsc(mat, rhs, n_fields, solver, pc_type, verbose, free_dofs, tol=1e-8, **kwargs):
     """
@@ -1333,9 +1329,8 @@ def linear_solve_petsc(mat, rhs, n_fields, solver, pc_type, verbose, free_dofs, 
         print("Number of iterations: ", ksp.getIterationNumber())
         print("Type: ", ksp.getType())
         print("Tolerances: ", ksp.getTolerances())
-        print(f"The relative residual is: {residual.norm() / b.norm()}.")
+        print(f"The relative residual is: {residual.norm() / (b.norm() + 1e-12)}.")
     return sol
-
 
 def linear_solve_pardiso(mat, rhs, solver, verbose, free_dofs):
     """
@@ -1396,11 +1391,10 @@ def linear_solve_pardiso(mat, rhs, solver, verbose, free_dofs):
     if verbose >= 2:
         residual = b - tangent_csr * x
         print(
-            f"The relative residual after linear solve is: {np.linalg.norm(residual) / np.linalg.norm(b)}."
+            f"The relative residual after linear solve is: {np.linalg.norm(residual) / (np.linalg.norm(b) + 1e-12)}."
         )
         print("Linear solver time: ", time.time() - start)
     return sol
-
 
 def linear_solve_pyamg(mat, rhs, solver, pc_type, verbose, free_dofs, **kwargs):
     """
@@ -1439,11 +1433,14 @@ def linear_solve_pyamg(mat, rhs, solver, pc_type, verbose, free_dofs, **kwargs):
         ml = pyamg.ruge_stuben_solver(A=pyamg_tangent)
     elif pc_type == "smoothed aggregation":
         ml = pyamg.smoothed_aggregation_solver(A=pyamg_tangent)
+    elif pc_type == "root node":
+        ml = pyamg.rootnode_solver(A=pyamg_tangent)
+    elif pc_type == "pairwise":
+        ml = pyamg.pairwise_solver(A=pyamg_tangent)
     else:
         assert (
             False
-        ), "Type of preconditioner not supported. Choose 'ruge stuben' or 'smoothed aggregation'"
-    M = ml.aspreconditioner(cycle="V")
+        ), "Type of preconditioner not supported. Choose 'ruge stuben' or 'smoothed aggregation', 'root node' or 'pairwise'"
 
     if verbose >= 2:
         print(ml)
@@ -1456,15 +1453,19 @@ def linear_solve_pyamg(mat, rhs, solver, pc_type, verbose, free_dofs, **kwargs):
     else:
         b = np.asarray(rhs)
 
+    residuals = []
+
     # Solving
-    if solver == "cg":
-        x, _ = pyamg.krylov.cg(A=pyamg_tangent, b=b, M=M, **kwargs)
+    if solver == None:
+        x = ml.solve(b, tol=1e-8, residuals=residuals, cycle='W')
+    elif solver == "cg":
+        x = ml.solve(b, accel=scp.sparse.linalg.cg, tol=1e-8, residuals=residuals, cycle='W')
     elif solver == "bcgs":
-        x, _ = pyamg.krylov.bicgstab(A=pyamg_tangent, b=b, M=M, **kwargs)
+        x = ml.solve(b, accel=scp.sparse.linalg.bicgstab, tol=1e-8, residuals=residuals, cycle='W')
     elif solver == "gmres":
-        x, _ = pyamg.krylov.gmres(A=pyamg_tangent, b=b, M=M, **kwargs)
+        x = ml.solve(b, accel=scp.sparse.linalg.gmres, tol=1e-8, residuals=residuals, cycle='W')
     else:
-        assert False, "Type of solver not supported. Choose 'cg', 'bcgs' or 'gmres'"
+        assert False, "Type of solver not supported. Choose None, 'cg', 'bcgs' or 'gmres'"
 
     # Fill solution vector with computed values
     if free_dofs is not None:
@@ -1476,11 +1477,18 @@ def linear_solve_pyamg(mat, rhs, solver, pc_type, verbose, free_dofs, **kwargs):
     if verbose >= 2:
         residual = b - pyamg_tangent * x
         print(
-            f"The relative residual is: {np.linalg.norm(residual) / np.linalg.norm(b)}."
+            f"The relative residual is: {np.linalg.norm(residual) / (np.linalg.norm(b) + 1e-12)}."
         )
         print("Itterative linear solver time: ", time.time() - start)
-    return sol
 
+    if verbose >= 3:
+        import matplotlib.pyplot as plt
+        plt.semilogy(residuals/residuals[0], 'o-')
+        plt.xlabel('iterations')
+        plt.ylabel('normalized residual')
+        plt.show()
+
+    return sol
 
 def linear_solve_scipy(mat, rhs, solver, verbose, free_dofs):
     """
@@ -1525,11 +1533,10 @@ def linear_solve_scipy(mat, rhs, solver, verbose, free_dofs):
     if verbose >= 2:
         residual = b - tangent_csr * x
         print(
-            f"The relative residual is: {np.linalg.norm(residual) / np.linalg.norm(b)}."
+            f"The relative residual is: {np.linalg.norm(residual) / (np.linalg.norm(b) + 1e-12)}."
         )
         print("Direct solver time: ", time.time() - start)
     return sol
-
 
 ### Iterative solvers/smoothers
 def jacobi_method(hvp_fun, diag, x_0, rhs, tol=1e-6, atol=1e-6, maxiter=1000):
@@ -1573,7 +1580,6 @@ def jacobi_method(hvp_fun, diag, x_0, rhs, tol=1e-6, atol=1e-6, maxiter=1000):
     x_final, *_ = lax.while_loop(cond_fun, body_fun, (x_0, 0))
 
     return x_final
-
 
 def damped_jacobi_relaxation(hvp_fun, diag, x_0, rhs, damping_factor=0.3333333, **kwargs):
     """

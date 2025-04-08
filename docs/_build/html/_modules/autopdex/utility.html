@@ -1,36 +1,36 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" data-content_root="../../">
+<html class="writer-html5" lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>autopdex.utility &mdash; AutoPDEx  documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
-      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=19f00094" />
-      <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
-      <link rel="stylesheet" type="text/css" href="../../_static/jupyter-sphinx.css?v=572af1d6" />
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css" />
+      <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
+      <link rel="stylesheet" type="text/css" href="../../_static/jupyter-sphinx.css" />
       <link rel="stylesheet" type="text/css" href="../../_static/thebelab.css" />
-      <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=acfd50eb" />
-      <link rel="stylesheet" type="text/css" href="../../_static/dark_mode_css/general.css?v=c0a7eb24" />
-      <link rel="stylesheet" type="text/css" href="../../_static/dark_mode_css/dark.css?v=70edf1c7" />
+      <link rel="stylesheet" type="text/css" href="../../_static/custom.css" />
+      <link rel="stylesheet" type="text/css" href="../../_static/dark_mode_css/general.css" />
+      <link rel="stylesheet" type="text/css" href="../../_static/dark_mode_css/dark.css" />
 
   
   <!--[if lt IE 9]>
     <script src="../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script src="../../_static/jquery.js?v=5d32c60e"></script>
-        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../_static/documentation_options.js?v=5929fcd5"></script>
-        <script src="../../_static/doctools.js?v=9a2dae69"></script>
-        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
-        <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
-        <script src="../../_static/copybutton.js?v=f281be69"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/sphinx_highlight.js"></script>
+        <script src="../../_static/clipboard.min.js"></script>
+        <script src="../../_static/copybutton.js"></script>
         <script src="../../_static/thebelab-helper.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-        <script src="../../_static/dark_mode_js/default_light.js?v=c2e647ce"></script>
-        <script src="../../_static/dark_mode_js/theme_switcher.js?v=358d3910"></script>
+        <script src="../../_static/dark_mode_js/default_light.js"></script>
+        <script src="../../_static/dark_mode_js/theme_switcher.js"></script>
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" /> 
@@ -49,7 +49,7 @@
               <img src="../../_static/logo.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                1.0.5
+                1.1.1
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
@@ -65,16 +65,17 @@
 <p class="caption" role="heading"><span class="caption-text">High level operations</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../solver.html">Solver</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../dae.html">Time stepping</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../models.html">Models</a></li>
-</ul>
-<p class="caption" role="heading"><span class="caption-text">Settings</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../../settings.html">Settings and static_settings</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Examples</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../example_notebooks.html">Example notebooks</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../examples.html">Examplary input files</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Settings</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../settings.html">Settings and static_settings</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Lower level operations</span></p>
 <ul>
@@ -144,7 +145,8 @@
 <span class="sd">- Functions for manipulating arrays</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">wraps</span>
+<span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">wraps</span><span class="p">,</span> <span class="n">partial</span>
+<span class="kn">import</span> <span class="nn">inspect</span>
 
 <span class="kn">import</span> <span class="nn">jax</span>
 <span class="kn">import</span> <span class="nn">jax.numpy</span> <span class="k">as</span> <span class="nn">jnp</span>
@@ -152,31 +154,57 @@
 <span class="kn">from</span> <span class="nn">flax.core</span> <span class="kn">import</span> <span class="n">FrozenDict</span>
 <span class="kn">from</span> <span class="nn">jax.experimental</span> <span class="kn">import</span> <span class="n">sparse</span>
 
-<div class="viewcode-block" id="jit_with_docstring">
-<a class="viewcode-back" href="../../_autosummary/autopdex.utility.jit_with_docstring.html#autopdex.utility.jit_with_docstring">[docs]</a>
-<span class="k">def</span> <span class="nf">jit_with_docstring</span><span class="p">(</span><span class="n">static_argnames</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;JIT wrapper that keeps the originial docstring of the function.&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="jit_with_docstring"><a class="viewcode-back" href="../../_autosummary/autopdex.utility.jit_with_docstring.html#autopdex.utility.jit_with_docstring">[docs]</a><span class="k">def</span> <span class="nf">jit_with_docstring</span><span class="p">(</span><span class="n">static_argnames</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">possibly_static_argnames</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">inline</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    JIT wrapper that preserves the original docstring of the function and</span>
+<span class="sd">    additionally treats arguments from possibly_static_argnames as static if</span>
+<span class="sd">    their value is callable.</span>
+<span class="sd">    </span>
+<span class="sd">    :param static_argnames: Iterable of argument names that are always static.</span>
+<span class="sd">    :param possibly_static_argnames: Iterable of argument names that are treated as static</span>
+<span class="sd">                                     only if their value is callable.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="nf">decorator</span><span class="p">(</span><span class="n">fun</span><span class="p">):</span>
-        <span class="c1"># Define the jitted function with optional static_argnames</span>
-        <span class="k">if</span> <span class="n">static_argnames</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">jitted_fun</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">tree_util</span><span class="o">.</span><span class="n">Partial</span><span class="p">(</span>
-                <span class="n">jax</span><span class="o">.</span><span class="n">jit</span><span class="p">,</span> <span class="n">static_argnames</span><span class="o">=</span><span class="n">static_argnames</span>
-            <span class="p">)(</span><span class="n">fun</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">jitted_fun</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">jit</span><span class="p">(</span><span class="n">fun</span><span class="p">)</span>
-
-        <span class="c1"># Create the wrapper function</span>
+        <span class="c1"># Cache for jitted functions: key is a frozenset of the argument names</span>
+        <span class="c1"># that are treated as static for the current call.</span>
+        <span class="n">jitted_cache</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="c1"># Retrieve the signature of the original function to later bind its parameters.</span>
+        <span class="n">sig</span> <span class="o">=</span> <span class="n">inspect</span><span class="o">.</span><span class="n">signature</span><span class="p">(</span><span class="n">fun</span><span class="p">)</span>
+        
         <span class="nd">@wraps</span><span class="p">(</span><span class="n">fun</span><span class="p">)</span>
         <span class="k">def</span> <span class="nf">wrapper</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-            <span class="k">return</span> <span class="n">jitted_fun</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+            <span class="c1"># Bind the current arguments to the function&#39;s parameters.</span>
+            <span class="n">bound_args</span> <span class="o">=</span> <span class="n">sig</span><span class="o">.</span><span class="n">bind</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+            <span class="n">bound_args</span><span class="o">.</span><span class="n">apply_defaults</span><span class="p">()</span>
+            
+            <span class="c1"># Start with the fixed static argument names, if provided.</span>
+            <span class="n">effective_static</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">static_argnames</span><span class="p">)</span> <span class="k">if</span> <span class="n">static_argnames</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="nb">set</span><span class="p">()</span>
+            
+            <span class="c1"># For each argument in possibly_static_argnames, check if its value is callable.</span>
+            <span class="c1"># If so, treat it as static.</span>
+            <span class="k">if</span> <span class="n">possibly_static_argnames</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">possibly_static_argnames</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">bound_args</span><span class="o">.</span><span class="n">arguments</span> <span class="ow">and</span> <span class="nb">callable</span><span class="p">(</span><span class="n">bound_args</span><span class="o">.</span><span class="n">arguments</span><span class="p">[</span><span class="n">name</span><span class="p">]):</span>
+                        <span class="n">effective_static</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+            
+            <span class="c1"># Create an immutable key for the cache based on the effective static arguments.</span>
+            <span class="n">effective_static_key</span> <span class="o">=</span> <span class="nb">frozenset</span><span class="p">(</span><span class="n">effective_static</span><span class="p">)</span>
+            
+            <span class="c1"># If a jitted function with this static argument configuration doesn&#39;t exist yet,</span>
+            <span class="c1"># compile and cache it.</span>
+            <span class="k">if</span> <span class="n">effective_static_key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">jitted_cache</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">effective_static</span><span class="p">:</span>
+                    <span class="n">jitted_cache</span><span class="p">[</span><span class="n">effective_static_key</span><span class="p">]</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">jit</span><span class="p">(</span><span class="n">fun</span><span class="p">,</span> <span class="n">static_argnames</span><span class="o">=</span><span class="n">effective_static</span><span class="p">,</span> <span class="n">inline</span><span class="o">=</span><span class="n">inline</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">jitted_cache</span><span class="p">[</span><span class="n">effective_static_key</span><span class="p">]</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">jit</span><span class="p">(</span><span class="n">fun</span><span class="p">,</span> <span class="n">inline</span><span class="o">=</span><span class="n">inline</span><span class="p">)</span>
+            
+            <span class="c1"># Call the appropriate jitted function.</span>
+            <span class="k">return</span> <span class="n">jitted_cache</span><span class="p">[</span><span class="n">effective_static_key</span><span class="p">](</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        
         <span class="k">return</span> <span class="n">wrapper</span>
-
     <span class="k">return</span> <span class="n">decorator</span></div>
 
-
-<div class="viewcode-block" id="dict_zeros_like">
-<a class="viewcode-back" href="../../_autosummary/autopdex.utility.dict_zeros_like.html#autopdex.utility.dict_zeros_like">[docs]</a>
-<span class="k">def</span> <span class="nf">dict_zeros_like</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="o">**</span><span class="n">keyargs</span><span class="p">):</span>
+<div class="viewcode-block" id="dict_zeros_like"><a class="viewcode-back" href="../../_autosummary/autopdex.utility.dict_zeros_like.html#autopdex.utility.dict_zeros_like">[docs]</a><span class="k">def</span> <span class="nf">dict_zeros_like</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="o">**</span><span class="n">keyargs</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Wrapper around zeros_like, that works also for dicts with jnp.ndarray entries.&quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
         <span class="n">res</span> <span class="o">=</span> <span class="p">{}</span>
@@ -186,7 +214,6 @@
         <span class="k">return</span> <span class="n">res</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">jnp</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="o">**</span><span class="n">keyargs</span><span class="p">)</span></div>
-
 
 <span class="k">def</span> <span class="nf">dict_ones_like</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="o">**</span><span class="n">keyargs</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Wrapper around ones_like, that works also for dicts with jnp.ndarray entries.&quot;&quot;&quot;</span>
@@ -199,10 +226,7 @@
     <span class="k">else</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">jnp</span><span class="o">.</span><span class="n">ones_like</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="o">**</span><span class="n">keyargs</span><span class="p">)</span>
 
-
-<div class="viewcode-block" id="dict_flatten">
-<a class="viewcode-back" href="../../_autosummary/autopdex.utility.dict_flatten.html#autopdex.utility.dict_flatten">[docs]</a>
-<span class="k">def</span> <span class="nf">dict_flatten</span><span class="p">(</span><span class="n">arr</span><span class="p">):</span>
+<div class="viewcode-block" id="dict_flatten"><a class="viewcode-back" href="../../_autosummary/autopdex.utility.dict_flatten.html#autopdex.utility.dict_flatten">[docs]</a><span class="k">def</span> <span class="nf">dict_flatten</span><span class="p">(</span><span class="n">arr</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Recursively flattens a nested dict of arrays (np.ndarray or jnp.ndarray) to one flat array.</span>
 <span class="sd">    If a single array is provided, it simply returns arr.flatten().</span>
@@ -216,7 +240,7 @@
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="p">(</span><span class="nb">dict</span><span class="p">,</span> <span class="n">FrozenDict</span><span class="p">)):</span>
         <span class="n">flat_arrays</span> <span class="o">=</span> <span class="p">[</span><span class="n">dict_flatten</span><span class="p">(</span><span class="n">arr</span><span class="p">[</span><span class="n">key</span><span class="p">])</span> <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">arr</span><span class="o">.</span><span class="n">keys</span><span class="p">()]</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">flat_arrays</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([])</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">flat_array</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="k">else</span> <span class="n">jnp</span><span class="o">.</span><span class="n">array</span><span class="p">([])</span>
+            <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([])</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="k">else</span> <span class="n">jnp</span><span class="o">.</span><span class="n">array</span><span class="p">([])</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="p">(</span>
                 <span class="n">jnp</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span><span class="n">flat_arrays</span><span class="p">)</span>
@@ -228,10 +252,7 @@
     <span class="k">else</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Input must be a nested dict of arrays or an array.&quot;</span><span class="p">)</span></div>
 
-
-<div class="viewcode-block" id="reshape_as">
-<a class="viewcode-back" href="../../_autosummary/autopdex.utility.reshape_as.html#autopdex.utility.reshape_as">[docs]</a>
-<span class="k">def</span> <span class="nf">reshape_as</span><span class="p">(</span><span class="n">flat_array</span><span class="p">,</span> <span class="n">signature_array</span><span class="p">):</span>
+<div class="viewcode-block" id="reshape_as"><a class="viewcode-back" href="../../_autosummary/autopdex.utility.reshape_as.html#autopdex.utility.reshape_as">[docs]</a><span class="k">def</span> <span class="nf">reshape_as</span><span class="p">(</span><span class="n">flat_array</span><span class="p">,</span> <span class="n">signature_array</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Reshapes a flat array (np.ndarray or jnp.ndarray) into an array or dict of arrays matching the structure of signature_array.</span>
 
@@ -245,7 +266,7 @@
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">signature_array</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
         <span class="n">reshaped_arrays</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="n">start</span> <span class="o">=</span> <span class="mi">0</span>
-        <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">signature_array</span><span class="o">.</span><span class="n">keys</span><span class="p">()):</span>
+        <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">signature_array</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
             <span class="n">sig_value</span> <span class="o">=</span> <span class="n">signature_array</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
             <span class="c1"># Calculate the number of elements needed for this array</span>
             <span class="n">size</span> <span class="o">=</span> <span class="p">(</span>
@@ -302,10 +323,7 @@
     <span class="k">else</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;signature_array must be an array or a dict of arrays.&quot;</span><span class="p">)</span></div>
 
-
-<div class="viewcode-block" id="mask_set">
-<a class="viewcode-back" href="../../_autosummary/autopdex.utility.mask_set.html#autopdex.utility.mask_set">[docs]</a>
-<span class="k">def</span> <span class="nf">mask_set</span><span class="p">(</span><span class="n">array</span><span class="p">,</span> <span class="n">selection</span><span class="p">,</span> <span class="n">values</span><span class="p">):</span>
+<div class="viewcode-block" id="mask_set"><a class="viewcode-back" href="../../_autosummary/autopdex.utility.mask_set.html#autopdex.utility.mask_set">[docs]</a><span class="k">def</span> <span class="nf">mask_set</span><span class="p">(</span><span class="n">array</span><span class="p">,</span> <span class="n">selection</span><span class="p">,</span> <span class="n">values</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Changes values in a JAX array or dict of arrays based on a boolean mask.</span>
 
@@ -354,10 +372,7 @@
             <span class="p">)</span>
         <span class="k">return</span> <span class="n">flat_array</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">array</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span></div>
 
-
-<div class="viewcode-block" id="mask_select">
-<a class="viewcode-back" href="../../_autosummary/autopdex.utility.mask_select.html#autopdex.utility.mask_select">[docs]</a>
-<span class="k">def</span> <span class="nf">mask_select</span><span class="p">(</span><span class="n">array</span><span class="p">,</span> <span class="n">selection</span><span class="p">):</span>
+<div class="viewcode-block" id="mask_select"><a class="viewcode-back" href="../../_autosummary/autopdex.utility.mask_select.html#autopdex.utility.mask_select">[docs]</a><span class="k">def</span> <span class="nf">mask_select</span><span class="p">(</span><span class="n">array</span><span class="p">,</span> <span class="n">selection</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Selects elements from a JAX array or dictionary of arrays based on a boolean mask.</span>
 <span class="sd">    Non-selected elements are set to zero.</span>
@@ -390,10 +405,7 @@
         <span class="c1"># Set elements where the mask is False to zero</span>
         <span class="k">return</span> <span class="n">jnp</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">flat_selection</span><span class="p">,</span> <span class="n">flat_array</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">array</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span></div>
 
-
-<div class="viewcode-block" id="mask_op">
-<a class="viewcode-back" href="../../_autosummary/autopdex.utility.mask_op.html#autopdex.utility.mask_op">[docs]</a>
-<span class="k">def</span> <span class="nf">mask_op</span><span class="p">(</span><span class="n">array</span><span class="p">,</span> <span class="n">selection</span><span class="p">,</span> <span class="n">values</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;set&quot;</span><span class="p">,</span> <span class="n">ufunc</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="mask_op"><a class="viewcode-back" href="../../_autosummary/autopdex.utility.mask_op.html#autopdex.utility.mask_op">[docs]</a><span class="k">def</span> <span class="nf">mask_op</span><span class="p">(</span><span class="n">array</span><span class="p">,</span> <span class="n">selection</span><span class="p">,</span> <span class="n">values</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;set&quot;</span><span class="p">,</span> <span class="n">ufunc</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Performs an operation on a JAX array or dict of arrays based on a boolean mask.</span>
 
@@ -405,7 +417,7 @@
 <span class="sd">        ufunc (callable, optional): A unary function to apply when mode is &#39;apply&#39;.</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        Updated array or dict of arrays, or selected elements if mode is &#39;get&#39;.</span>
+<span class="sd">        Updated array or dict of arrays.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># Define the allowed modes and their corresponding JAX methods</span>
     <span class="n">mode_methods</span> <span class="o">=</span> <span class="p">{</span>
@@ -427,10 +439,6 @@
 
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">array</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
         <span class="c1"># Ensure selection (and values if needed) are also dicts with the same keys</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">selection</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
-                <span class="s2">&quot;If &#39;array&#39; is a dict, &#39;selection&#39; must also be a dict with the same keys.&quot;</span>
-            <span class="p">)</span>
         <span class="k">if</span> <span class="n">array</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span> <span class="o">!=</span> <span class="n">selection</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The keys of &#39;array&#39; and &#39;selection&#39; must match.&quot;</span><span class="p">)</span>
 
@@ -471,7 +479,7 @@
             <span class="n">flat_array</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">flat_selection</span><span class="p">,</span> <span class="n">updated_values</span><span class="p">,</span> <span class="n">flat_array</span><span class="p">)</span>
         <span class="k">elif</span> <span class="n">mode</span> <span class="o">==</span> <span class="s2">&quot;set&quot;</span><span class="p">:</span>
             <span class="c1"># Flatten values</span>
-            <span class="n">flat_values</span> <span class="o">=</span> <span class="n">values</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+            <span class="n">flat_values</span> <span class="o">=</span> <span class="n">dict_flatten</span><span class="p">(</span><span class="n">values</span><span class="p">)</span>
             <span class="n">flat_array</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">flat_selection</span><span class="p">,</span> <span class="n">flat_values</span><span class="p">,</span> <span class="n">flat_array</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">flat_values</span> <span class="o">=</span> <span class="n">values</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
@@ -484,10 +492,7 @@
 
         <span class="k">return</span> <span class="n">flat_array</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">array</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span></div>
 
-
-<div class="viewcode-block" id="search_neighborhood">
-<a class="viewcode-back" href="../../_autosummary/autopdex.utility.search_neighborhood.html#autopdex.utility.search_neighborhood">[docs]</a>
-<span class="k">def</span> <span class="nf">search_neighborhood</span><span class="p">(</span><span class="n">x_nodes</span><span class="p">,</span> <span class="n">x_query</span><span class="p">,</span> <span class="n">support_radius</span><span class="p">):</span>
+<div class="viewcode-block" id="search_neighborhood"><a class="viewcode-back" href="../../_autosummary/autopdex.utility.search_neighborhood.html#autopdex.utility.search_neighborhood">[docs]</a><span class="k">def</span> <span class="nf">search_neighborhood</span><span class="p">(</span><span class="n">x_nodes</span><span class="p">,</span> <span class="n">x_query</span><span class="p">,</span> <span class="n">support_radius</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Neighbor search within a radius based on scipy&#39;s KDTree.</span>
 
@@ -521,10 +526,7 @@
     <span class="p">)</span>
     <span class="k">return</span> <span class="p">(</span><span class="n">num_neighbors</span><span class="p">,</span> <span class="n">max_neighbors</span><span class="p">,</span> <span class="n">min_neighbors</span><span class="p">,</span> <span class="n">neighbor_list</span><span class="p">)</span></div>
 
-
-<div class="viewcode-block" id="get_condition_number">
-<a class="viewcode-back" href="../../_autosummary/autopdex.utility.get_condition_number.html#autopdex.utility.get_condition_number">[docs]</a>
-<span class="nd">@jit_with_docstring</span><span class="p">(</span><span class="n">static_argnames</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;static_settings&quot;</span><span class="p">])</span>
+<div class="viewcode-block" id="get_condition_number"><a class="viewcode-back" href="../../_autosummary/autopdex.utility.get_condition_number.html#autopdex.utility.get_condition_number">[docs]</a><span class="nd">@jit_with_docstring</span><span class="p">(</span><span class="n">static_argnames</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;static_settings&quot;</span><span class="p">])</span>
 <span class="k">def</span> <span class="nf">get_condition_number</span><span class="p">(</span><span class="n">dofs</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Computes the condition number of the assembled tangent matrix.</span>
@@ -548,10 +550,7 @@
     <span class="n">conditioning</span> <span class="o">=</span> <span class="n">eig</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">/</span> <span class="n">eig</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
     <span class="k">return</span> <span class="n">conditioning</span></div>
 
-
-<div class="viewcode-block" id="symmetry_check">
-<a class="viewcode-back" href="../../_autosummary/autopdex.utility.symmetry_check.html#autopdex.utility.symmetry_check">[docs]</a>
-<span class="nd">@jit_with_docstring</span><span class="p">(</span><span class="n">static_argnames</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;static_settings&quot;</span><span class="p">])</span>
+<div class="viewcode-block" id="symmetry_check"><a class="viewcode-back" href="../../_autosummary/autopdex.utility.symmetry_check.html#autopdex.utility.symmetry_check">[docs]</a><span class="nd">@jit_with_docstring</span><span class="p">(</span><span class="n">static_argnames</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;static_settings&quot;</span><span class="p">])</span>
 <span class="k">def</span> <span class="nf">symmetry_check</span><span class="p">(</span><span class="n">dofs</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Checks the symmetry of the assembled tangent matrix.</span>
@@ -571,10 +570,7 @@
         <span class="n">sparse</span><span class="o">.</span><span class="n">sparsify</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">abs</span><span class="p">)(</span><span class="n">mat</span> <span class="o">-</span> <span class="n">sparse</span><span class="o">.</span><span class="n">bcoo_transpose</span><span class="p">(</span><span class="n">mat</span><span class="p">,</span> <span class="n">permutation</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)))</span>
     <span class="p">)</span></div>
 
-
-<div class="viewcode-block" id="dof_select">
-<a class="viewcode-back" href="../../_autosummary/autopdex.utility.dof_select.html#autopdex.utility.dof_select">[docs]</a>
-<span class="k">def</span> <span class="nf">dof_select</span><span class="p">(</span><span class="n">dirichlet_nodes</span><span class="p">,</span> <span class="n">selected_fields</span><span class="p">):</span>
+<div class="viewcode-block" id="dof_select"><a class="viewcode-back" href="../../_autosummary/autopdex.utility.dof_select.html#autopdex.utility.dof_select">[docs]</a><span class="k">def</span> <span class="nf">dof_select</span><span class="p">(</span><span class="n">dirichlet_nodes</span><span class="p">,</span> <span class="n">selected_fields</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    DOF selection for the nodal imposition of boundary conditions (jitted).</span>
 
@@ -590,10 +586,7 @@
     <span class="k">else</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">jnp</span><span class="o">.</span><span class="n">outer</span><span class="p">(</span><span class="n">dirichlet_nodes</span><span class="p">,</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">selected_fields</span><span class="p">))</span></div>
 
-
-<div class="viewcode-block" id="jnp_to_tuple">
-<a class="viewcode-back" href="../../_autosummary/autopdex.utility.jnp_to_tuple.html#autopdex.utility.jnp_to_tuple">[docs]</a>
-<span class="k">def</span> <span class="nf">jnp_to_tuple</span><span class="p">(</span><span class="n">jnp_array</span><span class="p">):</span>
+<div class="viewcode-block" id="jnp_to_tuple"><a class="viewcode-back" href="../../_autosummary/autopdex.utility.jnp_to_tuple.html#autopdex.utility.jnp_to_tuple">[docs]</a><span class="k">def</span> <span class="nf">jnp_to_tuple</span><span class="p">(</span><span class="n">jnp_array</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Converts a JAX array to a tuple. Also works for dicts of JAX arrays.</span>
 
@@ -605,7 +598,7 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">jnp_array</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">FrozenDict</span><span class="p">(</span>
-            <span class="p">{</span><span class="n">key</span><span class="p">:</span> <span class="n">jnp_to_tuple</span><span class="p">(</span><span class="n">jnp_array</span><span class="p">[</span><span class="n">key</span><span class="p">])</span> <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">jnp_array</span><span class="o">.</span><span class="n">keys</span><span class="p">())}</span>
+            <span class="p">{</span><span class="n">key</span><span class="p">:</span> <span class="n">jnp_to_tuple</span><span class="p">(</span><span class="n">jnp_array</span><span class="p">[</span><span class="n">key</span><span class="p">])</span> <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">jnp_array</span><span class="o">.</span><span class="n">keys</span><span class="p">()}</span>
         <span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">as_list</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">jnp_array</span><span class="p">)</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
@@ -614,10 +607,7 @@
         <span class="k">except</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">as_list</span></div>
 
-
-<div class="viewcode-block" id="to_jax_function">
-<a class="viewcode-back" href="../../_autosummary/autopdex.utility.to_jax_function.html#autopdex.utility.to_jax_function">[docs]</a>
-<span class="k">def</span> <span class="nf">to_jax_function</span><span class="p">(</span><span class="n">subexpr</span><span class="p">,</span> <span class="n">reduced_expr</span><span class="p">):</span>
+<div class="viewcode-block" id="to_jax_function"><a class="viewcode-back" href="../../_autosummary/autopdex.utility.to_jax_function.html#autopdex.utility.to_jax_function">[docs]</a><span class="k">def</span> <span class="nf">to_jax_function</span><span class="p">(</span><span class="n">subexpr</span><span class="p">,</span> <span class="n">reduced_expr</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Generation of a pure JAX function based on subexpressions and reduced return-value. Can be combined with sympys common subexpression eliminator.</span>
 
@@ -644,10 +634,7 @@
     <span class="c1"># Print the generated function definition</span>
     <span class="nb">print</span><span class="p">(</span><span class="n">function_code</span><span class="p">)</span></div>
 
-
-<div class="viewcode-block" id="jacfwd_upto_n_scalar_args">
-<a class="viewcode-back" href="../../_autosummary/autopdex.utility.jacfwd_upto_n_scalar_args.html#autopdex.utility.jacfwd_upto_n_scalar_args">[docs]</a>
-<span class="nd">@jit_with_docstring</span><span class="p">(</span><span class="n">static_argnames</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;fun&quot;</span><span class="p">,</span> <span class="s2">&quot;derivative_order&quot;</span><span class="p">,</span> <span class="s2">&quot;argnum&quot;</span><span class="p">])</span>
+<div class="viewcode-block" id="jacfwd_upto_n_scalar_args"><a class="viewcode-back" href="../../_autosummary/autopdex.utility.jacfwd_upto_n_scalar_args.html#autopdex.utility.jacfwd_upto_n_scalar_args">[docs]</a><span class="nd">@jit_with_docstring</span><span class="p">(</span><span class="n">static_argnames</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;fun&quot;</span><span class="p">,</span> <span class="s2">&quot;derivative_order&quot;</span><span class="p">,</span> <span class="s2">&quot;argnum&quot;</span><span class="p">])</span>
 <span class="k">def</span> <span class="nf">jacfwd_upto_n_scalar_args</span><span class="p">(</span><span class="n">fun</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">derivative_order</span><span class="p">,</span> <span class="n">argnum</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Computes all up to the nth derivative of a function `f` using a single pass.</span>
@@ -710,10 +697,7 @@
     <span class="k">else</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;argnum must be an integer or a tuple of integers.&quot;</span><span class="p">)</span></div>
 
-
-<div class="viewcode-block" id="jacfwd_upto_n_one_vector_arg">
-<a class="viewcode-back" href="../../_autosummary/autopdex.utility.jacfwd_upto_n_one_vector_arg.html#autopdex.utility.jacfwd_upto_n_one_vector_arg">[docs]</a>
-<span class="nd">@jit_with_docstring</span><span class="p">(</span><span class="n">static_argnames</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;fun&quot;</span><span class="p">,</span> <span class="s2">&quot;n&quot;</span><span class="p">])</span>
+<div class="viewcode-block" id="jacfwd_upto_n_one_vector_arg"><a class="viewcode-back" href="../../_autosummary/autopdex.utility.jacfwd_upto_n_one_vector_arg.html#autopdex.utility.jacfwd_upto_n_one_vector_arg">[docs]</a><span class="nd">@jit_with_docstring</span><span class="p">(</span><span class="n">static_argnames</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;fun&quot;</span><span class="p">,</span> <span class="s2">&quot;n&quot;</span><span class="p">])</span>
 <span class="k">def</span> <span class="nf">jacfwd_upto_n_one_vector_arg</span><span class="p">(</span><span class="n">fun</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Computes up to the nth derivative of a function `fun` with respect to a vector argument `x` using a single pass.</span>
@@ -794,8 +778,57 @@
 
     <span class="k">return</span> <span class="n">flatten_tuple</span><span class="p">(</span><span class="n">jacfwd_upto_n_one_vector_arg_tmp</span><span class="p">(</span><span class="n">fun</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">n</span><span class="p">))</span></div>
 
+<span class="k">def</span> <span class="nf">matrix_adj</span><span class="p">(</span><span class="n">mat</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Computes the adjugate of a square matrix of size 1x1, 2x2, or 3x3.</span>
 
-<span class="k">def</span> <span class="nf">invert_matrix</span><span class="p">(</span><span class="n">mat</span><span class="p">):</span>
+<span class="sd">    Parameters:</span>
+<span class="sd">    -----------</span>
+<span class="sd">    mat : jnp.ndarray</span>
+<span class="sd">        A square matrix of shape (1,1), (2,2), or (3,3).</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">    --------</span>
+<span class="sd">    adj_mat : jnp.ndarray</span>
+<span class="sd">        The adjugate of the input matrix.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="c1"># Check if the matrix is two-dimensional and square</span>
+    <span class="k">if</span> <span class="n">mat</span><span class="o">.</span><span class="n">ndim</span> <span class="o">!=</span> <span class="mi">2</span> <span class="ow">or</span> <span class="n">mat</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="n">mat</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Input matrix must be square (n x n).&quot;</span><span class="p">)</span>
+    
+    <span class="n">n</span> <span class="o">=</span> <span class="n">mat</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="k">if</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="c1"># Inversion of a 1x1 matrix</span>
+        <span class="n">adjugate</span> <span class="o">=</span> <span class="n">mat</span>
+    <span class="k">elif</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="c1"># Inversion of a 2x2 matrix using the explicit formula</span>
+        <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="n">mat</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">mat</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+        <span class="n">c</span><span class="p">,</span> <span class="n">d</span> <span class="o">=</span> <span class="n">mat</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">mat</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+
+        <span class="n">adjugate</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span> <span class="n">d</span><span class="p">,</span> <span class="o">-</span><span class="n">b</span><span class="p">],</span>
+                            <span class="p">[</span><span class="o">-</span><span class="n">c</span><span class="p">,</span>  <span class="n">a</span><span class="p">]])</span>
+    <span class="k">elif</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+        <span class="c1"># Inversion of a 3x3 matrix using the adjugate method</span>
+        <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span> <span class="o">=</span> <span class="n">mat</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">mat</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">mat</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span>
+        <span class="n">d</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">f</span> <span class="o">=</span> <span class="n">mat</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">mat</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">mat</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span>
+        <span class="n">g</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">i</span> <span class="o">=</span> <span class="n">mat</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">mat</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">mat</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span>
+
+        <span class="c1"># Compute the adjugate matrix (transpose of cofactors)</span>
+        <span class="n">adjugate</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>
+            <span class="p">[</span> <span class="n">e</span> <span class="o">*</span> <span class="n">i</span> <span class="o">-</span> <span class="n">f</span> <span class="o">*</span> <span class="n">h</span><span class="p">,</span> <span class="n">c</span> <span class="o">*</span> <span class="n">h</span> <span class="o">-</span> <span class="n">b</span> <span class="o">*</span> <span class="n">i</span><span class="p">,</span> <span class="n">b</span> <span class="o">*</span> <span class="n">f</span> <span class="o">-</span> <span class="n">c</span> <span class="o">*</span> <span class="n">e</span><span class="p">],</span>
+            <span class="p">[</span> <span class="n">f</span> <span class="o">*</span> <span class="n">g</span> <span class="o">-</span> <span class="n">d</span> <span class="o">*</span> <span class="n">i</span><span class="p">,</span> <span class="n">a</span> <span class="o">*</span> <span class="n">i</span> <span class="o">-</span> <span class="n">c</span> <span class="o">*</span> <span class="n">g</span><span class="p">,</span> <span class="n">c</span> <span class="o">*</span> <span class="n">d</span> <span class="o">-</span> <span class="n">a</span> <span class="o">*</span> <span class="n">f</span><span class="p">],</span>
+            <span class="p">[</span> <span class="n">d</span> <span class="o">*</span> <span class="n">h</span> <span class="o">-</span> <span class="n">e</span> <span class="o">*</span> <span class="n">g</span><span class="p">,</span> <span class="n">b</span> <span class="o">*</span> <span class="n">g</span> <span class="o">-</span> <span class="n">a</span> <span class="o">*</span> <span class="n">h</span><span class="p">,</span> <span class="n">a</span> <span class="o">*</span> <span class="n">e</span> <span class="o">-</span> <span class="n">b</span> <span class="o">*</span> <span class="n">d</span><span class="p">]</span>
+        <span class="p">])</span>
+
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Function only supports matrices of size 1x1, 2x2, or 3x3.&quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">adjugate</span>
+
+<span class="nd">@jax</span><span class="o">.</span><span class="n">custom_jvp</span>
+<span class="k">def</span> <span class="nf">matrix_inv</span><span class="p">(</span><span class="n">mat</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Inverts a square matrix of size 1x1, 2x2, or 3x3.</span>
 
@@ -852,6 +885,99 @@
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Function only supports matrices of size 1x1, 2x2, or 3x3.&quot;</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">inv_mat</span>
+<span class="nd">@matrix_inv</span><span class="o">.</span><span class="n">defjvp</span>
+<span class="k">def</span> <span class="nf">matrix_inv_jvp</span><span class="p">(</span><span class="n">primals</span><span class="p">,</span> <span class="n">tangents</span><span class="p">):</span>
+    <span class="n">mat</span><span class="p">,</span> <span class="o">=</span> <span class="n">primals</span>
+    <span class="n">mat_dot</span><span class="p">,</span> <span class="o">=</span> <span class="n">tangents</span>
+    <span class="n">inv_mat</span> <span class="o">=</span> <span class="n">matrix_inv</span><span class="p">(</span><span class="n">mat</span><span class="p">)</span>
+    <span class="n">inv_mat_dot</span> <span class="o">=</span> <span class="o">-</span><span class="n">jnp</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">inv_mat</span><span class="p">,</span> <span class="n">mat_dot</span><span class="p">),</span> <span class="n">inv_mat</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">inv_mat</span><span class="p">,</span> <span class="n">inv_mat_dot</span>
+
+<span class="nd">@jax</span><span class="o">.</span><span class="n">custom_jvp</span>
+<span class="k">def</span> <span class="nf">matrix_det</span><span class="p">(</span><span class="n">mat</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Computes the determinant of a square matrix of size 1x1, 2x2, or 3x3.</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">    -----------</span>
+<span class="sd">    mat : jnp.ndarray</span>
+<span class="sd">        A square matrix of shape (1,1), (2,2), or (3,3).</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">    --------</span>
+<span class="sd">    det : The determinant of the input matrix.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="c1"># Check if the matrix is two-dimensional and square</span>
+    <span class="k">if</span> <span class="n">mat</span><span class="o">.</span><span class="n">ndim</span> <span class="o">!=</span> <span class="mi">2</span> <span class="ow">or</span> <span class="n">mat</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="n">mat</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Input matrix must be square (n x n).&quot;</span><span class="p">)</span>
+    
+    <span class="n">n</span> <span class="o">=</span> <span class="n">mat</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="k">if</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="c1"># Determinant of a 1x1 matrix</span>
+        <span class="n">det</span> <span class="o">=</span> <span class="n">mat</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+    <span class="k">elif</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="c1"># Determinant of a 2x2 matrix using the explicit formula</span>
+        <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="n">mat</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">mat</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+        <span class="n">c</span><span class="p">,</span> <span class="n">d</span> <span class="o">=</span> <span class="n">mat</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">mat</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+        <span class="n">det</span> <span class="o">=</span> <span class="n">a</span> <span class="o">*</span> <span class="n">d</span> <span class="o">-</span> <span class="n">b</span> <span class="o">*</span> <span class="n">c</span>
+    <span class="k">elif</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+        <span class="c1"># Determinant of a 3x3 matrix using the rule of Sarrus</span>
+        <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span> <span class="o">=</span> <span class="n">mat</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">mat</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">mat</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span>
+        <span class="n">d</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">f</span> <span class="o">=</span> <span class="n">mat</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">mat</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">mat</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span>
+        <span class="n">g</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">i</span> <span class="o">=</span> <span class="n">mat</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">mat</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">mat</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span>
+        <span class="n">det</span> <span class="o">=</span> <span class="p">(</span><span class="n">a</span> <span class="o">*</span> <span class="p">(</span><span class="n">e</span> <span class="o">*</span> <span class="n">i</span> <span class="o">-</span> <span class="n">f</span> <span class="o">*</span> <span class="n">h</span><span class="p">)</span> <span class="o">-</span>
+               <span class="n">b</span> <span class="o">*</span> <span class="p">(</span><span class="n">d</span> <span class="o">*</span> <span class="n">i</span> <span class="o">-</span> <span class="n">f</span> <span class="o">*</span> <span class="n">g</span><span class="p">)</span> <span class="o">+</span>
+               <span class="n">c</span> <span class="o">*</span> <span class="p">(</span><span class="n">d</span> <span class="o">*</span> <span class="n">h</span> <span class="o">-</span> <span class="n">e</span> <span class="o">*</span> <span class="n">g</span><span class="p">))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Function only supports matrices of size 1x1, 2x2, or 3x3.&quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">det</span>
+<span class="nd">@matrix_det</span><span class="o">.</span><span class="n">defjvp</span>
+<span class="k">def</span> <span class="nf">matrix_det_jvp</span><span class="p">(</span><span class="n">primals</span><span class="p">,</span> <span class="n">tangents</span><span class="p">):</span>
+    <span class="n">mat</span><span class="p">,</span> <span class="o">=</span> <span class="n">primals</span>
+    <span class="n">mat_dot</span><span class="p">,</span> <span class="o">=</span> <span class="n">tangents</span>
+    <span class="n">mat_adj</span> <span class="o">=</span> <span class="n">matrix_adj</span><span class="p">(</span><span class="n">mat</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">matrix_det</span><span class="p">(</span><span class="n">mat</span><span class="p">),</span> <span class="n">jnp</span><span class="o">.</span><span class="n">trace</span><span class="p">(</span><span class="n">mat_adj</span> <span class="o">@</span> <span class="n">mat_dot</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">matrix_dev</span><span class="p">(</span><span class="n">mat</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Computes the deviator of a square matrix (tensor).</span>
+<span class="sd">    </span>
+<span class="sd">    The deviator is defined as:</span>
+<span class="sd">        A&#39; = A - (trace(A)/n)*I,</span>
+<span class="sd">    where:</span>
+<span class="sd">      - A is the input matrix,</span>
+<span class="sd">      - trace(A) is the sum of the diagonal elements,</span>
+<span class="sd">      - n is the number of rows (or columns) of the square matrix, and</span>
+<span class="sd">      - I is the identity matrix of size n x n.</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters:</span>
+<span class="sd">    -----------</span>
+<span class="sd">    mat : jnp.ndarray</span>
+<span class="sd">        A square matrix of shape (n, n).</span>
+<span class="sd">    </span>
+<span class="sd">    Returns:</span>
+<span class="sd">    --------</span>
+<span class="sd">    deviator : jnp.ndarray</span>
+<span class="sd">        The deviator of the input matrix.</span>
+<span class="sd">    </span>
+<span class="sd">    Raises:</span>
+<span class="sd">    -------</span>
+<span class="sd">    ValueError:</span>
+<span class="sd">        If the input matrix is not square.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Check if the matrix is two-dimensional and square</span>
+    <span class="k">if</span> <span class="n">mat</span><span class="o">.</span><span class="n">ndim</span> <span class="o">!=</span> <span class="mi">2</span> <span class="ow">or</span> <span class="n">mat</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="n">mat</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Input matrix must be square (n x n).&quot;</span><span class="p">)</span>
+    
+    <span class="n">n</span> <span class="o">=</span> <span class="n">mat</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">trace_val</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">trace</span><span class="p">(</span><span class="n">mat</span><span class="p">)</span>
+    <span class="n">identity</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+    
+    <span class="n">deviator</span> <span class="o">=</span> <span class="n">mat</span> <span class="o">-</span> <span class="p">(</span><span class="n">trace_val</span> <span class="o">/</span> <span class="n">n</span><span class="p">)</span> <span class="o">*</span> <span class="n">identity</span>
+    <span class="k">return</span> <span class="n">deviator</span>
 </pre></div>
 
            </div>

@@ -2,8 +2,38 @@ Models
 ======
 
 .. automodule:: autopdex.models
-    :no-index:
 
+User potentials/elements
+------------------------
+.. autosummary::
+   :toctree: _autosummary
+
+   mixed_reference_domain_potential
+   mixed_reference_domain_residual
+   mixed_reference_surface_potential
+   mixed_reference_surface_residual
+   isoparametric_domain_integrate_potential
+   isoparametric_domain_element_galerkin
+   isoparametric_surface_element_galerkin
+
+Functions for coupling with DAE solver
+--------------------------------------
+
+.. autosummary::
+   :toctree: _autosummary
+
+   mixed_reference_domain_residual_time
+   mixed_reference_domain_int_var_updates
+
+Convenience functions for modelling
+-----------------------------------
+
+.. autosummary::
+   :toctree: _autosummary
+
+   aug_lag_potential
+   kelvin_mandel_extract
+   
 Linear equations
 ----------------
 .. autosummary::
@@ -41,25 +71,3 @@ Strain energy functions
    neo_hooke
    isochoric_neo_hooke
    linear_elastic_strain_energy
-
-User potentials/elements
-------------------------
-.. autosummary::
-   :toctree: _autosummary
-
-   mixed_reference_domain_potential
-   mixed_reference_domain_residual
-   mixed_reference_surface_potential
-   mixed_reference_surface_residual
-   isoparametric_domain_integrate_potential
-   isoparametric_domain_element_galerkin
-   isoparametric_surface_element_galerkin
-
-Time integration procedures
----------------------------
-.. autosummary::
-   :toctree: _autosummary
-
-   forward_backward_euler_weak
-   central_differences
-

@@ -1,40 +1,41 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" data-content_root="../">
+<html class="writer-html5" lang="en">
 <head>
-  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>autopdex.mesher.structured_mesh &mdash; AutoPDEx  documentation</title>
-      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
-      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
-      <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
-      <link rel="stylesheet" type="text/css" href="../_static/jupyter-sphinx.css?v=572af1d6" />
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css" />
+      <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+      <link rel="stylesheet" type="text/css" href="../_static/jupyter-sphinx.css" />
       <link rel="stylesheet" type="text/css" href="../_static/thebelab.css" />
-      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=acfd50eb" />
-      <link rel="stylesheet" type="text/css" href="../_static/dark_mode_css/general.css?v=c0a7eb24" />
-      <link rel="stylesheet" type="text/css" href="../_static/dark_mode_css/dark.css?v=70edf1c7" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css" />
+      <link rel="stylesheet" type="text/css" href="../_static/dark_mode_css/general.css" />
+      <link rel="stylesheet" type="text/css" href="../_static/dark_mode_css/dark.css" />
 
   
   <!--[if lt IE 9]>
     <script src="../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script src="../_static/jquery.js?v=5d32c60e"></script>
-        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../_static/documentation_options.js?v=5929fcd5"></script>
-        <script src="../_static/doctools.js?v=9a2dae69"></script>
-        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
-        <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
-        <script src="../_static/copybutton.js?v=f281be69"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
+        <script src="../_static/clipboard.min.js"></script>
+        <script src="../_static/copybutton.js"></script>
         <script src="../_static/thebelab-helper.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-        <script src="../_static/dark_mode_js/default_light.js?v=c2e647ce"></script>
-        <script src="../_static/dark_mode_js/theme_switcher.js?v=358d3910"></script>
+        <script src="../_static/dark_mode_js/default_light.js"></script>
+        <script src="../_static/dark_mode_js/theme_switcher.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="autopdex.mesher.elevate_mesh_order" href="autopdex.mesher.elevate_mesh_order.html" />
     <link rel="prev" title="Mesher" href="../mesher.html" /> 
 </head>
 
@@ -51,7 +52,7 @@
               <img src="../_static/logo.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                1.1.0
+                1.1.1
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
@@ -67,16 +68,17 @@
 <p class="caption" role="heading"><span class="caption-text">High level operations</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../solver.html">Solver</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dae.html">Time stepping</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../models.html">Models</a></li>
-</ul>
-<p class="caption" role="heading"><span class="caption-text">Settings</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../settings.html">Settings and static_settings</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Examples</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../example_notebooks.html">Example notebooks</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../examples.html">Examplary input files</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Settings</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../settings.html">Settings and static_settings</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Lower level operations</span></p>
 <ul>
@@ -97,6 +99,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#autopdex.mesher.structured_mesh"><code class="docutils literal notranslate"><span class="pre">structured_mesh()</span></code></a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="autopdex.mesher.elevate_mesh_order.html">autopdex.mesher.elevate_mesh_order</a></li>
 </ul>
 </li>
 </ul>
@@ -131,31 +134,53 @@
            <div itemprop="articleBody">
              
   <section id="autopdex-mesher-structured-mesh">
-<h1>autopdex.mesher.structured_mesh<a class="headerlink" href="#autopdex-mesher-structured-mesh" title="Link to this heading"></a></h1>
+<h1>autopdex.mesher.structured_mesh<a class="headerlink" href="#autopdex-mesher-structured-mesh" title="Permalink to this heading"></a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="autopdex.mesher.structured_mesh">
-<span class="sig-prename descclassname"><span class="pre">autopdex.mesher.</span></span><span class="sig-name descname"><span class="pre">structured_mesh</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_elements</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vertices</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">order</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/autopdex/mesher.html#structured_mesh"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#autopdex.mesher.structured_mesh" title="Link to this definition"></a></dt>
-<dd><p>Generates a structured 2D mesh over a quadrilateral domain.</p>
+<span class="sig-prename descclassname"><span class="pre">autopdex.mesher.</span></span><span class="sig-name descname"><span class="pre">structured_mesh</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_elements</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vertices</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">element_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">order</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/autopdex/mesher.html#structured_mesh"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#autopdex.mesher.structured_mesh" title="Permalink to this definition"></a></dt>
+<dd><p>Generate a structured 2D or 3D mesh over a quadrilateral or hexahedral domain,
+with an optional subdivision into simplex (triangular/tetrahedral) elements.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>n_elements</strong> (<em>tuple</em><em> of </em><em>int</em>) – A tuple <cite>(nx, ny)</cite> specifying the number of elements (divisions) along the x-axis (<cite>nx</cite>) and y-axis (<cite>ny</cite>).</p></li>
-<li><p><strong>vertices</strong> (<em>array-like</em>) – A 4x2 array defining the coordinates of the domain’s corner points in anti-clockwise order.</p></li>
-<li><p><strong>type</strong> (<em>str</em>) – The element type to use for the mesh. Currently, only quadrilateral meshes (<cite>‘quad’</cite>) are supported.</p></li>
-<li><p><strong>order</strong> (<em>int</em><em>, </em><em>optional</em>) – The polynomial order of the elements. Higher orders are not yet implemented.</p></li>
+<li><p><strong>n_elements</strong> (<em>tuple</em><em> of </em><em>int</em>) – For 2D, a tuple (nx, ny) specifying the number of elements along the x-
+and y-directions. For 3D, a tuple (nx, ny, nz).</p></li>
+<li><p><strong>vertices</strong> (<em>array-like</em>) – For 2D, a 4x2 array; for 3D, an 8x3 array defining the coordinates of the
+domain’s corner points.</p></li>
+<li><p><strong>element_type</strong> (<em>str</em>) – For 2D, either “quad” or “tri”; for 3D, either “brick” or “tet”.</p></li>
+<li><p><strong>order</strong> (<em>int</em><em>, </em><em>optional</em>) – The polynomial order of the elements. Currently, only linear elements
+(order == 1) are supported. Default is 1.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p><dl class="simple">
-<dt>(coords, elements)</dt><dd><ul class="simple">
-<li><p>coords (jnp.ndarray): A 2D array of shape <cite>((nx + 1) * (ny + 1), 2)</cite> containing the (x, y) coordinates of each node in the mesh.</p></li>
-<li><p>elements (jnp.ndarray): A 2D array of shape <cite>(nx * ny, 4)</cite> containing the vertex indices for each quadrilateral element in the mesh. The indices refer to the positions in the <cite>coords</cite> array.</p></li>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>coords</strong> (<em>jnp.ndarray</em>) – An array of node coordinates. Its shape is ((n+1)*… x dim), where ‘dim’
+represents the spatial dimension (2 or 3).</p></li>
+<li><p><strong>elements</strong> (<em>jnp.ndarray</em>) – An array of element connectivity. For quadrilaterals/brick elements each row
+lists the indices of the nodes forming the element, while for simplex
+elements each row lists the indices forming a triangle (3 nodes) or tetrahedron (4 nodes).</p></li>
 </ul>
-</dd>
-</dl>
 </p>
 </dd>
 </dl>
+<p class="rubric">Notes</p>
+<dl class="simple">
+<dt>For 2D:</dt><dd><ul class="simple">
+<li><p>The vertices should be provided as a 4x2 array in anti-clockwise order.</p></li>
+<li><p>The mapping from a reference square ([-1, 1] x [-1, 1]) to the physical
+domain is performed using bilinear interpolation.</p></li>
+</ul>
+</dd>
+<dt>For 3D:</dt><dd><ul class="simple">
+<li><p>The vertices should be provided as an 8x3 array, with the ordering corresponding
+to a standard hexahedron (e.g., starting with (-1, -1, -1) and proceeding in an
+anti-clockwise fashion on the bottom face, then defining the top face).</p></li>
+<li><p>The mapping from a reference cube ([-1, 1]^3) to the physical domain is done via
+trilinear interpolation.</p></li>
+</ul>
+</dd>
+</dl>
+<p>Currently, only linear (order == 1) elements are supported.</p>
 </dd></dl>
 
 </section>
@@ -165,6 +190,7 @@
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="../mesher.html" class="btn btn-neutral float-left" title="Mesher" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="autopdex.mesher.elevate_mesh_order.html" class="btn btn-neutral float-right" title="autopdex.mesher.elevate_mesh_order" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

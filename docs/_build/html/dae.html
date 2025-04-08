@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en">
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Time stepping &mdash; AutoPDEx  documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css" />
+      <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+      <link rel="stylesheet" type="text/css" href="_static/jupyter-sphinx.css" />
+      <link rel="stylesheet" type="text/css" href="_static/thebelab.css" />
+      <link rel="stylesheet" type="text/css" href="_static/custom.css" />
+      <link rel="stylesheet" type="text/css" href="_static/dark_mode_css/general.css" />
+      <link rel="stylesheet" type="text/css" href="_static/dark_mode_css/dark.css" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
+        <script src="_static/clipboard.min.js"></script>
+        <script src="_static/copybutton.js"></script>
+        <script src="_static/thebelab-helper.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+        <script defer="defer" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script src="_static/dark_mode_js/default_light.js"></script>
+        <script src="_static/dark_mode_js/theme_switcher.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="autopdex.dae.TimeSteppingManager" href="_autosummary/autopdex.dae.TimeSteppingManager.html" />
+    <link rel="prev" title="autopdex.solver.scipy_assembling" href="_autosummary/autopdex.solver.scipy_assembling.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            AutoPDEx
+              <img src="_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                1.1.1
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/quickstart.html">Quickstart to AutoPDEx</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">High level operations</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="solver.html">Solver</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Time stepping</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#central-class">Central class</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="_autosummary/autopdex.dae.TimeSteppingManager.html">autopdex.dae.TimeSteppingManager</a></li>
+<li class="toctree-l3"><a class="reference internal" href="_autosummary/autopdex.dae.TimeSteppingManager.run.html">autopdex.dae.TimeSteppingManager.run</a></li>
+<li class="toctree-l3"><a class="reference internal" href="_autosummary/autopdex.dae.TimeSteppingManagerState.html">autopdex.dae.TimeSteppingManagerState</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#time-integrators">Time integrators</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="_autosummary/autopdex.dae.TimeIntegrator.html">autopdex.dae.TimeIntegrator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="_autosummary/autopdex.dae.BackwardEuler.html">autopdex.dae.BackwardEuler</a></li>
+<li class="toctree-l3"><a class="reference internal" href="_autosummary/autopdex.dae.ForwardEuler.html">autopdex.dae.ForwardEuler</a></li>
+<li class="toctree-l3"><a class="reference internal" href="_autosummary/autopdex.dae.Newmark.html">autopdex.dae.Newmark</a></li>
+<li class="toctree-l3"><a class="reference internal" href="_autosummary/autopdex.dae.AdamsMoulton.html">autopdex.dae.AdamsMoulton</a></li>
+<li class="toctree-l3"><a class="reference internal" href="_autosummary/autopdex.dae.AdamsBashforth.html">autopdex.dae.AdamsBashforth</a></li>
+<li class="toctree-l3"><a class="reference internal" href="_autosummary/autopdex.dae.BackwardDiffFormula.html">autopdex.dae.BackwardDiffFormula</a></li>
+<li class="toctree-l3"><a class="reference internal" href="_autosummary/autopdex.dae.ExplicitRungeKutta.html">autopdex.dae.ExplicitRungeKutta</a></li>
+<li class="toctree-l3"><a class="reference internal" href="_autosummary/autopdex.dae.DiagonallyImplicitRungeKutta.html">autopdex.dae.DiagonallyImplicitRungeKutta</a></li>
+<li class="toctree-l3"><a class="reference internal" href="_autosummary/autopdex.dae.Kvaerno.html">autopdex.dae.Kvaerno</a></li>
+<li class="toctree-l3"><a class="reference internal" href="_autosummary/autopdex.dae.DormandPrince.html">autopdex.dae.DormandPrince</a></li>
+<li class="toctree-l3"><a class="reference internal" href="_autosummary/autopdex.dae.GaussLegendreRungeKutta.html">autopdex.dae.GaussLegendreRungeKutta</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#helper-functions">Helper functions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="_autosummary/autopdex.dae.discrete_value_with_derivatives.html">autopdex.dae.discrete_value_with_derivatives</a></li>
+<li class="toctree-l3"><a class="reference internal" href="_autosummary/autopdex.dae.detect_stage_dependencies.html">autopdex.dae.detect_stage_dependencies</a></li>
+<li class="toctree-l3"><a class="reference internal" href="_autosummary/autopdex.dae.invert_butcher_with_order.html">autopdex.dae.invert_butcher_with_order</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#step-size-controllers">Step size controllers</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="_autosummary/autopdex.dae.StepSizeController.html">autopdex.dae.StepSizeController</a></li>
+<li class="toctree-l3"><a class="reference internal" href="_autosummary/autopdex.dae.ConstantStepSizeController.html">autopdex.dae.ConstantStepSizeController</a></li>
+<li class="toctree-l3"><a class="reference internal" href="_autosummary/autopdex.dae.CSSControllerState.html">autopdex.dae.CSSControllerState</a></li>
+<li class="toctree-l3"><a class="reference internal" href="_autosummary/autopdex.dae.PIDController.html">autopdex.dae.PIDController</a></li>
+<li class="toctree-l3"><a class="reference internal" href="_autosummary/autopdex.dae.PIDControllerState.html">autopdex.dae.PIDControllerState</a></li>
+<li class="toctree-l3"><a class="reference internal" href="_autosummary/autopdex.dae.RootIterationController.html">autopdex.dae.RootIterationController</a></li>
+<li class="toctree-l3"><a class="reference internal" href="_autosummary/autopdex.dae.RootIterationControllerState.html">autopdex.dae.RootIterationControllerState</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#data-saving-policies">Data saving policies</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="_autosummary/autopdex.dae.SavePolicy.html">autopdex.dae.SavePolicy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="_autosummary/autopdex.dae.HistoryState.html">autopdex.dae.HistoryState</a></li>
+<li class="toctree-l3"><a class="reference internal" href="_autosummary/autopdex.dae.SaveNothingPolicy.html">autopdex.dae.SaveNothingPolicy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="_autosummary/autopdex.dae.SaveEquidistantPolicy.html">autopdex.dae.SaveEquidistantPolicy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="_autosummary/autopdex.dae.SaveEquidistantHistoryState.html">autopdex.dae.SaveEquidistantHistoryState</a></li>
+<li class="toctree-l3"><a class="reference internal" href="_autosummary/autopdex.dae.SaveAllPolicy.html">autopdex.dae.SaveAllPolicy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="_autosummary/autopdex.dae.SaveAllHistoryState.html">autopdex.dae.SaveAllHistoryState</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#rootsolvers-compatible-with-the-dae-module">Rootsolvers compatible with the DAE module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="_autosummary/autopdex.dae.RootSolverResult.html">autopdex.dae.RootSolverResult</a></li>
+<li class="toctree-l3"><a class="reference internal" href="_autosummary/autopdex.dae.newton_solver.html">autopdex.dae.newton_solver</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="models.html">Models</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="example_notebooks.html">Example notebooks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Examplary input files</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Settings</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="settings.html">Settings and static_settings</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Lower level operations</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="assembler.html">Assembler</a></li>
+<li class="toctree-l1"><a class="reference internal" href="implicit_diff.html">Implicit_diff</a></li>
+<li class="toctree-l1"><a class="reference internal" href="spaces.html">Spaces</a></li>
+<li class="toctree-l1"><a class="reference internal" href="solution_structures.html">Solution structures</a></li>
+<li class="toctree-l1"><a class="reference internal" href="variational_schemes.html">Variational_schemes</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Pre- and postprocessing</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="geometry.html">Geometry</a></li>
+<li class="toctree-l1"><a class="reference internal" href="seeder.html">Seeder</a></li>
+<li class="toctree-l1"><a class="reference internal" href="utility.html">Utility</a></li>
+<li class="toctree-l1"><a class="reference internal" href="plotter.html">Plotter</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mesher.html">Mesher</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Source code</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/BodeTobias/AutoPDEx">GitHub Project</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">AutoPDEx</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Time stepping</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/BodeTobias/AutoPDEx/blob/main/docs/dae.rst" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-autopdex.dae">
+<span id="time-stepping"></span><h1>Time stepping<a class="headerlink" href="#module-autopdex.dae" title="Permalink to this heading"></a></h1>
+<p>Module for solving differential algebraic systems and transient PDEs.</p>
+<p>The ‘dae’ module includes time integration methods (Runge-Kutta and multistep methods) for solving coupled ordinary differential equations. The differential equations must be specified in implicit form. In principle, one can choose different integrators for different fields; however, the number and position of the stages must be compatible, as currently only a fully monolithic solution is implemented. Additionally, differential-algebraic systems can be solved. When algebraic equations are present, only integrators with exclusively implicit stages should be used.</p>
+<p>Furthermore, by using the keyword ‘call pde’, it is possible to solve time-dependent PDEs (currently, only time integrators with a single stage). The mechanism works by endowing the nodal degrees of freedom with discrete values and derivatives as functions of time using the chosen time discretization rules. The spatial discretization can be carried out using the same ansatz (for example, isoparametric finite elements) as in time-independent problems. In the case of backward Euler and spatial FE ansatz functions, this would appear as follows:</p>
+<p><span class="math notranslate nohighlight">\(\Theta = \sum_{I=1}^{N} \Theta_I\left(t\right) N_I\left(\boldsymbol{x}\right)\)</span>,</p>
+<p>where <span class="math notranslate nohighlight">\(N_I\left(\boldsymbol{x}\right)\)</span> are the FE ansatz functions and <span class="math notranslate nohighlight">\(\Theta_I\left(t\right)\)</span> represent the nodal degrees of freedom. The given PDE is then solved at the step <span class="math notranslate nohighlight">\(t_{n+1}\)</span> , where the time derivative of the nodal degrees of freedom is defined by a custom_jvp rule as <span class="math notranslate nohighlight">\(\frac{\partial\Theta_I}{\partial t}\vert_{t_{n+1}} = \frac{\Theta_I\left(t_{n+1}\right) - \Theta_I\left(t_n\right)}{\Delta t}\)</span>. In the ‘call pde’ mode, one should currently not use jacrev w.r.t. the time.</p>
+<p><em>WARNING</em>: This module is currently under development and lacks detailed documentation. However, some example notebooks are already available.</p>
+<section id="central-class">
+<h2>Central class<a class="headerlink" href="#central-class" title="Permalink to this heading"></a></h2>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/autopdex.dae.TimeSteppingManager.html#autopdex.dae.TimeSteppingManager" title="autopdex.dae.TimeSteppingManager"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TimeSteppingManager</span></code></a>(static_settings[, ...])</p></td>
+<td><p>Manages the time stepping procedure for a simulation using multi-stage integration schemes.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/autopdex.dae.TimeSteppingManager.run.html#autopdex.dae.TimeSteppingManager.run" title="autopdex.dae.TimeSteppingManager.run"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TimeSteppingManager.run</span></code></a>(dofs, dt0, t_max, ...)</p></td>
+<td><p>Executes the time stepping loop for the simulation.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/autopdex.dae.TimeSteppingManagerState.html#autopdex.dae.TimeSteppingManagerState" title="autopdex.dae.TimeSteppingManagerState"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TimeSteppingManagerState</span></code></a>(q, settings, ...)</p></td>
+<td><p>State for the TimeSteppingManager.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="time-integrators">
+<h2>Time integrators<a class="headerlink" href="#time-integrators" title="Permalink to this heading"></a></h2>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/autopdex.dae.TimeIntegrator.html#autopdex.dae.TimeIntegrator" title="autopdex.dae.TimeIntegrator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TimeIntegrator</span></code></a>(name, value_and_derivatives, ...)</p></td>
+<td><p>Base class for time integrators.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/autopdex.dae.BackwardEuler.html#autopdex.dae.BackwardEuler" title="autopdex.dae.BackwardEuler"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BackwardEuler</span></code></a>()</p></td>
+<td><p>Backward Euler method.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/autopdex.dae.ForwardEuler.html#autopdex.dae.ForwardEuler" title="autopdex.dae.ForwardEuler"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ForwardEuler</span></code></a>()</p></td>
+<td><p>Forward Euler method.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/autopdex.dae.Newmark.html#autopdex.dae.Newmark" title="autopdex.dae.Newmark"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Newmark</span></code></a>([gamma, beta])</p></td>
+<td><p>Newmark-beta method.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/autopdex.dae.AdamsMoulton.html#autopdex.dae.AdamsMoulton" title="autopdex.dae.AdamsMoulton"><code class="xref py py-obj docutils literal notranslate"><span class="pre">AdamsMoulton</span></code></a>(num_steps)</p></td>
+<td><p>Adams-Moulton method.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/autopdex.dae.AdamsBashforth.html#autopdex.dae.AdamsBashforth" title="autopdex.dae.AdamsBashforth"><code class="xref py py-obj docutils literal notranslate"><span class="pre">AdamsBashforth</span></code></a>(num_steps)</p></td>
+<td><p>Adams-Bashforth time integrator.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/autopdex.dae.BackwardDiffFormula.html#autopdex.dae.BackwardDiffFormula" title="autopdex.dae.BackwardDiffFormula"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BackwardDiffFormula</span></code></a>(num_steps)</p></td>
+<td><p>Backward differentiation formula (BDF).</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/autopdex.dae.ExplicitRungeKutta.html#autopdex.dae.ExplicitRungeKutta" title="autopdex.dae.ExplicitRungeKutta"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ExplicitRungeKutta</span></code></a>(num_stages)</p></td>
+<td><p>Explicit Runge-Kutta method.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/autopdex.dae.DiagonallyImplicitRungeKutta.html#autopdex.dae.DiagonallyImplicitRungeKutta" title="autopdex.dae.DiagonallyImplicitRungeKutta"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DiagonallyImplicitRungeKutta</span></code></a>(num_stages)</p></td>
+<td><p>Diagonally implicit Runge-Kutta method.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/autopdex.dae.Kvaerno.html#autopdex.dae.Kvaerno" title="autopdex.dae.Kvaerno"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Kvaerno</span></code></a>(order)</p></td>
+<td><p>Kvaerno method (explicit first stage diagonally implicit Runge-Kutta with embedded error estimation).</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/autopdex.dae.DormandPrince.html#autopdex.dae.DormandPrince" title="autopdex.dae.DormandPrince"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DormandPrince</span></code></a>(order)</p></td>
+<td><p>Dormand-Prince method (explicit with embedded error estimation).</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/autopdex.dae.GaussLegendreRungeKutta.html#autopdex.dae.GaussLegendreRungeKutta" title="autopdex.dae.GaussLegendreRungeKutta"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GaussLegendreRungeKutta</span></code></a>(num_stages)</p></td>
+<td><p>Gauss-Legendre Runge-Kutta method (fully implicit).</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="helper-functions">
+<h2>Helper functions<a class="headerlink" href="#helper-functions" title="Permalink to this heading"></a></h2>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/autopdex.dae.discrete_value_with_derivatives.html#autopdex.dae.discrete_value_with_derivatives" title="autopdex.dae.discrete_value_with_derivatives"><code class="xref py py-obj docutils literal notranslate"><span class="pre">discrete_value_with_derivatives</span></code></a></p></td>
+<td><p>Evaluate the discrete state value with custom derivative propagation.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/autopdex.dae.detect_stage_dependencies.html#autopdex.dae.detect_stage_dependencies" title="autopdex.dae.detect_stage_dependencies"><code class="xref py py-obj docutils literal notranslate"><span class="pre">detect_stage_dependencies</span></code></a>(A)</p></td>
+<td><p>Detects coupled structures (strongly connected components) in the Butcher matrix A and identifies explicit stages.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/autopdex.dae.invert_butcher_with_order.html#autopdex.dae.invert_butcher_with_order" title="autopdex.dae.invert_butcher_with_order"><code class="xref py py-obj docutils literal notranslate"><span class="pre">invert_butcher_with_order</span></code></a>(A)</p></td>
+<td><p>Computes the blockwise linear mapping matrix <code class="docutils literal notranslate"><span class="pre">A_</span></code> that maps U to U_dot without inter-block coupling, and determines the execution order of the blocks.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="step-size-controllers">
+<h2>Step size controllers<a class="headerlink" href="#step-size-controllers" title="Permalink to this heading"></a></h2>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/autopdex.dae.StepSizeController.html#autopdex.dae.StepSizeController" title="autopdex.dae.StepSizeController"><code class="xref py py-obj docutils literal notranslate"><span class="pre">StepSizeController</span></code></a>()</p></td>
+<td><p>Abstract base class for adaptive step size controllers.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/autopdex.dae.ConstantStepSizeController.html#autopdex.dae.ConstantStepSizeController" title="autopdex.dae.ConstantStepSizeController"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ConstantStepSizeController</span></code></a>()</p></td>
+<td><p>Constant Step Size Controller.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/autopdex.dae.CSSControllerState.html#autopdex.dae.CSSControllerState" title="autopdex.dae.CSSControllerState"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CSSControllerState</span></code></a>(step_scaler, accept, ...)</p></td>
+<td><p>State for the Constant Step Size Controller.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/autopdex.dae.PIDController.html#autopdex.dae.PIDController" title="autopdex.dae.PIDController"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PIDController</span></code></a>([pcoeff, icoeff, dcoeff, ...])</p></td>
+<td><p>Proportional-Integral-Derivative (PID) Step Size Controller.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/autopdex.dae.PIDControllerState.html#autopdex.dae.PIDControllerState" title="autopdex.dae.PIDControllerState"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PIDControllerState</span></code></a>(step_scaler, e_n, e_nn, ...)</p></td>
+<td><p>State for the Proportional-Integral-Derivative Controller.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/autopdex.dae.RootIterationController.html#autopdex.dae.RootIterationController" title="autopdex.dae.RootIterationController"><code class="xref py py-obj docutils literal notranslate"><span class="pre">RootIterationController</span></code></a>([target_niters, ...])</p></td>
+<td><p>Root Iteration Controller for adjusting step size based on number of root solver iterations.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/autopdex.dae.RootIterationControllerState.html#autopdex.dae.RootIterationControllerState" title="autopdex.dae.RootIterationControllerState"><code class="xref py py-obj docutils literal notranslate"><span class="pre">RootIterationControllerState</span></code></a>(step_scaler, ...)</p></td>
+<td><p>State for the Root Iteration Controller.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="data-saving-policies">
+<h2>Data saving policies<a class="headerlink" href="#data-saving-policies" title="Permalink to this heading"></a></h2>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/autopdex.dae.SavePolicy.html#autopdex.dae.SavePolicy" title="autopdex.dae.SavePolicy"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SavePolicy</span></code></a>()</p></td>
+<td><p>Abstract base class for save strategies.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/autopdex.dae.HistoryState.html#autopdex.dae.HistoryState" title="autopdex.dae.HistoryState"><code class="xref py py-obj docutils literal notranslate"><span class="pre">HistoryState</span></code></a>(t, q, user)</p></td>
+<td><p>Container for storing the history state data.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/autopdex.dae.SaveNothingPolicy.html#autopdex.dae.SaveNothingPolicy" title="autopdex.dae.SaveNothingPolicy"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SaveNothingPolicy</span></code></a>()</p></td>
+<td><p>A policy that does not save any data.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/autopdex.dae.SaveEquidistantPolicy.html#autopdex.dae.SaveEquidistantPolicy" title="autopdex.dae.SaveEquidistantPolicy"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SaveEquidistantPolicy</span></code></a>([num_points, tol])</p></td>
+<td><p>Saves data at (approximately) equidistant time points using pre-allocated arrays.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/autopdex.dae.SaveEquidistantHistoryState.html#autopdex.dae.SaveEquidistantHistoryState" title="autopdex.dae.SaveEquidistantHistoryState"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SaveEquidistantHistoryState</span></code></a>(t_max, ...)</p></td>
+<td><p>State for the SaveAllPolicy.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/autopdex.dae.SaveAllPolicy.html#autopdex.dae.SaveAllPolicy" title="autopdex.dae.SaveAllPolicy"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SaveAllPolicy</span></code></a>()</p></td>
+<td><p>Saves data at every accepted time step.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/autopdex.dae.SaveAllHistoryState.html#autopdex.dae.SaveAllHistoryState" title="autopdex.dae.SaveAllHistoryState"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SaveAllHistoryState</span></code></a>(t_max, max_steps, t, q, ...)</p></td>
+<td><p>State for the SaveAllPolicy.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="rootsolvers-compatible-with-the-dae-module">
+<h2>Rootsolvers compatible with the DAE module<a class="headerlink" href="#rootsolvers-compatible-with-the-dae-module" title="Permalink to this heading"></a></h2>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/autopdex.dae.RootSolverResult.html#autopdex.dae.RootSolverResult" title="autopdex.dae.RootSolverResult"><code class="xref py py-obj docutils literal notranslate"><span class="pre">RootSolverResult</span></code></a>(root, num_iterations, converged)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/autopdex.dae.newton_solver.html#autopdex.dae.newton_solver" title="autopdex.dae.newton_solver"><code class="xref py py-obj docutils literal notranslate"><span class="pre">newton_solver</span></code></a>(func, x0[, atol, max_iter, ...])</p></td>
+<td><p>Newton-Raphson solver to find a root of F(x)=0.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="_autosummary/autopdex.solver.scipy_assembling.html" class="btn btn-neutral float-left" title="autopdex.solver.scipy_assembling" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="_autosummary/autopdex.dae.TimeSteppingManager.html" class="btn btn-neutral float-right" title="autopdex.dae.TimeSteppingManager" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Tobias Bode.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

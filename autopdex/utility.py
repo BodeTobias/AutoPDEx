@@ -20,7 +20,8 @@ This module contains some useful functions, including:
 - Functions for manipulating arrays
 """
 
-from functools import wraps
+from functools import wraps, partial
+import inspect
 
 import jax
 import jax.numpy as jnp
@@ -28,23 +29,54 @@ import numpy as np
 from flax.core import FrozenDict
 from jax.experimental import sparse
 
-def jit_with_docstring(static_argnames=None):
-    """JIT wrapper that keeps the originial docstring of the function."""
+def jit_with_docstring(static_argnames=None, possibly_static_argnames=None, inline=False):
+    """
+    JIT wrapper that preserves the original docstring of the function and
+    additionally treats arguments from possibly_static_argnames as static if
+    their value is callable.
+    
+    :param static_argnames: Iterable of argument names that are always static.
+    :param possibly_static_argnames: Iterable of argument names that are treated as static
+                                     only if their value is callable.
+    """
     def decorator(fun):
-        # Define the jitted function with optional static_argnames
-        if static_argnames is not None:
-            jitted_fun = jax.tree_util.Partial(
-                jax.jit, static_argnames=static_argnames
-            )(fun)
-        else:
-            jitted_fun = jax.jit(fun)
-
-        # Create the wrapper function
+        # Cache for jitted functions: key is a frozenset of the argument names
+        # that are treated as static for the current call.
+        jitted_cache = {}
+        # Retrieve the signature of the original function to later bind its parameters.
+        sig = inspect.signature(fun)
+        
         @wraps(fun)
         def wrapper(*args, **kwargs):
-            return jitted_fun(*args, **kwargs)
+            # Bind the current arguments to the function's parameters.
+            bound_args = sig.bind(*args, **kwargs)
+            bound_args.apply_defaults()
+            
+            # Start with the fixed static argument names, if provided.
+            effective_static = set(static_argnames) if static_argnames is not None else set()
+            
+            # For each argument in possibly_static_argnames, check if its value is callable.
+            # If so, treat it as static.
+            if possibly_static_argnames is not None:
+                for name in possibly_static_argnames:
+                    if name in bound_args.arguments and callable(bound_args.arguments[name]):
+                        effective_static.add(name)
+            
+            # Create an immutable key for the cache based on the effective static arguments.
+            effective_static_key = frozenset(effective_static)
+            
+            # If a jitted function with this static argument configuration doesn't exist yet,
+            # compile and cache it.
+            if effective_static_key not in jitted_cache:
+                if effective_static:
+                    jitted_cache[effective_static_key] = jax.jit(fun, static_argnames=effective_static, inline=inline)
+                else:
+                    jitted_cache[effective_static_key] = jax.jit(fun, inline=inline)
+            
+            # Call the appropriate jitted function.
+            return jitted_cache[effective_static_key](*args, **kwargs)
+        
         return wrapper
-
     return decorator
 
 def dict_zeros_like(arr, **keyargs):
@@ -69,7 +101,6 @@ def dict_ones_like(arr, **keyargs):
     else:
         return jnp.ones_like(arr, **keyargs)
 
-
 def dict_flatten(arr):
     """
     Recursively flattens a nested dict of arrays (np.ndarray or jnp.ndarray) to one flat array.
@@ -84,7 +115,7 @@ def dict_flatten(arr):
     if isinstance(arr, (dict, FrozenDict)):
         flat_arrays = [dict_flatten(arr[key]) for key in arr.keys()]
         if not flat_arrays:
-            return np.array([]) if isinstance(flat_array, np.ndarray) else jnp.array([])
+            return np.array([]) if isinstance(arr, np.ndarray) else jnp.array([])
         else:
             return (
                 jnp.concatenate(flat_arrays)
@@ -110,7 +141,7 @@ def reshape_as(flat_array, signature_array):
     if isinstance(signature_array, dict):
         reshaped_arrays = {}
         start = 0
-        for key in sorted(signature_array.keys()):
+        for key in signature_array.keys():
             sig_value = signature_array[key]
             # Calculate the number of elements needed for this array
             size = (
@@ -261,7 +292,7 @@ def mask_op(array, selection, values=None, mode="set", ufunc=None):
         ufunc (callable, optional): A unary function to apply when mode is 'apply'.
 
     Returns:
-        Updated array or dict of arrays, or selected elements if mode is 'get'.
+        Updated array or dict of arrays.
     """
     # Define the allowed modes and their corresponding JAX methods
     mode_methods = {
@@ -283,10 +314,6 @@ def mask_op(array, selection, values=None, mode="set", ufunc=None):
 
     if isinstance(array, dict):
         # Ensure selection (and values if needed) are also dicts with the same keys
-        if not isinstance(selection, dict):
-            raise TypeError(
-                "If 'array' is a dict, 'selection' must also be a dict with the same keys."
-            )
         if array.keys() != selection.keys():
             raise ValueError("The keys of 'array' and 'selection' must match.")
 
@@ -327,7 +354,7 @@ def mask_op(array, selection, values=None, mode="set", ufunc=None):
             flat_array = jnp.where(flat_selection, updated_values, flat_array)
         elif mode == "set":
             # Flatten values
-            flat_values = values.flatten()
+            flat_values = dict_flatten(values)
             flat_array = jnp.where(flat_selection, flat_values, flat_array)
         else:
             flat_values = values.flatten()
@@ -446,7 +473,7 @@ def jnp_to_tuple(jnp_array):
     """
     if isinstance(jnp_array, dict):
         return FrozenDict(
-            {key: jnp_to_tuple(jnp_array[key]) for key in list(jnp_array.keys())}
+            {key: jnp_to_tuple(jnp_array[key]) for key in jnp_array.keys()}
         )
     else:
         as_list = np.array(jnp_array).tolist()
@@ -626,7 +653,57 @@ def jacfwd_upto_n_one_vector_arg(fun, x, n):
 
     return flatten_tuple(jacfwd_upto_n_one_vector_arg_tmp(fun, x, n))
 
-def invert_matrix(mat):
+def matrix_adj(mat):
+    """
+    Computes the adjugate of a square matrix of size 1x1, 2x2, or 3x3.
+
+    Parameters:
+    -----------
+    mat : jnp.ndarray
+        A square matrix of shape (1,1), (2,2), or (3,3).
+
+    Returns:
+    --------
+    adj_mat : jnp.ndarray
+        The adjugate of the input matrix.
+    """
+    
+    # Check if the matrix is two-dimensional and square
+    if mat.ndim != 2 or mat.shape[0] != mat.shape[1]:
+        raise ValueError("Input matrix must be square (n x n).")
+    
+    n = mat.shape[0]
+
+    if n == 1:
+        # Inversion of a 1x1 matrix
+        adjugate = mat
+    elif n == 2:
+        # Inversion of a 2x2 matrix using the explicit formula
+        a, b = mat[0, 0], mat[0, 1]
+        c, d = mat[1, 0], mat[1, 1]
+
+        adjugate = jnp.array([[ d, -b],
+                            [-c,  a]])
+    elif n == 3:
+        # Inversion of a 3x3 matrix using the adjugate method
+        a, b, c = mat[0, 0], mat[0, 1], mat[0, 2]
+        d, e, f = mat[1, 0], mat[1, 1], mat[1, 2]
+        g, h, i = mat[2, 0], mat[2, 1], mat[2, 2]
+
+        # Compute the adjugate matrix (transpose of cofactors)
+        adjugate = jnp.array([
+            [ e * i - f * h, c * h - b * i, b * f - c * e],
+            [ f * g - d * i, a * i - c * g, c * d - a * f],
+            [ d * h - e * g, b * g - a * h, a * e - b * d]
+        ])
+
+    else:
+        raise ValueError("Function only supports matrices of size 1x1, 2x2, or 3x3.")
+
+    return adjugate
+
+@jax.custom_jvp
+def matrix_inv(mat):
     """
     Inverts a square matrix of size 1x1, 2x2, or 3x3.
 
@@ -683,3 +760,96 @@ def invert_matrix(mat):
         raise ValueError("Function only supports matrices of size 1x1, 2x2, or 3x3.")
 
     return inv_mat
+@matrix_inv.defjvp
+def matrix_inv_jvp(primals, tangents):
+    mat, = primals
+    mat_dot, = tangents
+    inv_mat = matrix_inv(mat)
+    inv_mat_dot = -jnp.dot(jnp.dot(inv_mat, mat_dot), inv_mat)
+    return inv_mat, inv_mat_dot
+
+@jax.custom_jvp
+def matrix_det(mat):
+    """
+    Computes the determinant of a square matrix of size 1x1, 2x2, or 3x3.
+
+    Parameters:
+    -----------
+    mat : jnp.ndarray
+        A square matrix of shape (1,1), (2,2), or (3,3).
+
+    Returns:
+    --------
+    det : The determinant of the input matrix.
+    """
+    
+    # Check if the matrix is two-dimensional and square
+    if mat.ndim != 2 or mat.shape[0] != mat.shape[1]:
+        raise ValueError("Input matrix must be square (n x n).")
+    
+    n = mat.shape[0]
+
+    if n == 1:
+        # Determinant of a 1x1 matrix
+        det = mat[0, 0]
+    elif n == 2:
+        # Determinant of a 2x2 matrix using the explicit formula
+        a, b = mat[0, 0], mat[0, 1]
+        c, d = mat[1, 0], mat[1, 1]
+        det = a * d - b * c
+    elif n == 3:
+        # Determinant of a 3x3 matrix using the rule of Sarrus
+        a, b, c = mat[0, 0], mat[0, 1], mat[0, 2]
+        d, e, f = mat[1, 0], mat[1, 1], mat[1, 2]
+        g, h, i = mat[2, 0], mat[2, 1], mat[2, 2]
+        det = (a * (e * i - f * h) -
+               b * (d * i - f * g) +
+               c * (d * h - e * g))
+    else:
+        raise ValueError("Function only supports matrices of size 1x1, 2x2, or 3x3.")
+
+    return det
+@matrix_det.defjvp
+def matrix_det_jvp(primals, tangents):
+    mat, = primals
+    mat_dot, = tangents
+    mat_adj = matrix_adj(mat)
+    return matrix_det(mat), jnp.trace(mat_adj @ mat_dot)
+
+def matrix_dev(mat):
+    """
+    Computes the deviator of a square matrix (tensor).
+    
+    The deviator is defined as:
+        A' = A - (trace(A)/n)*I,
+    where:
+      - A is the input matrix,
+      - trace(A) is the sum of the diagonal elements,
+      - n is the number of rows (or columns) of the square matrix, and
+      - I is the identity matrix of size n x n.
+    
+    Parameters:
+    -----------
+    mat : jnp.ndarray
+        A square matrix of shape (n, n).
+    
+    Returns:
+    --------
+    deviator : jnp.ndarray
+        The deviator of the input matrix.
+    
+    Raises:
+    -------
+    ValueError:
+        If the input matrix is not square.
+    """
+    # Check if the matrix is two-dimensional and square
+    if mat.ndim != 2 or mat.shape[0] != mat.shape[1]:
+        raise ValueError("Input matrix must be square (n x n).")
+    
+    n = mat.shape[0]
+    trace_val = jnp.trace(mat)
+    identity = jnp.eye(n)
+    
+    deviator = mat - (trace_val / n) * identity
+    return deviator

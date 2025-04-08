@@ -1,0 +1,58 @@
+﻿autopdex.dae.TimeIntegrator
+===========================
+
+.. currentmodule:: autopdex.dae
+
+.. autoclass:: TimeIntegrator
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~TimeIntegrator.__delattr__
+      ~TimeIntegrator.__dir__
+      ~TimeIntegrator.__eq__
+      ~TimeIntegrator.__format__
+      ~TimeIntegrator.__ge__
+      ~TimeIntegrator.__getattribute__
+      ~TimeIntegrator.__getstate__
+      ~TimeIntegrator.__gt__
+      ~TimeIntegrator.__hash__
+      ~TimeIntegrator.__init_subclass__
+      ~TimeIntegrator.__le__
+      ~TimeIntegrator.__lt__
+      ~TimeIntegrator.__ne__
+      ~TimeIntegrator.__new__
+      ~TimeIntegrator.__reduce__
+      ~TimeIntegrator.__reduce_ex__
+      ~TimeIntegrator.__repr__
+      ~TimeIntegrator.__setattr__
+      ~TimeIntegrator.__sizeof__
+      ~TimeIntegrator.__str__
+      ~TimeIntegrator.__subclasshook__
+      ~TimeIntegrator._error_estimate
+      ~TimeIntegrator._rule
+      ~TimeIntegrator._update
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~TimeIntegrator.__abstractmethods__
+      ~TimeIntegrator.__annotations__
+      ~TimeIntegrator.__dict__
+      ~TimeIntegrator.__doc__
+      ~TimeIntegrator.__module__
+      ~TimeIntegrator.__slots__
+      ~TimeIntegrator.__weakref__
+      ~TimeIntegrator._abc_impl
+   
+   

@@ -1,0 +1,58 @@
+﻿autopdex.dae.SaveNothingPolicy
+==============================
+
+.. currentmodule:: autopdex.dae
+
+.. autoclass:: SaveNothingPolicy
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~SaveNothingPolicy.__delattr__
+      ~SaveNothingPolicy.__dir__
+      ~SaveNothingPolicy.__eq__
+      ~SaveNothingPolicy.__format__
+      ~SaveNothingPolicy.__ge__
+      ~SaveNothingPolicy.__getattribute__
+      ~SaveNothingPolicy.__getstate__
+      ~SaveNothingPolicy.__gt__
+      ~SaveNothingPolicy.__hash__
+      ~SaveNothingPolicy.__init_subclass__
+      ~SaveNothingPolicy.__le__
+      ~SaveNothingPolicy.__lt__
+      ~SaveNothingPolicy.__ne__
+      ~SaveNothingPolicy.__new__
+      ~SaveNothingPolicy.__reduce__
+      ~SaveNothingPolicy.__reduce_ex__
+      ~SaveNothingPolicy.__repr__
+      ~SaveNothingPolicy.__setattr__
+      ~SaveNothingPolicy.__sizeof__
+      ~SaveNothingPolicy.__str__
+      ~SaveNothingPolicy.__subclasshook__
+      ~SaveNothingPolicy.finalize
+      ~SaveNothingPolicy.initialize
+      ~SaveNothingPolicy.save_step
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~SaveNothingPolicy.__abstractmethods__
+      ~SaveNothingPolicy.__annotations__
+      ~SaveNothingPolicy.__dict__
+      ~SaveNothingPolicy.__doc__
+      ~SaveNothingPolicy.__module__
+      ~SaveNothingPolicy.__slots__
+      ~SaveNothingPolicy.__weakref__
+      ~SaveNothingPolicy._abc_impl
+   
+   

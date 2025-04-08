@@ -1,0 +1,58 @@
+﻿autopdex.dae.PIDController
+==========================
+
+.. currentmodule:: autopdex.dae
+
+.. autoclass:: PIDController
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~PIDController.__delattr__
+      ~PIDController.__dir__
+      ~PIDController.__eq__
+      ~PIDController.__format__
+      ~PIDController.__ge__
+      ~PIDController.__getattribute__
+      ~PIDController.__getstate__
+      ~PIDController.__gt__
+      ~PIDController.__hash__
+      ~PIDController.__init_subclass__
+      ~PIDController.__le__
+      ~PIDController.__lt__
+      ~PIDController.__ne__
+      ~PIDController.__new__
+      ~PIDController.__reduce__
+      ~PIDController.__reduce_ex__
+      ~PIDController.__repr__
+      ~PIDController.__setattr__
+      ~PIDController.__sizeof__
+      ~PIDController.__str__
+      ~PIDController.__subclasshook__
+      ~PIDController.check_accept
+      ~PIDController.compute_scaler
+      ~PIDController.initialize
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~PIDController.__abstractmethods__
+      ~PIDController.__annotations__
+      ~PIDController.__dict__
+      ~PIDController.__doc__
+      ~PIDController.__module__
+      ~PIDController.__slots__
+      ~PIDController.__weakref__
+      ~PIDController._abc_impl
+   
+   

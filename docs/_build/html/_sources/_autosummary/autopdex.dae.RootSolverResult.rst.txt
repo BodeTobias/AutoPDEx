@@ -1,0 +1,58 @@
+﻿autopdex.dae.RootSolverResult
+=============================
+
+.. currentmodule:: autopdex.dae
+
+.. autoclass:: RootSolverResult
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~RootSolverResult.__delattr__
+      ~RootSolverResult.__dir__
+      ~RootSolverResult.__eq__
+      ~RootSolverResult.__format__
+      ~RootSolverResult.__ge__
+      ~RootSolverResult.__getattribute__
+      ~RootSolverResult.__getstate__
+      ~RootSolverResult.__gt__
+      ~RootSolverResult.__init_subclass__
+      ~RootSolverResult.__le__
+      ~RootSolverResult.__lt__
+      ~RootSolverResult.__ne__
+      ~RootSolverResult.__new__
+      ~RootSolverResult.__reduce__
+      ~RootSolverResult.__reduce_ex__
+      ~RootSolverResult.__repr__
+      ~RootSolverResult.__setattr__
+      ~RootSolverResult.__sizeof__
+      ~RootSolverResult.__str__
+      ~RootSolverResult.__subclasshook__
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~RootSolverResult.__annotations__
+      ~RootSolverResult.__dataclass_fields__
+      ~RootSolverResult.__dataclass_params__
+      ~RootSolverResult.__dict__
+      ~RootSolverResult.__doc__
+      ~RootSolverResult.__hash__
+      ~RootSolverResult.__match_args__
+      ~RootSolverResult.__module__
+      ~RootSolverResult.__weakref__
+      ~RootSolverResult.root
+      ~RootSolverResult.num_iterations
+      ~RootSolverResult.converged
+   
+   

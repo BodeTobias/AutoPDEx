@@ -1,36 +1,36 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" data-content_root="../../">
+<html class="writer-html5" lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>autopdex.seeder &mdash; AutoPDEx  documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
-      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=19f00094" />
-      <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
-      <link rel="stylesheet" type="text/css" href="../../_static/jupyter-sphinx.css?v=572af1d6" />
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css" />
+      <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
+      <link rel="stylesheet" type="text/css" href="../../_static/jupyter-sphinx.css" />
       <link rel="stylesheet" type="text/css" href="../../_static/thebelab.css" />
-      <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=acfd50eb" />
-      <link rel="stylesheet" type="text/css" href="../../_static/dark_mode_css/general.css?v=c0a7eb24" />
-      <link rel="stylesheet" type="text/css" href="../../_static/dark_mode_css/dark.css?v=70edf1c7" />
+      <link rel="stylesheet" type="text/css" href="../../_static/custom.css" />
+      <link rel="stylesheet" type="text/css" href="../../_static/dark_mode_css/general.css" />
+      <link rel="stylesheet" type="text/css" href="../../_static/dark_mode_css/dark.css" />
 
   
   <!--[if lt IE 9]>
     <script src="../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script src="../../_static/jquery.js?v=5d32c60e"></script>
-        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../_static/documentation_options.js?v=5929fcd5"></script>
-        <script src="../../_static/doctools.js?v=9a2dae69"></script>
-        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
-        <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
-        <script src="../../_static/copybutton.js?v=f281be69"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/sphinx_highlight.js"></script>
+        <script src="../../_static/clipboard.min.js"></script>
+        <script src="../../_static/copybutton.js"></script>
         <script src="../../_static/thebelab-helper.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-        <script src="../../_static/dark_mode_js/default_light.js?v=c2e647ce"></script>
-        <script src="../../_static/dark_mode_js/theme_switcher.js?v=358d3910"></script>
+        <script src="../../_static/dark_mode_js/default_light.js"></script>
+        <script src="../../_static/dark_mode_js/theme_switcher.js"></script>
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" /> 
@@ -49,7 +49,7 @@
               <img src="../../_static/logo.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                1.0.5
+                1.1.1
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
@@ -65,16 +65,17 @@
 <p class="caption" role="heading"><span class="caption-text">High level operations</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../solver.html">Solver</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../dae.html">Time stepping</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../models.html">Models</a></li>
-</ul>
-<p class="caption" role="heading"><span class="caption-text">Settings</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../../settings.html">Settings and static_settings</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Examples</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../example_notebooks.html">Example notebooks</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../examples.html">Examplary input files</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Settings</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../settings.html">Settings and static_settings</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Lower level operations</span></p>
 <ul>
@@ -174,9 +175,7 @@
     <span class="k">return</span> <span class="p">(</span><span class="n">dim</span><span class="p">,</span> <span class="n">step</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="regular_in_psdf">
-<a class="viewcode-back" href="../../_autosummary/autopdex.seeder.regular_in_psdf.html#autopdex.seeder.regular_in_psdf">[docs]</a>
-<span class="k">def</span> <span class="nf">regular_in_psdf</span><span class="p">(</span><span class="n">psdf</span><span class="p">,</span> <span class="nb">min</span><span class="p">,</span> <span class="nb">max</span><span class="p">,</span> <span class="n">spacing</span><span class="p">,</span> <span class="n">atol</span><span class="o">=</span><span class="mf">1e-8</span><span class="p">):</span>
+<div class="viewcode-block" id="regular_in_psdf"><a class="viewcode-back" href="../../_autosummary/autopdex.seeder.regular_in_psdf.html#autopdex.seeder.regular_in_psdf">[docs]</a><span class="k">def</span> <span class="nf">regular_in_psdf</span><span class="p">(</span><span class="n">psdf</span><span class="p">,</span> <span class="nb">min</span><span class="p">,</span> <span class="nb">max</span><span class="p">,</span> <span class="n">spacing</span><span class="p">,</span> <span class="n">atol</span><span class="o">=</span><span class="mf">1e-8</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Generates regular seed points within a box and filters them using psdf.</span>
 
@@ -202,10 +201,7 @@
     <span class="k">return</span> <span class="p">(</span><span class="n">x_seeds</span><span class="p">,</span> <span class="n">n_seeds</span><span class="p">,</span> <span class="n">region_size</span><span class="p">)</span></div>
 
 
-
-<div class="viewcode-block" id="regular_in_box">
-<a class="viewcode-back" href="../../_autosummary/autopdex.seeder.regular_in_box.html#autopdex.seeder.regular_in_box">[docs]</a>
-<span class="k">def</span> <span class="nf">regular_in_box</span><span class="p">(</span><span class="nb">min</span><span class="p">,</span> <span class="nb">max</span><span class="p">,</span> <span class="n">spacing</span><span class="p">):</span>
+<div class="viewcode-block" id="regular_in_box"><a class="viewcode-back" href="../../_autosummary/autopdex.seeder.regular_in_box.html#autopdex.seeder.regular_in_box">[docs]</a><span class="k">def</span> <span class="nf">regular_in_box</span><span class="p">(</span><span class="nb">min</span><span class="p">,</span> <span class="nb">max</span><span class="p">,</span> <span class="n">spacing</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Generates regular seed points within a specified box.</span>
 
@@ -247,10 +243,7 @@
     <span class="k">return</span> <span class="p">(</span><span class="n">x_seeds</span><span class="p">,</span> <span class="n">n_seeds</span><span class="p">)</span></div>
 
 
-
-<div class="viewcode-block" id="quasi_random_in_psdf">
-<a class="viewcode-back" href="../../_autosummary/autopdex.seeder.quasi_random_in_psdf.html#autopdex.seeder.quasi_random_in_psdf">[docs]</a>
-<span class="k">def</span> <span class="nf">quasi_random_in_psdf</span><span class="p">(</span>
+<div class="viewcode-block" id="quasi_random_in_psdf"><a class="viewcode-back" href="../../_autosummary/autopdex.seeder.quasi_random_in_psdf.html#autopdex.seeder.quasi_random_in_psdf">[docs]</a><span class="k">def</span> <span class="nf">quasi_random_in_psdf</span><span class="p">(</span>
     <span class="n">psdf</span><span class="p">,</span> <span class="nb">min</span><span class="p">,</span> <span class="nb">max</span><span class="p">,</span> <span class="n">n_seeds</span><span class="p">,</span> <span class="n">mode</span><span class="p">,</span> <span class="n">atol</span><span class="o">=</span><span class="mf">1e-8</span><span class="p">,</span> <span class="n">n_init</span><span class="o">=</span><span class="mi">10000</span><span class="p">,</span> <span class="n">approx</span><span class="o">=</span><span class="kc">True</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -294,10 +287,7 @@
     <span class="k">return</span> <span class="p">(</span><span class="n">x_seeds</span><span class="p">,</span> <span class="n">x_seeds</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">region_size</span><span class="p">)</span></div>
 
 
-
-<div class="viewcode-block" id="quasi_random_in_box">
-<a class="viewcode-back" href="../../_autosummary/autopdex.seeder.quasi_random_in_box.html#autopdex.seeder.quasi_random_in_box">[docs]</a>
-<span class="k">def</span> <span class="nf">quasi_random_in_box</span><span class="p">(</span><span class="nb">min</span><span class="p">,</span> <span class="nb">max</span><span class="p">,</span> <span class="n">n_seeds</span><span class="p">,</span> <span class="n">mode</span><span class="p">):</span>
+<div class="viewcode-block" id="quasi_random_in_box"><a class="viewcode-back" href="../../_autosummary/autopdex.seeder.quasi_random_in_box.html#autopdex.seeder.quasi_random_in_box">[docs]</a><span class="k">def</span> <span class="nf">quasi_random_in_box</span><span class="p">(</span><span class="nb">min</span><span class="p">,</span> <span class="nb">max</span><span class="p">,</span> <span class="n">n_seeds</span><span class="p">,</span> <span class="n">mode</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Generates quasi-random seed points within a specified box using the given mode.</span>
 
@@ -326,10 +316,7 @@
     <span class="k">return</span> <span class="p">(</span><span class="n">x_seeds</span><span class="p">,</span> <span class="n">x_seeds</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span></div>
 
 
-
-<div class="viewcode-block" id="gauss_points_in_psdf">
-<a class="viewcode-back" href="../../_autosummary/autopdex.seeder.gauss_points_in_psdf.html#autopdex.seeder.gauss_points_in_psdf">[docs]</a>
-<span class="k">def</span> <span class="nf">gauss_points_in_psdf</span><span class="p">(</span>
+<div class="viewcode-block" id="gauss_points_in_psdf"><a class="viewcode-back" href="../../_autosummary/autopdex.seeder.gauss_points_in_psdf.html#autopdex.seeder.gauss_points_in_psdf">[docs]</a><span class="k">def</span> <span class="nf">gauss_points_in_psdf</span><span class="p">(</span>
     <span class="n">psdf</span><span class="p">,</span> <span class="nb">min</span><span class="p">,</span> <span class="nb">max</span><span class="p">,</span> <span class="n">spacing</span><span class="p">,</span> <span class="n">order</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="s2">&quot;gauss legendre&quot;</span><span class="p">,</span> <span class="n">atol</span><span class="o">=</span><span class="mf">1e-8</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -383,10 +370,7 @@
     <span class="k">return</span> <span class="p">(</span><span class="n">x_int</span><span class="p">,</span> <span class="n">w_int</span><span class="p">,</span> <span class="n">n_int</span><span class="p">)</span></div>
 
 
-
-<div class="viewcode-block" id="estimate_size">
-<a class="viewcode-back" href="../../_autosummary/autopdex.seeder.estimate_size.html#autopdex.seeder.estimate_size">[docs]</a>
-<span class="nd">@jit_with_docstring</span><span class="p">()</span>
+<div class="viewcode-block" id="estimate_size"><a class="viewcode-back" href="../../_autosummary/autopdex.seeder.estimate_size.html#autopdex.seeder.estimate_size">[docs]</a><span class="nd">@jit_with_docstring</span><span class="p">()</span>
 <span class="k">def</span> <span class="nf">estimate_size</span><span class="p">(</span><span class="nb">min</span><span class="p">,</span> <span class="nb">max</span><span class="p">,</span> <span class="n">fill_ratio</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Estimates the region size based on the fill ratio.</span>
@@ -405,10 +389,7 @@
     <span class="k">return</span> <span class="n">region_size</span></div>
 
 
-
-<div class="viewcode-block" id="just_in_psdf">
-<a class="viewcode-back" href="../../_autosummary/autopdex.seeder.just_in_psdf.html#autopdex.seeder.just_in_psdf">[docs]</a>
-<span class="k">def</span> <span class="nf">just_in_psdf</span><span class="p">(</span><span class="n">psdf</span><span class="p">,</span> <span class="n">x_seeds</span><span class="p">,</span> <span class="n">n_seeds</span><span class="p">,</span> <span class="n">atol</span><span class="p">,</span> <span class="n">w_int</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="just_in_psdf"><a class="viewcode-back" href="../../_autosummary/autopdex.seeder.just_in_psdf.html#autopdex.seeder.just_in_psdf">[docs]</a><span class="k">def</span> <span class="nf">just_in_psdf</span><span class="p">(</span><span class="n">psdf</span><span class="p">,</span> <span class="n">x_seeds</span><span class="p">,</span> <span class="n">n_seeds</span><span class="p">,</span> <span class="n">atol</span><span class="p">,</span> <span class="n">w_int</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Filters seed points based on a positive smooth distance function (psdf).</span>
 
@@ -442,11 +423,8 @@
         <span class="k">return</span> <span class="p">(</span><span class="n">x_seeds</span><span class="p">,</span> <span class="n">w_int</span><span class="p">)</span></div>
 
 
-
 <span class="c1">### Numerical integration</span>
-<div class="viewcode-block" id="tensor_product_two_coordinate_arrays">
-<a class="viewcode-back" href="../../_autosummary/autopdex.seeder.tensor_product_two_coordinate_arrays.html#autopdex.seeder.tensor_product_two_coordinate_arrays">[docs]</a>
-<span class="nd">@jit_with_docstring</span><span class="p">()</span>
+<div class="viewcode-block" id="tensor_product_two_coordinate_arrays"><a class="viewcode-back" href="../../_autosummary/autopdex.seeder.tensor_product_two_coordinate_arrays.html#autopdex.seeder.tensor_product_two_coordinate_arrays">[docs]</a><span class="nd">@jit_with_docstring</span><span class="p">()</span>
 <span class="k">def</span> <span class="nf">tensor_product_two_coordinate_arrays</span><span class="p">(</span><span class="n">xi</span><span class="p">,</span> <span class="n">yi</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Computes the tensor product of two coordinate arrays.</span>
@@ -468,10 +446,7 @@
     <span class="k">return</span> <span class="n">xi_new</span><span class="p">,</span> <span class="n">yi_new</span></div>
 
 
-
-<div class="viewcode-block" id="tensor_product_rule">
-<a class="viewcode-back" href="../../_autosummary/autopdex.seeder.tensor_product_rule.html#autopdex.seeder.tensor_product_rule">[docs]</a>
-<span class="k">def</span> <span class="nf">tensor_product_rule</span><span class="p">(</span><span class="n">roots_1d</span><span class="p">,</span> <span class="n">weights_1d</span><span class="p">,</span> <span class="n">dim</span><span class="p">):</span>
+<div class="viewcode-block" id="tensor_product_rule"><a class="viewcode-back" href="../../_autosummary/autopdex.seeder.tensor_product_rule.html#autopdex.seeder.tensor_product_rule">[docs]</a><span class="k">def</span> <span class="nf">tensor_product_rule</span><span class="p">(</span><span class="n">roots_1d</span><span class="p">,</span> <span class="n">weights_1d</span><span class="p">,</span> <span class="n">dim</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Generates integration points and weights for tensor product quadrature rules.</span>
 
@@ -517,10 +492,7 @@
             <span class="k">assert</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;Not implemented for this dimensionality!&quot;</span></div>
 
 
-
-<div class="viewcode-block" id="gauss_legendre_1d">
-<a class="viewcode-back" href="../../_autosummary/autopdex.seeder.gauss_legendre_1d.html#autopdex.seeder.gauss_legendre_1d">[docs]</a>
-<span class="k">def</span> <span class="nf">gauss_legendre_1d</span><span class="p">(</span><span class="n">order</span><span class="p">):</span>
+<div class="viewcode-block" id="gauss_legendre_1d"><a class="viewcode-back" href="../../_autosummary/autopdex.seeder.gauss_legendre_1d.html#autopdex.seeder.gauss_legendre_1d">[docs]</a><span class="k">def</span> <span class="nf">gauss_legendre_1d</span><span class="p">(</span><span class="n">order</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns positions and weights for Gauss-Legendre quadrature for the interval [0,1]</span>
 
@@ -1196,10 +1168,7 @@
             <span class="k">assert</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;Quadrature order not implemented&quot;</span></div>
 
 
-
-<div class="viewcode-block" id="gauss_legendre_nd">
-<a class="viewcode-back" href="../../_autosummary/autopdex.seeder.gauss_legendre_nd.html#autopdex.seeder.gauss_legendre_nd">[docs]</a>
-<span class="k">def</span> <span class="nf">gauss_legendre_nd</span><span class="p">(</span><span class="n">dimension</span><span class="p">,</span> <span class="n">order</span><span class="p">):</span>
+<div class="viewcode-block" id="gauss_legendre_nd"><a class="viewcode-back" href="../../_autosummary/autopdex.seeder.gauss_legendre_nd.html#autopdex.seeder.gauss_legendre_nd">[docs]</a><span class="k">def</span> <span class="nf">gauss_legendre_nd</span><span class="p">(</span><span class="n">dimension</span><span class="p">,</span> <span class="n">order</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns positions and weights for Gauss-Legendre quadrature in higher dimensions based on tensor product rules</span>
 
@@ -1218,10 +1187,7 @@
         <span class="k">return</span> <span class="n">tensor_product_rule</span><span class="p">(</span><span class="o">*</span><span class="n">gauss_legendre_1d_scaled</span><span class="p">(</span><span class="n">order</span><span class="p">),</span> <span class="n">dimension</span><span class="p">)</span></div>
 
 
-
-<div class="viewcode-block" id="gauss_lobatto_1d">
-<a class="viewcode-back" href="../../_autosummary/autopdex.seeder.gauss_lobatto_1d.html#autopdex.seeder.gauss_lobatto_1d">[docs]</a>
-<span class="k">def</span> <span class="nf">gauss_lobatto_1d</span><span class="p">(</span><span class="n">order</span><span class="p">):</span>
+<div class="viewcode-block" id="gauss_lobatto_1d"><a class="viewcode-back" href="../../_autosummary/autopdex.seeder.gauss_lobatto_1d.html#autopdex.seeder.gauss_lobatto_1d">[docs]</a><span class="k">def</span> <span class="nf">gauss_lobatto_1d</span><span class="p">(</span><span class="n">order</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns positions and weights for Gauss-Lobatto quadrature for the interval [0,1]</span>
 
@@ -1950,10 +1916,7 @@
             <span class="k">assert</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;Quadrature order not implemented&quot;</span></div>
 
 
-
-<div class="viewcode-block" id="gauss_lobatto_nd">
-<a class="viewcode-back" href="../../_autosummary/autopdex.seeder.gauss_lobatto_nd.html#autopdex.seeder.gauss_lobatto_nd">[docs]</a>
-<span class="k">def</span> <span class="nf">gauss_lobatto_nd</span><span class="p">(</span><span class="n">dimension</span><span class="p">,</span> <span class="n">order</span><span class="p">):</span>
+<div class="viewcode-block" id="gauss_lobatto_nd"><a class="viewcode-back" href="../../_autosummary/autopdex.seeder.gauss_lobatto_nd.html#autopdex.seeder.gauss_lobatto_nd">[docs]</a><span class="k">def</span> <span class="nf">gauss_lobatto_nd</span><span class="p">(</span><span class="n">dimension</span><span class="p">,</span> <span class="n">order</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns positions and weights for Gauss-Lobatto quadrature in higher dimensions based on tensor product rules</span>
 
@@ -1972,10 +1935,7 @@
         <span class="k">return</span> <span class="n">tensor_product_rule</span><span class="p">(</span><span class="o">*</span><span class="n">gauss_lobatto_1d_scaled</span><span class="p">(</span><span class="n">order</span><span class="p">),</span> <span class="n">dimension</span><span class="p">)</span></div>
 
 
-
-<div class="viewcode-block" id="int_pts_ref_tri">
-<a class="viewcode-back" href="../../_autosummary/autopdex.seeder.int_pts_ref_tri.html#autopdex.seeder.int_pts_ref_tri">[docs]</a>
-<span class="k">def</span> <span class="nf">int_pts_ref_tri</span><span class="p">(</span><span class="n">order</span><span class="p">):</span>
+<div class="viewcode-block" id="int_pts_ref_tri"><a class="viewcode-back" href="../../_autosummary/autopdex.seeder.int_pts_ref_tri.html#autopdex.seeder.int_pts_ref_tri">[docs]</a><span class="k">def</span> <span class="nf">int_pts_ref_tri</span><span class="p">(</span><span class="n">order</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns tuple with integration point coordinates and weights on a reference triangle, accurate up to polynomial order</span>
 
@@ -2450,10 +2410,7 @@
             <span class="k">assert</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;Integration rule not implemented!&quot;</span></div>
 
 
-
-<div class="viewcode-block" id="int_pts_ref_tet">
-<a class="viewcode-back" href="../../_autosummary/autopdex.seeder.int_pts_ref_tet.html#autopdex.seeder.int_pts_ref_tet">[docs]</a>
-<span class="k">def</span> <span class="nf">int_pts_ref_tet</span><span class="p">(</span><span class="n">order</span><span class="p">):</span>
+<div class="viewcode-block" id="int_pts_ref_tet"><a class="viewcode-back" href="../../_autosummary/autopdex.seeder.int_pts_ref_tet.html#autopdex.seeder.int_pts_ref_tet">[docs]</a><span class="k">def</span> <span class="nf">int_pts_ref_tet</span><span class="p">(</span><span class="n">order</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns tuple with integration point coordinates and weights on a reference tetrahedron accurate up to polynomial order</span>
 
@@ -3589,10 +3546,7 @@
     <span class="k">return</span> <span class="p">(</span><span class="n">coordinates</span><span class="p">,</span> <span class="n">weights</span><span class="p">)</span></div>
 
 
-
-<div class="viewcode-block" id="int_pts_line">
-<a class="viewcode-back" href="../../_autosummary/autopdex.seeder.int_pts_line.html#autopdex.seeder.int_pts_line">[docs]</a>
-<span class="nd">@jit_with_docstring</span><span class="p">(</span><span class="n">static_argnames</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;order&quot;</span><span class="p">])</span>
+<div class="viewcode-block" id="int_pts_line"><a class="viewcode-back" href="../../_autosummary/autopdex.seeder.int_pts_line.html#autopdex.seeder.int_pts_line">[docs]</a><span class="nd">@jit_with_docstring</span><span class="p">(</span><span class="n">static_argnames</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;order&quot;</span><span class="p">])</span>
 <span class="k">def</span> <span class="nf">int_pts_line</span><span class="p">(</span><span class="n">x_i</span><span class="p">,</span> <span class="n">order</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Linear mapping of integration points on reference line to integration points on one physical line</span>
@@ -3624,10 +3578,7 @@
     <span class="k">return</span> <span class="n">jax</span><span class="o">.</span><span class="n">vmap</span><span class="p">(</span><span class="n">map_one</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">))(</span><span class="n">ref_coor</span><span class="p">,</span> <span class="n">ref_weights</span><span class="p">)</span></div>
 
 
-
-<div class="viewcode-block" id="int_pts_tri">
-<a class="viewcode-back" href="../../_autosummary/autopdex.seeder.int_pts_tri.html#autopdex.seeder.int_pts_tri">[docs]</a>
-<span class="nd">@jit_with_docstring</span><span class="p">(</span><span class="n">static_argnames</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;order&quot;</span><span class="p">])</span>
+<div class="viewcode-block" id="int_pts_tri"><a class="viewcode-back" href="../../_autosummary/autopdex.seeder.int_pts_tri.html#autopdex.seeder.int_pts_tri">[docs]</a><span class="nd">@jit_with_docstring</span><span class="p">(</span><span class="n">static_argnames</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;order&quot;</span><span class="p">])</span>
 <span class="k">def</span> <span class="nf">int_pts_tri</span><span class="p">(</span><span class="n">x_i</span><span class="p">,</span> <span class="n">order</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Linear mapping of integration points in reference triangle to integration points in one physical triangle</span>
@@ -3662,10 +3613,7 @@
     <span class="k">return</span> <span class="n">jax</span><span class="o">.</span><span class="n">vmap</span><span class="p">(</span><span class="n">map_one</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">))(</span><span class="n">ref_coor</span><span class="p">,</span> <span class="n">ref_weights</span><span class="p">)</span></div>
 
 
-
-<div class="viewcode-block" id="int_pts_tet">
-<a class="viewcode-back" href="../../_autosummary/autopdex.seeder.int_pts_tet.html#autopdex.seeder.int_pts_tet">[docs]</a>
-<span class="nd">@jit_with_docstring</span><span class="p">(</span><span class="n">static_argnames</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;order&quot;</span><span class="p">])</span>
+<div class="viewcode-block" id="int_pts_tet"><a class="viewcode-back" href="../../_autosummary/autopdex.seeder.int_pts_tet.html#autopdex.seeder.int_pts_tet">[docs]</a><span class="nd">@jit_with_docstring</span><span class="p">(</span><span class="n">static_argnames</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;order&quot;</span><span class="p">])</span>
 <span class="k">def</span> <span class="nf">int_pts_tet</span><span class="p">(</span><span class="n">x_i</span><span class="p">,</span> <span class="n">order</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Linear mapping of integration points in reference tetrahedron to integration points in one physical tetrahedron</span>
@@ -3700,10 +3648,7 @@
     <span class="k">return</span> <span class="n">jax</span><span class="o">.</span><span class="n">vmap</span><span class="p">(</span><span class="n">map_one</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">))(</span><span class="n">ref_coor</span><span class="p">,</span> <span class="n">ref_weights</span><span class="p">)</span></div>
 
 
-
-<div class="viewcode-block" id="int_pts_in_line_mesh">
-<a class="viewcode-back" href="../../_autosummary/autopdex.seeder.int_pts_in_line_mesh.html#autopdex.seeder.int_pts_in_line_mesh">[docs]</a>
-<span class="nd">@jit_with_docstring</span><span class="p">(</span><span class="n">static_argnames</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;order&quot;</span><span class="p">])</span>
+<div class="viewcode-block" id="int_pts_in_line_mesh"><a class="viewcode-back" href="../../_autosummary/autopdex.seeder.int_pts_in_line_mesh.html#autopdex.seeder.int_pts_in_line_mesh">[docs]</a><span class="nd">@jit_with_docstring</span><span class="p">(</span><span class="n">static_argnames</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;order&quot;</span><span class="p">])</span>
 <span class="k">def</span> <span class="nf">int_pts_in_line_mesh</span><span class="p">(</span><span class="n">x_nodes</span><span class="p">,</span> <span class="n">elem</span><span class="p">,</span> <span class="n">order</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Given a mesh of lines, it linearly maps integration points from a reference line onto the actual lines</span>
@@ -3735,10 +3680,7 @@
     <span class="k">return</span> <span class="p">(</span><span class="n">x_int</span><span class="p">,</span> <span class="n">weights</span><span class="p">,</span> <span class="n">n_int</span><span class="p">,</span> <span class="n">connectivity</span><span class="p">)</span></div>
 
 
-
-<div class="viewcode-block" id="int_pts_in_tri_mesh">
-<a class="viewcode-back" href="../../_autosummary/autopdex.seeder.int_pts_in_tri_mesh.html#autopdex.seeder.int_pts_in_tri_mesh">[docs]</a>
-<span class="nd">@jit_with_docstring</span><span class="p">(</span><span class="n">static_argnames</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;order&quot;</span><span class="p">])</span>
+<div class="viewcode-block" id="int_pts_in_tri_mesh"><a class="viewcode-back" href="../../_autosummary/autopdex.seeder.int_pts_in_tri_mesh.html#autopdex.seeder.int_pts_in_tri_mesh">[docs]</a><span class="nd">@jit_with_docstring</span><span class="p">(</span><span class="n">static_argnames</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;order&quot;</span><span class="p">])</span>
 <span class="k">def</span> <span class="nf">int_pts_in_tri_mesh</span><span class="p">(</span><span class="n">x_nodes</span><span class="p">,</span> <span class="n">elem</span><span class="p">,</span> <span class="n">order</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Given a mesh of triangles, it linearly maps integration points from a reference triangle into the actual triangles</span>
@@ -3770,10 +3712,7 @@
     <span class="k">return</span> <span class="p">(</span><span class="n">x_int</span><span class="p">,</span> <span class="n">weights</span><span class="p">,</span> <span class="n">n_int</span><span class="p">,</span> <span class="n">connectivity</span><span class="p">)</span></div>
 
 
-
-<div class="viewcode-block" id="int_pts_in_tet_mesh">
-<a class="viewcode-back" href="../../_autosummary/autopdex.seeder.int_pts_in_tet_mesh.html#autopdex.seeder.int_pts_in_tet_mesh">[docs]</a>
-<span class="nd">@jit_with_docstring</span><span class="p">(</span><span class="n">static_argnames</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;order&quot;</span><span class="p">])</span>
+<div class="viewcode-block" id="int_pts_in_tet_mesh"><a class="viewcode-back" href="../../_autosummary/autopdex.seeder.int_pts_in_tet_mesh.html#autopdex.seeder.int_pts_in_tet_mesh">[docs]</a><span class="nd">@jit_with_docstring</span><span class="p">(</span><span class="n">static_argnames</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;order&quot;</span><span class="p">])</span>
 <span class="k">def</span> <span class="nf">int_pts_in_tet_mesh</span><span class="p">(</span><span class="n">x_nodes</span><span class="p">,</span> <span class="n">elem</span><span class="p">,</span> <span class="n">order</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Given a mesh of tetrahedrons, it linearly maps integration points from a reference tetrahedron into the actual tetrahedrons</span>
@@ -3803,7 +3742,6 @@
     <span class="n">jax</span><span class="o">.</span><span class="n">debug</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s2">&quot;Number of integration points: </span><span class="si">{x}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="n">n_int</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="p">(</span><span class="n">x_int</span><span class="p">,</span> <span class="n">weights</span><span class="p">,</span> <span class="n">n_int</span><span class="p">,</span> <span class="n">connectivity</span><span class="p">)</span></div>
-
 </pre></div>
 
            </div>

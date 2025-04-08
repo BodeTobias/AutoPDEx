@@ -1,0 +1,58 @@
+﻿autopdex.dae.DormandPrince
+==========================
+
+.. currentmodule:: autopdex.dae
+
+.. autoclass:: DormandPrince
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~DormandPrince.__delattr__
+      ~DormandPrince.__dir__
+      ~DormandPrince.__eq__
+      ~DormandPrince.__format__
+      ~DormandPrince.__ge__
+      ~DormandPrince.__getattribute__
+      ~DormandPrince.__getstate__
+      ~DormandPrince.__gt__
+      ~DormandPrince.__hash__
+      ~DormandPrince.__init_subclass__
+      ~DormandPrince.__le__
+      ~DormandPrince.__lt__
+      ~DormandPrince.__ne__
+      ~DormandPrince.__new__
+      ~DormandPrince.__reduce__
+      ~DormandPrince.__reduce_ex__
+      ~DormandPrince.__repr__
+      ~DormandPrince.__setattr__
+      ~DormandPrince.__sizeof__
+      ~DormandPrince.__str__
+      ~DormandPrince.__subclasshook__
+      ~DormandPrince._error_estimate
+      ~DormandPrince._rule
+      ~DormandPrince._update
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~DormandPrince.__abstractmethods__
+      ~DormandPrince.__annotations__
+      ~DormandPrince.__dict__
+      ~DormandPrince.__doc__
+      ~DormandPrince.__module__
+      ~DormandPrince.__slots__
+      ~DormandPrince.__weakref__
+      ~DormandPrince._abc_impl
+   
+   

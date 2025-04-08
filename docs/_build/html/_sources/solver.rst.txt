@@ -2,7 +2,6 @@ Solver
 ======
 
 .. automodule:: autopdex.solver
-    :no-index:
 
 .. image:: _static/modules.png
    :align: center
