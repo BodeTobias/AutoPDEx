@@ -2,7 +2,6 @@ Solution structures
 ===================
 
 .. automodule:: autopdex.solution_structures
-    :no-index:
 
 Rvachev function solution structures and precompilation utilities
 ------------------------------------------------------------------

@@ -1,36 +1,36 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" data-content_root="../../">
+<html class="writer-html5" lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>autopdex.mesher &mdash; AutoPDEx  documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
-      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=19f00094" />
-      <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
-      <link rel="stylesheet" type="text/css" href="../../_static/jupyter-sphinx.css?v=572af1d6" />
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css" />
+      <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
+      <link rel="stylesheet" type="text/css" href="../../_static/jupyter-sphinx.css" />
       <link rel="stylesheet" type="text/css" href="../../_static/thebelab.css" />
-      <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=acfd50eb" />
-      <link rel="stylesheet" type="text/css" href="../../_static/dark_mode_css/general.css?v=c0a7eb24" />
-      <link rel="stylesheet" type="text/css" href="../../_static/dark_mode_css/dark.css?v=70edf1c7" />
+      <link rel="stylesheet" type="text/css" href="../../_static/custom.css" />
+      <link rel="stylesheet" type="text/css" href="../../_static/dark_mode_css/general.css" />
+      <link rel="stylesheet" type="text/css" href="../../_static/dark_mode_css/dark.css" />
 
   
   <!--[if lt IE 9]>
     <script src="../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script src="../../_static/jquery.js?v=5d32c60e"></script>
-        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../_static/documentation_options.js?v=5929fcd5"></script>
-        <script src="../../_static/doctools.js?v=9a2dae69"></script>
-        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
-        <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
-        <script src="../../_static/copybutton.js?v=f281be69"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/sphinx_highlight.js"></script>
+        <script src="../../_static/clipboard.min.js"></script>
+        <script src="../../_static/copybutton.js"></script>
         <script src="../../_static/thebelab-helper.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-        <script src="../../_static/dark_mode_js/default_light.js?v=c2e647ce"></script>
-        <script src="../../_static/dark_mode_js/theme_switcher.js?v=358d3910"></script>
+        <script src="../../_static/dark_mode_js/default_light.js"></script>
+        <script src="../../_static/dark_mode_js/theme_switcher.js"></script>
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" /> 
@@ -49,7 +49,7 @@
               <img src="../../_static/logo.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                1.0.5
+                1.1.1
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
@@ -65,16 +65,17 @@
 <p class="caption" role="heading"><span class="caption-text">High level operations</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../solver.html">Solver</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../dae.html">Time stepping</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../models.html">Models</a></li>
-</ul>
-<p class="caption" role="heading"><span class="caption-text">Settings</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../../settings.html">Settings and static_settings</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Examples</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../example_notebooks.html">Example notebooks</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../examples.html">Examplary input files</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Settings</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../settings.html">Settings and static_settings</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Lower level operations</span></p>
 <ul>
@@ -138,73 +139,350 @@
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">Module for generation of meshes. </span>
 
-<span class="sd">Currently only support first order quadrilateral meshes on quadrilateral domains.</span>
+<span class="sd">Currently only support first order meshes on quadrilateral and hexahedral domains.</span>
+<span class="sd">For complex meshes, consider using e.g. GMSH. The necessary information that is needed </span>
+<span class="sd">by autopdex is the connectivity of the mesh, i.e. a list of node IDs that form each element </span>
+<span class="sd">and the coordinates of the nodes in the order of the IDs.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="kn">import</span> <span class="nn">jax</span>
 <span class="kn">import</span> <span class="nn">jax.numpy</span> <span class="k">as</span> <span class="nn">jnp</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
 <span class="kn">from</span> <span class="nn">autopdex.utility</span> <span class="kn">import</span> <span class="n">jit_with_docstring</span>
 
-<div class="viewcode-block" id="structured_mesh">
-<a class="viewcode-back" href="../../_autosummary/autopdex.mesher.structured_mesh.html#autopdex.mesher.structured_mesh">[docs]</a>
-<span class="nd">@jit_with_docstring</span><span class="p">(</span><span class="n">static_argnames</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;n_elements&quot;</span><span class="p">,</span> <span class="s2">&quot;type&quot;</span><span class="p">])</span>
-<span class="k">def</span> <span class="nf">structured_mesh</span><span class="p">(</span><span class="n">n_elements</span><span class="p">,</span> <span class="n">vertices</span><span class="p">,</span> <span class="nb">type</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Generates a structured 2D mesh over a quadrilateral domain.</span>
+<div class="viewcode-block" id="structured_mesh"><a class="viewcode-back" href="../../_autosummary/autopdex.mesher.structured_mesh.html#autopdex.mesher.structured_mesh">[docs]</a><span class="nd">@jit_with_docstring</span><span class="p">(</span><span class="n">static_argnames</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;n_elements&quot;</span><span class="p">,</span> <span class="s2">&quot;element_type&quot;</span><span class="p">,</span> <span class="s2">&quot;order&quot;</span><span class="p">])</span>
+<span class="k">def</span> <span class="nf">structured_mesh</span><span class="p">(</span><span class="n">n_elements</span><span class="p">,</span> <span class="n">vertices</span><span class="p">,</span> <span class="n">element_type</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Generate a structured 2D or 3D mesh over a quadrilateral or hexahedral domain,</span>
+<span class="sd">    with an optional subdivision into simplex (triangular/tetrahedral) elements.</span>
 
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    n_elements : tuple of int</span>
+<span class="sd">        For 2D, a tuple (nx, ny) specifying the number of elements along the x-</span>
+<span class="sd">        and y-directions. For 3D, a tuple (nx, ny, nz).</span>
+<span class="sd">    vertices : array-like</span>
+<span class="sd">        For 2D, a 4x2 array; for 3D, an 8x3 array defining the coordinates of the</span>
+<span class="sd">        domain&#39;s corner points.</span>
+<span class="sd">    element_type : str</span>
+<span class="sd">        For 2D, either &quot;quad&quot; or &quot;tri&quot;; for 3D, either &quot;brick&quot; or &quot;tet&quot;.</span>
+<span class="sd">    order : int, optional</span>
+<span class="sd">        The polynomial order of the elements. Currently, only linear elements</span>
+<span class="sd">        (order == 1) are supported. Default is 1.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    coords : jnp.ndarray</span>
+<span class="sd">        An array of node coordinates. Its shape is ((n+1)*... x dim), where &#39;dim&#39;</span>
+<span class="sd">        represents the spatial dimension (2 or 3).</span>
+<span class="sd">    elements : jnp.ndarray</span>
+<span class="sd">        An array of element connectivity. For quadrilaterals/brick elements each row</span>
+<span class="sd">        lists the indices of the nodes forming the element, while for simplex</span>
+<span class="sd">        elements each row lists the indices forming a triangle (3 nodes) or tetrahedron (4 nodes).</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    For 2D:</span>
+<span class="sd">        - The vertices should be provided as a 4x2 array in anti-clockwise order.</span>
+<span class="sd">        - The mapping from a reference square ([-1, 1] x [-1, 1]) to the physical</span>
+<span class="sd">          domain is performed using bilinear interpolation.</span>
+<span class="sd">    </span>
+<span class="sd">    For 3D:</span>
+<span class="sd">        - The vertices should be provided as an 8x3 array, with the ordering corresponding</span>
+<span class="sd">          to a standard hexahedron (e.g., starting with (-1, -1, -1) and proceeding in an</span>
+<span class="sd">          anti-clockwise fashion on the bottom face, then defining the top face).</span>
+<span class="sd">        - The mapping from a reference cube ([-1, 1]^3) to the physical domain is done via</span>
+<span class="sd">          trilinear interpolation.</span>
+
+<span class="sd">    Currently, only linear (order == 1) elements are supported.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="n">vertices</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">vertices</span><span class="p">)</span>
+  <span class="n">dim</span> <span class="o">=</span> <span class="n">vertices</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+  <span class="k">if</span> <span class="n">order</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
+    <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;Only order==1 is implemented at this moment.&quot;</span><span class="p">)</span>
+
+  <span class="c1"># ----- 2D Mesh Generation -----</span>
+  <span class="k">if</span> <span class="n">dim</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">element_type</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;quad&quot;</span><span class="p">,</span> <span class="s2">&quot;tri&quot;</span><span class="p">]:</span>
+      <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;For 2D, element_type must be either &#39;quad&#39; or &#39;tri&#39;.&quot;</span><span class="p">)</span>
+    <span class="n">nx</span><span class="p">,</span> <span class="n">ny</span> <span class="o">=</span> <span class="n">n_elements</span>
+
+    <span class="c1"># Create a reference grid in [-1,1] x [-1,1]</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">nx</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">t</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">ny</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">S</span><span class="p">,</span> <span class="n">T</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">indexing</span><span class="o">=</span><span class="s2">&quot;ij&quot;</span><span class="p">)</span>
+    <span class="n">ref_coords</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">column_stack</span><span class="p">([</span><span class="n">S</span><span class="o">.</span><span class="n">ravel</span><span class="p">(),</span> <span class="n">T</span><span class="o">.</span><span class="n">ravel</span><span class="p">()])</span>
+
+    <span class="c1"># Bilinear mapping from reference coordinates to physical coordinates.</span>
+    <span class="k">def</span> <span class="nf">bilinear_interpolate</span><span class="p">(</span><span class="n">pt</span><span class="p">):</span>
+      <span class="n">s</span><span class="p">,</span> <span class="n">t</span> <span class="o">=</span> <span class="n">pt</span>
+      <span class="k">return</span> <span class="p">((</span><span class="mi">1</span> <span class="o">-</span> <span class="n">s</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">t</span><span class="p">)</span> <span class="o">*</span> <span class="n">vertices</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">s</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">t</span><span class="p">)</span> <span class="o">*</span> <span class="n">vertices</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">s</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">t</span><span class="p">)</span> <span class="o">*</span> <span class="n">vertices</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">+</span>
+              <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">s</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">t</span><span class="p">)</span> <span class="o">*</span> <span class="n">vertices</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span> <span class="o">/</span> <span class="mi">4</span>
+
+    <span class="n">coords</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">vmap</span><span class="p">(</span><span class="n">bilinear_interpolate</span><span class="p">)(</span><span class="n">ref_coords</span><span class="p">)</span>
+
+    <span class="c1"># Function to generate connectivity for one quadrilateral element.</span>
+    <span class="k">def</span> <span class="nf">quad_indices</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">):</span>
+      <span class="k">return</span> <span class="n">jnp</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>
+          <span class="n">i</span> <span class="o">*</span> <span class="p">(</span><span class="n">ny</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">j</span><span class="p">,</span>
+          <span class="n">i</span> <span class="o">*</span> <span class="p">(</span><span class="n">ny</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">j</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span>
+          <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">ny</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">j</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span>
+          <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">ny</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">j</span><span class="p">,</span>
+      <span class="p">])</span>
+
+    <span class="n">I</span><span class="p">,</span> <span class="n">J</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">nx</span><span class="p">),</span> <span class="n">jnp</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">ny</span><span class="p">),</span> <span class="n">indexing</span><span class="o">=</span><span class="s2">&quot;ij&quot;</span><span class="p">)</span>
+    <span class="n">I_flat</span> <span class="o">=</span> <span class="n">I</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>
+    <span class="n">J_flat</span> <span class="o">=</span> <span class="n">J</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>
+    <span class="n">quads</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">vmap</span><span class="p">(</span><span class="n">quad_indices</span><span class="p">)(</span><span class="n">I_flat</span><span class="p">,</span> <span class="n">J_flat</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">element_type</span> <span class="o">==</span> <span class="s2">&quot;quad&quot;</span><span class="p">:</span>
+      <span class="n">elements</span> <span class="o">=</span> <span class="n">quads</span>
+    <span class="k">else</span><span class="p">:</span>  <span class="c1"># element_type == &quot;tri&quot;</span>
+      <span class="c1"># Split each quadrilateral into two triangles.</span>
+      <span class="c1"># Here we split along the diagonal from the first to the third node.</span>
+      <span class="n">tri1</span> <span class="o">=</span> <span class="n">quads</span><span class="p">[:,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]]</span>
+      <span class="n">tri2</span> <span class="o">=</span> <span class="n">quads</span><span class="p">[:,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]]</span>
+      <span class="n">elements</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">tri1</span><span class="p">,</span> <span class="n">tri2</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">coords</span><span class="p">,</span> <span class="n">elements</span>
+
+  <span class="c1"># ----- 3D Mesh Generation -----</span>
+  <span class="k">elif</span> <span class="n">dim</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">element_type</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;brick&quot;</span><span class="p">,</span> <span class="s2">&quot;tet&quot;</span><span class="p">]:</span>
+      <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;For 3D, element_type must be either &#39;brick&#39; or &#39;tet&#39;.&quot;</span><span class="p">)</span>
+    <span class="n">nx</span><span class="p">,</span> <span class="n">ny</span><span class="p">,</span> <span class="n">nz</span> <span class="o">=</span> <span class="n">n_elements</span>
+
+    <span class="c1"># Create a reference grid in [-1,1] x [-1,1] x [-1,1]</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">nx</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">t</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">ny</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">u</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">nz</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">S</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="n">U</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">indexing</span><span class="o">=</span><span class="s2">&quot;ij&quot;</span><span class="p">)</span>
+    <span class="n">ref_coords</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">column_stack</span><span class="p">([</span><span class="n">S</span><span class="o">.</span><span class="n">ravel</span><span class="p">(),</span> <span class="n">T</span><span class="o">.</span><span class="n">ravel</span><span class="p">(),</span> <span class="n">U</span><span class="o">.</span><span class="n">ravel</span><span class="p">()])</span>
+
+    <span class="c1"># Trilinear mapping from reference coordinates to physical coordinates.</span>
+    <span class="k">def</span> <span class="nf">trilinear_interpolate</span><span class="p">(</span><span class="n">pt</span><span class="p">):</span>
+      <span class="n">s</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">u</span> <span class="o">=</span> <span class="n">pt</span>
+      <span class="k">return</span> <span class="p">((</span><span class="mi">1</span> <span class="o">-</span> <span class="n">s</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">t</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">u</span><span class="p">)</span> <span class="o">*</span> <span class="n">vertices</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">s</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">t</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">u</span><span class="p">)</span> <span class="o">*</span> <span class="n">vertices</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">s</span><span class="p">)</span> <span class="o">*</span>
+              <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">t</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">u</span><span class="p">)</span> <span class="o">*</span> <span class="n">vertices</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">s</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">t</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">u</span><span class="p">)</span> <span class="o">*</span> <span class="n">vertices</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">s</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">t</span><span class="p">)</span> <span class="o">*</span>
+              <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">u</span><span class="p">)</span> <span class="o">*</span> <span class="n">vertices</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">s</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">t</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">u</span><span class="p">)</span> <span class="o">*</span> <span class="n">vertices</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">s</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">t</span><span class="p">)</span> <span class="o">*</span>
+              <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">u</span><span class="p">)</span> <span class="o">*</span> <span class="n">vertices</span><span class="p">[</span><span class="mi">6</span><span class="p">]</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">s</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">t</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">u</span><span class="p">)</span> <span class="o">*</span> <span class="n">vertices</span><span class="p">[</span><span class="mi">7</span><span class="p">])</span> <span class="o">/</span> <span class="mi">8</span>
+
+    <span class="n">coords</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">vmap</span><span class="p">(</span><span class="n">trilinear_interpolate</span><span class="p">)(</span><span class="n">ref_coords</span><span class="p">)</span>
+
+    <span class="c1"># Function to generate connectivity for one brick element.</span>
+    <span class="c1"># We assume the local node ordering for the brick is:</span>
+    <span class="c1"># n0: (i, j, k)</span>
+    <span class="c1"># n1: (i+1, j, k)</span>
+    <span class="c1"># n2: (i+1, j+1, k)</span>
+    <span class="c1"># n3: (i, j+1, k)</span>
+    <span class="c1"># n4: (i, j, k+1)</span>
+    <span class="c1"># n5: (i+1, j, k+1)</span>
+    <span class="c1"># n6: (i+1, j+1, k+1)</span>
+    <span class="c1"># n7: (i, j+1, k+1)</span>
+    <span class="k">def</span> <span class="nf">brick_indices</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">k</span><span class="p">):</span>
+      <span class="n">n0</span> <span class="o">=</span> <span class="n">i</span> <span class="o">*</span> <span class="p">(</span><span class="n">ny</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">nz</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">j</span> <span class="o">*</span> <span class="p">(</span><span class="n">nz</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">k</span>
+      <span class="n">n1</span> <span class="o">=</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">ny</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">nz</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">j</span> <span class="o">*</span> <span class="p">(</span><span class="n">nz</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">k</span>
+      <span class="n">n2</span> <span class="o">=</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">ny</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">nz</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">j</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">nz</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">k</span>
+      <span class="n">n3</span> <span class="o">=</span> <span class="n">i</span> <span class="o">*</span> <span class="p">(</span><span class="n">ny</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">nz</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">j</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">nz</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">k</span>
+      <span class="n">n4</span> <span class="o">=</span> <span class="n">i</span> <span class="o">*</span> <span class="p">(</span><span class="n">ny</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">nz</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">j</span> <span class="o">*</span> <span class="p">(</span><span class="n">nz</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">k</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+      <span class="n">n5</span> <span class="o">=</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">ny</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">nz</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">j</span> <span class="o">*</span> <span class="p">(</span><span class="n">nz</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">k</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+      <span class="n">n6</span> <span class="o">=</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">ny</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">nz</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">j</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">nz</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">k</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+      <span class="n">n7</span> <span class="o">=</span> <span class="n">i</span> <span class="o">*</span> <span class="p">(</span><span class="n">ny</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">nz</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">j</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">nz</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">k</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+      <span class="k">return</span> <span class="n">jnp</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">n0</span><span class="p">,</span> <span class="n">n1</span><span class="p">,</span> <span class="n">n2</span><span class="p">,</span> <span class="n">n3</span><span class="p">,</span> <span class="n">n4</span><span class="p">,</span> <span class="n">n5</span><span class="p">,</span> <span class="n">n6</span><span class="p">,</span> <span class="n">n7</span><span class="p">])</span>
+
+    <span class="n">I</span><span class="p">,</span> <span class="n">J</span><span class="p">,</span> <span class="n">K</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">nx</span><span class="p">),</span> <span class="n">jnp</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">ny</span><span class="p">),</span> <span class="n">jnp</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">nz</span><span class="p">),</span> <span class="n">indexing</span><span class="o">=</span><span class="s2">&quot;ij&quot;</span><span class="p">)</span>
+    <span class="n">I_flat</span> <span class="o">=</span> <span class="n">I</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>
+    <span class="n">J_flat</span> <span class="o">=</span> <span class="n">J</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>
+    <span class="n">K_flat</span> <span class="o">=</span> <span class="n">K</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>
+    <span class="n">bricks</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">vmap</span><span class="p">(</span><span class="n">brick_indices</span><span class="p">)(</span><span class="n">I_flat</span><span class="p">,</span> <span class="n">J_flat</span><span class="p">,</span> <span class="n">K_flat</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">element_type</span> <span class="o">==</span> <span class="s2">&quot;brick&quot;</span><span class="p">:</span>
+      <span class="n">elements</span> <span class="o">=</span> <span class="n">bricks</span>
+    <span class="k">else</span><span class="p">:</span>  <span class="c1"># element_type == &quot;tet&quot;</span>
+      <span class="c1"># For each brick element, subdivide it into 6 tetrahedra.</span>
+      <span class="c1"># One common partition uses the opposite corners n0 and n6 as common vertices:</span>
+      <span class="c1">#   tet1: [n0, n1, n2, n6]</span>
+      <span class="c1">#   tet2: [n0, n2, n3, n6]</span>
+      <span class="c1">#   tet3: [n0, n3, n7, n6]</span>
+      <span class="c1">#   tet4: [n0, n7, n4, n6]</span>
+      <span class="c1">#   tet5: [n0, n4, n5, n6]</span>
+      <span class="c1">#   tet6: [n0, n5, n1, n6]</span>
+      <span class="k">def</span> <span class="nf">brick_to_tets</span><span class="p">(</span><span class="n">brick</span><span class="p">):</span>
+        <span class="n">n0</span><span class="p">,</span> <span class="n">n1</span><span class="p">,</span> <span class="n">n2</span><span class="p">,</span> <span class="n">n3</span><span class="p">,</span> <span class="n">n4</span><span class="p">,</span> <span class="n">n5</span><span class="p">,</span> <span class="n">n6</span><span class="p">,</span> <span class="n">n7</span> <span class="o">=</span> <span class="n">brick</span>
+        <span class="n">tet1</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">n0</span><span class="p">,</span> <span class="n">n1</span><span class="p">,</span> <span class="n">n2</span><span class="p">,</span> <span class="n">n6</span><span class="p">])</span>
+        <span class="n">tet2</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">n0</span><span class="p">,</span> <span class="n">n2</span><span class="p">,</span> <span class="n">n3</span><span class="p">,</span> <span class="n">n6</span><span class="p">])</span>
+        <span class="n">tet3</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">n0</span><span class="p">,</span> <span class="n">n3</span><span class="p">,</span> <span class="n">n7</span><span class="p">,</span> <span class="n">n6</span><span class="p">])</span>
+        <span class="n">tet4</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">n0</span><span class="p">,</span> <span class="n">n7</span><span class="p">,</span> <span class="n">n4</span><span class="p">,</span> <span class="n">n6</span><span class="p">])</span>
+        <span class="n">tet5</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">n0</span><span class="p">,</span> <span class="n">n4</span><span class="p">,</span> <span class="n">n5</span><span class="p">,</span> <span class="n">n6</span><span class="p">])</span>
+        <span class="n">tet6</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">n0</span><span class="p">,</span> <span class="n">n5</span><span class="p">,</span> <span class="n">n1</span><span class="p">,</span> <span class="n">n6</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">jnp</span><span class="o">.</span><span class="n">stack</span><span class="p">([</span><span class="n">tet1</span><span class="p">,</span> <span class="n">tet2</span><span class="p">,</span> <span class="n">tet3</span><span class="p">,</span> <span class="n">tet4</span><span class="p">,</span> <span class="n">tet5</span><span class="p">,</span> <span class="n">tet6</span><span class="p">])</span>
+
+      <span class="c1"># Map the subdivision over all brick elements.</span>
+      <span class="n">tets_list</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">vmap</span><span class="p">(</span><span class="n">brick_to_tets</span><span class="p">)(</span><span class="n">bricks</span><span class="p">)</span>
+      <span class="c1"># Reshape so that each tetrahedron is a row.</span>
+      <span class="n">n_bricks</span> <span class="o">=</span> <span class="n">bricks</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+      <span class="n">elements</span> <span class="o">=</span> <span class="n">tets_list</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">n_bricks</span> <span class="o">*</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">coords</span><span class="p">,</span> <span class="n">elements</span>
+
+  <span class="k">else</span><span class="p">:</span>
+    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Unsupported dimension: vertices must have 2 or 3 columns.&quot;</span><span class="p">)</span></div>
+
+<span class="k">def</span> <span class="nf">_elevate_order_triangle</span><span class="p">(</span><span class="n">coords</span><span class="p">,</span> <span class="n">elements</span><span class="p">):</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Elevates a linear (3-node) triangular mesh to quadratic (6-node) triangles.</span>
+<span class="sd">    </span>
 <span class="sd">    Args:</span>
-<span class="sd">      n_elements (tuple of int): A tuple `(nx, ny)` specifying the number of elements (divisions) along the x-axis (`nx`) and y-axis (`ny`).</span>
-<span class="sd">      vertices (array-like): A 4x2 array defining the coordinates of the domain&#39;s corner points in anti-clockwise order.</span>
-<span class="sd">      type (str): The element type to use for the mesh. Currently, only quadrilateral meshes (`&#39;quad&#39;`) are supported.</span>
-<span class="sd">      order (int, optional): The polynomial order of the elements. Higher orders are not yet implemented.</span>
-
+<span class="sd">        coords (array-like): (N,2) array of node coordinates.</span>
+<span class="sd">        elements (array-like): (M,3) array of triangle connectivity (node indices).</span>
+<span class="sd">    </span>
 <span class="sd">    Returns:</span>
-<span class="sd">      (coords, elements)</span>
-<span class="sd">        - coords (jnp.ndarray): A 2D array of shape `((nx + 1) * (ny + 1), 2)` containing the (x, y) coordinates of each node in the mesh.</span>
-<span class="sd">        - elements (jnp.ndarray): A 2D array of shape `(nx * ny, 4)` containing the vertex indices for each quadrilateral element in the mesh. The indices refer to the positions in the `coords` array.</span>
+<span class="sd">        new_coords (np.ndarray): Updated node coordinates.</span>
+<span class="sd">        new_elements (np.ndarray): (M,6) connectivity for quadratic triangles.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="p">(</span><span class="n">nx</span><span class="p">,</span> <span class="n">ny</span><span class="p">)</span> <span class="o">=</span> <span class="n">n_elements</span>
-    <span class="n">vertices</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">vertices</span><span class="p">)</span>
+  <span class="n">coords</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">coords</span><span class="p">)</span>
+  <span class="n">elements</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">elements</span><span class="p">)</span>
 
-    <span class="c1"># Generate x and y coordinates for the grid points</span>
-    <span class="n">x</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">nx</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
-    <span class="n">y</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">ny</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
-    <span class="n">X</span><span class="p">,</span> <span class="n">Y</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">indexing</span><span class="o">=</span><span class="s2">&quot;ij&quot;</span><span class="p">)</span>
-    <span class="n">coords</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">column_stack</span><span class="p">([</span><span class="n">X</span><span class="o">.</span><span class="n">ravel</span><span class="p">(),</span> <span class="n">Y</span><span class="o">.</span><span class="n">ravel</span><span class="p">()])</span>
+  <span class="n">new_coords</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">coords</span><span class="p">)</span>  <span class="c1"># start with the original nodes</span>
+  <span class="n">edge_dict</span> <span class="o">=</span> <span class="p">{}</span>  <span class="c1"># to store computed midpoints</span>
+  <span class="n">new_elements</span> <span class="o">=</span> <span class="p">[]</span>
 
-    <span class="c1"># Define a function for bilinear interpolation</span>
-    <span class="k">def</span> <span class="nf">bilinear_interpolate</span><span class="p">(</span><span class="n">coors</span><span class="p">):</span>
-        <span class="n">s</span><span class="p">,</span> <span class="n">t</span> <span class="o">=</span> <span class="n">coors</span>
-        <span class="k">return</span> <span class="p">(</span>
-            <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">s</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">t</span><span class="p">)</span> <span class="o">*</span> <span class="n">vertices</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-            <span class="o">+</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">s</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">t</span><span class="p">)</span> <span class="o">*</span> <span class="n">vertices</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-            <span class="o">+</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">s</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">t</span><span class="p">)</span> <span class="o">*</span> <span class="n">vertices</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
-            <span class="o">+</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">s</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">t</span><span class="p">)</span> <span class="o">*</span> <span class="n">vertices</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
-        <span class="p">)</span> <span class="o">/</span> <span class="mi">4</span>
+  <span class="k">for</span> <span class="n">tri</span> <span class="ow">in</span> <span class="n">elements</span><span class="p">:</span>
+    <span class="n">n0</span><span class="p">,</span> <span class="n">n1</span><span class="p">,</span> <span class="n">n2</span> <span class="o">=</span> <span class="n">tri</span>
 
-    <span class="n">coords</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">vmap</span><span class="p">(</span><span class="n">bilinear_interpolate</span><span class="p">)(</span><span class="n">coords</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">get_midpoint</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">):</span>
+      <span class="n">key</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="nb">sorted</span><span class="p">((</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">)))</span>
+      <span class="k">if</span> <span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">edge_dict</span><span class="p">:</span>
+        <span class="n">mid</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="n">coords</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">coords</span><span class="p">[</span><span class="n">j</span><span class="p">])</span>
+        <span class="n">edge_dict</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">new_coords</span><span class="p">)</span>
+        <span class="n">new_coords</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">mid</span><span class="p">)</span>
+      <span class="k">return</span> <span class="n">edge_dict</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
 
-    <span class="c1"># Function to generate the vertex indices for a quadrilateral element</span>
-    <span class="k">def</span> <span class="nf">create_quad</span><span class="p">(</span><span class="n">j</span><span class="p">,</span> <span class="n">i</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">jnp</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
-            <span class="p">[</span>
-                <span class="n">j</span> <span class="o">*</span> <span class="p">(</span><span class="n">nx</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">i</span><span class="p">,</span>
-                <span class="n">j</span> <span class="o">*</span> <span class="p">(</span><span class="n">nx</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span>
-                <span class="p">(</span><span class="n">j</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">nx</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span>
-                <span class="p">(</span><span class="n">j</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">nx</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">i</span><span class="p">,</span>
-            <span class="p">]</span>
-        <span class="p">)</span>
+    <span class="n">m01</span> <span class="o">=</span> <span class="n">get_midpoint</span><span class="p">(</span><span class="n">n0</span><span class="p">,</span> <span class="n">n1</span><span class="p">)</span>
+    <span class="n">m12</span> <span class="o">=</span> <span class="n">get_midpoint</span><span class="p">(</span><span class="n">n1</span><span class="p">,</span> <span class="n">n2</span><span class="p">)</span>
+    <span class="n">m20</span> <span class="o">=</span> <span class="n">get_midpoint</span><span class="p">(</span><span class="n">n2</span><span class="p">,</span> <span class="n">n0</span><span class="p">)</span>
 
-    <span class="c1"># Create a grid of indices for all quadrilateral elements</span>
-    <span class="n">I</span><span class="p">,</span> <span class="n">J</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">nx</span><span class="p">),</span> <span class="n">jnp</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">ny</span><span class="p">),</span> <span class="n">indexing</span><span class="o">=</span><span class="s2">&quot;ij&quot;</span><span class="p">)</span>  <span class="c1"># Shape (nx, ny)</span>
-    <span class="n">I_flat</span> <span class="o">=</span> <span class="n">I</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
-    <span class="n">J_flat</span> <span class="o">=</span> <span class="n">J</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+    <span class="n">new_elements</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">n0</span><span class="p">,</span> <span class="n">n1</span><span class="p">,</span> <span class="n">n2</span><span class="p">,</span> <span class="n">m01</span><span class="p">,</span> <span class="n">m12</span><span class="p">,</span> <span class="n">m20</span><span class="p">])</span>
 
-    <span class="c1"># Apply the create_quad function to each (j, i) pair using vectorized mapping</span>
-    <span class="n">elements</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">vmap</span><span class="p">(</span><span class="n">create_quad</span><span class="p">)(</span><span class="n">J_flat</span><span class="p">,</span> <span class="n">I_flat</span><span class="p">)</span>
+  <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">new_coords</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">new_elements</span><span class="p">)</span>
 
-    <span class="k">return</span> <span class="n">coords</span><span class="p">,</span> <span class="n">elements</span></div>
+<span class="k">def</span> <span class="nf">_elevate_order_brick</span><span class="p">(</span><span class="n">coords</span><span class="p">,</span> <span class="n">elements</span><span class="p">):</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Elevates a linear (8-node) brick mesh to quadratic bricks (27 nodes)</span>
+<span class="sd">       </span>
+<span class="sd">    Args:</span>
+<span class="sd">        coords (array-like): (N,3) array of node coordinates.</span>
+<span class="sd">        elements (array-like): (M,8) array of brick connectivity (node indices).</span>
+<span class="sd">    </span>
+<span class="sd">    Returns:</span>
+<span class="sd">        new_coords (np.ndarray): Updated node coordinates including extra nodes.</span>
+<span class="sd">        new_elements (np.ndarray): (M,27) connectivity for quadratic bricks.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+  <span class="n">coords</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">coords</span><span class="p">)</span>
+  <span class="n">elements</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">elements</span><span class="p">)</span>
 
+  <span class="n">new_coords</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">coords</span><span class="p">)</span>  <span class="c1"># original nodes</span>
+  <span class="n">edge_dict</span> <span class="o">=</span> <span class="p">{}</span>  <span class="c1"># global dictionary for edge midpoints</span>
+  <span class="n">face_dict</span> <span class="o">=</span> <span class="p">{}</span>  <span class="c1"># global dictionary for face nodes</span>
+  <span class="n">new_elements</span> <span class="o">=</span> <span class="p">[]</span>
+
+  <span class="k">for</span> <span class="n">brick</span> <span class="ow">in</span> <span class="n">elements</span><span class="p">:</span>
+    <span class="n">local</span> <span class="o">=</span> <span class="n">brick</span>  <span class="c1"># original 8 corner indices</span>
+
+    <span class="c1"># Helper functions</span>
+    <span class="k">def</span> <span class="nf">get_edge</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">):</span>
+      <span class="n">key</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="nb">sorted</span><span class="p">((</span><span class="n">local</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">local</span><span class="p">[</span><span class="n">j</span><span class="p">])))</span>
+      <span class="k">if</span> <span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">edge_dict</span><span class="p">:</span>
+        <span class="n">mid</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="n">coords</span><span class="p">[</span><span class="n">local</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span> <span class="o">+</span> <span class="n">coords</span><span class="p">[</span><span class="n">local</span><span class="p">[</span><span class="n">j</span><span class="p">]])</span>
+        <span class="n">edge_dict</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">new_coords</span><span class="p">)</span>
+        <span class="n">new_coords</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">mid</span><span class="p">)</span>
+      <span class="k">return</span> <span class="n">edge_dict</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">get_face</span><span class="p">(</span><span class="n">face_nodes</span><span class="p">):</span>
+      <span class="n">key</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">face_nodes</span><span class="p">))</span>
+      <span class="k">if</span> <span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">face_dict</span><span class="p">:</span>
+        <span class="n">face_coord</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">([</span><span class="n">coords</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="n">face_nodes</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">face_dict</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">new_coords</span><span class="p">)</span>
+        <span class="n">new_coords</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">face_coord</span><span class="p">)</span>
+      <span class="k">return</span> <span class="n">face_dict</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+
+    <span class="c1"># Define corner nodes (order-1 nodes) according to the assumed ordering.</span>
+    <span class="n">c0</span> <span class="o">=</span> <span class="n">local</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>  <span class="c1"># (-1,-1,-1)</span>
+    <span class="n">c1</span> <span class="o">=</span> <span class="n">local</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>  <span class="c1"># ( 1,-1,-1)</span>
+    <span class="n">c2</span> <span class="o">=</span> <span class="n">local</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>  <span class="c1"># ( 1, 1,-1)</span>
+    <span class="n">c3</span> <span class="o">=</span> <span class="n">local</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>  <span class="c1"># (-1, 1,-1)</span>
+    <span class="n">c4</span> <span class="o">=</span> <span class="n">local</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span>  <span class="c1"># (-1,-1, 1)</span>
+    <span class="n">c5</span> <span class="o">=</span> <span class="n">local</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span>  <span class="c1"># ( 1,-1, 1)</span>
+    <span class="n">c6</span> <span class="o">=</span> <span class="n">local</span><span class="p">[</span><span class="mi">6</span><span class="p">]</span>  <span class="c1"># ( 1, 1, 1)</span>
+    <span class="n">c7</span> <span class="o">=</span> <span class="n">local</span><span class="p">[</span><span class="mi">7</span><span class="p">]</span>  <span class="c1"># (-1, 1, 1)</span>
+
+    <span class="c1"># Compute edge nodes in Gmsh ordering:</span>
+    <span class="n">e0</span>  <span class="o">=</span> <span class="n">get_edge</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>  <span class="c1"># edge from c0 to c1</span>
+    <span class="n">e1</span>  <span class="o">=</span> <span class="n">get_edge</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>  <span class="c1"># edge from c1 to c2</span>
+    <span class="n">e2</span>  <span class="o">=</span> <span class="n">get_edge</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>  <span class="c1"># edge from c2 to c3</span>
+    <span class="n">e3</span>  <span class="o">=</span> <span class="n">get_edge</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>  <span class="c1"># edge from c3 to c0</span>
+    <span class="n">e4</span>  <span class="o">=</span> <span class="n">get_edge</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>  <span class="c1"># edge from c4 to c5</span>
+    <span class="n">e5</span>  <span class="o">=</span> <span class="n">get_edge</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span>  <span class="c1"># edge from c5 to c6</span>
+    <span class="n">e6</span>  <span class="o">=</span> <span class="n">get_edge</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">)</span>  <span class="c1"># edge from c6 to c7</span>
+    <span class="n">e7</span>  <span class="o">=</span> <span class="n">get_edge</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>  <span class="c1"># edge from c7 to c4</span>
+    <span class="n">e8</span>  <span class="o">=</span> <span class="n">get_edge</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>  <span class="c1"># edge from c0 to c4</span>
+    <span class="n">e9</span>  <span class="o">=</span> <span class="n">get_edge</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>  <span class="c1"># edge from c1 to c5</span>
+    <span class="n">e10</span> <span class="o">=</span> <span class="n">get_edge</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span>  <span class="c1"># edge from c2 to c6</span>
+    <span class="n">e11</span> <span class="o">=</span> <span class="n">get_edge</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">7</span><span class="p">)</span>  <span class="c1"># edge from c3 to c7</span>
+
+    <span class="c1"># Compute face nodes in Gmsh ordering:</span>
+    <span class="n">f_bottom</span> <span class="o">=</span> <span class="n">get_face</span><span class="p">((</span><span class="n">local</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">local</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">local</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">local</span><span class="p">[</span><span class="mi">3</span><span class="p">]))</span>  <span class="c1"># bottom face (c0,c1,c2,c3)</span>
+    <span class="n">f_top</span>    <span class="o">=</span> <span class="n">get_face</span><span class="p">((</span><span class="n">local</span><span class="p">[</span><span class="mi">4</span><span class="p">],</span> <span class="n">local</span><span class="p">[</span><span class="mi">5</span><span class="p">],</span> <span class="n">local</span><span class="p">[</span><span class="mi">6</span><span class="p">],</span> <span class="n">local</span><span class="p">[</span><span class="mi">7</span><span class="p">]))</span>  <span class="c1"># top face (c4,c5,c6,c7)</span>
+    <span class="n">f_front</span>  <span class="o">=</span> <span class="n">get_face</span><span class="p">((</span><span class="n">local</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">local</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">local</span><span class="p">[</span><span class="mi">5</span><span class="p">],</span> <span class="n">local</span><span class="p">[</span><span class="mi">4</span><span class="p">]))</span>  <span class="c1"># front face (c0,c1,c5,c4)</span>
+    <span class="n">f_right</span>  <span class="o">=</span> <span class="n">get_face</span><span class="p">((</span><span class="n">local</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">local</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">local</span><span class="p">[</span><span class="mi">6</span><span class="p">],</span> <span class="n">local</span><span class="p">[</span><span class="mi">5</span><span class="p">]))</span>  <span class="c1"># right face (c1,c2,c6,c5)</span>
+    <span class="n">f_back</span>   <span class="o">=</span> <span class="n">get_face</span><span class="p">((</span><span class="n">local</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">local</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">local</span><span class="p">[</span><span class="mi">7</span><span class="p">],</span> <span class="n">local</span><span class="p">[</span><span class="mi">6</span><span class="p">]))</span>  <span class="c1"># back face (c2,c3,c7,c6)</span>
+    <span class="n">f_left</span>   <span class="o">=</span> <span class="n">get_face</span><span class="p">((</span><span class="n">local</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">local</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">local</span><span class="p">[</span><span class="mi">4</span><span class="p">],</span> <span class="n">local</span><span class="p">[</span><span class="mi">7</span><span class="p">]))</span>  <span class="c1"># left face (c3,c0,c4,c7)</span>
+
+    <span class="c1"># Compute interior node (average of the 8 corners)</span>
+    <span class="n">interior_coord</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">([</span><span class="n">coords</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="n">local</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">interior_idx</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">new_coords</span><span class="p">)</span>
+    <span class="n">new_coords</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">interior_coord</span><span class="p">)</span>
+
+    <span class="c1"># Corners, then edges, then faces, then interior.</span>
+    <span class="n">new_connectivity</span> <span class="o">=</span> <span class="p">[</span><span class="n">c0</span><span class="p">,</span> <span class="n">c1</span><span class="p">,</span> <span class="n">c2</span><span class="p">,</span> <span class="n">c3</span><span class="p">,</span> <span class="n">c4</span><span class="p">,</span> <span class="n">c5</span><span class="p">,</span> <span class="n">c6</span><span class="p">,</span> <span class="n">c7</span><span class="p">,</span>
+                        <span class="n">e0</span><span class="p">,</span> <span class="n">e1</span><span class="p">,</span> <span class="n">e2</span><span class="p">,</span> <span class="n">e3</span><span class="p">,</span> <span class="n">e4</span><span class="p">,</span> <span class="n">e5</span><span class="p">,</span> <span class="n">e6</span><span class="p">,</span> <span class="n">e7</span><span class="p">,</span> <span class="n">e8</span><span class="p">,</span> <span class="n">e9</span><span class="p">,</span> <span class="n">e10</span><span class="p">,</span> <span class="n">e11</span><span class="p">,</span>
+                        <span class="n">f_left</span><span class="p">,</span> <span class="n">f_right</span><span class="p">,</span> <span class="n">f_front</span><span class="p">,</span> <span class="n">f_back</span><span class="p">,</span> <span class="n">f_bottom</span><span class="p">,</span> <span class="n">f_top</span><span class="p">,</span>
+                        <span class="n">interior_idx</span><span class="p">]</span>
+    <span class="n">new_elements</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">new_connectivity</span><span class="p">)</span>
+
+  <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">new_coords</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">new_elements</span><span class="p">)</span>
+
+<div class="viewcode-block" id="elevate_mesh_order"><a class="viewcode-back" href="../../_autosummary/autopdex.mesher.elevate_mesh_order.html#autopdex.mesher.elevate_mesh_order">[docs]</a><span class="k">def</span> <span class="nf">elevate_mesh_order</span><span class="p">(</span><span class="n">coords</span><span class="p">,</span> <span class="n">elements</span><span class="p">):</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Upgrades a mesh from order 1 to order 2.</span>
+<span class="sd">    </span>
+<span class="sd">    Supported cases:</span>
+<span class="sd">      - 2D triangles (3 nodes -&gt; 6 nodes)</span>
+<span class="sd">      - 3D bricks   (8 nodes -&gt; 27 nodes)</span>
+<span class="sd">    </span>
+<span class="sd">    Args:</span>
+<span class="sd">        coords (array-like): Array of node coordinates.</span>
+<span class="sd">        elements (array-like): Element connectivity array.</span>
+<span class="sd">    </span>
+<span class="sd">    Returns:</span>
+<span class="sd">        new_coords, new_elements: The upgraded mesh.</span>
+<span class="sd">    </span>
+<span class="sd">    Raises:</span>
+<span class="sd">        NotImplementedError: If the element type is not supported.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+  <span class="n">coords</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">coords</span><span class="p">)</span>
+  <span class="n">elements</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">elements</span><span class="p">)</span>
+  <span class="n">dim</span> <span class="o">=</span> <span class="n">coords</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+  <span class="n">n_nodes_per_elem</span> <span class="o">=</span> <span class="n">elements</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+  <span class="k">if</span> <span class="n">dim</span> <span class="o">==</span> <span class="mi">2</span> <span class="ow">and</span> <span class="n">n_nodes_per_elem</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+    <span class="k">return</span> <span class="n">_elevate_order_triangle</span><span class="p">(</span><span class="n">coords</span><span class="p">,</span> <span class="n">elements</span><span class="p">)</span>
+  <span class="k">elif</span> <span class="n">dim</span> <span class="o">==</span> <span class="mi">3</span> <span class="ow">and</span> <span class="n">n_nodes_per_elem</span> <span class="o">==</span> <span class="mi">8</span><span class="p">:</span>
+    <span class="k">return</span> <span class="n">_elevate_order_brick</span><span class="p">(</span><span class="n">coords</span><span class="p">,</span> <span class="n">elements</span><span class="p">)</span>
+  <span class="k">else</span><span class="p">:</span>
+    <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;Mesh elevation to order 2 not implemented for this element type.&quot;</span><span class="p">)</span></div>
 </pre></div>
 
            </div>

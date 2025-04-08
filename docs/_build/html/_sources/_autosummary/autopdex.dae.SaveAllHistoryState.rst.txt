@@ -1,0 +1,61 @@
+﻿autopdex.dae.SaveAllHistoryState
+================================
+
+.. currentmodule:: autopdex.dae
+
+.. autoclass:: SaveAllHistoryState
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~SaveAllHistoryState.__delattr__
+      ~SaveAllHistoryState.__dir__
+      ~SaveAllHistoryState.__eq__
+      ~SaveAllHistoryState.__format__
+      ~SaveAllHistoryState.__ge__
+      ~SaveAllHistoryState.__getattribute__
+      ~SaveAllHistoryState.__getstate__
+      ~SaveAllHistoryState.__gt__
+      ~SaveAllHistoryState.__init_subclass__
+      ~SaveAllHistoryState.__le__
+      ~SaveAllHistoryState.__lt__
+      ~SaveAllHistoryState.__ne__
+      ~SaveAllHistoryState.__new__
+      ~SaveAllHistoryState.__reduce__
+      ~SaveAllHistoryState.__reduce_ex__
+      ~SaveAllHistoryState.__repr__
+      ~SaveAllHistoryState.__setattr__
+      ~SaveAllHistoryState.__sizeof__
+      ~SaveAllHistoryState.__str__
+      ~SaveAllHistoryState.__subclasshook__
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~SaveAllHistoryState.__annotations__
+      ~SaveAllHistoryState.__dataclass_fields__
+      ~SaveAllHistoryState.__dataclass_params__
+      ~SaveAllHistoryState.__dict__
+      ~SaveAllHistoryState.__doc__
+      ~SaveAllHistoryState.__hash__
+      ~SaveAllHistoryState.__match_args__
+      ~SaveAllHistoryState.__module__
+      ~SaveAllHistoryState.__weakref__
+      ~SaveAllHistoryState.t_max
+      ~SaveAllHistoryState.max_steps
+      ~SaveAllHistoryState.t
+      ~SaveAllHistoryState.q
+      ~SaveAllHistoryState.current_save_idx
+      ~SaveAllHistoryState.user
+   
+   

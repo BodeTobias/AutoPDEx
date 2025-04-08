@@ -2121,8 +2121,7 @@ def kelvin_mandel_extract(a):
 
   Args:
     a: 1-dimensional array-like with 6 elements corresponding to the Kelvin-Mandel representation 
-       of a 3x3 symmetric tensor. The expected ordering is:
-         [a11, a22, a33, a12, a13, a23]
+      of a 3x3 symmetric tensor. The expected ordering is: [a11, a22, a33, a12, a13, a23]
 
   Returns:
     A 3x3 jnp.ndarray representing the symmetric tensor in matrix form.

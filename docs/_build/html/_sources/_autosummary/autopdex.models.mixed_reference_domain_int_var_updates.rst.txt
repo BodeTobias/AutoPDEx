@@ -1,0 +1,6 @@
+﻿autopdex.models.mixed\_reference\_domain\_int\_var\_updates
+===========================================================
+
+.. currentmodule:: autopdex.models
+
+.. autofunction:: mixed_reference_domain_int_var_updates

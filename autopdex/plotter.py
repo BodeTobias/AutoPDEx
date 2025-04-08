@@ -13,7 +13,7 @@
 
 """
 This module provides some visualization functions mainly for debugging smooth distance functions.
-For plotting Simulation results, it is recommended to use meshio for writing VTK files and
+For plotting simulation results, it is recommended to use meshio for writing VTK files and
 inspecting them in Paraview. See the quickstart guide as an example.
 """
 

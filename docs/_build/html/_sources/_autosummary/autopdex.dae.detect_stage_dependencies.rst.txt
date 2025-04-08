@@ -1,0 +1,6 @@
+﻿autopdex.dae.detect\_stage\_dependencies
+========================================
+
+.. currentmodule:: autopdex.dae
+
+.. autofunction:: detect_stage_dependencies

@@ -1,36 +1,36 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" data-content_root="../../">
+<html class="writer-html5" lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>autopdex.spaces &mdash; AutoPDEx  documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
-      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=19f00094" />
-      <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
-      <link rel="stylesheet" type="text/css" href="../../_static/jupyter-sphinx.css?v=572af1d6" />
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css" />
+      <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
+      <link rel="stylesheet" type="text/css" href="../../_static/jupyter-sphinx.css" />
       <link rel="stylesheet" type="text/css" href="../../_static/thebelab.css" />
-      <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=acfd50eb" />
-      <link rel="stylesheet" type="text/css" href="../../_static/dark_mode_css/general.css?v=c0a7eb24" />
-      <link rel="stylesheet" type="text/css" href="../../_static/dark_mode_css/dark.css?v=70edf1c7" />
+      <link rel="stylesheet" type="text/css" href="../../_static/custom.css" />
+      <link rel="stylesheet" type="text/css" href="../../_static/dark_mode_css/general.css" />
+      <link rel="stylesheet" type="text/css" href="../../_static/dark_mode_css/dark.css" />
 
   
   <!--[if lt IE 9]>
     <script src="../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script src="../../_static/jquery.js?v=5d32c60e"></script>
-        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../_static/documentation_options.js?v=5929fcd5"></script>
-        <script src="../../_static/doctools.js?v=9a2dae69"></script>
-        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
-        <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
-        <script src="../../_static/copybutton.js?v=f281be69"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/sphinx_highlight.js"></script>
+        <script src="../../_static/clipboard.min.js"></script>
+        <script src="../../_static/copybutton.js"></script>
         <script src="../../_static/thebelab-helper.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-        <script src="../../_static/dark_mode_js/default_light.js?v=c2e647ce"></script>
-        <script src="../../_static/dark_mode_js/theme_switcher.js?v=358d3910"></script>
+        <script src="../../_static/dark_mode_js/default_light.js"></script>
+        <script src="../../_static/dark_mode_js/theme_switcher.js"></script>
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" /> 
@@ -49,7 +49,7 @@
               <img src="../../_static/logo.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                1.0.5
+                1.1.1
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
@@ -65,16 +65,17 @@
 <p class="caption" role="heading"><span class="caption-text">High level operations</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../solver.html">Solver</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../dae.html">Time stepping</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../models.html">Models</a></li>
-</ul>
-<p class="caption" role="heading"><span class="caption-text">Settings</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../../settings.html">Settings and static_settings</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Examples</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../example_notebooks.html">Example notebooks</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../examples.html">Examplary input files</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Settings</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../settings.html">Settings and static_settings</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Lower level operations</span></p>
 <ul>
@@ -423,9 +424,7 @@
 
 
 <span class="c1">### Spaces defined in the reference configuration, for assembling modes user potential/residual/element</span>
-<div class="viewcode-block" id="fem_iso_line_quad_brick">
-<a class="viewcode-back" href="../../_autosummary/autopdex.spaces.fem_iso_line_quad_brick.html#autopdex.spaces.fem_iso_line_quad_brick">[docs]</a>
-<span class="k">def</span> <span class="nf">fem_iso_line_quad_brick</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">xI</span><span class="p">,</span> <span class="n">fI</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">overwrite_diff</span><span class="p">,</span> <span class="n">n_dim</span><span class="p">):</span>
+<div class="viewcode-block" id="fem_iso_line_quad_brick"><a class="viewcode-back" href="../../_autosummary/autopdex.spaces.fem_iso_line_quad_brick.html#autopdex.spaces.fem_iso_line_quad_brick">[docs]</a><span class="k">def</span> <span class="nf">fem_iso_line_quad_brick</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">xI</span><span class="p">,</span> <span class="n">fI</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">overwrite_diff</span><span class="p">,</span> <span class="n">n_dim</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Compute isoparametric finite element shape functions for line, quadrilateral, and brick elements.</span>
 
@@ -447,6 +446,7 @@
 <span class="sd">      - Warning: Only first-order spatial derivatives are supported in the custom JVP implementation with overwritten derivatives.</span>
 <span class="sd">      - Warning: The derivatives with respect to xI are set to zero.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="n">n_nodes</span> <span class="o">=</span> <span class="n">xI</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
     <span class="k">match</span> <span class="n">n_dim</span><span class="p">:</span>
         <span class="k">case</span> <span class="mi">1</span><span class="p">:</span>
@@ -12244,33 +12244,34 @@
                         <span class="n">x33</span> <span class="o">=</span> <span class="n">x20</span> <span class="o">*</span> <span class="n">x32</span>
                         <span class="k">return</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span>
                             <span class="p">[</span>
-                                <span class="n">x0</span> <span class="o">*</span> <span class="n">x6</span><span class="p">,</span>
-                                <span class="n">x6</span> <span class="o">*</span> <span class="n">x7</span><span class="p">,</span>
-                                <span class="n">x10</span> <span class="o">*</span> <span class="n">x7</span><span class="p">,</span>
-                                <span class="n">x0</span> <span class="o">*</span> <span class="n">x10</span><span class="p">,</span>
-                                <span class="n">x0</span> <span class="o">*</span> <span class="n">x13</span><span class="p">,</span>
-                                <span class="n">x13</span> <span class="o">*</span> <span class="n">x7</span><span class="p">,</span>
-                                <span class="n">x14</span> <span class="o">*</span> <span class="n">x7</span><span class="p">,</span>
-                                <span class="n">x0</span> <span class="o">*</span> <span class="n">x14</span><span class="p">,</span>
-                                <span class="o">-</span><span class="n">x17</span> <span class="o">*</span> <span class="n">x18</span><span class="p">,</span>
-                                <span class="o">-</span><span class="n">x21</span> <span class="o">*</span> <span class="n">x7</span><span class="p">,</span>
-                                <span class="o">-</span><span class="n">x18</span> <span class="o">*</span> <span class="n">x22</span><span class="p">,</span>
-                                <span class="o">-</span><span class="n">x0</span> <span class="o">*</span> <span class="n">x21</span><span class="p">,</span>
-                                <span class="o">-</span><span class="n">x23</span> <span class="o">*</span> <span class="n">x25</span><span class="p">,</span>
-                                <span class="o">-</span><span class="n">x25</span> <span class="o">*</span> <span class="n">x26</span><span class="p">,</span>
-                                <span class="o">-</span><span class="n">x26</span> <span class="o">*</span> <span class="n">x27</span><span class="p">,</span>
-                                <span class="o">-</span><span class="n">x23</span> <span class="o">*</span> <span class="n">x27</span><span class="p">,</span>
-                                <span class="o">-</span><span class="n">x17</span> <span class="o">*</span> <span class="n">x28</span><span class="p">,</span>
-                                <span class="o">-</span><span class="n">x26</span> <span class="o">*</span> <span class="n">x29</span><span class="p">,</span>
-                                <span class="o">-</span><span class="n">x22</span> <span class="o">*</span> <span class="n">x28</span><span class="p">,</span>
-                                <span class="o">-</span><span class="n">x23</span> <span class="o">*</span> <span class="n">x29</span><span class="p">,</span>
-                                <span class="n">x31</span> <span class="o">*</span> <span class="n">x4</span><span class="p">,</span>
-                                <span class="n">x17</span> <span class="o">*</span> <span class="n">x32</span><span class="p">,</span>
-                                <span class="n">x33</span> <span class="o">*</span> <span class="n">x7</span><span class="p">,</span>
-                                <span class="n">x22</span> <span class="o">*</span> <span class="n">x32</span><span class="p">,</span>
-                                <span class="n">x0</span> <span class="o">*</span> <span class="n">x33</span><span class="p">,</span>
-                                <span class="n">x11</span> <span class="o">*</span> <span class="n">x31</span><span class="p">,</span>
-                                <span class="o">-</span><span class="n">x24</span> <span class="o">*</span> <span class="n">x30</span><span class="p">,</span>
+                            <span class="n">x0</span> <span class="o">*</span> <span class="n">x6</span><span class="p">,</span>
+                            <span class="n">x6</span> <span class="o">*</span> <span class="n">x7</span><span class="p">,</span>
+                            <span class="n">x10</span> <span class="o">*</span> <span class="n">x7</span><span class="p">,</span>
+                            <span class="n">x0</span> <span class="o">*</span> <span class="n">x10</span><span class="p">,</span>
+                            <span class="n">x0</span> <span class="o">*</span> <span class="n">x13</span><span class="p">,</span>
+                            <span class="n">x13</span> <span class="o">*</span> <span class="n">x7</span><span class="p">,</span>
+                            <span class="n">x14</span> <span class="o">*</span> <span class="n">x7</span><span class="p">,</span>
+                            <span class="n">x0</span> <span class="o">*</span> <span class="n">x14</span><span class="p">,</span>
+                            <span class="o">-</span><span class="n">x17</span> <span class="o">*</span> <span class="n">x18</span><span class="p">,</span>
+                            <span class="o">-</span><span class="n">x21</span> <span class="o">*</span> <span class="n">x7</span><span class="p">,</span>
+                            <span class="o">-</span><span class="n">x18</span> <span class="o">*</span> <span class="n">x22</span><span class="p">,</span>
+                            <span class="o">-</span><span class="n">x0</span> <span class="o">*</span> <span class="n">x21</span><span class="p">,</span>
+                            <span class="o">-</span><span class="n">x17</span> <span class="o">*</span> <span class="n">x28</span><span class="p">,</span>
+                            <span class="o">-</span><span class="n">x26</span> <span class="o">*</span> <span class="n">x29</span><span class="p">,</span>
+                            <span class="o">-</span><span class="n">x22</span> <span class="o">*</span> <span class="n">x28</span><span class="p">,</span>
+                            <span class="o">-</span><span class="n">x23</span> <span class="o">*</span> <span class="n">x29</span><span class="p">,</span>
+                            <span class="o">-</span><span class="n">x23</span> <span class="o">*</span> <span class="n">x25</span><span class="p">,</span>
+                            <span class="o">-</span><span class="n">x25</span> <span class="o">*</span> <span class="n">x26</span><span class="p">,</span>
+                            <span class="o">-</span><span class="n">x26</span> <span class="o">*</span> <span class="n">x27</span><span class="p">,</span>
+                            <span class="o">-</span><span class="n">x23</span> <span class="o">*</span> <span class="n">x27</span><span class="p">,</span>
+                            <span class="n">x0</span> <span class="o">*</span> <span class="n">x33</span><span class="p">,</span>
+                            <span class="n">x33</span> <span class="o">*</span> <span class="n">x7</span><span class="p">,</span>
+                            <span class="n">x17</span> <span class="o">*</span> <span class="n">x32</span><span class="p">,</span>
+                            <span class="n">x22</span> <span class="o">*</span> <span class="n">x32</span><span class="p">,</span>
+                            <span class="n">x31</span> <span class="o">*</span> <span class="n">x4</span><span class="p">,</span>
+                            <span class="n">x11</span> <span class="o">*</span> <span class="n">x31</span><span class="p">,</span>
+                            <span class="o">-</span><span class="n">x24</span> <span class="o">*</span> <span class="n">x30</span><span class="p">,</span>
+
                             <span class="p">]</span>
                         <span class="p">)</span>
 
@@ -12281,38 +12282,38 @@
         <span class="k">case</span><span class="w"> </span><span class="k">_</span><span class="p">:</span>
             <span class="k">assert</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;Dimensionality not implemented.&quot;</span>
 
+    <span class="n">shape_functions</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">jit</span><span class="p">(</span><span class="n">shape_functions</span><span class="p">)</span>
+
     <span class="k">if</span> <span class="n">overwrite_diff</span><span class="p">:</span>
         <span class="c1"># Overwrite derivative to be with respect to initial configuration instead of reference configuration</span>
         <span class="nd">@jax</span><span class="o">.</span><span class="n">custom_jvp</span>
         <span class="k">def</span> <span class="nf">ansatz</span><span class="p">(</span><span class="n">xi</span><span class="p">,</span> <span class="n">fI</span><span class="p">,</span> <span class="n">xI</span><span class="p">):</span>
-            <span class="k">return</span> <span class="n">shape_functions</span><span class="p">(</span><span class="n">xi</span><span class="p">)</span> <span class="o">@</span> <span class="n">fI</span>
+            <span class="k">return</span> <span class="n">jnp</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s1">&#39;i, i...-&gt; ...&#39;</span><span class="p">,</span> <span class="n">shape_functions</span><span class="p">(</span><span class="n">xi</span><span class="p">),</span> <span class="n">fI</span><span class="p">)</span>
 
         <span class="nd">@ansatz</span><span class="o">.</span><span class="n">defjvp</span>
         <span class="k">def</span> <span class="nf">f_jvp</span><span class="p">(</span><span class="n">primals</span><span class="p">,</span> <span class="n">tangents</span><span class="p">):</span>
             <span class="n">xi</span><span class="p">,</span> <span class="n">fI</span><span class="p">,</span> <span class="n">xI</span> <span class="o">=</span> <span class="n">primals</span>
             <span class="n">x_dot</span><span class="p">,</span> <span class="n">fI_dot</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">tangents</span>
-            <span class="n">primal_out</span> <span class="o">=</span> <span class="n">ansatz</span><span class="p">(</span><span class="n">xi</span><span class="p">,</span> <span class="n">fI</span><span class="p">,</span> <span class="n">xI</span><span class="p">)</span>
 
             <span class="c1"># Isoparametric mapping</span>
-            <span class="n">initial_coor</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">xi</span><span class="p">:</span> <span class="n">shape_functions</span><span class="p">(</span><span class="n">xi</span><span class="p">)</span> <span class="o">@</span> <span class="n">xI</span>
-
-            <span class="n">fun</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">xi</span><span class="p">:</span> <span class="n">shape_functions</span><span class="p">(</span><span class="n">xi</span><span class="p">)</span> <span class="o">@</span> <span class="n">fI</span>
-            <span class="n">df_dxi</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">jacfwd</span><span class="p">(</span><span class="n">fun</span><span class="p">)(</span><span class="n">xi</span><span class="p">)</span>
+            <span class="n">initial_coor</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">xi</span><span class="p">:</span> <span class="n">jnp</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s1">&#39;i, i...-&gt; ...&#39;</span><span class="p">,</span> <span class="n">shape_functions</span><span class="p">(</span><span class="n">xi</span><span class="p">),</span> <span class="n">xI</span><span class="p">)</span>
             <span class="n">dX_dxi</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">jacfwd</span><span class="p">(</span><span class="n">initial_coor</span><span class="p">)(</span><span class="n">xi</span><span class="p">)</span>
-            <span class="c1"># tangent_out = df_dxi @ jnp.linalg.solve(dX_dxi, x_dot)</span>
-            <span class="n">tangent_out</span> <span class="o">=</span> <span class="n">df_dxi</span> <span class="o">@</span> <span class="n">matrix_inv</span><span class="p">(</span><span class="n">dX_dxi</span><span class="p">)</span> <span class="o">@</span> <span class="n">x_dot</span>
+
+            <span class="n">fun</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">xi</span><span class="p">:</span> <span class="n">jnp</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s1">&#39;i, i...-&gt; ...&#39;</span><span class="p">,</span> <span class="n">shape_functions</span><span class="p">(</span><span class="n">xi</span><span class="p">),</span> <span class="n">fI</span><span class="p">)</span>
+            <span class="n">primal_out</span> <span class="o">=</span> <span class="n">fun</span><span class="p">(</span><span class="n">xi</span><span class="p">)</span>
+            <span class="n">df_dxi</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">jacfwd</span><span class="p">(</span><span class="n">fun</span><span class="p">)(</span><span class="n">xi</span><span class="p">)</span>
+
+            <span class="n">tangent_out</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s1">&#39;...i, i-&gt; ...&#39;</span><span class="p">,</span> <span class="n">df_dxi</span><span class="p">,</span> <span class="n">matrix_inv</span><span class="p">(</span><span class="n">dX_dxi</span><span class="p">)</span> <span class="o">@</span> <span class="n">x_dot</span><span class="p">)</span>
 
             <span class="c1"># Add tangent with respect to fI</span>
             <span class="k">if</span> <span class="n">fI_dot</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="n">tangent_out</span> <span class="o">+=</span> <span class="n">shape_functions</span><span class="p">(</span><span class="n">xi</span><span class="p">)</span> <span class="o">@</span> <span class="n">fI_dot</span>
+                <span class="n">tangent_out</span> <span class="o">+=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s1">&#39;i, i...-&gt; ...&#39;</span><span class="p">,</span> <span class="n">shape_functions</span><span class="p">(</span><span class="n">xi</span><span class="p">),</span> <span class="n">fI_dot</span><span class="p">)</span>
 
             <span class="k">return</span> <span class="n">primal_out</span><span class="p">,</span> <span class="n">tangent_out</span>
 
         <span class="k">return</span> <span class="n">ansatz</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">fI</span><span class="p">,</span> <span class="n">xI</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">shape_functions</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">@</span> <span class="n">fI</span></div>
-
-
+        <span class="k">return</span> <span class="n">jnp</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s1">&#39;i, i...-&gt; ...&#39;</span><span class="p">,</span> <span class="n">shape_functions</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">fI</span><span class="p">)</span></div>
 
 <span class="k">def</span> <span class="nf">fem_iso_line_tri_tet</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">xI</span><span class="p">,</span> <span class="n">fI</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">overwrite_diff</span><span class="p">,</span> <span class="n">n_dim</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -15102,42 +15103,42 @@
         <span class="k">case</span><span class="w"> </span><span class="k">_</span><span class="p">:</span>
             <span class="k">assert</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;Dimensionality not implemented.&quot;</span>
 
+    <span class="n">shape_functions</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">jit</span><span class="p">(</span><span class="n">shape_functions</span><span class="p">)</span>
+
     <span class="k">if</span> <span class="n">overwrite_diff</span><span class="p">:</span>
         <span class="c1"># Overwrite derivative to be with respect to initial configuration instead of reference configuration</span>
         <span class="nd">@jax</span><span class="o">.</span><span class="n">custom_jvp</span>
         <span class="k">def</span> <span class="nf">ansatz</span><span class="p">(</span><span class="n">xi</span><span class="p">,</span> <span class="n">fI</span><span class="p">,</span> <span class="n">xI</span><span class="p">):</span>
-            <span class="k">return</span> <span class="n">shape_functions</span><span class="p">(</span><span class="n">xi</span><span class="p">)</span> <span class="o">@</span> <span class="n">fI</span>
+            <span class="k">return</span> <span class="n">jnp</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s1">&#39;i, i...-&gt; ...&#39;</span><span class="p">,</span> <span class="n">shape_functions</span><span class="p">(</span><span class="n">xi</span><span class="p">),</span> <span class="n">fI</span><span class="p">)</span>
 
         <span class="nd">@ansatz</span><span class="o">.</span><span class="n">defjvp</span>
         <span class="k">def</span> <span class="nf">f_jvp</span><span class="p">(</span><span class="n">primals</span><span class="p">,</span> <span class="n">tangents</span><span class="p">):</span>
             <span class="n">xi</span><span class="p">,</span> <span class="n">fI</span><span class="p">,</span> <span class="n">xI</span> <span class="o">=</span> <span class="n">primals</span>
             <span class="n">x_dot</span><span class="p">,</span> <span class="n">fI_dot</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">tangents</span>
-            <span class="n">primal_out</span> <span class="o">=</span> <span class="n">ansatz</span><span class="p">(</span><span class="n">xi</span><span class="p">,</span> <span class="n">fI</span><span class="p">,</span> <span class="n">xI</span><span class="p">)</span>
 
             <span class="c1"># Isoparametric mapping</span>
-            <span class="n">initial_coor</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">xi</span><span class="p">:</span> <span class="n">shape_functions</span><span class="p">(</span><span class="n">xi</span><span class="p">)</span> <span class="o">@</span> <span class="n">xI</span>
-
-            <span class="n">fun</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">xi</span><span class="p">:</span> <span class="n">shape_functions</span><span class="p">(</span><span class="n">xi</span><span class="p">)</span> <span class="o">@</span> <span class="n">fI</span>
-            <span class="n">df_dxi</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">jacfwd</span><span class="p">(</span><span class="n">fun</span><span class="p">)(</span><span class="n">xi</span><span class="p">)</span>
+            <span class="n">initial_coor</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">xi</span><span class="p">:</span> <span class="n">jnp</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s1">&#39;i, i...-&gt; ...&#39;</span><span class="p">,</span> <span class="n">shape_functions</span><span class="p">(</span><span class="n">xi</span><span class="p">),</span> <span class="n">xI</span><span class="p">)</span>
             <span class="n">dX_dxi</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">jacfwd</span><span class="p">(</span><span class="n">initial_coor</span><span class="p">)(</span><span class="n">xi</span><span class="p">)</span>
-            <span class="c1"># tangent_out = df_dxi @ jnp.linalg.solve(dX_dxi, x_dot)</span>
-            <span class="n">tangent_out</span> <span class="o">=</span> <span class="n">df_dxi</span> <span class="o">@</span> <span class="n">matrix_inv</span><span class="p">(</span><span class="n">dX_dxi</span><span class="p">)</span> <span class="o">@</span> <span class="n">x_dot</span>
+
+            <span class="n">fun</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">xi</span><span class="p">:</span> <span class="n">jnp</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s1">&#39;i, i...-&gt; ...&#39;</span><span class="p">,</span> <span class="n">shape_functions</span><span class="p">(</span><span class="n">xi</span><span class="p">),</span> <span class="n">fI</span><span class="p">)</span>
+            <span class="n">primal_out</span> <span class="o">=</span> <span class="n">fun</span><span class="p">(</span><span class="n">xi</span><span class="p">)</span>
+            <span class="n">df_dxi</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">jacfwd</span><span class="p">(</span><span class="n">fun</span><span class="p">)(</span><span class="n">xi</span><span class="p">)</span>
+
+            <span class="n">tangent_out</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s1">&#39;...i, i-&gt; ...&#39;</span><span class="p">,</span> <span class="n">df_dxi</span><span class="p">,</span> <span class="n">matrix_inv</span><span class="p">(</span><span class="n">dX_dxi</span><span class="p">)</span> <span class="o">@</span> <span class="n">x_dot</span><span class="p">)</span>
 
             <span class="c1"># Add tangent with respect to fI</span>
             <span class="k">if</span> <span class="n">fI_dot</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="n">tangent_out</span> <span class="o">+=</span> <span class="n">shape_functions</span><span class="p">(</span><span class="n">xi</span><span class="p">)</span> <span class="o">@</span> <span class="n">fI_dot</span>
+                <span class="n">tangent_out</span> <span class="o">+=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s1">&#39;i, i...-&gt; ...&#39;</span><span class="p">,</span> <span class="n">shape_functions</span><span class="p">(</span><span class="n">xi</span><span class="p">),</span> <span class="n">fI_dot</span><span class="p">)</span>
 
             <span class="k">return</span> <span class="n">primal_out</span><span class="p">,</span> <span class="n">tangent_out</span>
 
         <span class="k">return</span> <span class="n">ansatz</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">fI</span><span class="p">,</span> <span class="n">xI</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">shape_functions</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">@</span> <span class="n">fI</span>
+        <span class="k">return</span> <span class="n">jnp</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s1">&#39;i, i...-&gt; ...&#39;</span><span class="p">,</span> <span class="n">shape_functions</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">fI</span><span class="p">)</span>
 
 
 <span class="c1">### Spaces defined in the physical configuration, for assembling modes sparse/dense</span>
-<div class="viewcode-block" id="solution_space">
-<a class="viewcode-back" href="../../_autosummary/autopdex.spaces.solution_space.html#autopdex.spaces.solution_space">[docs]</a>
-<span class="nd">@jit_with_docstring</span><span class="p">(</span><span class="n">static_argnames</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;static_settings&quot;</span><span class="p">,</span> <span class="s2">&quot;set&quot;</span><span class="p">])</span>
+<div class="viewcode-block" id="solution_space"><a class="viewcode-back" href="../../_autosummary/autopdex.spaces.solution_space.html#autopdex.spaces.solution_space">[docs]</a><span class="nd">@jit_with_docstring</span><span class="p">(</span><span class="n">static_argnames</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;static_settings&quot;</span><span class="p">,</span> <span class="s2">&quot;set&quot;</span><span class="p">])</span>
 <span class="k">def</span> <span class="nf">solution_space</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">int_point_number</span><span class="p">,</span> <span class="n">local_dofs</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">,</span> <span class="nb">set</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Compute the solution space for a given integration point and local degrees of freedom.</span>
@@ -15195,10 +15196,7 @@
         <span class="k">assert</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;Solution space not defined!&quot;</span></div>
 
 
-
-<div class="viewcode-block" id="moving_least_squares">
-<a class="viewcode-back" href="../../_autosummary/autopdex.spaces.moving_least_squares.html#autopdex.spaces.moving_least_squares">[docs]</a>
-<span class="nd">@jit_with_docstring</span><span class="p">(</span><span class="n">static_argnames</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;static_settings&quot;</span><span class="p">,</span> <span class="s2">&quot;set&quot;</span><span class="p">])</span>
+<div class="viewcode-block" id="moving_least_squares"><a class="viewcode-back" href="../../_autosummary/autopdex.spaces.moving_least_squares.html#autopdex.spaces.moving_least_squares">[docs]</a><span class="nd">@jit_with_docstring</span><span class="p">(</span><span class="n">static_argnames</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;static_settings&quot;</span><span class="p">,</span> <span class="s2">&quot;set&quot;</span><span class="p">])</span>
 <span class="k">def</span> <span class="nf">moving_least_squares</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">xI</span><span class="p">,</span> <span class="n">fI</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">support_radius</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">,</span> <span class="nb">set</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Compute the moving least squares (MLS) approximation for a given set of points and data.</span>
@@ -15318,10 +15316,7 @@
         <span class="k">assert</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;Wrong mode of shape function computation&quot;</span></div>
 
 
-
-<div class="viewcode-block" id="fem_ini_simplex">
-<a class="viewcode-back" href="../../_autosummary/autopdex.spaces.fem_ini_simplex.html#autopdex.spaces.fem_ini_simplex">[docs]</a>
-<span class="nd">@jit_with_docstring</span><span class="p">(</span><span class="n">static_argnames</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;static_settings&quot;</span><span class="p">,</span> <span class="s2">&quot;set&quot;</span><span class="p">])</span>
+<div class="viewcode-block" id="fem_ini_simplex"><a class="viewcode-back" href="../../_autosummary/autopdex.spaces.fem_ini_simplex.html#autopdex.spaces.fem_ini_simplex">[docs]</a><span class="nd">@jit_with_docstring</span><span class="p">(</span><span class="n">static_argnames</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;static_settings&quot;</span><span class="p">,</span> <span class="s2">&quot;set&quot;</span><span class="p">])</span>
 <span class="k">def</span> <span class="nf">fem_ini_simplex</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">xI</span><span class="p">,</span> <span class="n">fI</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">,</span> <span class="nb">set</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Compute finite element shape functions directly in the initial/physical configuration.</span>
@@ -15426,11 +15421,8 @@
         <span class="k">assert</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;Wrong mode of shape function computation&quot;</span></div>
 
 
-
 <span class="c1">### Pre-computing shape functions</span>
-<div class="viewcode-block" id="precompute_shape_functions">
-<a class="viewcode-back" href="../../_autosummary/autopdex.spaces.precompute_shape_functions.html#autopdex.spaces.precompute_shape_functions">[docs]</a>
-<span class="nd">@jit_with_docstring</span><span class="p">(</span><span class="n">static_argnames</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;static_settings&quot;</span><span class="p">,</span> <span class="s2">&quot;set&quot;</span><span class="p">,</span> <span class="s2">&quot;num_diff&quot;</span><span class="p">])</span>
+<div class="viewcode-block" id="precompute_shape_functions"><a class="viewcode-back" href="../../_autosummary/autopdex.spaces.precompute_shape_functions.html#autopdex.spaces.precompute_shape_functions">[docs]</a><span class="nd">@jit_with_docstring</span><span class="p">(</span><span class="n">static_argnames</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;static_settings&quot;</span><span class="p">,</span> <span class="s2">&quot;set&quot;</span><span class="p">,</span> <span class="s2">&quot;num_diff&quot;</span><span class="p">])</span>
 <span class="k">def</span> <span class="nf">precompute_shape_functions</span><span class="p">(</span><span class="n">dofs</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">static_settings</span><span class="p">,</span> <span class="nb">set</span><span class="p">,</span> <span class="n">num_diff</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Precompute shape functions and their derivatives for all integration points.</span>
@@ -15482,7 +15474,6 @@
         <span class="k">return</span> <span class="p">(</span><span class="n">shp_i</span><span class="p">,</span> <span class="n">dshp_i</span><span class="p">,</span> <span class="n">ddshp_i</span><span class="p">)</span>
 
     <span class="k">assert</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;Number of differentiations not implemented!&quot;</span></div>
-
 
 </pre></div>
 

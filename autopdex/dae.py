@@ -11,23 +11,9 @@
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 # GNU Affero General Public License for more details.
 
-"""Module for solving differential algebraic systems and transient PDEs.
+"""Module for solving differential algebraic systems and transient PDEs."""
 
-Das 'dae'-Modul beinhaltet Zeitintegrationsverfahren (Runge-Kutta und Mehrschrittverfahren) zum Lösen von gekoppelten gewöhnlichen Differentialgleichungen. Die Differentialgleichungen müssen in impliziter Form angegeben werden. Grundsätzlich kann man verschiedene Integratoren für verschiedene Felder wählen, die Anzahl und Position der Stufen müssen jedoch zueinander passen, da aktuell nur eine vollständig monolytische Lösung implementiert ist. Außerdem können Differential-Algebraische Systeme gelöst werden. Bei Vorliegen algebraischer Gleichungen sollten jedoch nur Integratoren mit ausschließlich impliziten Stufen verwendet werden. 
-
-Des Weiteren ist über das Keywort 'call pde' die Lösung von zeitabhängigen PDEs möglich (aktuell nur Zeitintegratoren mit einer Stage). Die Funktionsweise ist derart, dass die Knotenfreiheitsgrade über die gewählten Zeit-Diskretisierungsregeln als Funktionen der Zeit mit diskreten Werten und Ableitungen ausgestattet werden. Die räumliche Diskretisierung kann über die gleichen Ansätz (z.B. isoparametrische Finite Elemente) erfolgen, wie bei zeitunabhängigen Problemen. Im Falle von backward Euler und räumlichen FE-Ansatzfunktionen sähe das z.B. so aus:
-
-:math:`\Theta = \sum_{I=1}^{N} \Theta_I\left(t\right) \N_I\left(\boldsymbol{x}\right)`,
-
-wobei :math:`N_I\left(\boldsymbol{x}\right)` die FE-Ansatzfunktionen sind und :math:`\Theta_I\left(t\right)` die Knotenfreiheitsgrade sind. Die gegebene PDE wird dann im Schritt :math:`t_{n+1}` gelöst, wobei die Ableitung der Knotenfreiheitsgrade nach der Zeit durch eine custom_jvp-Regel mit :math:`\frac{\partial\Theta_I}{\partial t}\vert_{t_{n+1}} = \frac{\Theta_I\left(t_{n+1}\right) - \Theta_I\left(t_n\right)}{\Delta t}` ausgestattet wird.
-
-WARNING: This module is currently under development, experimental and has some undocumented limitations.
-"""
-
-# FIXME: docstrings for the integrators, controllers and plotting policies and TimeSteppingManager
-# FIXME: make sure, the integrator supports changing the step size if neccessarry! e.g. adams moulton: root iteration controler not possible...
-
-
+# TODO: make sure, the integrator supports changing the step size if neccessarry! e.g. adams moulton: root iteration controler not possible...
 # TODO: generate tests from examples
 # TODO: translate all comments to english
 # TODO: staggered policies, explicit diagonal modes
@@ -78,11 +64,12 @@ def discrete_value_with_derivatives(t, q, q_derivs):
   derivative `t_dot` to compute the overall derivative contribution.
 
   It is used to construct a differentiable q_fun based on a value and its derivative defined by an integration rule, e.g.:
-  ```
-  def diffable_q_fun(t): # q_ts is a tuple of (q, q_dot, q_ddot, ...) coming from the integrator
-    return {key: discrete_value_with_derivatives(t, q_ts[key][0], q_ts[key][1:]) for key in template.keys()}
-  ```
 
+    .. code-block:: python
+    
+      def diffable_q_fun(t): # q_ts is a tuple of (q, q_t, q_tt, ...) coming from the integrator
+        return {key: discrete_value_with_derivatives(t, q_ts[key][0], q_ts[key][1:]) for key in template.keys()}
+  
   Args:
     t: Scalar representing the time variable.
     q: The discrete state value.
@@ -90,8 +77,8 @@ def discrete_value_with_derivatives(t, q, q_derivs):
               the first derivative, with subsequent elements (if any) representing higher-order derivatives.
   
   Returns:
-    The discrete state value `q`. The custom derivative rule ensures that during differentiation the returned derivative
-    follows the form:
+    The discrete state value `q`. The custom derivative rule ensures that during differentiation the returned derivative follows the form:
+    
       - If no derivative information is provided (`q_derivs` is empty): returns `q_dot`.
       - Otherwise: returns `q_dot + (discrete_value_with_derivatives(t, first_deriv, remaining_derivs) * t_dot)`,
         where `first_deriv` is the first element of `q_derivs` and `remaining_derivs` contains any higher-order derivatives.
@@ -104,7 +91,7 @@ def discrete_value_with_derivatives_jvp(primals, tangents):
   (t_dot, q_dot, q_derivs_dot) = tangents
 
   if len(q_derivs) == 0:
-    # return _no_derivative(t, q), q_dot # Problematic with multiple fields
+    # return _no_derivative(t, q), q_dot # Problematic with multiple fields?!
     return q, q_dot
   else:
     first_derivs = q_derivs[0]
@@ -159,15 +146,15 @@ def detect_stage_dependencies(A):
 
 def invert_butcher_with_order(A):
   """
-  Computes the blockwise linear mapping matrix A_ that maps U to U_dot without inter-block coupling,
+  Computes the blockwise linear mapping matrix ``A_`` that maps U to U_dot without inter-block coupling,
   and determines the execution order of the blocks.
 
   Parameters:
-    A (ndarray): Butcher matrix of stage coefficients (s x s).
+    ``A`` (ndarray): Butcher matrix of stage coefficients (s x s).
 
   Returns:
-    A_ (ndarray): Matrix mapping U to U_dot (s x s).
-    execution_order (list): A list specifying the order of operations (blocks or explicit stage indices).
+    ``A_`` (ndarray): Matrix mapping U to U_dot (s x s).
+    execution_order (list): ``A`` list specifying the order of operations (blocks or explicit stage indices).
   """
   s = A.shape[0]
   A_ = np.zeros_like(A)  # Initialize resulting matrix
@@ -299,6 +286,15 @@ class TimeIntegrator(ABC):
 ## specific integrator classes
 
 class BackwardEuler(TimeIntegrator):
+  """
+  Backward Euler method.
+  
+  Accuracy: 1st order.
+  Stability: L-stable.
+  Number of steps: 1.
+  Number of stages: 1, implicit.
+  Number of derivatives: 1.
+  """
 
   def __init__(self):
     super().__init__("backward_euler",
@@ -322,6 +318,15 @@ class BackwardEuler(TimeIntegrator):
     return q, q_t
 
 class ForwardEuler(TimeIntegrator):
+  """
+  Forward Euler method.
+  
+  Accuracy: 1st order.
+  Stability: instable for stiff problems.
+  Number of steps: 1.
+  Number of stages: 1, explicit.
+  Number of derivatives: 1.
+  """
 
   def __init__(self):
     super().__init__("forward_euler",
@@ -345,6 +350,24 @@ class ForwardEuler(TimeIntegrator):
     return jnp.asarray([q_n[0]]), q_t
 
 class Newmark(TimeIntegrator):
+  """Newmark-beta method.
+  
+  Args: 
+    gamma (float): Newmark parameter.
+    beta (float): Newmark parameter.
+
+  Explicit central differences:
+    gamma = 0.5
+    beta = 0
+  
+  Average constant acceleration (middle point rule, unconditional stable):
+    gamma = 0.5
+    beta = 0.25
+
+  Number of steps: 1.
+  Number of stages: 1, explicit or implicit.
+  Number of derivatives: 2.      
+  """
 
   def __init__(self, gamma=0.5, beta=0.25):
     if isclose(beta, 0.):
@@ -378,7 +401,7 @@ class Newmark(TimeIntegrator):
   def _rule(self, q, q_n, q_t_n, dt):
     gamma = self.gamma
     beta = self.beta
-    
+
     dq = q - q_n[0]
     if isclose(beta, 0.):
       # Central differences
@@ -395,6 +418,13 @@ class Newmark(TimeIntegrator):
       return q, q_t, q_tt
 
 class AdamsMoulton(TimeIntegrator):
+  """Adams-Moulton method.
+  
+  Args:
+    num_steps (int): Number of previous steps (1 to 6). 
+
+  Number of stages: 1, implicit.
+  """
 
   def __init__(self, num_steps):
     super().__init__("adams_moulton",
@@ -451,6 +481,13 @@ class AdamsMoulton(TimeIntegrator):
     return q, q_t
 
 class AdamsBashforth(TimeIntegrator):
+  """Adams-Bashforth time integrator.
+  
+  Args:
+    num_steps (int): Number of previous steps (1 to 6).
+
+  Number of stages: 1, explicit.
+  """
 
   def __init__(self, num_steps):
     super().__init__("adams_bashforth",
@@ -498,6 +535,13 @@ class AdamsBashforth(TimeIntegrator):
     return jnp.asarray([q_n[0]]), q_t
 
 class BackwardDiffFormula(TimeIntegrator):
+  """Backward differentiation formula (BDF).
+  
+  Args:
+    num_steps (int): Number of previous steps (1 to 6).
+    
+  Number of stages: 1, implicit.
+  """
 
   def __init__(self, num_steps):
     super().__init__("backward_diff_formula",
@@ -543,6 +587,11 @@ class BackwardDiffFormula(TimeIntegrator):
     return q, q_t
 
 class ExplicitRungeKutta(TimeIntegrator):
+  """Explicit Runge-Kutta method.
+  
+  Args:
+    num_stages (int): Number of stages (1, 2, 3, 4, 5, 6, 7, 9, 11).
+  """
 
   def __init__(self, num_stages):
     match num_stages:  # From JC Butcher 2008: Numerical Methods for Ordinary Differential Equations, ISBN: 978-0-470-72335-7
@@ -656,6 +705,11 @@ class ExplicitRungeKutta(TimeIntegrator):
     return q, q_t
 
 class DiagonallyImplicitRungeKutta(TimeIntegrator):
+  """Diagonally implicit Runge-Kutta method.
+  
+  Args:
+    num_stages (int): Number of stages (1, 2, 3).
+  """
 
   def __init__(self, num_stages):
     match num_stages:  # From JC Butcher 2008: Numerical Methods for Ordinary Differential Equations, ISBN: 978-0-470-72335-7
@@ -712,6 +766,13 @@ class DiagonallyImplicitRungeKutta(TimeIntegrator):
     return q, q_t
 
 class Kvaerno(TimeIntegrator):
+  """Kvaerno method (explicit first stage diagonally implicit Runge-Kutta with embedded error estimation).
+  
+  Args:
+    order (int): Order of the method (3, 4, 5).
+    
+  Supports PID control.
+  """
 
   def __init__(self, order):
     match order:  # Coefficients from https://github.com/patrick-kidger/diffrax/blob/0a59c9dbd34f580efb3505386f38ce9fcedb120b/diffrax/_solver -> kvaerno{3,4,5}.py
@@ -830,6 +891,13 @@ class Kvaerno(TimeIntegrator):
     return q, q_t
 
 class DormandPrince(TimeIntegrator):
+  """Dormand-Prince method (explicit with embedded error estimation).
+  
+  Args:
+    order (int): Order of the method (5, 8).
+    
+  Supports PID control.
+  """
 
   def __init__(self, order):
     # Coefficients from https://github.com/patrick-kidger/diffrax/blob/0a59c9dbd34f580efb3505386f38ce9fcedb120b/diffrax/_solver -> dopri{5,8}.py
@@ -950,6 +1018,13 @@ class DormandPrince(TimeIntegrator):
     return q, q_t
 
 class GaussLegendreRungeKutta(TimeIntegrator):
+  """Gauss-Legendre Runge-Kutta method (fully implicit).
+  
+  Args:
+    num_stages (int): Number of stages.
+
+  Accuracy: 2 * num_stages.
+  """
 
   def __init__(self, num_stages):
 
@@ -1293,10 +1368,12 @@ class PIDControllerState:
   accept: bool
   interrupt: bool
 
-class PIDController(StepSizeController):
-  """Proportional-Integral-Derivative (PID) Step Size Controller."""
 
-  # Inspired by https://docs.kidger.site/diffrax/api/stepsize_controller and https://docs.sciml.ai/DiffEqDocs/stable/extras/timestepping/
+class PIDController(StepSizeController):
+  """Proportional-Integral-Derivative (PID) Step Size Controller.
+  
+  Inspired by https://docs.kidger.site/diffrax/api/stepsize_controller and https://docs.sciml.ai/DiffEqDocs/stable/extras/timestepping/
+  """
 
   def __init__(self,
                pcoeff: float = 0.0,
@@ -1337,7 +1414,9 @@ class PIDController(StepSizeController):
     # Check that all integrators support error estimation (integrators that does not support return None as error)
     for key in keys:
       if error[key] is None:
-        raise ValueError(f"\n\nError estimation is not supported for the integrator of field '{key}'!\n Use a different integrator or a time step control that does not require error estimation.")
+        raise ValueError(
+            f"\n\nError estimation is not supported for the integrator of field '{key}'!\n Use a different integrator or a time step control that does not require error estimation."
+        )
 
     # Scaled error estimate
     scaled_error = {
@@ -1680,10 +1759,6 @@ class TimeSteppingManager:
       pre_step_updates=None,
       post_step_updates=None,
   ):
-    """
-      static_settings: z.B. FrozenDict mit DAE, time integrators, model_fun usw.
-      settings: Dynamische Einstellungen, z.B. {'node coordinates': ..., 'connectivity': ..., ...}
-      """
     self.integrators = static_settings['time integrators']
     self.root_solver = root_solver
     self.num_time_derivs = {key: integrator.num_derivs for key, integrator in self.integrators.items()}
@@ -1751,7 +1826,7 @@ class TimeSteppingManager:
   def _assemble_sparse_tangent_domain(self, x_flat, q_n, q_t_n, dt, t, current_stages, settings, static_settings, domain):
     # Todo: andere modes? e.g. for potential-based problems (like user potentials in assembler)
     # todo: currently only single stages and blocks possible
-    
+
     # Reconstruct global DOF structure from flat vector
     global_dofs = reshape_as(x_flat, self._global_template)
 
@@ -2036,8 +2111,7 @@ class TimeSteppingManager:
         settings (dict[str, Any]): Dictionary containing dynamic simulation settings. Default is {'current time': 0.0}.
 
     Returns:
-        TimeSteppingManagerState: An object containing the final state (q), updated settings, simulation history,
-                                  and step statistics (total steps, accepted steps, rejected steps).
+        TimeSteppingManagerState: An object containing the final state (q), updated settings, simulation history, and step statistics (total steps, accepted steps, rejected steps).
     """
 
     # Check whether time integrators are compatible
@@ -2207,5 +2281,3 @@ class TimeSteppingManager:
 # Register as pytree node in order to be able to jit the methods
 tree_util.register_pytree_node(TimeSteppingManager, TimeSteppingManager._tree_flatten,
                                TimeSteppingManager._tree_unflatten)
-
-

@@ -2,7 +2,6 @@ Spaces
 ======
 
 .. automodule:: autopdex.spaces
-    :no-index:
 
 Spaces defined in the reference configuration, for assembling modes user potential/residual/element
 ---------------------------------------------------------------------------------------------------

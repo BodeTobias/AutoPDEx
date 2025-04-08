@@ -1,36 +1,36 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" data-content_root="../../">
+<html class="writer-html5" lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>autopdex.implicit_diff &mdash; AutoPDEx  documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
-      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=19f00094" />
-      <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
-      <link rel="stylesheet" type="text/css" href="../../_static/jupyter-sphinx.css?v=572af1d6" />
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css" />
+      <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
+      <link rel="stylesheet" type="text/css" href="../../_static/jupyter-sphinx.css" />
       <link rel="stylesheet" type="text/css" href="../../_static/thebelab.css" />
-      <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=acfd50eb" />
-      <link rel="stylesheet" type="text/css" href="../../_static/dark_mode_css/general.css?v=c0a7eb24" />
-      <link rel="stylesheet" type="text/css" href="../../_static/dark_mode_css/dark.css?v=70edf1c7" />
+      <link rel="stylesheet" type="text/css" href="../../_static/custom.css" />
+      <link rel="stylesheet" type="text/css" href="../../_static/dark_mode_css/general.css" />
+      <link rel="stylesheet" type="text/css" href="../../_static/dark_mode_css/dark.css" />
 
   
   <!--[if lt IE 9]>
     <script src="../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script src="../../_static/jquery.js?v=5d32c60e"></script>
-        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../_static/documentation_options.js?v=5929fcd5"></script>
-        <script src="../../_static/doctools.js?v=9a2dae69"></script>
-        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
-        <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
-        <script src="../../_static/copybutton.js?v=f281be69"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/sphinx_highlight.js"></script>
+        <script src="../../_static/clipboard.min.js"></script>
+        <script src="../../_static/copybutton.js"></script>
         <script src="../../_static/thebelab-helper.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-        <script src="../../_static/dark_mode_js/default_light.js?v=c2e647ce"></script>
-        <script src="../../_static/dark_mode_js/theme_switcher.js?v=358d3910"></script>
+        <script src="../../_static/dark_mode_js/default_light.js"></script>
+        <script src="../../_static/dark_mode_js/theme_switcher.js"></script>
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" /> 
@@ -49,7 +49,7 @@
               <img src="../../_static/logo.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                1.0.5
+                1.1.1
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
@@ -65,16 +65,17 @@
 <p class="caption" role="heading"><span class="caption-text">High level operations</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../solver.html">Solver</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../dae.html">Time stepping</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../models.html">Models</a></li>
-</ul>
-<p class="caption" role="heading"><span class="caption-text">Settings</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../../settings.html">Settings and static_settings</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Examples</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../example_notebooks.html">Example notebooks</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../examples.html">Examplary input files</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Settings</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../settings.html">Settings and static_settings</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Lower level operations</span></p>
 <ul>
@@ -252,6 +253,7 @@
 <span class="sd">      each argument. Each ``vjps[i]`` has the same pytree structure as</span>
 <span class="sd">      ``args[i]``.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="n">free_dofs_flat</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="k">if</span> <span class="n">free_dofs</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">assert</span> <span class="s2">&quot;dirichlet conditions&quot;</span> <span class="ow">in</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="s2">&quot;&#39;dirichlet conditions&#39; </span><span class="se">\</span>
@@ -346,8 +348,9 @@
 
     <span class="k">if</span> <span class="n">free_dofs</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">updated_args0</span> <span class="o">=</span> <span class="n">args_vjp</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">tmpl</span> <span class="o">=</span> <span class="n">updated_args0</span><span class="p">[</span><span class="s2">&quot;dirichlet conditions&quot;</span><span class="p">]</span>
         <span class="n">updated_args0</span><span class="p">[</span><span class="s2">&quot;dirichlet conditions&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">utility</span><span class="o">.</span><span class="n">mask_op</span><span class="p">(</span>
-            <span class="n">updated_args0</span><span class="p">[</span><span class="s2">&quot;dirichlet conditions&quot;</span><span class="p">],</span> <span class="n">dirichlet_dofs</span><span class="p">,</span> <span class="n">cotangent</span><span class="p">,</span> <span class="s2">&quot;add&quot;</span>
+            <span class="n">updated_args0</span><span class="p">[</span><span class="s2">&quot;dirichlet conditions&quot;</span><span class="p">],</span> <span class="n">utility</span><span class="o">.</span><span class="n">reshape_as</span><span class="p">(</span><span class="n">dirichlet_dofs</span><span class="p">,</span> <span class="n">tmpl</span><span class="p">),</span> <span class="n">utility</span><span class="o">.</span><span class="n">reshape_as</span><span class="p">(</span><span class="n">cotangent</span><span class="p">,</span> <span class="n">tmpl</span><span class="p">),</span> <span class="s2">&quot;add&quot;</span>
         <span class="p">)</span>
         <span class="n">args_vjp</span> <span class="o">=</span> <span class="p">(</span><span class="n">updated_args0</span><span class="p">,)</span> <span class="o">+</span> <span class="n">args_vjp</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
 
@@ -606,13 +609,11 @@
 
     <span class="k">return</span> <span class="n">wrapped_solver_fun</span>
 
-<div class="viewcode-block" id="custom_root">
-<a class="viewcode-back" href="../../_autosummary/autopdex.implicit_diff.custom_root.html#autopdex.implicit_diff.custom_root">[docs]</a>
-<span class="k">def</span> <span class="nf">custom_root</span><span class="p">(</span>
+<div class="viewcode-block" id="custom_root"><a class="viewcode-back" href="../../_autosummary/autopdex.implicit_diff.custom_root.html#autopdex.implicit_diff.custom_root">[docs]</a><span class="k">def</span> <span class="nf">custom_root</span><span class="p">(</span>
     <span class="n">residual_fun</span><span class="p">:</span> <span class="n">Callable</span><span class="p">,</span>
     <span class="n">mat_fun</span><span class="p">:</span> <span class="n">Callable</span><span class="p">,</span>
     <span class="n">solve</span><span class="p">:</span> <span class="n">Callable</span><span class="p">,</span>
-    <span class="n">free_dofs</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">free_dofs</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">has_aux</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;reverse&quot;</span><span class="p">,</span>
     <span class="n">reference_signature</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Callable</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -626,7 +627,7 @@
 <span class="sd">      mat_fun: A callable that returns the sparse tangent matrix as a jax.experimental.BCOO with dofs and</span>
 <span class="sd">        args as arguments. Can also be a pure callback.</span>
 <span class="sd">      solve: A linear solver of the form ``solve(mat[jax.experimental.BCOO], b[jnp.ndarray])``.</span>
-<span class="sd">      free_dofs: For constraining certain degrees of freedom. In case of True, the second argument of the solver</span>
+<span class="sd">      free_dofs: For constraining certain degrees of freedom. In case free_dofs is not None, the second argument of the solver</span>
 <span class="sd">        has to be a dictionary having the keys &#39;dirichlet dofs&#39; and &#39;dirichlet conditions&#39;. The first one is a</span>
 <span class="sd">        dictionary of jnp.ndarrays with the same structure as dofs, where the entries are boolean masks indicating</span>
 <span class="sd">        the dofs that are constrained. The second one is a dictionary of jnp.ndarrays with the same structure as dofs,</span>
@@ -664,7 +665,6 @@
         <span class="p">)</span>
 
     <span class="k">return</span> <span class="n">wrapper</span></div>
-
 </pre></div>
 
            </div>

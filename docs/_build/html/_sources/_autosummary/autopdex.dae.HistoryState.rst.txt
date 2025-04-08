@@ -1,0 +1,58 @@
+﻿autopdex.dae.HistoryState
+=========================
+
+.. currentmodule:: autopdex.dae
+
+.. autoclass:: HistoryState
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~HistoryState.__delattr__
+      ~HistoryState.__dir__
+      ~HistoryState.__eq__
+      ~HistoryState.__format__
+      ~HistoryState.__ge__
+      ~HistoryState.__getattribute__
+      ~HistoryState.__getstate__
+      ~HistoryState.__gt__
+      ~HistoryState.__init_subclass__
+      ~HistoryState.__le__
+      ~HistoryState.__lt__
+      ~HistoryState.__ne__
+      ~HistoryState.__new__
+      ~HistoryState.__reduce__
+      ~HistoryState.__reduce_ex__
+      ~HistoryState.__repr__
+      ~HistoryState.__setattr__
+      ~HistoryState.__sizeof__
+      ~HistoryState.__str__
+      ~HistoryState.__subclasshook__
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~HistoryState.__annotations__
+      ~HistoryState.__dataclass_fields__
+      ~HistoryState.__dataclass_params__
+      ~HistoryState.__dict__
+      ~HistoryState.__doc__
+      ~HistoryState.__hash__
+      ~HistoryState.__match_args__
+      ~HistoryState.__module__
+      ~HistoryState.__weakref__
+      ~HistoryState.t
+      ~HistoryState.q
+      ~HistoryState.user
+   
+   

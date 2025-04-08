@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en">
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>autopdex.dae.discrete_value_with_derivatives &mdash; AutoPDEx  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css" />
+      <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+      <link rel="stylesheet" type="text/css" href="../_static/jupyter-sphinx.css" />
+      <link rel="stylesheet" type="text/css" href="../_static/thebelab.css" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css" />
+      <link rel="stylesheet" type="text/css" href="../_static/dark_mode_css/general.css" />
+      <link rel="stylesheet" type="text/css" href="../_static/dark_mode_css/dark.css" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
+        <script src="../_static/clipboard.min.js"></script>
+        <script src="../_static/copybutton.js"></script>
+        <script src="../_static/thebelab-helper.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script src="../_static/dark_mode_js/default_light.js"></script>
+        <script src="../_static/dark_mode_js/theme_switcher.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="autopdex.dae.detect_stage_dependencies" href="autopdex.dae.detect_stage_dependencies.html" />
+    <link rel="prev" title="autopdex.dae.GaussLegendreRungeKutta" href="autopdex.dae.GaussLegendreRungeKutta.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            AutoPDEx
+              <img src="../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                1.1.1
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../notebooks/quickstart.html">Quickstart to AutoPDEx</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">High level operations</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../solver.html">Solver</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../dae.html">Time stepping</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../dae.html#central-class">Central class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../dae.html#time-integrators">Time integrators</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../dae.html#helper-functions">Helper functions</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">autopdex.dae.discrete_value_with_derivatives</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#autopdex.dae.discrete_value_with_derivatives"><code class="docutils literal notranslate"><span class="pre">discrete_value_with_derivatives</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="autopdex.dae.detect_stage_dependencies.html">autopdex.dae.detect_stage_dependencies</a></li>
+<li class="toctree-l3"><a class="reference internal" href="autopdex.dae.invert_butcher_with_order.html">autopdex.dae.invert_butcher_with_order</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../dae.html#step-size-controllers">Step size controllers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../dae.html#data-saving-policies">Data saving policies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../dae.html#rootsolvers-compatible-with-the-dae-module">Rootsolvers compatible with the DAE module</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../models.html">Models</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../example_notebooks.html">Example notebooks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples.html">Examplary input files</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Settings</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../settings.html">Settings and static_settings</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Lower level operations</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../assembler.html">Assembler</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../implicit_diff.html">Implicit_diff</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spaces.html">Spaces</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../solution_structures.html">Solution structures</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../variational_schemes.html">Variational_schemes</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Pre- and postprocessing</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../geometry.html">Geometry</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../seeder.html">Seeder</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../utility.html">Utility</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../plotter.html">Plotter</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../mesher.html">Mesher</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Source code</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/BodeTobias/AutoPDEx">GitHub Project</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">AutoPDEx</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../dae.html">Time stepping</a></li>
+      <li class="breadcrumb-item active">autopdex.dae.discrete_value_with_derivatives</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/BodeTobias/AutoPDEx/blob/main/docs/_autosummary/autopdex.dae.discrete_value_with_derivatives.rst" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="autopdex-dae-discrete-value-with-derivatives">
+<h1>autopdex.dae.discrete_value_with_derivatives<a class="headerlink" href="#autopdex-dae-discrete-value-with-derivatives" title="Permalink to this heading"></a></h1>
+<dl class="py data">
+<dt class="sig sig-object py" id="autopdex.dae.discrete_value_with_derivatives">
+<span class="sig-prename descclassname"><span class="pre">autopdex.dae.</span></span><span class="sig-name descname"><span class="pre">discrete_value_with_derivatives</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;jax._src.custom_derivatives.custom_jvp</span> <span class="pre">object&gt;</span></em><a class="reference internal" href="../_modules/autopdex/dae.html#discrete_value_with_derivatives"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#autopdex.dae.discrete_value_with_derivatives" title="Permalink to this definition"></a></dt>
+<dd><p>Evaluate the discrete state value with custom derivative propagation.</p>
+<p>This function returns the discrete state value <cite>q</cite>, but it is equipped with a custom Jacobian-vector product (JVP)
+rule to correctly propagate derivative information through discrete operations. This custom derivative rule is designed
+to support higher-order derivative calculations by processing a sequence of derivative values provided in <cite>q_derivs</cite>.</p>
+<p>In the absence of derivative information (i.e. when <cite>q_derivs</cite> is empty), the derivative is taken to be <cite>q_dot</cite>.
+When derivative information is available, the first derivative in <cite>q_derivs</cite> is used recursively along with the time
+derivative <cite>t_dot</cite> to compute the overall derivative contribution.</p>
+<p>It is used to construct a differentiable q_fun based on a value and its derivative defined by an integration rule, e.g.:</p>
+<blockquote>
+<div><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">diffable_q_fun</span><span class="p">(</span><span class="n">t</span><span class="p">):</span> <span class="c1"># q_ts is a tuple of (q, q_t, q_tt, ...) coming from the integrator</span>
+  <span class="k">return</span> <span class="p">{</span><span class="n">key</span><span class="p">:</span> <span class="n">discrete_value_with_derivatives</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">q_ts</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">q_ts</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="mi">1</span><span class="p">:])</span> <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">template</span><span class="o">.</span><span class="n">keys</span><span class="p">()}</span>
+</pre></div>
+</div>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>t</strong> – Scalar representing the time variable.</p></li>
+<li><p><strong>q</strong> – The discrete state value.</p></li>
+<li><p><strong>q_derivs</strong> – A sequence (e.g., list or tuple) of derivative values corresponding to <cite>q</cite>. The first element represents
+the first derivative, with subsequent elements (if any) representing higher-order derivatives.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p>If no derivative information is provided (<cite>q_derivs</cite> is empty): returns <cite>q_dot</cite>.</p></li>
+<li><p>Otherwise: returns <cite>q_dot + (discrete_value_with_derivatives(t, first_deriv, remaining_derivs) * t_dot)</cite>,
+where <cite>first_deriv</cite> is the first element of <cite>q_derivs</cite> and <cite>remaining_derivs</cite> contains any higher-order derivatives.</p></li>
+</ul>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The discrete state value <cite>q</cite>. The custom derivative rule ensures that during differentiation the returned derivative follows the form</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="autopdex.dae.GaussLegendreRungeKutta.html" class="btn btn-neutral float-left" title="autopdex.dae.GaussLegendreRungeKutta" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="autopdex.dae.detect_stage_dependencies.html" class="btn btn-neutral float-right" title="autopdex.dae.detect_stage_dependencies" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Tobias Bode.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

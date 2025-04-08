@@ -1,0 +1,58 @@
+﻿autopdex.dae.StepSizeController
+===============================
+
+.. currentmodule:: autopdex.dae
+
+.. autoclass:: StepSizeController
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~StepSizeController.__delattr__
+      ~StepSizeController.__dir__
+      ~StepSizeController.__eq__
+      ~StepSizeController.__format__
+      ~StepSizeController.__ge__
+      ~StepSizeController.__getattribute__
+      ~StepSizeController.__getstate__
+      ~StepSizeController.__gt__
+      ~StepSizeController.__hash__
+      ~StepSizeController.__init_subclass__
+      ~StepSizeController.__le__
+      ~StepSizeController.__lt__
+      ~StepSizeController.__ne__
+      ~StepSizeController.__new__
+      ~StepSizeController.__reduce__
+      ~StepSizeController.__reduce_ex__
+      ~StepSizeController.__repr__
+      ~StepSizeController.__setattr__
+      ~StepSizeController.__sizeof__
+      ~StepSizeController.__str__
+      ~StepSizeController.__subclasshook__
+      ~StepSizeController.check_accept
+      ~StepSizeController.compute_scaler
+      ~StepSizeController.initialize
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~StepSizeController.__abstractmethods__
+      ~StepSizeController.__annotations__
+      ~StepSizeController.__dict__
+      ~StepSizeController.__doc__
+      ~StepSizeController.__module__
+      ~StepSizeController.__slots__
+      ~StepSizeController.__weakref__
+      ~StepSizeController._abc_impl
+   
+   

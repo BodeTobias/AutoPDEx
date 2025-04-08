@@ -1,0 +1,6 @@
+﻿autopdex.dae.discrete\_value\_with\_derivatives
+===============================================
+
+.. currentmodule:: autopdex.dae
+
+.. autodata:: discrete_value_with_derivatives

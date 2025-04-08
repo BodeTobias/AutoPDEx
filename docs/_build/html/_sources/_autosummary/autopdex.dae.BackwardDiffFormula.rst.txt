@@ -1,0 +1,58 @@
+﻿autopdex.dae.BackwardDiffFormula
+================================
+
+.. currentmodule:: autopdex.dae
+
+.. autoclass:: BackwardDiffFormula
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~BackwardDiffFormula.__delattr__
+      ~BackwardDiffFormula.__dir__
+      ~BackwardDiffFormula.__eq__
+      ~BackwardDiffFormula.__format__
+      ~BackwardDiffFormula.__ge__
+      ~BackwardDiffFormula.__getattribute__
+      ~BackwardDiffFormula.__getstate__
+      ~BackwardDiffFormula.__gt__
+      ~BackwardDiffFormula.__hash__
+      ~BackwardDiffFormula.__init_subclass__
+      ~BackwardDiffFormula.__le__
+      ~BackwardDiffFormula.__lt__
+      ~BackwardDiffFormula.__ne__
+      ~BackwardDiffFormula.__new__
+      ~BackwardDiffFormula.__reduce__
+      ~BackwardDiffFormula.__reduce_ex__
+      ~BackwardDiffFormula.__repr__
+      ~BackwardDiffFormula.__setattr__
+      ~BackwardDiffFormula.__sizeof__
+      ~BackwardDiffFormula.__str__
+      ~BackwardDiffFormula.__subclasshook__
+      ~BackwardDiffFormula._error_estimate
+      ~BackwardDiffFormula._rule
+      ~BackwardDiffFormula._update
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~BackwardDiffFormula.__abstractmethods__
+      ~BackwardDiffFormula.__annotations__
+      ~BackwardDiffFormula.__dict__
+      ~BackwardDiffFormula.__doc__
+      ~BackwardDiffFormula.__module__
+      ~BackwardDiffFormula.__slots__
+      ~BackwardDiffFormula.__weakref__
+      ~BackwardDiffFormula._abc_impl
+   
+   

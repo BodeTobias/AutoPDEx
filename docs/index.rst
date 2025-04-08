@@ -1,11 +1,11 @@
-Welcome to AutoPDEx's documentation!
-====================================
+Welcome to the documentation of AutoPDEx!
+=========================================
 
 `AutoPDEx <https://github.com/BodeTobias/AutoPDEx>`_ is a free open source partial differential equation (PDE) solver based on the automatic code transformation capabilities of `JAX <https://github.com/google/jax>`_.
 
 The idea of the project is to develop a modular and easily extendable environment for the solution of boundary and initial boundary value problems, which allows for good integration with machine learning algorithms and can be executed on accelerators such as GPUs.
 
-The highest level of abstraction is the solver module, which includes different solution algorithms such as the Newton-Raphson method, adaptive load step control and nonlinear minimizers, and leverages different backends. 
+The highest level of abstraction is available in the 'solver' and 'dae' modules, which includes different solution algorithms such as the Newton-Raphson method, adaptive load- and time step control and nonlinear minimizers, and leverages different backends. 
 To solve problems, two dictionaries (`static_settings` and `settings`) are particularly needed, in which the problem settings are specified. 
 Part of the static settings includes the definition of the model in the form of a JAX-transformable function, which returns a strong or weak form of a PDE or user-specific potentials, residuals and tangents. 
 Some pre-made models are included in the models module.
@@ -32,7 +32,7 @@ To use the Intel MKL Pardiso and PETSc solvers, they have to be installed by the
    notebooks/quickstart
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
    :caption: High level operations
 
    solver
@@ -40,17 +40,20 @@ To use the Intel MKL Pardiso and PETSc solvers, they have to be installed by the
    models
 
 .. toctree::
-   :maxdepth: 1
-   :caption: Settings
-   
-   settings
-
-.. toctree::
-   :maxdepth: 1
+   :maxdepth: 2
    :caption: Examples
 
    example_notebooks
    examples
+
+.. image:: _static/navier_stokes_temperature.png
+   :align: center
+
+.. toctree::
+   :maxdepth: 1
+   :caption: Settings
+   
+   settings
 
 .. toctree::
    :maxdepth: 1
@@ -77,7 +80,7 @@ _____________
 
 You are warmly invited to contribute to the project. For larger developments, please get in touch beforehand in order to circumvent double work. 
 
-For detailed information on how to contribute, please see our `Contribution Guidelines <https://github.com/BodeTobias/AutoPDEx/blob/main/CONTRIBUTING.md>`_.
+For detailed information on how to contribute, please see the `Contribution Guidelines <https://github.com/BodeTobias/AutoPDEx/blob/main/CONTRIBUTING.md>`_.
 
 License
 _______

@@ -300,7 +300,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": null,
+   "execution_count": 11,
    "metadata": {},
    "outputs": [
     {
@@ -309,43 +309,43 @@
      "text": [
       "\n",
       "Multiplier: 0.2\n",
-      "Residual after Newton iteration 1: 30.123826347678822\n",
-      "Residual after Newton iteration 2: 7.48423476111715\n",
-      "Residual after Newton iteration 3: 0.8521793502481395\n",
-      "Residual after Newton iteration 4: 0.010471309029167198\n",
-      "Residual after Newton iteration 5: 1.831106604002347e-06\n",
-      "Residual after Newton iteration 6: 9.358166936206188e-13\n",
+      "Residual after Newton iteration 1: 30.123826347679017\n",
+      "Residual after Newton iteration 2: 7.484234761117104\n",
+      "Residual after Newton iteration 3: 0.8521793502481699\n",
+      "Residual after Newton iteration 4: 0.010471309029161694\n",
+      "Residual after Newton iteration 5: 1.8311066124705274e-06\n",
+      "Residual after Newton iteration 6: 9.895702171411871e-13\n",
       "\n",
       "Multiplier: 0.4142857142857143\n",
-      "Residual after Newton iteration 1: 26.04460055008704\n",
-      "Residual after Newton iteration 2: 6.552331902728143\n",
-      "Residual after Newton iteration 3: 0.9245626445292311\n",
-      "Residual after Newton iteration 4: 0.03481961828140734\n",
-      "Residual after Newton iteration 5: 5.320097874391832e-05\n",
-      "Residual after Newton iteration 6: 1.28059213491389e-10\n",
-      "Residual after Newton iteration 7: 3.1763707692407665e-12\n",
+      "Residual after Newton iteration 1: 26.044600550086802\n",
+      "Residual after Newton iteration 2: 6.552331902728065\n",
+      "Residual after Newton iteration 3: 0.9245626445289336\n",
+      "Residual after Newton iteration 4: 0.03481961828160253\n",
+      "Residual after Newton iteration 5: 5.320097873054512e-05\n",
+      "Residual after Newton iteration 6: 1.2811750584041405e-10\n",
+      "Residual after Newton iteration 7: 2.9816550509507755e-12\n",
       "\n",
       "Multiplier: 0.6285714285714286\n",
-      "Residual after Newton iteration 1: 21.84487496055028\n",
-      "Residual after Newton iteration 2: 3.0302573859330524\n",
-      "Residual after Newton iteration 3: 0.17124924912723274\n",
-      "Residual after Newton iteration 4: 0.0012620383200161686\n",
-      "Residual after Newton iteration 5: 6.663510128525136e-08\n",
-      "Residual after Newton iteration 6: 7.22060262572491e-12\n",
+      "Residual after Newton iteration 1: 21.84487496054895\n",
+      "Residual after Newton iteration 2: 3.030257385932747\n",
+      "Residual after Newton iteration 3: 0.17124924912790535\n",
+      "Residual after Newton iteration 4: 0.0012620383197380464\n",
+      "Residual after Newton iteration 5: 6.663511400719465e-08\n",
+      "Residual after Newton iteration 6: 6.324077425210025e-12\n",
       "\n",
       "Multiplier: 0.8581632653061224\n",
-      "Residual after Newton iteration 1: 26.20471352427841\n",
-      "Residual after Newton iteration 2: 3.187869256333001\n",
-      "Residual after Newton iteration 3: 0.05592446538240887\n",
-      "Residual after Newton iteration 4: 4.4266060191330814e-05\n",
-      "Residual after Newton iteration 5: 5.333765168769642e-11\n",
+      "Residual after Newton iteration 1: 26.20471352427922\n",
+      "Residual after Newton iteration 2: 3.187869256332422\n",
+      "Residual after Newton iteration 3: 0.05592446538434068\n",
+      "Residual after Newton iteration 4: 4.42660610828264e-05\n",
+      "Residual after Newton iteration 5: 5.367347021062305e-11\n",
       "\n",
       "Multiplier: 1.0\n",
-      "Residual after Newton iteration 1: 7.735572126180305\n",
-      "Residual after Newton iteration 2: 0.28839516319654035\n",
-      "Residual after Newton iteration 3: 0.0005834065417498413\n",
-      "Residual after Newton iteration 4: 2.5653678823568773e-09\n",
-      "Residual after Newton iteration 5: 2.055029756258562e-11\n"
+      "Residual after Newton iteration 1: 7.735572126180451\n",
+      "Residual after Newton iteration 2: 0.2883951631987405\n",
+      "Residual after Newton iteration 3: 0.0005834065396459414\n",
+      "Residual after Newton iteration 4: 2.5652515233467498e-09\n",
+      "Residual after Newton iteration 5: 2.1216160148900787e-11\n"
      ]
     }
    ],
@@ -359,7 +359,7 @@
    "metadata": {},
    "source": [
     "\n",
-    "The adaptive_load_stepping function is automatically made differentiable with respect to the settings (currently execept the nodally imposed boundary conditions) by specifying the differentiation mode. Here, we exemplarily compute the derivative of the degrees of freedom with respect to the Poisson ratio. For taking derivatives of many values (dofs) with respect to a few variables (poisson ratio), the forward mode performs best."
+    "The adaptive_load_stepping function is automatically made differentiable with respect to the settings by specifying the differentiation mode. Here, we exemplarily compute the derivative of the degrees of freedom with respect to the Poisson ratio. For taking derivatives of many values (dofs) with respect to a few variables (poisson ratio), the forward mode performs best."
    ]
   },
   {
@@ -394,7 +394,7 @@
      "name": "stdout",
      "output_type": "stream",
      "text": [
-      "4.52 s ± 0 ns per loop (mean ± std. dev. of 1 run, 1 loop each)\n"
+      "4.18 s ± 0 ns per loop (mean ± std. dev. of 1 run, 1 loop each)\n"
      ]
     }
    ],
@@ -411,7 +411,7 @@
      "name": "stdout",
      "output_type": "stream",
      "text": [
-      "613 ms ± 7.63 ms per loop (mean ± std. dev. of 7 runs, 1 loop each)\n"
+      "640 ms ± 86.3 ms per loop (mean ± std. dev. of 7 runs, 1 loop each)\n"
      ]
     }
    ],
@@ -436,7 +436,7 @@
      "name": "stdout",
      "output_type": "stream",
      "text": [
-      "639 ms ± 11.5 ms per loop (mean ± std. dev. of 7 runs, 1 loop each)\n"
+      "657 ms ± 74.6 ms per loop (mean ± std. dev. of 7 runs, 1 loop each)\n"
      ]
     }
    ],

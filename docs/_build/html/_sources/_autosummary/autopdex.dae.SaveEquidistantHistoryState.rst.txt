@@ -1,0 +1,62 @@
+﻿autopdex.dae.SaveEquidistantHistoryState
+========================================
+
+.. currentmodule:: autopdex.dae
+
+.. autoclass:: SaveEquidistantHistoryState
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~SaveEquidistantHistoryState.__delattr__
+      ~SaveEquidistantHistoryState.__dir__
+      ~SaveEquidistantHistoryState.__eq__
+      ~SaveEquidistantHistoryState.__format__
+      ~SaveEquidistantHistoryState.__ge__
+      ~SaveEquidistantHistoryState.__getattribute__
+      ~SaveEquidistantHistoryState.__getstate__
+      ~SaveEquidistantHistoryState.__gt__
+      ~SaveEquidistantHistoryState.__init_subclass__
+      ~SaveEquidistantHistoryState.__le__
+      ~SaveEquidistantHistoryState.__lt__
+      ~SaveEquidistantHistoryState.__ne__
+      ~SaveEquidistantHistoryState.__new__
+      ~SaveEquidistantHistoryState.__reduce__
+      ~SaveEquidistantHistoryState.__reduce_ex__
+      ~SaveEquidistantHistoryState.__repr__
+      ~SaveEquidistantHistoryState.__setattr__
+      ~SaveEquidistantHistoryState.__sizeof__
+      ~SaveEquidistantHistoryState.__str__
+      ~SaveEquidistantHistoryState.__subclasshook__
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~SaveEquidistantHistoryState.__annotations__
+      ~SaveEquidistantHistoryState.__dataclass_fields__
+      ~SaveEquidistantHistoryState.__dataclass_params__
+      ~SaveEquidistantHistoryState.__dict__
+      ~SaveEquidistantHistoryState.__doc__
+      ~SaveEquidistantHistoryState.__hash__
+      ~SaveEquidistantHistoryState.__match_args__
+      ~SaveEquidistantHistoryState.__module__
+      ~SaveEquidistantHistoryState.__weakref__
+      ~SaveEquidistantHistoryState.t_max
+      ~SaveEquidistantHistoryState.num_points
+      ~SaveEquidistantHistoryState.target_times
+      ~SaveEquidistantHistoryState.t
+      ~SaveEquidistantHistoryState.q
+      ~SaveEquidistantHistoryState.current_save_idx
+      ~SaveEquidistantHistoryState.user
+   
+   

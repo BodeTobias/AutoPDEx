@@ -2,7 +2,6 @@ Assembler
 =========
 
 .. automodule:: autopdex.assembler
-    :no-index:
 
 General assembling functions
 ----------------------------

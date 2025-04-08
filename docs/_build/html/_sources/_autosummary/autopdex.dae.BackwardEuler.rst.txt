@@ -1,0 +1,58 @@
+﻿autopdex.dae.BackwardEuler
+==========================
+
+.. currentmodule:: autopdex.dae
+
+.. autoclass:: BackwardEuler
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~BackwardEuler.__delattr__
+      ~BackwardEuler.__dir__
+      ~BackwardEuler.__eq__
+      ~BackwardEuler.__format__
+      ~BackwardEuler.__ge__
+      ~BackwardEuler.__getattribute__
+      ~BackwardEuler.__getstate__
+      ~BackwardEuler.__gt__
+      ~BackwardEuler.__hash__
+      ~BackwardEuler.__init_subclass__
+      ~BackwardEuler.__le__
+      ~BackwardEuler.__lt__
+      ~BackwardEuler.__ne__
+      ~BackwardEuler.__new__
+      ~BackwardEuler.__reduce__
+      ~BackwardEuler.__reduce_ex__
+      ~BackwardEuler.__repr__
+      ~BackwardEuler.__setattr__
+      ~BackwardEuler.__sizeof__
+      ~BackwardEuler.__str__
+      ~BackwardEuler.__subclasshook__
+      ~BackwardEuler._error_estimate
+      ~BackwardEuler._rule
+      ~BackwardEuler._update
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~BackwardEuler.__abstractmethods__
+      ~BackwardEuler.__annotations__
+      ~BackwardEuler.__dict__
+      ~BackwardEuler.__doc__
+      ~BackwardEuler.__module__
+      ~BackwardEuler.__slots__
+      ~BackwardEuler.__weakref__
+      ~BackwardEuler._abc_impl
+   
+   

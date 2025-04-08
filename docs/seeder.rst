@@ -2,7 +2,6 @@ Seeder
 ======
 
 .. automodule:: autopdex.seeder
-    :no-index:
 
 Generation of nodes
 -------------------

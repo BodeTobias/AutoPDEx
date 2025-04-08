@@ -2,7 +2,6 @@ Variational_schemes
 ===================
 
 .. automodule:: autopdex.variational_schemes
-    :no-index:
 
 Let's have a short description of the variational schemes in this setting.
 The goal is to solve a partial differential equation (PDE), written in its strong form as

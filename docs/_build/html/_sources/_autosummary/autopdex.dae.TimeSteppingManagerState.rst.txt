@@ -1,0 +1,61 @@
+﻿autopdex.dae.TimeSteppingManagerState
+=====================================
+
+.. currentmodule:: autopdex.dae
+
+.. autoclass:: TimeSteppingManagerState
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~TimeSteppingManagerState.__delattr__
+      ~TimeSteppingManagerState.__dir__
+      ~TimeSteppingManagerState.__eq__
+      ~TimeSteppingManagerState.__format__
+      ~TimeSteppingManagerState.__ge__
+      ~TimeSteppingManagerState.__getattribute__
+      ~TimeSteppingManagerState.__getstate__
+      ~TimeSteppingManagerState.__gt__
+      ~TimeSteppingManagerState.__init_subclass__
+      ~TimeSteppingManagerState.__le__
+      ~TimeSteppingManagerState.__lt__
+      ~TimeSteppingManagerState.__ne__
+      ~TimeSteppingManagerState.__new__
+      ~TimeSteppingManagerState.__reduce__
+      ~TimeSteppingManagerState.__reduce_ex__
+      ~TimeSteppingManagerState.__repr__
+      ~TimeSteppingManagerState.__setattr__
+      ~TimeSteppingManagerState.__sizeof__
+      ~TimeSteppingManagerState.__str__
+      ~TimeSteppingManagerState.__subclasshook__
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~TimeSteppingManagerState.__annotations__
+      ~TimeSteppingManagerState.__dataclass_fields__
+      ~TimeSteppingManagerState.__dataclass_params__
+      ~TimeSteppingManagerState.__dict__
+      ~TimeSteppingManagerState.__doc__
+      ~TimeSteppingManagerState.__hash__
+      ~TimeSteppingManagerState.__match_args__
+      ~TimeSteppingManagerState.__module__
+      ~TimeSteppingManagerState.__weakref__
+      ~TimeSteppingManagerState.q
+      ~TimeSteppingManagerState.settings
+      ~TimeSteppingManagerState.history
+      ~TimeSteppingManagerState.num_steps
+      ~TimeSteppingManagerState.num_accepted
+      ~TimeSteppingManagerState.num_rejected
+   
+   

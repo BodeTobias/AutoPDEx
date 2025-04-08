@@ -2,7 +2,6 @@ Plotter
 =======
 
 .. automodule:: autopdex.plotter
-    :no-index:
 
 .. autosummary::
    :toctree: _autosummary

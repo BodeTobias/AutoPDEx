@@ -2,7 +2,6 @@ Utility
 =======
 
 .. automodule:: autopdex.utility
-    :no-index:
 
 .. autosummary::
    :toctree: _autosummary

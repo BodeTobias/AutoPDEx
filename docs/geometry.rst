@@ -2,7 +2,6 @@ Geometry
 ========
 
 .. automodule:: autopdex.geometry
-    :no-index:
 
 Rvachev function operations
 ---------------------------

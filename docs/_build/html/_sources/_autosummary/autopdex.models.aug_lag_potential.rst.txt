@@ -1,0 +1,6 @@
+﻿autopdex.models.aug\_lag\_potential
+===================================
+
+.. currentmodule:: autopdex.models
+
+.. autofunction:: aug_lag_potential
