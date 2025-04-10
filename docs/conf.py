@@ -14,7 +14,7 @@ sys.path.insert(0, os.path.abspath('..'))
 project = 'AutoPDEx'
 copyright = '2024, Tobias Bode'
 author = 'Tobias Bode'
-version = '1.1.1'
+version = '1.1.4'
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
