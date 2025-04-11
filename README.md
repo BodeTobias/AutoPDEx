@@ -132,6 +132,24 @@ meshio.Mesh(
     <img src="https://github.com/BodeTobias/AutoPDEx/blob/main/docs/_static/short_example.png" width="500"/>
 </div>
 
+## Citation
+
+If you found this library useful in academic research, please cite the JOSS paper:
+
+```bibtex
+@article{Bode_AutoPDEx_An_Automized_2025,
+author = {Bode, Tobias},
+doi = {10.21105/joss.07300},
+journal = {Journal of Open Source Software},
+month = apr,
+number = {108},
+pages = {7300},
+title = {{AutoPDEx: An Automized Partial Differential Equation solver based on JAX}},
+url = {https://joss.theoj.org/papers/10.21105/joss.07300},
+volume = {10},
+year = {2025}
+}
+```
 
 ## Contributions
 
