@@ -1,3 +1,5 @@
+[![DOI](https://joss.theoj.org/papers/10.21105/joss.07300/status.svg)](https://doi.org/10.21105/joss.07300)
+
 <div align="center">
     <img src="https://github.com/BodeTobias/AutoPDEx/blob/main/docs/_static/logo.png" width="300"/>
 </div>
