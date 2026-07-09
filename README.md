@@ -14,7 +14,7 @@ The documentation with more examples is available [here](https://bodetobias.gith
 
 ## Installation
 
-To install AutoPDEx, you can use the following command. Note, that it requires python>=3.10. 
+To install AutoPDEx, you can use the following command. Note, that it requires python>=3.11. 
 
 ```
 pip install --upgrade pip
