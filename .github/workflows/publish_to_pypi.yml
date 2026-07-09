@@ -3,48 +3,50 @@ name: Publish Python Package to PyPI
 on:
   push:
     tags:
-      - 'v*.*.*'  # Triggers the workflow when a new tag in the format vX.X.X is pushed
+      - "v*.*.*"
 
 jobs:
   build-and-publish:
     runs-on: ubuntu-latest
 
     steps:
-      # Step 1: Check out the repository code
       - name: Check out repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
-    
-      # Step 2: Set up Python environment
+
       - name: Set up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
-          python-version: '3.10'  # Specify the Python version to use
+          python-version: "3.11"
 
-      # Step 3: Upgrade pip and install the build tools (build, twine)
-      # 'build' is used to build the package, and 'twine' is used to upload it to PyPI
-      - name: Upgrade pip and install build tools
+      - name: Install build tools
         run: |
-          python -m pip install --upgrade pip  # Upgrade pip to the latest version
-          pip install --upgrade build twine  # Install or upgrade build and twine
+          python -m pip install --upgrade pip
+          python -m pip install --upgrade build twine cibuildwheel
 
-      # Step 4: Remove old build artifacts in the 'dist' directory to ensure a clean build
-      - name: Remove old dist files
+      - name: Clean build artifacts
         run: |
-          rm -rf dist  # Deletes the 'dist' directory to remove previous build files
+          rm -rf dist build wheelhouse *.egg-info
 
-      # Step 5: Build the Python package
-      # This creates the distribution files (.tar.gz and .whl) in the 'dist' folder
-      - name: Build the package
-        run: python -m build  # Executes the build process, utilizing the 'pyproject.toml'
+      - name: Build source distribution
+        run: |
+          python -m build --sdist
 
-      # Step 6: Upload the built package to PyPI using Twine
-      # 'TWINE_USERNAME' is set to '__token__' as per PyPI's API token authentication mechanism
-      # 'TWINE_PASSWORD' is the PyPI API token stored securely in GitHub Secrets
+      - name: Build manylinux wheel
+        run: |
+          python -m cibuildwheel --output-dir dist
+        env:
+          CIBW_BUILD: "cp310-manylinux_x86_64"
+          CIBW_SKIP: "*-musllinux_*"
+
+      - name: Check distributions
+        run: |
+          twine check dist/*
+
       - name: Upload package to PyPI
         env:
-          TWINE_USERNAME: __token__  # Use API token for PyPI authentication
-          TWINE_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}  # The PyPI API token, stored as a secret in GitHub
+          TWINE_USERNAME: __token__
+          TWINE_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}
         run: |
-          twine upload dist/*  # Upload all files from the 'dist' directory to PyPI
+          twine upload dist/*
