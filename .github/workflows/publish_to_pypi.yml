@@ -37,7 +37,7 @@ jobs:
         run: |
           python -m cibuildwheel --output-dir dist
         env:
-          CIBW_BUILD: "cp310-manylinux_x86_64"
+          CIBW_BUILD: "cp311-manylinux_x86_64 cp312-manylinux_x86_64 cp313-manylinux_x86_64"
           CIBW_SKIP: "*-musllinux_*"
 
       - name: Check distributions
