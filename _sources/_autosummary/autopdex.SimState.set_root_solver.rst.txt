@@ -1,0 +1,6 @@
+﻿autopdex.SimState.set\_root\_solver
+===================================
+
+.. currentmodule:: autopdex
+
+.. automethod:: SimState.set_root_solver

@@ -1,0 +1,6 @@
+﻿autopdex.SimState.add\_strong\_bc
+=================================
+
+.. currentmodule:: autopdex
+
+.. automethod:: SimState.add_strong_bc

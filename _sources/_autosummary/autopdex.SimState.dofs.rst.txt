@@ -1,0 +1,6 @@
+﻿autopdex.SimState.dofs
+======================
+
+.. currentmodule:: autopdex
+
+.. autoattribute:: SimState.dofs

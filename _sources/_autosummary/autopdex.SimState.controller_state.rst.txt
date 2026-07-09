@@ -1,0 +1,6 @@
+﻿autopdex.SimState.controller\_state
+===================================
+
+.. currentmodule:: autopdex
+
+.. autoproperty:: SimState.controller_state

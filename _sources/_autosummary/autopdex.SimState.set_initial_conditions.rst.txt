@@ -1,0 +1,6 @@
+﻿autopdex.SimState.set\_initial\_conditions
+==========================================
+
+.. currentmodule:: autopdex
+
+.. automethod:: SimState.set_initial_conditions

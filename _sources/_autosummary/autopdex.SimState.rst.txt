@@ -1,0 +1,144 @@
+﻿autopdex.SimState
+=================
+
+.. currentmodule:: autopdex
+
+.. autoclass:: SimState
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~SimState.__delattr__
+      ~SimState.__dir__
+      ~SimState.__eq__
+      ~SimState.__format__
+      ~SimState.__ge__
+      ~SimState.__getattribute__
+      ~SimState.__getstate__
+      ~SimState.__gt__
+      ~SimState.__hash__
+      ~SimState.__init_subclass__
+      ~SimState.__le__
+      ~SimState.__lt__
+      ~SimState.__ne__
+      ~SimState.__new__
+      ~SimState.__reduce__
+      ~SimState.__reduce_ex__
+      ~SimState.__repr__
+      ~SimState.__setattr__
+      ~SimState.__sizeof__
+      ~SimState.__str__
+      ~SimState.__subclasshook__
+      ~SimState._add_boundary_domain_to_state
+      ~SimState._add_domain
+      ~SimState._add_model_materialized
+      ~SimState._add_nodal_dirichlet_spec
+      ~SimState._add_nodal_load_spec
+      ~SimState._apply_initial_derivatives
+      ~SimState._apply_internal_variable_initial_values
+      ~SimState._apply_manual_initial_conditions
+      ~SimState._apply_pending_initial_conditions
+      ~SimState._apply_primary_initial_values
+      ~SimState._apply_restart_state
+      ~SimState._build_geometry_output_set_infos
+      ~SimState._build_preview_trial_ansatz
+      ~SimState._build_projection_source_connectivity
+      ~SimState._cleanup_after_prepare
+      ~SimState._clear_output_projection_state
+      ~SimState._clear_postprocessing_callbacks
+      ~SimState._clear_projection_caches
+      ~SimState._coerce_local_initial_guess
+      ~SimState._ensure_all_boundary_mesh_info
+      ~SimState._ensure_fe_built
+      ~SimState._ensure_projector_cache
+      ~SimState._enter_registration_phase
+      ~SimState._evaluate_registered_outputs
+      ~SimState._geometry_projection_core_cache_key
+      ~SimState._has_active_vtu_postprocessing_policy
+      ~SimState._has_internal_variable_updates
+      ~SimState._infer_output_shapes
+      ~SimState._install_internal_variable_update_callback
+      ~SimState._install_nodal_load_callback
+      ~SimState._install_projected_dirichlet_callback
+      ~SimState._l2_project
+      ~SimState._make_boundary_point_selector
+      ~SimState._materialize_local_subsystem_solvers
+      ~SimState._materialize_model_specs
+      ~SimState._materialize_output_specs
+      ~SimState._materialize_projected_dirichlet_runtime
+      ~SimState._materialize_projected_dirichlet_specs
+      ~SimState._materialize_projected_ic_runtime
+      ~SimState._materialize_projected_ic_specs
+      ~SimState._mesh_top_dim
+      ~SimState._prepare_boundary_l2_projection
+      ~SimState._prepare_geometry_output_core
+      ~SimState._prepare_l2_projection
+      ~SimState._prepare_vtu_model_output_group
+      ~SimState._prepare_vtu_output_group
+      ~SimState._prepare_vtu_postprocessing_policy
+      ~SimState._primary_domain_scalar_ids
+      ~SimState._rebuild_mesh_info_from_source
+      ~SimState._require_initialized_phase
+      ~SimState._require_mesh_editable
+      ~SimState._require_prepared_phase
+      ~SimState._reset_discretization_dependent_caches
+      ~SimState._resolve_nodal_dirichlet
+      ~SimState._resolve_source_fields_and_connectivity
+      ~SimState._resolve_source_fields_and_connectivity_cached
+      ~SimState._run_attr
+      ~SimState._scatter_local_projection
+      ~SimState._set_active_domains
+      ~SimState._solve_grouped_output_projection
+      ~SimState._source_bases_for_projection
+      ~SimState._source_sets_for_projection
+      ~SimState._store_raw_callable_ic_spec
+      ~SimState._temporary_boundary_mesh_info
+      ~SimState._tree_flatten
+      ~SimState._tree_unflatten
+      ~SimState._validate_integrator_compatibility
+      ~SimState._write_vtu
+      ~SimState.add_domain
+      ~SimState.add_local_subsystem
+      ~SimState.add_model
+      ~SimState.add_strong_bc
+      ~SimState.add_structured_mesh
+      ~SimState.add_temporal_discretization
+      ~SimState.add_weak_bc
+      ~SimState.import_mesh
+      ~SimState.initialize
+      ~SimState.prepare
+      ~SimState.run
+      ~SimState.set_active_domains
+      ~SimState.set_dof_scaling
+      ~SimState.set_initial_conditions
+      ~SimState.set_postprocessing_policy
+      ~SimState.set_root_solver
+      ~SimState.set_step_size_controller
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~SimState.__annotations__
+      ~SimState.__dict__
+      ~SimState.__doc__
+      ~SimState.__module__
+      ~SimState.__weakref__
+      ~SimState.controller_state
+      ~SimState.dt
+      ~SimState.history
+      ~SimState.num_accepted
+      ~SimState.num_rejected
+      ~SimState.num_steps
+      ~SimState.q
+   
+   

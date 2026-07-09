@@ -1,0 +1,473 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Biot consolidation of a unit square &mdash; AutoPDEx  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../_static/jupyter-sphinx.css?v=572af1d6" />
+      <link rel="stylesheet" type="text/css" href="../_static/thebelab.css" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=acfd50eb" />
+      <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css?v=2aa19091" />
+      <link rel="stylesheet" type="text/css" href="../_static/dark_mode_css/general.css?v=c0a7eb24" />
+      <link rel="stylesheet" type="text/css" href="../_static/dark_mode_css/dark.css?v=70edf1c7" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../_static/copybutton.js?v=f281be69"></script>
+      <script src="../_static/thebelab-helper.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+      <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+      <script defer="defer" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+      <script src="../_static/dark_mode_js/default_light.js?v=c2e647ce"></script>
+      <script src="../_static/dark_mode_js/theme_switcher.js?v=358d3910"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            AutoPDEx
+              <img src="../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="quickstart_hli.html">Quickstart to AutoPDEx</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">High-level interface</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../sim_state.html">High-level interface</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../example_notebooks.html">Example notebooks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples.html">Lower level input files</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Lower level modules</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../dae.html">Time stepping</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../solver.html">Solver</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../models.html">Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../settings.html">Settings and static_settings</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../assembler.html">Assembler</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../implicit_diff.html">Implicit_diff</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spaces.html">Spaces</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../solution_structures.html">Solution structures</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../variational_schemes.html">Variational_schemes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../geometry.html">Geometry</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../seeder.html">Seeder</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../utility.html">Utility</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../plotter.html">Plotter</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../mesher.html">Mesher</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Source code</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/BodeTobias/AutoPDEx">GitHub Project</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">AutoPDEx</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Biot consolidation of a unit square</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/BodeTobias/AutoPDEx/blob/main/docs/notebooks/biot_consolidation.ipynb" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="Biot-consolidation-of-a-unit-square">
+<h1>Biot consolidation of a unit square<a class="headerlink" href="#Biot-consolidation-of-a-unit-square" title="Link to this heading"></a></h1>
+<p>This notebook solves a two-dimensional, transiently coupled Biot consolidation problem on the domain</p>
+<div class="math notranslate nohighlight">
+\[\Omega = (0,L) \times (0,H), \qquad L=H=1.\]</div>
+<p>The unknown fields are the displacement</p>
+<div class="math notranslate nohighlight">
+\[\boldsymbol u : \Omega \times [0,T] \to \mathbb{R}^2\]</div>
+<p>and the pore pressure</p>
+<div class="math notranslate nohighlight">
+\[p : \Omega \times [0,T] \to \mathbb{R}.\]</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">jax</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">jax</span><span class="w"> </span><span class="kn">import</span> <span class="n">config</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">jax.numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">jnp</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">autopdex</span><span class="w"> </span><span class="kn">import</span> <span class="n">SimState</span><span class="p">,</span> <span class="n">dae</span><span class="p">,</span> <span class="n">spaces</span>
+
+<span class="n">config</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="s2">&quot;jax_enable_x64&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">L</span><span class="p">,</span> <span class="n">H</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span>
+<span class="n">vertices</span> <span class="o">=</span> <span class="p">[[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">],</span> <span class="p">[</span><span class="n">L</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">],</span> <span class="p">[</span><span class="n">L</span><span class="p">,</span> <span class="n">H</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">H</span><span class="p">]]</span>
+<span class="n">n_elements</span> <span class="o">=</span> <span class="p">(</span><span class="mi">40</span><span class="p">,</span> <span class="mi">40</span><span class="p">)</span>
+
+<span class="n">E</span><span class="p">,</span> <span class="n">nu</span> <span class="o">=</span> <span class="mf">10.0e6</span><span class="p">,</span> <span class="mf">0.30</span>
+<span class="n">lam</span> <span class="o">=</span> <span class="n">E</span> <span class="o">*</span> <span class="n">nu</span> <span class="o">/</span> <span class="p">((</span><span class="mf">1.0</span> <span class="o">+</span> <span class="n">nu</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">nu</span><span class="p">))</span>
+<span class="n">mu</span> <span class="o">=</span> <span class="n">E</span> <span class="o">/</span> <span class="p">(</span><span class="mf">2.0</span> <span class="o">*</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">+</span> <span class="n">nu</span><span class="p">))</span>
+<span class="n">alpha</span><span class="p">,</span> <span class="n">c0</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0e-8</span>
+<span class="n">K</span> <span class="o">=</span> <span class="mf">1.0e-10</span> <span class="o">*</span> <span class="n">jnp</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="n">t_final</span><span class="p">,</span> <span class="n">num_time_steps</span> <span class="o">=</span> <span class="mf">1e3</span><span class="p">,</span> <span class="mi">50</span>
+<span class="n">dt</span> <span class="o">=</span> <span class="n">t_final</span> <span class="o">/</span> <span class="n">num_time_steps</span>
+<span class="n">I</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<section id="Weak-form">
+<h2>Weak form<a class="headerlink" href="#Weak-form" title="Link to this heading"></a></h2>
+<p>For small strains,</p>
+<div class="math notranslate nohighlight">
+\[\boldsymbol\varepsilon(\boldsymbol u)
+= \frac{1}{2}\left(\nabla \boldsymbol u + \nabla \boldsymbol u^T\right).\]</div>
+<p>The elastic strain energy density is</p>
+<div class="math notranslate nohighlight">
+\[\psi(\boldsymbol\varepsilon)
+= \frac{1}{2}\lambda\,\mathrm{tr}(\boldsymbol\varepsilon)^2
++ \mu\,\boldsymbol\varepsilon:\boldsymbol\varepsilon.\]</div>
+<p>This yields the effective stress</p>
+<div class="math notranslate nohighlight">
+\[\boldsymbol\sigma' = \frac{\partial \psi}{\partial \boldsymbol\varepsilon},\]</div>
+<p>and the total stress is defined as</p>
+<div class="math notranslate nohighlight">
+\[\boldsymbol\sigma = \boldsymbol\sigma' - \alpha p \boldsymbol I\]</div>
+<p>The Darcy flux is</p>
+<div class="math notranslate nohighlight">
+\[\boldsymbol q = -\boldsymbol K \nabla p.\]</div>
+<p>The implemented weak form is: find <span class="math notranslate nohighlight">\((\boldsymbol u,p)\)</span> such that, for all test functions <span class="math notranslate nohighlight">\((\boldsymbol v,w)\)</span>,</p>
+<div class="math notranslate nohighlight">
+\[\int_\Omega \boldsymbol\sigma : \boldsymbol\varepsilon(\boldsymbol v)\,\mathrm d\Omega
+- \int_{\Gamma} \bar{\boldsymbol t}\cdot \boldsymbol v\,\mathrm d\Gamma
+= 0,\]</div>
+<p>and</p>
+<div class="math notranslate nohighlight">
+\[\int_\Omega
+\left(c_0\dot p + \alpha \frac{\partial}{\partial t}\nabla\cdot\boldsymbol u\right) w
++ \nabla w \cdot \boldsymbol K \nabla p
+\,\mathrm d\Omega
+= 0.\]</div>
+<p>In the code, the volume contribution of the weak form is defined in <code class="docutils literal notranslate"><span class="pre">weak_form</span></code>; the Neumann load is applied separately with <code class="docutils literal notranslate"><span class="pre">add_weak_bc</span></code>.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">strain_energy_density</span><span class="p">(</span><span class="n">eps</span><span class="p">):</span>
+    <span class="k">return</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">lam</span> <span class="o">*</span> <span class="n">jnp</span><span class="o">.</span><span class="n">trace</span><span class="p">(</span><span class="n">eps</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">mu</span> <span class="o">*</span> <span class="n">jnp</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">eps</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">weak_form</span><span class="p">(</span><span class="n">ctx</span><span class="p">:</span> <span class="n">SimState</span><span class="o">.</span><span class="n">ModelContext</span><span class="p">):</span>
+    <span class="n">u_fun</span><span class="p">,</span> <span class="n">p_fun</span> <span class="o">=</span> <span class="n">ctx</span><span class="o">.</span><span class="n">trial_ansatz</span><span class="p">[</span><span class="s2">&quot;displacement&quot;</span><span class="p">],</span> <span class="n">ctx</span><span class="o">.</span><span class="n">trial_ansatz</span><span class="p">[</span><span class="s2">&quot;pressure&quot;</span><span class="p">]</span>
+    <span class="n">x</span><span class="p">,</span> <span class="n">t</span> <span class="o">=</span> <span class="n">ctx</span><span class="o">.</span><span class="n">x_int</span><span class="p">,</span> <span class="n">ctx</span><span class="o">.</span><span class="n">t</span>
+
+    <span class="n">grad_u_fun</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">jacfwd</span><span class="p">(</span><span class="n">u_fun</span><span class="p">)</span>
+    <span class="n">grad_u</span> <span class="o">=</span> <span class="n">grad_u_fun</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">t</span><span class="p">)</span>
+    <span class="n">eps_u</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="n">grad_u</span> <span class="o">+</span> <span class="n">grad_u</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="n">p_fun</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">t</span><span class="p">)</span>
+    <span class="n">grad_p</span><span class="p">,</span> <span class="n">p_dot</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">jacrev</span><span class="p">(</span><span class="n">p_fun</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">))(</span><span class="n">x</span><span class="p">,</span> <span class="n">t</span><span class="p">)</span>
+
+    <span class="n">sigma</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">jacrev</span><span class="p">(</span><span class="n">strain_energy_density</span><span class="p">)(</span><span class="n">eps_u</span><span class="p">)</span> <span class="o">-</span> <span class="n">alpha</span> <span class="o">*</span> <span class="n">p</span> <span class="o">*</span> <span class="n">I</span>
+
+    <span class="k">if</span> <span class="n">ctx</span><span class="o">.</span><span class="n">mode</span> <span class="o">==</span> <span class="s2">&quot;output&quot;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s2">&quot;strain&quot;</span><span class="p">:</span> <span class="n">eps_u</span><span class="p">,</span>
+            <span class="s2">&quot;stress&quot;</span><span class="p">:</span> <span class="n">sigma</span><span class="p">,</span>
+            <span class="s2">&quot;darcy_flux&quot;</span><span class="p">:</span> <span class="o">-</span><span class="n">K</span> <span class="o">@</span> <span class="n">grad_p</span><span class="p">,</span>
+        <span class="p">}</span>
+
+    <span class="n">v_fun</span><span class="p">,</span> <span class="n">w_fun</span> <span class="o">=</span> <span class="n">ctx</span><span class="o">.</span><span class="n">test_ansatz</span><span class="p">[</span><span class="s2">&quot;displacement&quot;</span><span class="p">],</span> <span class="n">ctx</span><span class="o">.</span><span class="n">test_ansatz</span><span class="p">[</span><span class="s2">&quot;pressure&quot;</span><span class="p">]</span>
+    <span class="n">grad_v</span><span class="p">,</span> <span class="n">grad_w</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">jacfwd</span><span class="p">(</span><span class="n">v_fun</span><span class="p">)(</span><span class="n">x</span><span class="p">),</span> <span class="n">jax</span><span class="o">.</span><span class="n">jacfwd</span><span class="p">(</span><span class="n">w_fun</span><span class="p">)(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">eps_v</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="n">grad_v</span> <span class="o">+</span> <span class="n">grad_v</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
+    <span class="n">w</span> <span class="o">=</span> <span class="n">w_fun</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">div_u_dot</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">jacfwd</span><span class="p">(</span><span class="k">lambda</span> <span class="n">tau</span><span class="p">:</span> <span class="n">jnp</span><span class="o">.</span><span class="n">trace</span><span class="p">(</span><span class="n">grad_u_fun</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">tau</span><span class="p">)))(</span><span class="n">t</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">jnp</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">sigma</span> <span class="o">*</span> <span class="n">eps_v</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">c0</span> <span class="o">*</span> <span class="n">p_dot</span> <span class="o">+</span> <span class="n">alpha</span> <span class="o">*</span> <span class="n">div_u_dot</span><span class="p">)</span> <span class="o">*</span> <span class="n">w</span> <span class="o">+</span> <span class="n">grad_w</span> <span class="o">@</span> <span class="n">K</span> <span class="o">@</span> <span class="n">grad_p</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="Boundary-conditions">
+<h2>Boundary conditions<a class="headerlink" href="#Boundary-conditions" title="Link to this heading"></a></h2>
+<table><tr><td style="width: 50%; vertical-align: middle;"><p>For the displacement, the strong boundary conditions are</p>
+<div class="math notranslate nohighlight">
+\[u_x = 0
+\quad \text{on} \quad \{x=0\}\cup\{x=L\},\]</div>
+<div class="math notranslate nohighlight">
+\[u_y = 0
+\quad \text{on} \quad \{y=0\}.\]</div>
+<p>For the pore pressure, the drained boundary condition is prescribed on the top edge:</p>
+<div class="math notranslate nohighlight">
+\[p = 0
+\quad \text{on} \quad \{y=H\}.\]</div>
+<p>In addition, the constant surface load</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\bar{\boldsymbol t} = \begin{bmatrix}0\\-100\,\mathrm{kPa}\end{bmatrix}
+\quad \text{on} \quad \{y=H\}\end{split}\]</div>
+<p>is applied on the top edge. On the remaining pressure boundaries, the natural no-flow boundary condition follows:</p>
+<div class="math notranslate nohighlight">
+\[\boldsymbol q\cdot\boldsymbol n = 0.\]</div>
+</td><td style="width: 50%; vertical-align: middle;"><p><img alt="5d6e2ce6d6224138a00c9f27d18e909e" src="../_images/biot_consolidation.svg" /></p>
+</td></tr></table><div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sim</span> <span class="o">=</span> <span class="n">SimState</span><span class="p">({</span>
+    <span class="s2">&quot;displacement&quot;</span><span class="p">:</span> <span class="n">spaces</span><span class="o">.</span><span class="n">H1</span><span class="p">(</span><span class="n">order</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">field_dimension</span><span class="o">=</span><span class="mi">2</span><span class="p">),</span>
+    <span class="s2">&quot;pressure&quot;</span><span class="p">:</span> <span class="n">spaces</span><span class="o">.</span><span class="n">H1</span><span class="p">(</span><span class="n">order</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">field_dimension</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
+<span class="p">})</span>
+
+<span class="n">sim</span><span class="o">.</span><span class="n">add_structured_mesh</span><span class="p">(</span><span class="n">n_elements</span><span class="p">,</span> <span class="n">vertices</span><span class="p">,</span> <span class="s2">&quot;quad&quot;</span><span class="p">)</span>
+<span class="n">sim</span><span class="o">.</span><span class="n">add_temporal_discretization</span><span class="p">({</span>
+    <span class="s2">&quot;displacement&quot;</span><span class="p">:</span> <span class="n">dae</span><span class="o">.</span><span class="n">BackwardEuler</span><span class="p">(),</span>
+    <span class="s2">&quot;pressure&quot;</span><span class="p">:</span> <span class="n">dae</span><span class="o">.</span><span class="n">BackwardEuler</span><span class="p">(),</span>
+<span class="p">})</span>
+<span class="n">sim</span><span class="o">.</span><span class="n">add_model</span><span class="p">(</span><span class="s2">&quot;__all__&quot;</span><span class="p">,</span> <span class="s2">&quot;weak form&quot;</span><span class="p">,</span> <span class="n">weak_form</span><span class="p">)</span>
+
+<span class="n">sim</span><span class="o">.</span><span class="n">add_strong_bc</span><span class="p">(</span>
+    <span class="s2">&quot;displacement&quot;</span><span class="p">,</span>
+    <span class="n">on_boundary_fun</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">jnp</span><span class="o">.</span><span class="n">logical_or</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mf">0.0</span><span class="p">),</span> <span class="n">jnp</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">L</span><span class="p">)),</span>
+    <span class="n">value_fun</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">s</span><span class="p">:</span> <span class="mf">0.</span><span class="p">,</span>
+    <span class="n">index</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">sim</span><span class="o">.</span><span class="n">add_strong_bc</span><span class="p">(</span>
+    <span class="s2">&quot;displacement&quot;</span><span class="p">,</span>
+    <span class="n">on_boundary_fun</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">jnp</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="mf">0.0</span><span class="p">),</span>
+    <span class="n">value_fun</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">s</span><span class="p">:</span> <span class="mf">0.</span><span class="p">,</span>
+    <span class="n">index</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">sim</span><span class="o">.</span><span class="n">add_strong_bc</span><span class="p">(</span>
+    <span class="s2">&quot;pressure&quot;</span><span class="p">,</span>
+    <span class="n">on_boundary_fun</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">jnp</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">H</span><span class="p">),</span>
+    <span class="n">value_fun</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">s</span><span class="p">:</span> <span class="n">jnp</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">1</span><span class="p">,)),</span>
+<span class="p">)</span>
+<span class="n">sim</span><span class="o">.</span><span class="n">add_weak_bc</span><span class="p">(</span>
+    <span class="s2">&quot;displacement&quot;</span><span class="p">,</span>
+    <span class="n">on_boundary_fun</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">jnp</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">H</span><span class="p">),</span>
+    <span class="n">value_fun</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">s</span><span class="p">:</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">([</span><span class="mf">0.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">100.0e3</span><span class="p">]),</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sim</span><span class="o">.</span><span class="n">set_postprocessing_policy</span><span class="p">(</span>
+    <span class="n">dae</span><span class="o">.</span><span class="n">SaveEquidistantPolicy</span><span class="p">(</span><span class="mi">10</span><span class="p">),</span>
+    <span class="n">result_folder_name</span><span class="o">=</span><span class="s2">&quot;biot_consolidation.res&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">sim</span><span class="o">.</span><span class="n">initialize</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">sim</span><span class="o">.</span><span class="n">prepare</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">result</span> <span class="o">=</span> <span class="n">sim</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">dt0</span><span class="o">=</span><span class="n">dt</span><span class="p">,</span> <span class="n">time_span</span><span class="o">=</span><span class="n">t_final</span><span class="p">,</span> <span class="n">num_time_steps</span><span class="o">=</span><span class="n">num_time_steps</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Linear solver: Pardiso(lu).
+Iteration 1, Residual norm: 3.2790375156968575e-12
+
+Iteration 1, Residual norm: 1.9836404764119437e-12
+Progress: 4%, Time: 4.00e+01, dt: 2.00e+01, iterations: 1
+
+Iteration 1, Residual norm: 2.2959053785144467e-12
+
+Iteration 1, Residual norm: 2.5441995544474102e-12
+
+Iteration 1, Residual norm: 2.829674488451506e-12
+Progress: 10%, Time: 1.00e+02, dt: 2.00e+01, iterations: 1
+
+Iteration 1, Residual norm: 2.9656626858298675e-12
+
+Iteration 1, Residual norm: 3.176456184379287e-12
+
+Iteration 1, Residual norm: 3.492888465056613e-12
+Progress: 16%, Time: 1.60e+02, dt: 2.00e+01, iterations: 1
+
+Iteration 1, Residual norm: 3.670292449868166e-12
+
+Iteration 1, Residual norm: 4.075062920096286e-12
+
+Iteration 1, Residual norm: 4.115568466999836e-12
+Progress: 22%, Time: 2.20e+02, dt: 2.00e+01, iterations: 1
+
+Iteration 1, Residual norm: 4.589469059177754e-12
+
+Iteration 1, Residual norm: 4.644667220129573e-12
+
+Iteration 1, Residual norm: 4.9968218070280015e-12
+Progress: 28%, Time: 2.80e+02, dt: 2.00e+01, iterations: 1
+
+Iteration 1, Residual norm: 5.077056270718986e-12
+
+Iteration 1, Residual norm: 5.316347915842003e-12
+
+Iteration 1, Residual norm: 5.547253420914281e-12
+Progress: 34%, Time: 3.40e+02, dt: 2.00e+01, iterations: 1
+
+Iteration 1, Residual norm: 5.423037031358344e-12
+
+Iteration 1, Residual norm: 5.823917712365811e-12
+
+Iteration 1, Residual norm: 5.7528715761207065e-12
+Progress: 40%, Time: 4.00e+02, dt: 2.00e+01, iterations: 1
+
+Iteration 1, Residual norm: 6.023095097831466e-12
+
+Iteration 1, Residual norm: 5.9927821056149e-12
+
+Iteration 1, Residual norm: 6.154334070851477e-12
+Progress: 46%, Time: 4.60e+02, dt: 2.00e+01, iterations: 1
+
+Iteration 1, Residual norm: 6.277960051993772e-12
+
+Iteration 1, Residual norm: 6.431490255512737e-12
+
+Iteration 1, Residual norm: 6.313990138189055e-12
+Progress: 52%, Time: 5.20e+02, dt: 2.00e+01, iterations: 1
+
+Iteration 1, Residual norm: 6.658213769668549e-12
+
+Iteration 1, Residual norm: 6.544620443312482e-12
+
+Iteration 1, Residual norm: 6.663250984377011e-12
+Progress: 58%, Time: 5.80e+02, dt: 2.00e+01, iterations: 1
+
+Iteration 1, Residual norm: 6.713593095742903e-12
+
+Iteration 1, Residual norm: 6.732604769309924e-12
+
+Iteration 1, Residual norm: 7.082184835160839e-12
+Progress: 64%, Time: 6.40e+02, dt: 2.00e+01, iterations: 1
+
+Iteration 1, Residual norm: 6.865662837806739e-12
+
+Iteration 1, Residual norm: 6.9235606646801036e-12
+
+Iteration 1, Residual norm: 7.056557936115775e-12
+Progress: 70%, Time: 7.00e+02, dt: 2.00e+01, iterations: 1
+
+Iteration 1, Residual norm: 7.3902636129989e-12
+
+Iteration 1, Residual norm: 6.817951550169385e-12
+
+Iteration 1, Residual norm: 7.104677637712309e-12
+Progress: 76%, Time: 7.60e+02, dt: 2.00e+01, iterations: 1
+
+Iteration 1, Residual norm: 6.968532368375137e-12
+
+Iteration 1, Residual norm: 6.878509483904647e-12
+
+Iteration 1, Residual norm: 7.347751728090568e-12
+Progress: 82%, Time: 8.20e+02, dt: 2.00e+01, iterations: 1
+
+Iteration 1, Residual norm: 6.950617686459621e-12
+
+Iteration 1, Residual norm: 7.027832148638473e-12
+
+Iteration 1, Residual norm: 7.16155260094624e-12
+Progress: 88%, Time: 8.80e+02, dt: 2.00e+01, iterations: 1
+
+Iteration 1, Residual norm: 7.2270645430592865e-12
+
+Iteration 1, Residual norm: 7.091907135515016e-12
+
+Iteration 1, Residual norm: 7.349415712670411e-12
+Progress: 94%, Time: 9.40e+02, dt: 2.00e+01, iterations: 1
+
+Iteration 1, Residual norm: 7.163902339255199e-12
+
+Iteration 1, Residual norm: 7.306968593325423e-12
+
+Iteration 1, Residual norm: 7.300486297288317e-12
+Progress: 100%, Time: 1.00e+03, dt: 2.00e+01, iterations: 1
+
+</pre></div></div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Tobias Bode.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,6 @@
+﻿autopdex.SimState.add\_temporal\_discretization
+===============================================
+
+.. currentmodule:: autopdex
+
+.. automethod:: SimState.add_temporal_discretization

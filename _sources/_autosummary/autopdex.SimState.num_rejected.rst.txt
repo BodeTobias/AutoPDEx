@@ -1,0 +1,6 @@
+﻿autopdex.SimState.num\_rejected
+===============================
+
+.. currentmodule:: autopdex
+
+.. autoproperty:: SimState.num_rejected

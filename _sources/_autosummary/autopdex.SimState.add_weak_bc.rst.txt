@@ -1,0 +1,6 @@
+﻿autopdex.SimState.add\_weak\_bc
+===============================
+
+.. currentmodule:: autopdex
+
+.. automethod:: SimState.add_weak_bc

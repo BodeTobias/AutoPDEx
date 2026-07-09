@@ -1,0 +1,273 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Poisson problem described as a potential &mdash; AutoPDEx  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../_static/jupyter-sphinx.css?v=572af1d6" />
+      <link rel="stylesheet" type="text/css" href="../_static/thebelab.css" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=acfd50eb" />
+      <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css?v=2aa19091" />
+      <link rel="stylesheet" type="text/css" href="../_static/dark_mode_css/general.css?v=c0a7eb24" />
+      <link rel="stylesheet" type="text/css" href="../_static/dark_mode_css/dark.css?v=70edf1c7" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../_static/copybutton.js?v=f281be69"></script>
+      <script src="../_static/thebelab-helper.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+      <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+      <script defer="defer" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+      <script src="../_static/dark_mode_js/default_light.js?v=c2e647ce"></script>
+      <script src="../_static/dark_mode_js/theme_switcher.js?v=358d3910"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Incompressible Navier-Stokes with heat conduction and convection" href="navier_stokes_hli.html" />
+    <link rel="prev" title="Example notebooks" href="../example_notebooks.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            AutoPDEx
+              <img src="../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="quickstart_hli.html">Quickstart to AutoPDEx</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">High-level interface</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../sim_state.html">High-level interface</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Examples</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../example_notebooks.html">Example notebooks</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../example_notebooks.html#high-level-interface">High-level interface</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="quickstart_hli.html">Quickstart to AutoPDEx</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Poisson problem described as a potential</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#Imports">Imports</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Weak-form">Weak form</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Solve-with-SimState">Solve with SimState</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="navier_stokes_hli.html">Incompressible Navier-Stokes with heat conduction and convection</a></li>
+<li class="toctree-l3"><a class="reference internal" href="norton_creep.html">Global problem with internal variables and sub-Newton: Norton creep</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../example_notebooks.html#local-problems">Local problems</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../example_notebooks.html#further-notebooks">Further notebooks</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../examples.html">Lower level input files</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Lower level modules</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../dae.html">Time stepping</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../solver.html">Solver</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../models.html">Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../settings.html">Settings and static_settings</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../assembler.html">Assembler</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../implicit_diff.html">Implicit_diff</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spaces.html">Spaces</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../solution_structures.html">Solution structures</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../variational_schemes.html">Variational_schemes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../geometry.html">Geometry</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../seeder.html">Seeder</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../utility.html">Utility</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../plotter.html">Plotter</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../mesher.html">Mesher</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Source code</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/BodeTobias/AutoPDEx">GitHub Project</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">AutoPDEx</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../example_notebooks.html">Example notebooks</a></li>
+      <li class="breadcrumb-item active">Poisson problem described as a potential</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/BodeTobias/AutoPDEx/blob/main/docs/notebooks/short_example_hli.ipynb" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="Poisson-problem-described-as-a-potential">
+<h1>Poisson problem described as a potential<a class="headerlink" href="#Poisson-problem-described-as-a-potential" title="Link to this heading"></a></h1>
+<p><a class="reference external" href="https://github.com/BodeTobias/AutoPDEx/tree/main/docs/notebooks/short_example_hli.ipynb">Download this notebook</a></p>
+<section id="Imports">
+<h2>Imports<a class="headerlink" href="#Imports" title="Link to this heading"></a></h2>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">jax</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">jax.numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">jnp</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">autopdex</span><span class="w"> </span><span class="kn">import</span> <span class="n">SimState</span><span class="p">,</span> <span class="n">dae</span><span class="p">,</span> <span class="n">spaces</span>
+
+<span class="n">jax</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="s2">&quot;jax_enable_x64&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="Weak-form">
+<h2>Weak form<a class="headerlink" href="#Weak-form" title="Link to this heading"></a></h2>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">poisson_model</span><span class="p">(</span><span class="n">ctx</span><span class="p">:</span> <span class="n">SimState</span><span class="o">.</span><span class="n">ModelContext</span><span class="p">):</span>
+    <span class="n">phi_fun</span> <span class="o">=</span> <span class="n">ctx</span><span class="o">.</span><span class="n">trial_ansatz</span><span class="p">[</span><span class="s2">&quot;phi&quot;</span><span class="p">]</span>
+    <span class="n">phi</span> <span class="o">=</span> <span class="n">phi_fun</span><span class="p">(</span><span class="n">ctx</span><span class="o">.</span><span class="n">x_int</span><span class="p">,</span> <span class="n">ctx</span><span class="o">.</span><span class="n">t</span><span class="p">)</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">ctx</span><span class="o">.</span><span class="n">trial_ansatz</span><span class="p">[</span><span class="s2">&quot;physical coor&quot;</span><span class="p">](</span><span class="n">ctx</span><span class="o">.</span><span class="n">x_int</span><span class="p">)</span>
+    <span class="c1"># ctx.x_int is the integration point coordinate in reference configuration</span>
+    <span class="c1"># &quot;physical coor&quot; is the corresponding coordinate in initial configuration</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">source_term</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+        <span class="n">x2</span> <span class="o">=</span> <span class="n">x</span> <span class="o">-</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">])</span>
+        <span class="k">return</span> <span class="mf">20.0</span> <span class="o">*</span> <span class="p">(</span>
+            <span class="n">jnp</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="mf">10.0</span> <span class="o">*</span> <span class="n">x</span> <span class="o">@</span> <span class="n">x</span><span class="p">)</span>
+            <span class="o">-</span> <span class="n">jnp</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="mf">10.0</span> <span class="o">*</span> <span class="n">x2</span> <span class="o">@</span> <span class="n">x2</span><span class="p">)</span>
+        <span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">ctx</span><span class="o">.</span><span class="n">mode</span> <span class="o">==</span> <span class="s2">&quot;output&quot;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s2">&quot;phi&quot;</span><span class="p">:</span> <span class="n">phi</span><span class="p">,</span>
+            <span class="s2">&quot;source&quot;</span><span class="p">:</span> <span class="n">source_term</span><span class="p">(</span><span class="n">x</span><span class="p">),</span>
+            <span class="p">}</span>
+
+    <span class="n">grad_phi</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">jacfwd</span><span class="p">(</span><span class="n">phi_fun</span><span class="p">,</span> <span class="mi">0</span><span class="p">)(</span><span class="n">ctx</span><span class="o">.</span><span class="n">x_int</span><span class="p">,</span> <span class="n">ctx</span><span class="o">.</span><span class="n">t</span><span class="p">)</span>
+    <span class="c1"># Although evaluated at ctx.x_int, the gradients are w.r.t. the initial configuration</span>
+
+    <span class="k">return</span> <span class="mi">1</span><span class="o">/</span><span class="mi">2</span> <span class="o">*</span> <span class="n">grad_phi</span> <span class="o">@</span> <span class="n">grad_phi</span> <span class="o">-</span> <span class="n">source_term</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">*</span> <span class="n">phi</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="Solve-with-SimState">
+<h2>Solve with SimState<a class="headerlink" href="#Solve-with-SimState" title="Link to this heading"></a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">vertices</span> <span class="o">=</span> <span class="p">[[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">],</span> <span class="p">[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">],</span> <span class="p">[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">]]</span>
+<span class="n">n_elements</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1000</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span>
+
+<span class="n">sim</span> <span class="o">=</span> <span class="n">SimState</span><span class="p">({</span><span class="s2">&quot;phi&quot;</span><span class="p">:</span> <span class="n">spaces</span><span class="o">.</span><span class="n">H1</span><span class="p">(</span><span class="n">order</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">field_dimension</span><span class="o">=</span><span class="mi">1</span><span class="p">)})</span>
+<span class="n">sim</span><span class="o">.</span><span class="n">add_structured_mesh</span><span class="p">(</span><span class="n">n_elements</span><span class="p">,</span> <span class="n">vertices</span><span class="p">,</span> <span class="s2">&quot;quad&quot;</span><span class="p">)</span>
+<span class="n">sim</span><span class="o">.</span><span class="n">add_temporal_discretization</span><span class="p">({</span><span class="s2">&quot;phi&quot;</span><span class="p">:</span> <span class="n">dae</span><span class="o">.</span><span class="n">NoTimeDerivative</span><span class="p">()})</span>
+<span class="n">sim</span><span class="o">.</span><span class="n">add_model</span><span class="p">(</span><span class="s2">&quot;__all__&quot;</span><span class="p">,</span> <span class="s2">&quot;potential&quot;</span><span class="p">,</span> <span class="n">poisson_model</span><span class="p">)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">on_outer_boundary</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">jnp</span><span class="o">.</span><span class="n">logical_or</span><span class="p">(</span>
+        <span class="n">jnp</span><span class="o">.</span><span class="n">logical_or</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mf">0.0</span><span class="p">),</span> <span class="n">jnp</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mf">1.0</span><span class="p">)),</span>
+        <span class="n">jnp</span><span class="o">.</span><span class="n">logical_or</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="mf">0.0</span><span class="p">),</span> <span class="n">jnp</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="mf">1.0</span><span class="p">)),</span>
+    <span class="p">)</span>
+<span class="n">sim</span><span class="o">.</span><span class="n">add_strong_bc</span><span class="p">(</span><span class="s2">&quot;phi&quot;</span><span class="p">,</span> <span class="n">on_outer_boundary</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">t</span><span class="p">:</span> <span class="mf">0.0</span><span class="p">)</span>
+
+<span class="n">sim</span><span class="o">.</span><span class="n">set_postprocessing_policy</span><span class="p">(</span><span class="n">dae</span><span class="o">.</span><span class="n">SaveAllPolicy</span><span class="p">(),</span> <span class="n">result_folder_name</span><span class="o">=</span><span class="s2">&quot;./short_example_hli.res&quot;</span><span class="p">)</span>
+
+<span class="n">sim</span><span class="o">.</span><span class="n">initialize</span><span class="p">(</span><span class="n">verbose</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">sim</span><span class="o">.</span><span class="n">prepare</span><span class="p">()</span>
+<span class="n">sim</span> <span class="o">=</span> <span class="n">sim</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">dt0</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">time_span</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">num_time_steps</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Linear solver: Pardiso(lu).
+Iteration 1, Residual norm: 4.949433423077815e-17
+Progress: 100%, Time: 1.00e+00, dt: 1.00e+00, iterations: 1
+
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../example_notebooks.html" class="btn btn-neutral float-left" title="Example notebooks" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="navier_stokes_hli.html" class="btn btn-neutral float-right" title="Incompressible Navier-Stokes with heat conduction and convection" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Tobias Bode.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

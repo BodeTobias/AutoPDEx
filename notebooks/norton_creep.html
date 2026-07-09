@@ -1,0 +1,952 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Global problem with internal variables and sub-Newton: Norton creep &mdash; AutoPDEx  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../_static/jupyter-sphinx.css?v=572af1d6" />
+      <link rel="stylesheet" type="text/css" href="../_static/thebelab.css" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=acfd50eb" />
+      <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css?v=2aa19091" />
+      <link rel="stylesheet" type="text/css" href="../_static/dark_mode_css/general.css?v=c0a7eb24" />
+      <link rel="stylesheet" type="text/css" href="../_static/dark_mode_css/dark.css?v=70edf1c7" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../_static/copybutton.js?v=f281be69"></script>
+      <script src="../_static/thebelab-helper.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+      <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+      <script defer="defer" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+      <script src="../_static/dark_mode_js/default_light.js?v=c2e647ce"></script>
+      <script src="../_static/dark_mode_js/theme_switcher.js?v=358d3910"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Nonlinear coupled ODEs (Lotka-Volterra)" href="ode_lotka_volterra.html" />
+    <link rel="prev" title="Incompressible Navier-Stokes with heat conduction and convection" href="navier_stokes_hli.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            AutoPDEx
+              <img src="../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="quickstart_hli.html">Quickstart to AutoPDEx</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">High-level interface</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../sim_state.html">High-level interface</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Examples</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../example_notebooks.html">Example notebooks</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../example_notebooks.html#high-level-interface">High-level interface</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="quickstart_hli.html">Quickstart to AutoPDEx</a></li>
+<li class="toctree-l3"><a class="reference internal" href="short_example_hli.html">Poisson problem described as a potential</a></li>
+<li class="toctree-l3"><a class="reference internal" href="navier_stokes_hli.html">Incompressible Navier-Stokes with heat conduction and convection</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Global problem with internal variables and sub-Newton: Norton creep</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#Material-model">Material model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#1.-Strain-controlled-material-point">1. Strain-controlled material point</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#2.-SimState-excavation-problem">2. SimState excavation problem</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../example_notebooks.html#local-problems">Local problems</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../example_notebooks.html#further-notebooks">Further notebooks</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../examples.html">Lower level input files</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Lower level modules</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../dae.html">Time stepping</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../solver.html">Solver</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../models.html">Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../settings.html">Settings and static_settings</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../assembler.html">Assembler</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../implicit_diff.html">Implicit_diff</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spaces.html">Spaces</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../solution_structures.html">Solution structures</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../variational_schemes.html">Variational_schemes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../geometry.html">Geometry</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../seeder.html">Seeder</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../utility.html">Utility</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../plotter.html">Plotter</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../mesher.html">Mesher</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Source code</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/BodeTobias/AutoPDEx">GitHub Project</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">AutoPDEx</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../example_notebooks.html">Example notebooks</a></li>
+      <li class="breadcrumb-item active">Global problem with internal variables and sub-Newton: Norton creep</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/BodeTobias/AutoPDEx/blob/main/docs/notebooks/norton_creep.ipynb" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="Global-problem-with-internal-variables-and-sub-Newton:-Norton-creep">
+<h1>Global problem with internal variables and sub-Newton: Norton creep<a class="headerlink" href="#Global-problem-with-internal-variables-and-sub-Newton:-Norton-creep" title="Link to this heading"></a></h1>
+<p>The same small-strain Norton model is used twice: first as a strain-controlled plane-strain material point via <code class="docutils literal notranslate"><span class="pre">dae.TimeSteppingManager</span></code>, then as a <code class="docutils literal notranslate"><span class="pre">SimState</span></code> finite element problem with a rectangular excavation in an initially lithostatic salt block.</p>
+<p><a class="reference external" href="https://github.com/BodeTobias/AutoPDEx/tree/main/docs/notebooks/norton_creep.ipynb">Download this notebook</a></p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">functools</span><span class="w"> </span><span class="kn">import</span> <span class="n">partial</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">jax</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">jax.numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">jnp</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">meshio</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">autopdex</span><span class="w"> </span><span class="kn">import</span> <span class="n">SimState</span><span class="p">,</span> <span class="n">dae</span><span class="p">,</span> <span class="n">spaces</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">autopdex.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">km_tools</span> <span class="k">as</span> <span class="n">km</span>
+
+<span class="n">jax</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="s2">&quot;jax_enable_x64&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+<br/></pre></div>
+</div>
+</div>
+<section id="Material-model">
+<h2>Material model<a class="headerlink" href="#Material-model" title="Link to this heading"></a></h2>
+<p>Units are MPa, m and days. Plane strain is embedded in the compact Kelvin-Mandel vector <code class="docutils literal notranslate"><span class="pre">[xx,</span> <span class="pre">yy,</span> <span class="pre">zz,</span> <span class="pre">sqrt(2)</span> <span class="pre">xy]</span></code>:</p>
+<div class="math notranslate nohighlight">
+\[\boldsymbol\varepsilon =
+\left[\varepsilon_{xx},\varepsilon_{yy},\varepsilon_{zz},\sqrt{2}\,\varepsilon_{xy}\right]^T\]</div>
+<p>All dot products below are Kelvin-Mandel products and therefore represent tensor contractions. With elastic strain</p>
+<div class="math notranslate nohighlight">
+\[\boldsymbol\varepsilon_\mathrm{e}
+= \boldsymbol\varepsilon - \boldsymbol\varepsilon_\mathrm{cr},\]</div>
+<p>the elastic strain energy density and stress are</p>
+<div class="math notranslate nohighlight">
+\[\psi(\boldsymbol\varepsilon_\mathrm{e})
+= \mu\,\boldsymbol\varepsilon_\mathrm{e}\cdot\boldsymbol\varepsilon_\mathrm{e}
++ \frac{1}{2}\lambda\,\mathrm{tr}(\boldsymbol\varepsilon_\mathrm{e})^2,
+\qquad
+\boldsymbol\sigma
+= \frac{\partial \psi}{\partial \boldsymbol\varepsilon_\mathrm{e}}
++ \boldsymbol\sigma_0.\]</div>
+<p>The deviatoric and equivalent stresses are</p>
+<div class="math notranslate nohighlight">
+\[\boldsymbol s = \mathrm{dev}(\boldsymbol\sigma),
+\qquad
+\sigma_\mathrm{eq}
+= \sqrt{\frac{3}{2}\,\boldsymbol s\cdot\boldsymbol s}.\]</div>
+<p>The two-term Norton creep law is integrated locally as</p>
+<div class="math notranslate nohighlight">
+\[\dot{\varepsilon}_\mathrm{cr,eq}
+= A_1\left(\frac{\sigma_\mathrm{eq}}{\sigma_\mathrm{ref}}\right)^{n_1}
++ A_2\left(\frac{\sigma_\mathrm{eq}}{\sigma_\mathrm{ref}}\right)^{n_2},
+\qquad
+\dot{\boldsymbol\varepsilon}_\mathrm{cr}
+= \dot{\varepsilon}_\mathrm{cr,eq}\,\frac{3}{2}\,\frac{\boldsymbol s}{\sigma_\mathrm{eq}}.\]</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">E</span> <span class="o">=</span> <span class="mf">25_000.0</span>
+<span class="n">nu</span> <span class="o">=</span> <span class="mf">0.25</span>
+<span class="n">lam</span> <span class="o">=</span> <span class="n">E</span> <span class="o">*</span> <span class="n">nu</span> <span class="o">/</span> <span class="p">((</span><span class="mf">1.0</span> <span class="o">+</span> <span class="n">nu</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">nu</span><span class="p">))</span>
+<span class="n">mu</span> <span class="o">=</span> <span class="n">E</span> <span class="o">/</span> <span class="p">(</span><span class="mf">2.0</span> <span class="o">*</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">+</span> <span class="n">nu</span><span class="p">))</span>
+
+<span class="n">sigma_ref</span> <span class="o">=</span> <span class="mf">1.0</span>
+<span class="n">A1</span><span class="p">,</span> <span class="n">n1</span> <span class="o">=</span> <span class="mf">1.0e-7</span><span class="p">,</span> <span class="mf">1.0</span>
+<span class="n">A2</span><span class="p">,</span> <span class="n">n2</span> <span class="o">=</span> <span class="mf">1.0e-10</span><span class="p">,</span> <span class="mf">5.0</span>
+
+<span class="n">zero4</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">strain_energy</span><span class="p">(</span><span class="n">eps_e</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">mu</span> <span class="o">*</span> <span class="p">(</span><span class="n">eps_e</span> <span class="o">@</span> <span class="n">eps_e</span><span class="p">)</span> <span class="o">+</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">lam</span> <span class="o">*</span> <span class="n">km</span><span class="o">.</span><span class="n">trace</span><span class="p">(</span><span class="n">eps_e</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">total_stress</span><span class="p">(</span><span class="n">eps</span><span class="p">,</span> <span class="n">eps_cr</span><span class="p">,</span> <span class="n">sigma_offset</span><span class="o">=</span><span class="n">zero4</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">jax</span><span class="o">.</span><span class="n">jacrev</span><span class="p">(</span><span class="n">strain_energy</span><span class="p">)(</span><span class="n">eps</span> <span class="o">-</span> <span class="n">eps_cr</span><span class="p">)</span> <span class="o">+</span> <span class="n">sigma_offset</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">equivalent_stress</span><span class="p">(</span><span class="n">sig</span><span class="p">):</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="n">km</span><span class="o">.</span><span class="n">dev</span><span class="p">(</span><span class="n">sig</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">jnp</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mf">1.5</span> <span class="o">*</span> <span class="p">(</span><span class="n">s</span> <span class="o">@</span> <span class="n">s</span><span class="p">)</span> <span class="o">+</span> <span class="mf">1.0e-30</span><span class="p">)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">norton_creep</span><span class="p">(</span><span class="n">q_fun</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">settings</span><span class="p">):</span>
+    <span class="n">q</span><span class="p">,</span> <span class="n">q_t</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">jvp</span><span class="p">(</span><span class="n">q_fun</span><span class="p">,</span> <span class="p">(</span><span class="n">t</span><span class="p">,),</span> <span class="p">(</span><span class="mf">1.0</span><span class="p">,))</span>
+    <span class="n">sig</span> <span class="o">=</span> <span class="n">total_stress</span><span class="p">(</span><span class="n">settings</span><span class="p">[</span><span class="s2">&quot;eps&quot;</span><span class="p">],</span> <span class="n">q</span><span class="p">[</span><span class="s2">&quot;eps_cr&quot;</span><span class="p">],</span> <span class="n">settings</span><span class="p">[</span><span class="s2">&quot;sigma_offset&quot;</span><span class="p">])</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="n">km</span><span class="o">.</span><span class="n">dev</span><span class="p">(</span><span class="n">sig</span><span class="p">)</span>
+    <span class="n">sig_eq</span> <span class="o">=</span> <span class="n">equivalent_stress</span><span class="p">(</span><span class="n">sig</span><span class="p">)</span>
+    <span class="n">eq_rate</span> <span class="o">=</span> <span class="n">A1</span> <span class="o">*</span> <span class="p">(</span><span class="n">sig_eq</span> <span class="o">/</span> <span class="n">sigma_ref</span><span class="p">)</span> <span class="o">**</span> <span class="n">n1</span> <span class="o">+</span> <span class="n">A2</span> <span class="o">*</span> <span class="p">(</span><span class="n">sig_eq</span> <span class="o">/</span> <span class="n">sigma_ref</span><span class="p">)</span> <span class="o">**</span> <span class="n">n2</span>
+    <span class="k">return</span> <span class="n">q_t</span><span class="p">[</span><span class="s2">&quot;eps_cr&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="n">eq_rate</span> <span class="o">*</span> <span class="mf">1.5</span> <span class="o">*</span> <span class="n">s</span> <span class="o">/</span> <span class="n">sig_eq</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="1.-Strain-controlled-material-point">
+<h2>1. Strain-controlled material point<a class="headerlink" href="#1.-Strain-controlled-material-point" title="Link to this heading"></a></h2>
+<p>The material point uses the prescribed compressive strain</p>
+<div class="math notranslate nohighlight">
+\[\boldsymbol\varepsilon(t)
+= \left[-6\cdot 10^{-4}\min\left(\frac{t}{20\,\mathrm d},1\right),0,0,0\right]^T,
+\qquad
+\boldsymbol\sigma_0 = \boldsymbol 0,
+\qquad
+\boldsymbol\varepsilon_\mathrm{cr}(0)=\boldsymbol 0.\]</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">strain_control</span><span class="p">(</span><span class="n">t</span><span class="p">):</span>
+    <span class="n">eps_xx</span> <span class="o">=</span> <span class="o">-</span><span class="mf">6.0e-4</span> <span class="o">*</span> <span class="n">jnp</span><span class="o">.</span><span class="n">minimum</span><span class="p">(</span><span class="n">t</span> <span class="o">/</span> <span class="mf">20.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">([</span><span class="n">eps_xx</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">])</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">material_point_model</span><span class="p">(</span><span class="n">q_fun</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">settings</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">norton_creep</span><span class="p">(</span><span class="n">q_fun</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;eps&quot;</span><span class="p">:</span> <span class="n">strain_control</span><span class="p">(</span><span class="n">t</span><span class="p">),</span> <span class="s2">&quot;sigma_offset&quot;</span><span class="p">:</span> <span class="n">zero4</span><span class="p">})</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">material_point_output</span><span class="p">(</span><span class="n">q_fun</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">settings</span><span class="p">):</span>
+    <span class="n">q</span> <span class="o">=</span> <span class="n">q_fun</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+    <span class="n">eps</span> <span class="o">=</span> <span class="n">strain_control</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+    <span class="n">sig</span> <span class="o">=</span> <span class="n">total_stress</span><span class="p">(</span><span class="n">eps</span><span class="p">,</span> <span class="n">q</span><span class="p">[</span><span class="s2">&quot;eps_cr&quot;</span><span class="p">])</span>
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="s2">&quot;eps_xx&quot;</span><span class="p">:</span> <span class="n">eps</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+        <span class="s2">&quot;eps_cr_eq&quot;</span><span class="p">:</span> <span class="n">jnp</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mf">2.0</span> <span class="o">/</span> <span class="mf">3.0</span> <span class="o">*</span> <span class="p">(</span><span class="n">q</span><span class="p">[</span><span class="s2">&quot;eps_cr&quot;</span><span class="p">]</span> <span class="o">@</span> <span class="n">q</span><span class="p">[</span><span class="s2">&quot;eps_cr&quot;</span><span class="p">])),</span>
+        <span class="s2">&quot;sig_xx&quot;</span><span class="p">:</span> <span class="n">sig</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+        <span class="s2">&quot;sig_eq&quot;</span><span class="p">:</span> <span class="n">equivalent_stress</span><span class="p">(</span><span class="n">sig</span><span class="p">),</span>
+    <span class="p">}</span>
+
+<span class="n">local_manager</span> <span class="o">=</span> <span class="n">dae</span><span class="o">.</span><span class="n">TimeSteppingManager</span><span class="p">(</span>
+    <span class="p">{</span>
+        <span class="s2">&quot;dae&quot;</span><span class="p">:</span> <span class="n">material_point_model</span><span class="p">,</span>
+        <span class="s2">&quot;time integrators&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;eps_cr&quot;</span><span class="p">:</span> <span class="n">dae</span><span class="o">.</span><span class="n">BackwardEuler</span><span class="p">()},</span>
+        <span class="s2">&quot;verbose&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="n">root_solver</span><span class="o">=</span><span class="n">partial</span><span class="p">(</span><span class="n">dae</span><span class="o">.</span><span class="n">newton_solver</span><span class="p">,</span> <span class="n">atol</span><span class="o">=</span><span class="mf">1e-13</span><span class="p">,</span> <span class="n">rtol</span><span class="o">=</span><span class="mf">1e-11</span><span class="p">),</span>
+    <span class="n">save_policy</span><span class="o">=</span><span class="n">dae</span><span class="o">.</span><span class="n">SaveAllPolicy</span><span class="p">(),</span>
+    <span class="n">postprocessing_fun</span><span class="o">=</span><span class="n">material_point_output</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">result</span> <span class="o">=</span> <span class="n">local_manager</span><span class="o">.</span><span class="n">run</span><span class="p">({</span><span class="s2">&quot;eps_cr&quot;</span><span class="p">:</span> <span class="n">zero4</span><span class="p">},</span> <span class="n">dt0</span><span class="o">=</span><span class="mf">2.0</span><span class="p">,</span> <span class="n">t_final</span><span class="o">=</span><span class="mf">120.0</span><span class="p">,</span> <span class="n">num_time_steps</span><span class="o">=</span><span class="mi">60</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Progress: 3%, Time: 4.00e+00, dt: 2.00e+00, iterations: 1
+Progress: 8%, Time: 1.00e+01, dt: 2.00e+00, iterations: 2
+Progress: 13%, Time: 1.60e+01, dt: 2.00e+00, iterations: 2
+Progress: 18%, Time: 2.20e+01, dt: 2.00e+00, iterations: 3
+Progress: 23%, Time: 2.80e+01, dt: 2.00e+00, iterations: 2
+Progress: 28%, Time: 3.40e+01, dt: 2.00e+00, iterations: 2
+Progress: 33%, Time: 4.00e+01, dt: 2.00e+00, iterations: 2
+Progress: 38%, Time: 4.60e+01, dt: 2.00e+00, iterations: 2
+Progress: 43%, Time: 5.20e+01, dt: 2.00e+00, iterations: 2
+Progress: 48%, Time: 5.80e+01, dt: 2.00e+00, iterations: 2
+Progress: 53%, Time: 6.40e+01, dt: 2.00e+00, iterations: 2
+Progress: 58%, Time: 7.00e+01, dt: 2.00e+00, iterations: 2
+Progress: 63%, Time: 7.60e+01, dt: 2.00e+00, iterations: 2
+Progress: 68%, Time: 8.20e+01, dt: 2.00e+00, iterations: 2
+Progress: 73%, Time: 8.80e+01, dt: 2.00e+00, iterations: 2
+Progress: 78%, Time: 9.40e+01, dt: 2.00e+00, iterations: 2
+Progress: 83%, Time: 1.00e+02, dt: 2.00e+00, iterations: 2
+Progress: 88%, Time: 1.06e+02, dt: 2.00e+00, iterations: 2
+Progress: 93%, Time: 1.12e+02, dt: 2.00e+00, iterations: 2
+Progress: 98%, Time: 1.18e+02, dt: 2.00e+00, iterations: 2
+</pre></div></div>
+</div>
+<p>Visualization</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">hist</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">history</span>
+<span class="n">valid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">isfinite</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">hist</span><span class="o">.</span><span class="n">t</span><span class="p">))</span>
+<span class="n">t</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">hist</span><span class="o">.</span><span class="n">t</span><span class="p">)[</span><span class="n">valid</span><span class="p">]</span>
+<span class="n">user</span> <span class="o">=</span> <span class="p">{</span><span class="n">key</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">value</span><span class="p">)[</span><span class="n">valid</span><span class="p">]</span> <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">hist</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">11</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">constrained_layout</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">user</span><span class="p">[</span><span class="s2">&quot;eps_xx&quot;</span><span class="p">])</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;time / d&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$\epsilon_</span><span class="si">{xx}</span><span class="s2">$&quot;</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">user</span><span class="p">[</span><span class="s2">&quot;sig_xx&quot;</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;$\sigma_</span><span class="si">{xx}</span><span class="s2">$&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">user</span><span class="p">[</span><span class="s2">&quot;sig_eq&quot;</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;$\sigma_\mathrm</span><span class="si">{eq}</span><span class="s2">$&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;time / d&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;stress / MPa&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+
+<span class="n">ax</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">user</span><span class="p">[</span><span class="s2">&quot;eps_cr_eq&quot;</span><span class="p">])</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;time / d&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$\epsilon_\mathrm{cr,eq}$&quot;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_norton_creep_8_0.png" src="../_images/notebooks_norton_creep_8_0.png" />
+</div>
+</div>
+</section>
+<section id="2.-SimState-excavation-problem">
+<h2>2. SimState excavation problem<a class="headerlink" href="#2.-SimState-excavation-problem" title="Link to this heading"></a></h2>
+<p>The block is loaded by self weight and a lithostatic far-field traction on the top boundary. With <span class="math notranslate nohighlight">\(y\)</span> measured upward from the block center,</p>
+<div class="math notranslate nohighlight">
+\[p_\mathrm{litho}(\boldsymbol x)
+= \gamma\left(d_\mathrm c-y\right),
+\qquad
+\gamma = \frac{\rho_\mathrm{salt}g}{10^6},\]</div>
+<p>and the stress offset used by the constitutive update is</p>
+<div class="math notranslate nohighlight">
+\[\boldsymbol\sigma_0
+= \left[-p_\mathrm{litho},-p_\mathrm{litho},-p_\mathrm{litho},0\right]^T.\]</div>
+<p>The plane-strain kinematics used in <code class="docutils literal notranslate"><span class="pre">weak_form</span></code> are</p>
+<div class="math notranslate nohighlight">
+\[\boldsymbol\varepsilon(\boldsymbol u)
+= \left[u_{x,x},u_{y,y},0,\frac{u_{x,y}+u_{y,x}}{\sqrt{2}}\right]^T.\]</div>
+<p>Together with the separately added Neumann contribution, the weak form is</p>
+<div class="math notranslate nohighlight">
+\[\int_\Omega \boldsymbol\sigma : \boldsymbol\varepsilon(\boldsymbol v)\,\mathrm d\Omega
+- \int_\Omega \boldsymbol b\cdot\boldsymbol v\,\mathrm d\Omega
+- \int_{\Gamma_t}\bar{\boldsymbol t}\cdot\boldsymbol v\,\mathrm d\Gamma
+=0,
+\qquad
+\boldsymbol b = \left[0,-\gamma\right]^T.\]</div>
+<p>The strong displacement boundary conditions and the weak top load are</p>
+<div class="math notranslate nohighlight">
+\[u_x=0 \quad \text{on} \quad x=\pm\frac{W}{2},
+\qquad
+u_y=0 \quad \text{on} \quad y=-\frac{H}{2},\]</div>
+<div class="math notranslate nohighlight">
+\[\bar{\boldsymbol t}=\left[0,-p_\mathrm{litho}\right]^T
+\quad \text{on} \quad y=\frac{H}{2}.\]</div>
+<p>The excavation boundary remains traction-free because no inhomogeneous weak boundary load is added there.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mesh_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s2">&quot;meshes/norton_creep_rectangular_hole.vtu&quot;</span><span class="p">)</span>
+<span class="n">mesh</span> <span class="o">=</span> <span class="n">meshio</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">mesh_path</span><span class="p">)</span>
+
+<span class="n">width</span><span class="p">,</span> <span class="n">height</span> <span class="o">=</span> <span class="mf">80.0</span><span class="p">,</span> <span class="mf">80.0</span>
+<span class="n">rho_salt</span> <span class="o">=</span> <span class="mf">2160.0</span>
+<span class="n">gravity</span> <span class="o">=</span> <span class="mf">9.81</span>
+<span class="n">depth_at_center</span> <span class="o">=</span> <span class="mf">750.0</span>
+<span class="n">unit_weight</span> <span class="o">=</span> <span class="n">rho_salt</span> <span class="o">*</span> <span class="n">gravity</span> <span class="o">/</span> <span class="mf">1.0e6</span>  <span class="c1"># MPa / m</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">lithostatic_pressure</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">unit_weight</span> <span class="o">*</span> <span class="p">(</span><span class="n">depth_at_center</span> <span class="o">-</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">weak_form</span><span class="p">(</span><span class="n">ctx</span><span class="p">:</span> <span class="n">SimState</span><span class="o">.</span><span class="n">ModelContext</span><span class="p">):</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">ctx</span><span class="o">.</span><span class="n">trial_ansatz</span><span class="p">[</span><span class="s2">&quot;physical coor&quot;</span><span class="p">](</span><span class="n">ctx</span><span class="o">.</span><span class="n">x_int</span><span class="p">)</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="n">lithostatic_pressure</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">sigma0</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">([</span><span class="o">-</span><span class="n">p</span><span class="p">,</span> <span class="o">-</span><span class="n">p</span><span class="p">,</span> <span class="o">-</span><span class="n">p</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">])</span>
+    <span class="n">grad_u</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">jacfwd</span><span class="p">(</span><span class="n">ctx</span><span class="o">.</span><span class="n">trial_ansatz</span><span class="p">[</span><span class="s2">&quot;displacement&quot;</span><span class="p">])(</span><span class="n">ctx</span><span class="o">.</span><span class="n">x_int</span><span class="p">,</span> <span class="n">ctx</span><span class="o">.</span><span class="n">t</span><span class="p">)</span>
+    <span class="n">eps</span> <span class="o">=</span> <span class="n">km</span><span class="o">.</span><span class="n">pack_z_shear_zero</span><span class="p">(</span><span class="n">grad_u</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">ctx</span><span class="o">.</span><span class="n">mode</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;weak form&quot;</span><span class="p">,</span> <span class="s2">&quot;internal variables&quot;</span><span class="p">):</span>
+        <span class="n">new_int_vars</span> <span class="o">=</span> <span class="n">ctx</span><span class="o">.</span><span class="n">solve_local</span><span class="p">(</span><span class="s2">&quot;creep&quot;</span><span class="p">,</span> <span class="n">inputs</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;eps&quot;</span><span class="p">:</span> <span class="n">eps</span><span class="p">,</span> <span class="s2">&quot;sigma_offset&quot;</span><span class="p">:</span> <span class="n">sigma0</span><span class="p">})</span>
+
+        <span class="k">if</span> <span class="n">ctx</span><span class="o">.</span><span class="n">mode</span> <span class="o">==</span> <span class="s2">&quot;internal variables&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">new_int_vars</span>
+
+        <span class="n">sig</span> <span class="o">=</span> <span class="n">total_stress</span><span class="p">(</span><span class="n">eps</span><span class="p">,</span> <span class="n">new_int_vars</span><span class="p">[</span><span class="s2">&quot;eps_cr&quot;</span><span class="p">],</span> <span class="n">sigma0</span><span class="p">)</span>
+        <span class="n">grad_v</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">jacfwd</span><span class="p">(</span><span class="n">ctx</span><span class="o">.</span><span class="n">test_ansatz</span><span class="p">[</span><span class="s2">&quot;displacement&quot;</span><span class="p">])(</span><span class="n">ctx</span><span class="o">.</span><span class="n">x_int</span><span class="p">)</span>
+        <span class="n">v</span> <span class="o">=</span> <span class="n">ctx</span><span class="o">.</span><span class="n">test_ansatz</span><span class="p">[</span><span class="s2">&quot;displacement&quot;</span><span class="p">](</span><span class="n">ctx</span><span class="o">.</span><span class="n">x_int</span><span class="p">)</span>
+        <span class="n">body_force</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">([</span><span class="mf">0.0</span><span class="p">,</span> <span class="o">-</span><span class="n">unit_weight</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">sig</span> <span class="o">@</span> <span class="n">km</span><span class="o">.</span><span class="n">pack_z_shear_zero</span><span class="p">(</span><span class="n">grad_v</span><span class="p">)</span> <span class="o">-</span> <span class="n">body_force</span> <span class="o">@</span> <span class="n">v</span>
+
+    <span class="k">if</span> <span class="n">ctx</span><span class="o">.</span><span class="n">mode</span> <span class="o">==</span> <span class="s2">&quot;output&quot;</span><span class="p">:</span>
+        <span class="n">u</span> <span class="o">=</span> <span class="n">ctx</span><span class="o">.</span><span class="n">trial_ansatz</span><span class="p">[</span><span class="s2">&quot;displacement&quot;</span><span class="p">](</span><span class="n">ctx</span><span class="o">.</span><span class="n">x_int</span><span class="p">,</span> <span class="n">ctx</span><span class="o">.</span><span class="n">t</span><span class="p">)</span>
+        <span class="n">sig</span> <span class="o">=</span> <span class="n">total_stress</span><span class="p">(</span><span class="n">eps</span><span class="p">,</span> <span class="n">ctx</span><span class="o">.</span><span class="n">internal_vars</span><span class="p">[</span><span class="s2">&quot;eps_cr&quot;</span><span class="p">],</span> <span class="n">sigma0</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s2">&quot;u&quot;</span><span class="p">:</span> <span class="n">u</span><span class="p">,</span>
+            <span class="s2">&quot;eps_cr&quot;</span><span class="p">:</span> <span class="n">ctx</span><span class="o">.</span><span class="n">internal_vars</span><span class="p">[</span><span class="s2">&quot;eps_cr&quot;</span><span class="p">],</span>
+            <span class="s2">&quot;sig_eq&quot;</span><span class="p">:</span> <span class="n">equivalent_stress</span><span class="p">(</span><span class="n">sig</span><span class="p">),</span>
+            <span class="s2">&quot;sig_xx&quot;</span><span class="p">:</span> <span class="n">sig</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+            <span class="s2">&quot;sig_yy&quot;</span><span class="p">:</span> <span class="n">sig</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+            <span class="s2">&quot;sig_zz&quot;</span><span class="p">:</span> <span class="n">sig</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span>
+            <span class="s2">&quot;sig_xy&quot;</span><span class="p">:</span> <span class="n">sig</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">/</span> <span class="n">jnp</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mf">2.0</span><span class="p">),</span>
+        <span class="p">}</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sim</span> <span class="o">=</span> <span class="n">SimState</span><span class="p">({</span>
+    <span class="s2">&quot;displacement&quot;</span><span class="p">:</span> <span class="n">spaces</span><span class="o">.</span><span class="n">H1</span><span class="p">(</span><span class="n">order</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">field_dimension</span><span class="o">=</span><span class="mi">2</span><span class="p">),</span>
+    <span class="s2">&quot;eps_cr&quot;</span><span class="p">:</span> <span class="n">spaces</span><span class="o">.</span><span class="n">InternalVariable</span><span class="p">(</span><span class="n">field_dimension</span><span class="o">=</span><span class="mi">4</span><span class="p">),</span>
+<span class="p">})</span>
+<span class="n">sim</span><span class="o">.</span><span class="n">import_mesh</span><span class="p">(</span><span class="n">mesh</span><span class="p">)</span>
+<span class="n">sim</span><span class="o">.</span><span class="n">add_temporal_discretization</span><span class="p">({</span>
+    <span class="s2">&quot;displacement&quot;</span><span class="p">:</span> <span class="n">dae</span><span class="o">.</span><span class="n">NoTimeDerivative</span><span class="p">(),</span>
+    <span class="s2">&quot;eps_cr&quot;</span><span class="p">:</span> <span class="n">dae</span><span class="o">.</span><span class="n">BackwardEuler</span><span class="p">(),</span>
+<span class="p">})</span>
+<span class="n">sim</span><span class="o">.</span><span class="n">add_local_subsystem</span><span class="p">(</span>
+    <span class="s2">&quot;creep&quot;</span><span class="p">,</span>
+    <span class="n">norton_creep</span><span class="p">,</span>
+    <span class="n">fields</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;eps_cr&quot;</span><span class="p">,),</span>
+    <span class="n">root_solver</span><span class="o">=</span><span class="n">partial</span><span class="p">(</span><span class="n">dae</span><span class="o">.</span><span class="n">newton_solver</span><span class="p">,</span> <span class="n">atol</span><span class="o">=</span><span class="mf">1e-14</span><span class="p">,</span> <span class="n">rtol</span><span class="o">=</span><span class="mf">1e-12</span><span class="p">),</span>
+<span class="p">)</span>
+<span class="n">sim</span><span class="o">.</span><span class="n">add_model</span><span class="p">(</span><span class="s2">&quot;__all__&quot;</span><span class="p">,</span> <span class="s2">&quot;weak form&quot;</span><span class="p">,</span> <span class="n">weak_form</span><span class="p">,</span> <span class="n">internal_variables</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;eps_cr&quot;</span><span class="p">,))</span>
+
+<span class="n">sim</span><span class="o">.</span><span class="n">add_strong_bc</span><span class="p">(</span><span class="s2">&quot;displacement&quot;</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">jnp</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="o">-</span><span class="mf">0.5</span> <span class="o">*</span> <span class="n">width</span><span class="p">),</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">t</span><span class="p">:</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">sim</span><span class="o">.</span><span class="n">add_strong_bc</span><span class="p">(</span><span class="s2">&quot;displacement&quot;</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">jnp</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">width</span><span class="p">),</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">t</span><span class="p">:</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">sim</span><span class="o">.</span><span class="n">add_strong_bc</span><span class="p">(</span><span class="s2">&quot;displacement&quot;</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">jnp</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="o">-</span><span class="mf">0.5</span> <span class="o">*</span> <span class="n">height</span><span class="p">),</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">t</span><span class="p">:</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">sim</span><span class="o">.</span><span class="n">add_weak_bc</span><span class="p">(</span><span class="s2">&quot;displacement&quot;</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">jnp</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">height</span><span class="p">),</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">t</span><span class="p">:</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">([</span><span class="mf">0.0</span><span class="p">,</span> <span class="o">-</span><span class="n">lithostatic_pressure</span><span class="p">(</span><span class="n">x</span><span class="p">)]))</span>
+
+<span class="n">sim</span><span class="o">.</span><span class="n">set_postprocessing_policy</span><span class="p">(</span>
+    <span class="n">dae</span><span class="o">.</span><span class="n">SaveEquidistantPolicy</span><span class="p">(</span><span class="n">num_points</span><span class="o">=</span><span class="mi">30</span><span class="p">),</span>
+    <span class="n">result_folder_name</span><span class="o">=</span><span class="s2">&quot;norton_creep.res&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">sim</span><span class="o">.</span><span class="n">set_step_size_controller</span><span class="p">(</span><span class="n">dae</span><span class="o">.</span><span class="n">RootIterationController</span><span class="p">(</span><span class="n">target_niters</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">max_step_size</span><span class="o">=</span><span class="mf">50.0</span><span class="p">))</span>
+
+<span class="n">sim</span><span class="o">.</span><span class="n">initialize</span><span class="p">(</span><span class="n">verbose</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">sim</span><span class="o">.</span><span class="n">set_root_solver</span><span class="p">(</span><span class="n">partial</span><span class="p">(</span><span class="n">dae</span><span class="o">.</span><span class="n">newton_solver</span><span class="p">,</span> <span class="n">atol</span><span class="o">=</span><span class="mf">1e-9</span><span class="p">,</span> <span class="n">rtol</span><span class="o">=</span><span class="mf">1e-7</span><span class="p">))</span>
+<span class="n">sim</span><span class="o">.</span><span class="n">prepare</span><span class="p">()</span>
+
+<span class="n">sim</span> <span class="o">=</span> <span class="n">sim</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">dt0</span><span class="o">=</span><span class="mf">2.0</span><span class="p">,</span> <span class="n">time_span</span><span class="o">=</span><span class="mf">3000.0</span><span class="p">,</span> <span class="n">num_time_steps</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;accepted steps = </span><span class="si">{</span><span class="nb">int</span><span class="p">(</span><span class="n">sim</span><span class="o">.</span><span class="n">num_accepted</span><span class="p">)</span><span class="si">}</span><span class="s2">, final time = </span><span class="si">{</span><span class="nb">float</span><span class="p">(</span><span class="n">sim</span><span class="o">.</span><span class="n">settings</span><span class="p">[</span><span class="s1">&#39;current time&#39;</span><span class="p">])</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2"> d&quot;</span><span class="p">)</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Linear solver: Pardiso(lu); 32 threads.
+Iteration 1, Residual norm: 0.8703147090298352
+Iteration 2, Residual norm: 0.11392621541074148
+Iteration 3, Residual norm: 0.002784154047653472
+Iteration 4, Residual norm: 2.429917191604873e-06
+Iteration 5, Residual norm: 1.323047195918442e-08
+
+Iteration 1, Residual norm: 0.07046536440792059
+Iteration 2, Residual norm: 0.0015103900747676033
+Iteration 3, Residual norm: 1.0171819275356981e-06
+Iteration 4, Residual norm: 1.4655309009388022e-08
+
+Iteration 1, Residual norm: 0.06200617880926995
+Iteration 2, Residual norm: 0.0014424988693897613
+Iteration 3, Residual norm: 1.0741481588443244e-06
+Iteration 4, Residual norm: 1.8146856555779567e-08
+
+Iteration 1, Residual norm: 0.06117959594928221
+Iteration 2, Residual norm: 0.0016102375058392748
+Iteration 3, Residual norm: 1.461409465188693e-06
+Iteration 4, Residual norm: 2.304596826187511e-08
+
+Iteration 1, Residual norm: 0.06419768943026878
+Iteration 2, Residual norm: 0.0019512776345168414
+Iteration 3, Residual norm: 2.2861110069116263e-06
+Iteration 4, Residual norm: 3.167138678624326e-08
+
+Iteration 1, Residual norm: 0.06998075462080253
+Iteration 2, Residual norm: 0.002485935604535741
+Iteration 3, Residual norm: 3.900501354219111e-06
+Iteration 4, Residual norm: 4.431102676528355e-08
+
+Iteration 1, Residual norm: 0.0782395798391031
+Iteration 2, Residual norm: 0.0032724549172510296
+Iteration 3, Residual norm: 7.0604914392527084e-06
+Iteration 4, Residual norm: 5.7708540160858634e-08
+
+Iteration 1, Residual norm: 0.08901779205581728
+Iteration 2, Residual norm: 0.004404559423507317
+Iteration 3, Residual norm: 1.3334925470977597e-05
+Iteration 4, Residual norm: 6.98018282320739e-08
+
+Iteration 1, Residual norm: 0.1025229878107223
+Iteration 2, Residual norm: 0.006015880597374486
+Iteration 3, Residual norm: 2.5945234803643224e-05
+Iteration 4, Residual norm: 7.934940299870176e-08
+
+Iteration 1, Residual norm: 0.11902538996577716
+Iteration 2, Residual norm: 0.008281528331944218
+Iteration 3, Residual norm: 5.1292455218527833e-05
+Iteration 4, Residual norm: 8.382046829224766e-08
+
+Iteration 1, Residual norm: 0.1387752351305113
+Iteration 2, Residual norm: 0.011410959657513778
+Iteration 3, Residual norm: 0.00010145834033963265
+Iteration 4, Residual norm: 9.641654482902231e-08
+
+Iteration 1, Residual norm: 0.16194475336401867
+Iteration 2, Residual norm: 0.0156313781002074
+Iteration 3, Residual norm: 0.00019767932207243844
+Iteration 4, Residual norm: 1.1801626457218626e-07
+Progress: 3%, Time: 1.03e+02, dt: 2.76e+01, iterations: 4
+
+Iteration 1, Residual norm: 0.18860992208264993
+Iteration 2, Residual norm: 0.02116669028388541
+Iteration 3, Residual norm: 0.00037434145750958245
+Iteration 4, Residual norm: 1.8461933693835395e-07
+
+Iteration 1, Residual norm: 0.2187663354831898
+Iteration 2, Residual norm: 0.028218345151179013
+Iteration 3, Residual norm: 0.0006824430705138653
+Iteration 4, Residual norm: 4.607814863473072e-07
+
+Iteration 1, Residual norm: 0.25235665332759283
+Iteration 2, Residual norm: 0.03695230588213608
+Iteration 3, Residual norm: 0.0011912607342822188
+Iteration 4, Residual norm: 1.3726833899113829e-06
+Iteration 5, Residual norm: 2.0372452711790226e-07
+
+Iteration 1, Residual norm: 0.2759572052366413
+Iteration 2, Residual norm: 0.04360072390068423
+Iteration 3, Residual norm: 0.0016638723543820032
+Iteration 4, Residual norm: 2.6856611477233794e-06
+Iteration 5, Residual norm: 2.3228692938152302e-07
+Progress: 8%, Time: 2.59e+02, dt: 5.00e+01, iterations: 5
+
+Iteration 1, Residual norm: 0.27551802429721034
+Iteration 2, Residual norm: 0.043493427319163266
+Iteration 3, Residual norm: 0.001637187129426745
+Iteration 4, Residual norm: 2.599487301235191e-06
+Iteration 5, Residual norm: 2.3772748709110648e-07
+
+Iteration 1, Residual norm: 0.27529143067430956
+Iteration 2, Residual norm: 0.04341985023145303
+Iteration 3, Residual norm: 0.0016171466419412075
+Iteration 4, Residual norm: 2.532210838970707e-06
+Iteration 5, Residual norm: 2.393946486655723e-07
+
+Iteration 1, Residual norm: 0.2751616805451854
+Iteration 2, Residual norm: 0.0433632976774891
+Iteration 3, Residual norm: 0.0016016278903109495
+Iteration 4, Residual norm: 2.480627718324511e-06
+Iteration 5, Residual norm: 2.401514094917875e-07
+Progress: 13%, Time: 4.09e+02, dt: 5.00e+01, iterations: 5
+
+Iteration 1, Residual norm: 0.27507222603040415
+Iteration 2, Residual norm: 0.04331499712558296
+Iteration 3, Residual norm: 0.0015892878577948694
+Iteration 4, Residual norm: 2.438833415357591e-06
+Iteration 5, Residual norm: 2.3895604939124106e-07
+
+Iteration 1, Residual norm: 0.2749957424993923
+Iteration 2, Residual norm: 0.043270446306383624
+Iteration 3, Residual norm: 0.0015792505048265104
+Iteration 4, Residual norm: 2.405473223263346e-06
+Iteration 5, Residual norm: 2.396867286390501e-07
+
+Iteration 1, Residual norm: 0.2749196191661987
+Iteration 2, Residual norm: 0.043227459474683004
+Iteration 3, Residual norm: 0.0015709283883942487
+Iteration 4, Residual norm: 2.376698194518179e-06
+Iteration 5, Residual norm: 2.406092037618662e-07
+Progress: 18%, Time: 5.59e+02, dt: 5.00e+01, iterations: 5
+
+Iteration 1, Residual norm: 0.27483871384631137
+Iteration 2, Residual norm: 0.043185096737444154
+Iteration 3, Residual norm: 0.001563913968478
+Iteration 4, Residual norm: 2.352808260256001e-06
+Iteration 5, Residual norm: 2.385525284946109e-07
+
+Iteration 1, Residual norm: 0.274751631097939
+Iteration 2, Residual norm: 0.04314306426206516
+Iteration 3, Residual norm: 0.0015579226379081258
+Iteration 4, Residual norm: 2.332645309144682e-06
+Iteration 5, Residual norm: 2.3818135066350288e-07
+
+Iteration 1, Residual norm: 0.2746587744706357
+Iteration 2, Residual norm: 0.04310138797355583
+Iteration 3, Residual norm: 0.0015527467061914495
+Iteration 4, Residual norm: 2.3154887200142016e-06
+Iteration 5, Residual norm: 2.3788467066421956e-07
+Progress: 23%, Time: 7.09e+02, dt: 5.00e+01, iterations: 5
+
+Iteration 1, Residual norm: 0.27456131805786493
+Iteration 2, Residual norm: 0.04306023288222291
+Iteration 3, Residual norm: 0.001548233361825896
+Iteration 4, Residual norm: 2.3008199566854432e-06
+Iteration 5, Residual norm: 2.3914409005230875e-07
+
+Iteration 1, Residual norm: 0.2744606762950566
+Iteration 2, Residual norm: 0.0430198062211216
+Iteration 3, Residual norm: 0.001544266935508154
+Iteration 4, Residual norm: 2.2877952611357264e-06
+Iteration 5, Residual norm: 2.3850353066223573e-07
+
+Iteration 1, Residual norm: 0.2743582378007472
+Iteration 2, Residual norm: 0.042980307719708045
+Iteration 3, Residual norm: 0.001540758158021327
+Iteration 4, Residual norm: 2.2766550355725653e-06
+Iteration 5, Residual norm: 2.3844647126022957e-07
+Progress: 28%, Time: 8.59e+02, dt: 5.00e+01, iterations: 5
+
+Iteration 1, Residual norm: 0.2742552387079736
+Iteration 2, Residual norm: 0.042941909528335646
+Iteration 3, Residual norm: 0.0015376367144462014
+Iteration 4, Residual norm: 2.267202742561663e-06
+Iteration 5, Residual norm: 2.381634672536397e-07
+
+Iteration 1, Residual norm: 0.27415271890067794
+Iteration 2, Residual norm: 0.042904743321423924
+Iteration 3, Residual norm: 0.0015348474068837869
+Iteration 4, Residual norm: 2.2582191901946446e-06
+Iteration 5, Residual norm: 2.3841731489192385e-07
+
+Iteration 1, Residual norm: 0.27405151564542407
+Iteration 2, Residual norm: 0.04286890445664369
+Iteration 3, Residual norm: 0.001532345274265725
+Iteration 4, Residual norm: 2.250888948672843e-06
+Iteration 5, Residual norm: 2.383437761561388e-07
+Progress: 33%, Time: 1.01e+03, dt: 5.00e+01, iterations: 5
+
+Iteration 1, Residual norm: 0.27395227957546375
+Iteration 2, Residual norm: 0.042834454160712715
+Iteration 3, Residual norm: 0.0015300926001526102
+Iteration 4, Residual norm: 2.2441434258085032e-06
+Iteration 5, Residual norm: 2.384016705863096e-07
+
+Iteration 1, Residual norm: 0.27385549493597644
+Iteration 2, Residual norm: 0.04280142446647941
+Iteration 3, Residual norm: 0.0015280584060455673
+Iteration 4, Residual norm: 2.2384256326457913e-06
+Iteration 5, Residual norm: 2.38406594747399e-07
+
+Iteration 1, Residual norm: 0.27376151232911783
+Iteration 2, Residual norm: 0.04276982186648801
+Iteration 3, Residual norm: 0.0015262185935020912
+Iteration 4, Residual norm: 2.2330711727474904e-06
+Iteration 5, Residual norm: 2.3828933162707282e-07
+Progress: 38%, Time: 1.16e+03, dt: 5.00e+01, iterations: 5
+
+Iteration 1, Residual norm: 0.2736705647303479
+Iteration 2, Residual norm: 0.042739636069341766
+Iteration 3, Residual norm: 0.0015245492681406655
+Iteration 4, Residual norm: 2.2281926018323325e-06
+Iteration 5, Residual norm: 2.3807385559461077e-07
+
+Iteration 1, Residual norm: 0.2735827950538158
+Iteration 2, Residual norm: 0.04271084034138744
+Iteration 3, Residual norm: 0.0015230322761325679
+Iteration 4, Residual norm: 2.224217989008669e-06
+Iteration 5, Residual norm: 2.3970353309336777e-07
+
+Iteration 1, Residual norm: 0.27349827394475706
+Iteration 2, Residual norm: 0.042683397734336194
+Iteration 3, Residual norm: 0.0015216518951599554
+Iteration 4, Residual norm: 2.220783587840727e-06
+Iteration 5, Residual norm: 2.395319071172633e-07
+Progress: 43%, Time: 1.31e+03, dt: 5.00e+01, iterations: 5
+
+Iteration 1, Residual norm: 0.27341701607217855
+Iteration 2, Residual norm: 0.04265726371692847
+Iteration 3, Residual norm: 0.0015203942000642345
+Iteration 4, Residual norm: 2.217409621330088e-06
+Iteration 5, Residual norm: 2.3899042003988767e-07
+
+Iteration 1, Residual norm: 0.2733389930166539
+Iteration 2, Residual norm: 0.042632387748962115
+Iteration 3, Residual norm: 0.0015192464593868926
+Iteration 4, Residual norm: 2.2147687297242868e-06
+Iteration 5, Residual norm: 2.4021745269279607e-07
+
+Iteration 1, Residual norm: 0.2732641471431458
+Iteration 2, Residual norm: 0.04260871705342757
+Iteration 3, Residual norm: 0.00151819867085767
+Iteration 4, Residual norm: 2.2122461076655738e-06
+Iteration 5, Residual norm: 2.4028448801889186e-07
+Progress: 48%, Time: 1.46e+03, dt: 5.00e+01, iterations: 5
+
+Iteration 1, Residual norm: 0.2731923951345769
+Iteration 2, Residual norm: 0.04258619725439682
+Iteration 3, Residual norm: 0.001517241021638099
+Iteration 4, Residual norm: 2.2100504642906036e-06
+Iteration 5, Residual norm: 2.400947776257022e-07
+
+Iteration 1, Residual norm: 0.2731236386478436
+Iteration 2, Residual norm: 0.042564772663409495
+Iteration 3, Residual norm: 0.001516365957357529
+Iteration 4, Residual norm: 2.2077561916482587e-06
+Iteration 5, Residual norm: 2.400167806165371e-07
+
+Iteration 1, Residual norm: 0.2730577687421261
+Iteration 2, Residual norm: 0.0425443885168216
+Iteration 3, Residual norm: 0.0015155652036263493
+Iteration 4, Residual norm: 2.2059463550317625e-06
+Iteration 5, Residual norm: 2.3997624269832295e-07
+Progress: 53%, Time: 1.61e+03, dt: 5.00e+01, iterations: 5
+
+Iteration 1, Residual norm: 0.27299467020165663
+Iteration 2, Residual norm: 0.04252499096211956
+Iteration 3, Residual norm: 0.001514832821868669
+Iteration 4, Residual norm: 2.2044296583874217e-06
+Iteration 5, Residual norm: 2.3992018358426874e-07
+
+Iteration 1, Residual norm: 0.27293422455157557
+Iteration 2, Residual norm: 0.0425065287686304
+Iteration 3, Residual norm: 0.001514162302599386
+Iteration 4, Residual norm: 2.2030988276013856e-06
+Iteration 5, Residual norm: 2.398685278125074e-07
+
+Iteration 1, Residual norm: 0.2728763129473243
+Iteration 2, Residual norm: 0.04248895057648136
+Iteration 3, Residual norm: 0.0015135494270464062
+Iteration 4, Residual norm: 2.2020356489331635e-06
+Iteration 5, Residual norm: 2.3988694661447206e-07
+Progress: 58%, Time: 1.76e+03, dt: 5.00e+01, iterations: 5
+
+Iteration 1, Residual norm: 0.27282081689856214
+Iteration 2, Residual norm: 0.04247220928236993
+Iteration 3, Residual norm: 0.001512988674340772
+Iteration 4, Residual norm: 2.201386294073481e-06
+Iteration 5, Residual norm: 2.403286586617612e-07
+
+Iteration 1, Residual norm: 0.27276762112492586
+Iteration 2, Residual norm: 0.042456258799114306
+Iteration 3, Residual norm: 0.001512476472774114
+Iteration 4, Residual norm: 2.2005216048608967e-06
+Iteration 5, Residual norm: 2.4030344827702945e-07
+
+Iteration 1, Residual norm: 0.27271661347425924
+Iteration 2, Residual norm: 0.04244105582619412
+Iteration 3, Residual norm: 0.0015120087904047983
+Iteration 4, Residual norm: 2.1997616686587684e-06
+Iteration 5, Residual norm: 2.4026394731182785e-07
+Progress: 63%, Time: 1.91e+03, dt: 5.00e+01, iterations: 5
+
+Iteration 1, Residual norm: 0.2726676855384908
+Iteration 2, Residual norm: 0.04242655974891242
+Iteration 3, Residual norm: 0.0015115819189374382
+Iteration 4, Residual norm: 2.1991158468376596e-06
+Iteration 5, Residual norm: 2.4022747740139365e-07
+
+Iteration 1, Residual norm: 0.27262073414358173
+Iteration 2, Residual norm: 0.04241273134109415
+Iteration 3, Residual norm: 0.001511192545326865
+Iteration 4, Residual norm: 2.198632396695999e-06
+Iteration 5, Residual norm: 2.4017738007156475e-07
+
+Iteration 1, Residual norm: 0.2725756604422118
+Iteration 2, Residual norm: 0.0423995338197896
+Iteration 3, Residual norm: 0.0015108381232574494
+Iteration 4, Residual norm: 2.1983868421827994e-06
+Iteration 5, Residual norm: 2.409159955278185e-07
+Progress: 68%, Time: 2.06e+03, dt: 5.00e+01, iterations: 5
+
+Iteration 1, Residual norm: 0.2725323699079658
+Iteration 2, Residual norm: 0.04238693311099187
+Iteration 3, Residual norm: 0.001510516362448976
+Iteration 4, Residual norm: 2.1978590422477944e-06
+Iteration 5, Residual norm: 2.4087915118998553e-07
+
+Iteration 1, Residual norm: 0.27249077326202276
+Iteration 2, Residual norm: 0.04237489681706984
+Iteration 3, Residual norm: 0.0015102244264771848
+Iteration 4, Residual norm: 2.197550946597501e-06
+Iteration 5, Residual norm: 2.408928147204653e-07
+
+Iteration 1, Residual norm: 0.2724507857424007
+Iteration 2, Residual norm: 0.04236339449732255
+Iteration 3, Residual norm: 0.0015099602344293115
+Iteration 4, Residual norm: 2.197327508980326e-06
+Iteration 5, Residual norm: 2.408683814586606e-07
+Progress: 73%, Time: 2.21e+03, dt: 5.00e+01, iterations: 5
+
+Iteration 1, Residual norm: 0.2724123274102877
+Iteration 2, Residual norm: 0.042352397606771855
+Iteration 3, Residual norm: 0.001509721767080095
+Iteration 4, Residual norm: 2.1971888353248725e-06
+Iteration 5, Residual norm: 2.408329354045606e-07
+
+Iteration 1, Residual norm: 0.27237532165622236
+Iteration 2, Residual norm: 0.04234187976030287
+Iteration 3, Residual norm: 0.0015095072360848092
+Iteration 4, Residual norm: 2.1971555864887435e-06
+Iteration 5, Residual norm: 2.4085477507498417e-07
+
+Iteration 1, Residual norm: 0.2723396988544444
+Iteration 2, Residual norm: 0.04233181504511904
+Iteration 3, Residual norm: 0.0015093149113213594
+Iteration 4, Residual norm: 2.1971163647850473e-06
+Iteration 5, Residual norm: 2.408336109631796e-07
+Progress: 78%, Time: 2.36e+03, dt: 5.00e+01, iterations: 5
+
+Iteration 1, Residual norm: 0.272305390798759
+Iteration 2, Residual norm: 0.04232218029401811
+Iteration 3, Residual norm: 0.0015091432144706239
+Iteration 4, Residual norm: 2.1971285673903425e-06
+Iteration 5, Residual norm: 2.408166088360099e-07
+
+Iteration 1, Residual norm: 0.27227233402539125
+Iteration 2, Residual norm: 0.042312953228091074
+Iteration 3, Residual norm: 0.0015089905878593005
+Iteration 4, Residual norm: 2.1972352587821796e-06
+Iteration 5, Residual norm: 2.408213967173634e-07
+
+Iteration 1, Residual norm: 0.27224046870507174
+Iteration 2, Residual norm: 0.0423041130613428
+Iteration 3, Residual norm: 0.0015088560780512305
+Iteration 4, Residual norm: 2.1973360501563117e-06
+Iteration 5, Residual norm: 2.4080644150587423e-07
+Progress: 83%, Time: 2.51e+03, dt: 5.00e+01, iterations: 5
+
+Iteration 1, Residual norm: 0.2722097383937335
+Iteration 2, Residual norm: 0.04229564029993594
+Iteration 3, Residual norm: 0.001508738137659416
+Iteration 4, Residual norm: 2.197587499883975e-06
+Iteration 5, Residual norm: 2.407906316767323e-07
+
+Iteration 1, Residual norm: 0.2721800899316631
+Iteration 2, Residual norm: 0.0422875165136657
+Iteration 3, Residual norm: 0.0015086358965605677
+Iteration 4, Residual norm: 2.1977652513695425e-06
+Iteration 5, Residual norm: 2.407782109254482e-07
+
+Iteration 1, Residual norm: 0.2721514730990636
+Iteration 2, Residual norm: 0.04227972453176629
+Iteration 3, Residual norm: 0.0015085481903303452
+Iteration 4, Residual norm: 2.1979765020675827e-06
+Iteration 5, Residual norm: 2.407669483229387e-07
+Progress: 88%, Time: 2.66e+03, dt: 5.00e+01, iterations: 5
+
+Iteration 1, Residual norm: 0.2721238405562257
+Iteration 2, Residual norm: 0.042272248205789856
+Iteration 3, Residual norm: 0.0015084739824436405
+Iteration 4, Residual norm: 2.198218395927081e-06
+Iteration 5, Residual norm: 2.4075678035202945e-07
+
+Iteration 1, Residual norm: 0.272097148051264
+Iteration 2, Residual norm: 0.04226507186143495
+Iteration 3, Residual norm: 0.0015084126948650884
+Iteration 4, Residual norm: 2.198524096502484e-06
+Iteration 5, Residual norm: 2.4075371352470695e-07
+
+Iteration 1, Residual norm: 0.27207135327549803
+Iteration 2, Residual norm: 0.04225818152175199
+Iteration 3, Residual norm: 0.001508363047581056
+Iteration 4, Residual norm: 2.198818134676682e-06
+Iteration 5, Residual norm: 2.4074460965444906e-07
+Progress: 93%, Time: 2.81e+03, dt: 5.00e+01, iterations: 5
+
+Iteration 1, Residual norm: 0.2720464165148727
+Iteration 2, Residual norm: 0.04225156358457946
+Iteration 3, Residual norm: 0.0015083244558111502
+Iteration 4, Residual norm: 2.199098849126442e-06
+Iteration 5, Residual norm: 2.4073987595650216e-07
+
+Iteration 1, Residual norm: 0.2720223002560728
+Iteration 2, Residual norm: 0.042245205319710065
+Iteration 3, Residual norm: 0.0015082961680203569
+Iteration 4, Residual norm: 2.19949350289361e-06
+Iteration 5, Residual norm: 2.4073376613431784e-07
+
+Iteration 1, Residual norm: 0.27199896916260297
+Iteration 2, Residual norm: 0.042239094446197833
+Iteration 3, Residual norm: 0.0015082775915126415
+Iteration 4, Residual norm: 2.1998520866291442e-06
+Iteration 5, Residual norm: 2.4143929980125994e-07
+Progress: 98%, Time: 2.96e+03, dt: 5.00e+01, iterations: 5
+
+Iteration 1, Residual norm: 0.24124063068325668
+Iteration 2, Residual norm: 0.03406623537565543
+Iteration 3, Residual norm: 0.0009723323378291807
+Iteration 4, Residual norm: 9.205718539503011e-07
+Iteration 5, Residual norm: 1.8823075056984094e-07
+
+accepted steps = 71, final time = 3000.0 d
+</pre></div></div>
+</div>
+<section id="Final-deformation-state:-zoom-to-the-excavation">
+<h3>Final deformation state: zoom to the excavation<a class="headerlink" href="#Final-deformation-state:-zoom-to-the-excavation" title="Link to this heading"></a></h3>
+<p><img alt="a4e35e5c71994aa799b5ba06ce6bbf89" class="no-scaled-link" src="../_images/norton_creep.png" width="600" /></p>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="navier_stokes_hli.html" class="btn btn-neutral float-left" title="Incompressible Navier-Stokes with heat conduction and convection" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="ode_lotka_volterra.html" class="btn btn-neutral float-right" title="Nonlinear coupled ODEs (Lotka-Volterra)" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Tobias Bode.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

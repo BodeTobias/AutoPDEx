@@ -1,0 +1,6 @@
+﻿autopdex.SimState.num\_steps
+============================
+
+.. currentmodule:: autopdex
+
+.. autoproperty:: SimState.num_steps

@@ -1,0 +1,353 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Quickstart to AutoPDEx &mdash; AutoPDEx  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../_static/jupyter-sphinx.css?v=572af1d6" />
+      <link rel="stylesheet" type="text/css" href="../_static/thebelab.css" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=acfd50eb" />
+      <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css?v=2aa19091" />
+      <link rel="stylesheet" type="text/css" href="../_static/dark_mode_css/general.css?v=c0a7eb24" />
+      <link rel="stylesheet" type="text/css" href="../_static/dark_mode_css/dark.css?v=70edf1c7" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../_static/copybutton.js?v=f281be69"></script>
+      <script src="../_static/thebelab-helper.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+      <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+      <script defer="defer" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+      <script src="../_static/dark_mode_js/default_light.js?v=c2e647ce"></script>
+      <script src="../_static/dark_mode_js/theme_switcher.js?v=358d3910"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="High-level interface" href="../sim_state.html" />
+    <link rel="prev" title="Welcome to the documentation of AutoPDEx!" href="../index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            AutoPDEx
+              <img src="../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Quickstart to AutoPDEx</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#Imports">Imports</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Problem-setup">Problem setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Strain-energy-and-weak-form">Strain energy and weak form</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Problem-set-up">Problem set-up</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Analysis">Analysis</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">High-level interface</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../sim_state.html">High-level interface</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../example_notebooks.html">Example notebooks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples.html">Lower level input files</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Lower level modules</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../dae.html">Time stepping</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../solver.html">Solver</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../models.html">Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../settings.html">Settings and static_settings</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../assembler.html">Assembler</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../implicit_diff.html">Implicit_diff</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spaces.html">Spaces</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../solution_structures.html">Solution structures</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../variational_schemes.html">Variational_schemes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../geometry.html">Geometry</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../seeder.html">Seeder</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../utility.html">Utility</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../plotter.html">Plotter</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../mesher.html">Mesher</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Source code</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/BodeTobias/AutoPDEx">GitHub Project</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">AutoPDEx</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Quickstart to AutoPDEx</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/BodeTobias/AutoPDEx/blob/main/docs/notebooks/quickstart_hli.ipynb" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="Quickstart-to-AutoPDEx">
+<h1>Quickstart to AutoPDEx<a class="headerlink" href="#Quickstart-to-AutoPDEx" title="Link to this heading"></a></h1>
+<p><a class="reference external" href="https://github.com/BodeTobias/AutoPDEx/tree/main/docs/notebooks/quickstart_hli.ipynb">Download this notebook</a></p>
+<p>In this example, we do a finite element analysis of the following hyperelastic mechanical punch problem:</p>
+<p><img alt="afbfd5b5285b417489e47d1a7bd032b6" class="no-scaled-link" src="../_images/punch_problem.png" width="400" /> <img alt="7804eafd85a1498193d02149999ead3c" class="no-scaled-link" src="../_images/quickstart.png" width="400" /></p>
+<section id="Imports">
+<h2>Imports<a class="headerlink" href="#Imports" title="Link to this heading"></a></h2>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">jax</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">jax.numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">jnp</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">autopdex</span><span class="w"> </span><span class="kn">import</span> <span class="n">SimState</span><span class="p">,</span> <span class="n">dae</span><span class="p">,</span> <span class="n">spaces</span>
+
+<span class="n">jax</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="s2">&quot;jax_enable_x64&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="Problem-setup">
+<h2>Problem setup<a class="headerlink" href="#Problem-setup" title="Link to this heading"></a></h2>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">L</span><span class="p">,</span> <span class="n">H</span> <span class="o">=</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">1.0</span>
+<span class="n">vertices</span> <span class="o">=</span> <span class="p">[[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">],</span> <span class="p">[</span><span class="n">L</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">],</span> <span class="p">[</span><span class="n">L</span><span class="p">,</span> <span class="n">H</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">H</span><span class="p">]]</span>
+<span class="n">n_elements</span> <span class="o">=</span> <span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">50</span><span class="p">)</span>
+
+<span class="n">lam</span> <span class="o">=</span> <span class="mf">138.75</span>
+<span class="n">mu</span> <span class="o">=</span> <span class="mf">92.5</span>
+<span class="n">q0</span> <span class="o">=</span> <span class="o">-</span><span class="mf">8.0e2</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="Strain-energy-and-weak-form">
+<h2>Strain energy and weak form<a class="headerlink" href="#Strain-energy-and-weak-form" title="Link to this heading"></a></h2>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">neo_hooke_strain_energy</span><span class="p">(</span><span class="n">F</span><span class="p">,</span> <span class="n">lam</span><span class="p">,</span> <span class="n">mu</span><span class="p">):</span>
+    <span class="n">J</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">det</span><span class="p">(</span><span class="n">F</span><span class="p">)</span>
+    <span class="n">I1</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">trace</span><span class="p">(</span><span class="n">F</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">F</span><span class="p">)</span>
+    <span class="n">log_J</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">J</span><span class="p">)</span>
+    <span class="k">return</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">mu</span> <span class="o">*</span> <span class="p">(</span><span class="n">I1</span> <span class="o">-</span> <span class="mf">3.0</span><span class="p">)</span> <span class="o">-</span> <span class="n">mu</span> <span class="o">*</span> <span class="n">log_J</span> <span class="o">+</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">lam</span> <span class="o">*</span> <span class="n">log_J</span><span class="o">**</span><span class="mi">2</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">weak_form</span><span class="p">(</span><span class="n">ctx</span><span class="p">:</span> <span class="n">SimState</span><span class="o">.</span><span class="n">ModelContext</span><span class="p">):</span>
+    <span class="n">x</span><span class="p">,</span> <span class="n">t</span> <span class="o">=</span> <span class="n">ctx</span><span class="o">.</span><span class="n">x_int</span><span class="p">,</span> <span class="n">ctx</span><span class="o">.</span><span class="n">t</span>
+    <span class="n">u_fun</span> <span class="o">=</span> <span class="n">ctx</span><span class="o">.</span><span class="n">trial_ansatz</span><span class="p">[</span><span class="s2">&quot;displacement&quot;</span><span class="p">]</span>
+    <span class="n">grad_u</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">jacfwd</span><span class="p">(</span><span class="n">u_fun</span><span class="p">)(</span><span class="n">x</span><span class="p">,</span> <span class="n">t</span><span class="p">)</span>
+    <span class="n">strain</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="n">grad_u</span> <span class="o">+</span> <span class="n">grad_u</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
+
+    <span class="c1"># Here we define the outputs which are L2-projected on the mesh for vtu output</span>
+    <span class="c1"># During output mode, the test_ansatz is not available,</span>
+    <span class="c1"># so they have to be used after the output return</span>
+    <span class="k">if</span> <span class="n">ctx</span><span class="o">.</span><span class="n">mode</span> <span class="o">==</span> <span class="s2">&quot;output&quot;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">{</span>
+                <span class="s2">&quot;displacement&quot;</span><span class="p">:</span> <span class="n">u_fun</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">t</span><span class="p">),</span>
+                <span class="s2">&quot;strain_xx&quot;</span><span class="p">:</span> <span class="n">strain</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+                <span class="s2">&quot;strain_yy&quot;</span><span class="p">:</span> <span class="n">strain</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+            <span class="p">}</span>
+
+    <span class="n">F</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">([</span>
+        <span class="p">[</span><span class="mf">1.0</span> <span class="o">+</span> <span class="n">grad_u</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">grad_u</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="mf">0.0</span><span class="p">],</span>
+        <span class="p">[</span><span class="n">grad_u</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="mf">1.0</span> <span class="o">+</span> <span class="n">grad_u</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="mf">0.0</span><span class="p">],</span>
+        <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">],</span>
+    <span class="p">])</span>
+    <span class="n">P</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">jacrev</span><span class="p">(</span><span class="n">neo_hooke_strain_energy</span><span class="p">)(</span><span class="n">F</span><span class="p">,</span> <span class="n">lam</span><span class="p">,</span> <span class="n">mu</span><span class="p">)</span>
+
+    <span class="n">grad_v</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">jacfwd</span><span class="p">(</span><span class="n">ctx</span><span class="o">.</span><span class="n">test_ansatz</span><span class="p">[</span><span class="s2">&quot;displacement&quot;</span><span class="p">])(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">virtual_F</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">([</span>
+        <span class="p">[</span><span class="n">grad_v</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">grad_v</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="mf">0.0</span><span class="p">],</span>
+        <span class="p">[</span><span class="n">grad_v</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">grad_v</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="mf">0.0</span><span class="p">],</span>
+        <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">],</span>
+    <span class="p">])</span>
+    <span class="k">return</span> <span class="n">jnp</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">P</span> <span class="o">*</span> <span class="n">virtual_F</span><span class="p">)</span>
+<br/></pre></div>
+</div>
+</div>
+</section>
+<section id="Problem-set-up">
+<h2>Problem set-up<a class="headerlink" href="#Problem-set-up" title="Link to this heading"></a></h2>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sim</span> <span class="o">=</span> <span class="n">SimState</span><span class="p">({</span>
+    <span class="s2">&quot;displacement&quot;</span><span class="p">:</span> <span class="n">spaces</span><span class="o">.</span><span class="n">H1</span><span class="p">(</span><span class="n">order</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">field_dimension</span><span class="o">=</span><span class="mi">2</span><span class="p">),</span>
+<span class="p">})</span>
+<span class="n">sim</span><span class="o">.</span><span class="n">add_structured_mesh</span><span class="p">(</span><span class="n">n_elements</span><span class="p">,</span> <span class="n">vertices</span><span class="p">,</span> <span class="s2">&quot;quad&quot;</span><span class="p">)</span> <span class="c1"># or sim.import_mesh(meshio_object)</span>
+<span class="n">sim</span><span class="o">.</span><span class="n">add_temporal_discretization</span><span class="p">({</span><span class="s2">&quot;displacement&quot;</span><span class="p">:</span> <span class="n">dae</span><span class="o">.</span><span class="n">NoTimeDerivative</span><span class="p">()})</span>
+<span class="n">sim</span><span class="o">.</span><span class="n">add_model</span><span class="p">(</span><span class="s2">&quot;__all__&quot;</span><span class="p">,</span> <span class="s2">&quot;weak form&quot;</span><span class="p">,</span> <span class="n">weak_form</span><span class="p">)</span>
+
+<span class="n">sim</span><span class="o">.</span><span class="n">add_strong_bc</span><span class="p">(</span><span class="s2">&quot;displacement&quot;</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">jnp</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mf">0.0</span><span class="p">),</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">t</span><span class="p">:</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">sim</span><span class="o">.</span><span class="n">add_strong_bc</span><span class="p">(</span><span class="s2">&quot;displacement&quot;</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">jnp</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="mf">0.0</span><span class="p">),</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">t</span><span class="p">:</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">sim</span><span class="o">.</span><span class="n">add_strong_bc</span><span class="p">(</span><span class="s2">&quot;displacement&quot;</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">jnp</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">H</span><span class="p">),</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">t</span><span class="p">:</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">sim</span><span class="o">.</span><span class="n">add_weak_bc</span><span class="p">(</span>
+    <span class="s2">&quot;displacement&quot;</span><span class="p">,</span>
+    <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">jnp</span><span class="o">.</span><span class="n">logical_and</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">H</span><span class="p">),</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">L</span> <span class="o">/</span> <span class="mf">2.0</span> <span class="o">+</span> <span class="mf">1e-10</span><span class="p">),</span>
+    <span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">settings</span><span class="p">:</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">([</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">q0</span> <span class="o">*</span> <span class="n">t</span><span class="p">]),</span> <span class="c1"># Load is applied linearly over time</span>
+<span class="p">)</span>
+
+<span class="n">sim</span><span class="o">.</span><span class="n">set_postprocessing_policy</span><span class="p">(</span><span class="n">dae</span><span class="o">.</span><span class="n">SaveAllPolicy</span><span class="p">(),</span> <span class="n">result_folder_name</span><span class="o">=</span><span class="s2">&quot;quickstart.res&quot;</span><span class="p">)</span>
+<span class="n">sim</span><span class="o">.</span><span class="n">set_step_size_controller</span><span class="p">(</span><span class="n">dae</span><span class="o">.</span><span class="n">RootIterationController</span><span class="p">())</span>
+
+<span class="n">sim</span><span class="o">.</span><span class="n">initialize</span><span class="p">(</span><span class="n">verbose</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">sim</span><span class="o">.</span><span class="n">prepare</span><span class="p">()</span>
+<br/></pre></div>
+</div>
+</div>
+</section>
+<section id="Analysis">
+<h2>Analysis<a class="headerlink" href="#Analysis" title="Link to this heading"></a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sim</span> <span class="o">=</span> <span class="n">sim</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">dt0</span><span class="o">=</span><span class="mf">0.25</span><span class="p">,</span> <span class="n">time_span</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">num_time_steps</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+<span class="c1"># num_time_steps is maximal number of time steps for the root iteration controller</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Linear solver: Pardiso(lu); 32 threads.
+Iteration 1, Residual norm: 0.3718384939636749
+Iteration 2, Residual norm: nan
+
+Iteration 1, Residual norm: 0.07266248448174233
+Iteration 2, Residual norm: 0.024629953184341958
+Iteration 3, Residual norm: 0.003010739499295178
+Iteration 4, Residual norm: 5.963256326673091e-05
+Iteration 5, Residual norm: 2.411671564713545e-08
+Iteration 6, Residual norm: 7.737858878545537e-15
+Progress: 12%, Time: 1.25e-01, dt: 1.25e-01, iterations: 6
+
+Iteration 1, Residual norm: 0.054056452248771356
+Iteration 2, Residual norm: 0.012719533002321115
+Iteration 3, Residual norm: 0.000786530998574173
+Iteration 4, Residual norm: 3.9816983944223e-06
+Iteration 5, Residual norm: 1.051446472532503e-10
+Progress: 25%, Time: 2.50e-01, dt: 1.35e-01, iterations: 5
+
+Iteration 1, Residual norm: 0.043983948702100255
+Iteration 2, Residual norm: 0.003937728893569618
+Iteration 3, Residual norm: 7.449486640430311e-05
+Iteration 4, Residual norm: 3.188161267601681e-08
+Iteration 5, Residual norm: 3.6866714161376067e-14
+Progress: 38%, Time: 3.85e-01, dt: 1.47e-01, iterations: 5
+
+Iteration 1, Residual norm: 0.041408704029522084
+Iteration 2, Residual norm: 0.002339939203606178
+Iteration 3, Residual norm: 3.021315460446977e-05
+Iteration 4, Residual norm: 7.163900981125326e-09
+Progress: 53%, Time: 5.32e-01, dt: 1.71e-01, iterations: 4
+
+Iteration 1, Residual norm: 0.055158002985548266
+Iteration 2, Residual norm: 0.002903187651204979
+Iteration 3, Residual norm: 2.454052823270985e-05
+Iteration 4, Residual norm: 3.525161868632625e-09
+Progress: 70%, Time: 7.03e-01, dt: 2.00e-01, iterations: 4
+
+Iteration 1, Residual norm: 0.07772482065585377
+Iteration 2, Residual norm: 0.004121836543364814
+Iteration 3, Residual norm: 2.4672909230029175e-05
+Iteration 4, Residual norm: 1.587659958403031e-09
+Progress: 90%, Time: 9.03e-01, dt: 2.33e-01, iterations: 4
+
+Iteration 1, Residual norm: 0.015004167122470536
+Iteration 2, Residual norm: 0.00017222889712663667
+Iteration 3, Residual norm: 3.689713602411254e-08
+Iteration 4, Residual norm: 2.4452215186246246e-13
+Progress: 100%, Time: 1.00e+00, dt: 1.13e-01, iterations: 4
+
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../index.html" class="btn btn-neutral float-left" title="Welcome to the documentation of AutoPDEx!" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../sim_state.html" class="btn btn-neutral float-right" title="High-level interface" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Tobias Bode.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

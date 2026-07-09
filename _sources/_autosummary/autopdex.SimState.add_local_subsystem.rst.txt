@@ -1,0 +1,6 @@
+﻿autopdex.SimState.add\_local\_subsystem
+=======================================
+
+.. currentmodule:: autopdex
+
+.. automethod:: SimState.add_local_subsystem

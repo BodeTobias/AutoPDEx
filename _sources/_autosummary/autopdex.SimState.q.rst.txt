@@ -1,0 +1,6 @@
+﻿autopdex.SimState.q
+===================
+
+.. currentmodule:: autopdex
+
+.. autoproperty:: SimState.q

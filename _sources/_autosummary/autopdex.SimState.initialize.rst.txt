@@ -1,0 +1,6 @@
+﻿autopdex.SimState.initialize
+============================
+
+.. currentmodule:: autopdex
+
+.. automethod:: SimState.initialize

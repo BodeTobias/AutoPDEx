@@ -1,0 +1,59 @@
+﻿autopdex.spaces.InternalVariable
+================================
+
+.. currentmodule:: autopdex.spaces
+
+.. autoclass:: InternalVariable
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~InternalVariable.__delattr__
+      ~InternalVariable.__dir__
+      ~InternalVariable.__eq__
+      ~InternalVariable.__format__
+      ~InternalVariable.__ge__
+      ~InternalVariable.__getattribute__
+      ~InternalVariable.__getstate__
+      ~InternalVariable.__gt__
+      ~InternalVariable.__hash__
+      ~InternalVariable.__init_subclass__
+      ~InternalVariable.__le__
+      ~InternalVariable.__lt__
+      ~InternalVariable.__ne__
+      ~InternalVariable.__new__
+      ~InternalVariable.__reduce__
+      ~InternalVariable.__reduce_ex__
+      ~InternalVariable.__repr__
+      ~InternalVariable.__setattr__
+      ~InternalVariable.__sizeof__
+      ~InternalVariable.__str__
+      ~InternalVariable.__subclasshook__
+      ~InternalVariable.basis
+      ~InternalVariable.surface_basis
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~InternalVariable.__abstractmethods__
+      ~InternalVariable.__annotations__
+      ~InternalVariable.__dict__
+      ~InternalVariable.__doc__
+      ~InternalVariable.__module__
+      ~InternalVariable.__slots__
+      ~InternalVariable.__weakref__
+      ~InternalVariable._abc_impl
+      ~InternalVariable.available_cell_types
+      ~InternalVariable.is_internal_variable
+   
+   

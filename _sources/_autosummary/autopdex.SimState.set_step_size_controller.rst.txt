@@ -1,0 +1,6 @@
+﻿autopdex.SimState.set\_step\_size\_controller
+=============================================
+
+.. currentmodule:: autopdex
+
+.. automethod:: SimState.set_step_size_controller

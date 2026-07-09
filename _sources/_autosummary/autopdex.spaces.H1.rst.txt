@@ -1,0 +1,60 @@
+﻿autopdex.spaces.H1
+==================
+
+.. currentmodule:: autopdex.spaces
+
+.. autoclass:: H1
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~H1.__delattr__
+      ~H1.__dir__
+      ~H1.__eq__
+      ~H1.__format__
+      ~H1.__ge__
+      ~H1.__getattribute__
+      ~H1.__getstate__
+      ~H1.__gt__
+      ~H1.__hash__
+      ~H1.__init_subclass__
+      ~H1.__le__
+      ~H1.__lt__
+      ~H1.__ne__
+      ~H1.__new__
+      ~H1.__reduce__
+      ~H1.__reduce_ex__
+      ~H1.__repr__
+      ~H1.__setattr__
+      ~H1.__sizeof__
+      ~H1.__str__
+      ~H1.__subclasshook__
+      ~H1.basis
+      ~H1.surface_basis
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~H1.__abstractmethods__
+      ~H1.__annotations__
+      ~H1.__dict__
+      ~H1.__doc__
+      ~H1.__module__
+      ~H1.__slots__
+      ~H1.__weakref__
+      ~H1._abc_impl
+      ~H1._basis
+      ~H1._surface_basis
+      ~H1.available_cell_types
+   
+   

@@ -1,0 +1,6 @@
+﻿autopdex.SimState.history
+=========================
+
+.. currentmodule:: autopdex
+
+.. autoproperty:: SimState.history

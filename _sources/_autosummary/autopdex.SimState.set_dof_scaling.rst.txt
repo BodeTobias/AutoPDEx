@@ -1,0 +1,6 @@
+﻿autopdex.SimState.set\_dof\_scaling
+===================================
+
+.. currentmodule:: autopdex
+
+.. automethod:: SimState.set_dof_scaling

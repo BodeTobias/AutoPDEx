@@ -1,0 +1,6 @@
+﻿autopdex.SimState.run
+=====================
+
+.. currentmodule:: autopdex
+
+.. automethod:: SimState.run

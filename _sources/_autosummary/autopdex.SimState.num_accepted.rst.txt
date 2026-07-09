@@ -1,0 +1,6 @@
+﻿autopdex.SimState.num\_accepted
+===============================
+
+.. currentmodule:: autopdex
+
+.. autoproperty:: SimState.num_accepted

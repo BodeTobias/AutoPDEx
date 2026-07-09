@@ -1,0 +1,70 @@
+﻿autopdex.models.ModelContext
+============================
+
+.. currentmodule:: autopdex.models
+
+.. autoclass:: ModelContext
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~ModelContext.__delattr__
+      ~ModelContext.__dir__
+      ~ModelContext.__eq__
+      ~ModelContext.__format__
+      ~ModelContext.__ge__
+      ~ModelContext.__getattribute__
+      ~ModelContext.__getstate__
+      ~ModelContext.__gt__
+      ~ModelContext.__hash__
+      ~ModelContext.__init_subclass__
+      ~ModelContext.__le__
+      ~ModelContext.__lt__
+      ~ModelContext.__ne__
+      ~ModelContext.__new__
+      ~ModelContext.__post_init__
+      ~ModelContext.__reduce__
+      ~ModelContext.__reduce_ex__
+      ~ModelContext.__repr__
+      ~ModelContext.__setattr__
+      ~ModelContext.__sizeof__
+      ~ModelContext.__str__
+      ~ModelContext.__subclasshook__
+      ~ModelContext.solve_local
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~ModelContext.__annotations__
+      ~ModelContext.__dataclass_fields__
+      ~ModelContext.__dataclass_params__
+      ~ModelContext.__dict__
+      ~ModelContext.__doc__
+      ~ModelContext.__match_args__
+      ~ModelContext.__module__
+      ~ModelContext.__weakref__
+      ~ModelContext.dt
+      ~ModelContext.elem_number
+      ~ModelContext.int_point_number
+      ~ModelContext.internal_vars
+      ~ModelContext.local_solvers
+      ~ModelContext.set
+      ~ModelContext.settings
+      ~ModelContext.static_settings
+      ~ModelContext.t
+      ~ModelContext.test_ansatz
+      ~ModelContext.mode
+      ~ModelContext.x_int
+      ~ModelContext.trial_ansatz
+   
+   

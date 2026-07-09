@@ -1,0 +1,6 @@
+﻿autopdex.SimState.add\_model
+============================
+
+.. currentmodule:: autopdex
+
+.. automethod:: SimState.add_model

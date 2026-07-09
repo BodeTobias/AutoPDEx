@@ -1,0 +1,6 @@
+﻿autopdex.SimState.add\_structured\_mesh
+=======================================
+
+.. currentmodule:: autopdex
+
+.. automethod:: SimState.add_structured_mesh

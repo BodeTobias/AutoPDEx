@@ -1,0 +1,6 @@
+﻿autopdex.SimState.prepare
+=========================
+
+.. currentmodule:: autopdex
+
+.. automethod:: SimState.prepare

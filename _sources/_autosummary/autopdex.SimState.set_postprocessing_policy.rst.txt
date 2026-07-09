@@ -1,0 +1,6 @@
+﻿autopdex.SimState.set\_postprocessing\_policy
+=============================================
+
+.. currentmodule:: autopdex
+
+.. automethod:: SimState.set_postprocessing_policy
