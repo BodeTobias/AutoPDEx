@@ -1,6 +1,0 @@
-﻿autopdex.geometry.triangle\_areas
-=================================
-
-.. currentmodule:: autopdex.geometry
-
-.. autofunction:: triangle_areas

@@ -29,18 +29,79 @@ SciPy is used for this on the CPU.
 """
 
 from functools import partial
+from dataclasses import dataclass
 
+import numpy as np
 import jax.numpy as jnp
 import jax
-from jax import vmap, jacrev, jacfwd, hessian, jvp, linearize, vjp, custom_jvp
+from jax import vmap, jacrev, jacfwd, hessian, jvp
 from jax.tree import map as treemap
 from jax.experimental import sparse
 
 from autopdex import variational_schemes
+from autopdex.dae import discrete_value_with_derivatives
 from autopdex.utility import jit_with_docstring, dict_zeros_like, dict_flatten, reshape_as
 
 
-# TODO: change vmaps to _batched_map in order to reduce memory consumption
+@jax.tree_util.register_dataclass
+@dataclass
+class AssemblingTemplate:
+    """
+    Container for all data needed to map raw element-wise tangent entries
+    to a consolidated sparse matrix representation.
+    """
+    nnz: int
+    col_sorted: jnp.ndarray
+    indptr: jnp.ndarray
+    scatter: jnp.ndarray
+    indices_unique: jnp.ndarray
+
+
+@jax.tree_util.register_dataclass
+@dataclass
+class _q_fun_state:
+    q_ts: dict[str, tuple]
+
+    def __call__(self, t):
+        return {
+            key: discrete_value_with_derivatives(t, q_tup[0], q_tup[1:])
+            for key, q_tup in self.q_ts.items()
+        }
+
+
+def _dofs_reference(dofs):
+    return {key: q_tup[0] for key, q_tup in dofs.q_ts.items()} if isinstance(dofs, _q_fun_state) else dofs
+
+
+def _num_dofs(dofs):
+    dofs_ref = _dofs_reference(dofs)
+    return dofs_ref.size if not isinstance(dofs_ref, dict) else sum(v.size for v in dofs_ref.values())
+
+
+def _block_field_keys(connectivity, dofs):
+    """DOF fields present in this element block's connectivity, in global DOF order.
+
+    A model registered on a subdomain only couples the fields that are active on
+    that subdomain, so a per-block connectivity dict may hold a subset of the
+    global fields. Iterating this subset (instead of the global ``dofs.keys()``)
+    keeps assembled values and indices aligned, while global DOF offsets/sizes
+    are still computed from the full ``dofs``.
+    """
+    dofs_ref = _dofs_reference(dofs)
+    return [k for k in dofs_ref.keys() if k in connectivity]
+
+
+def _make_assembling_kernel(nnz: int):
+    """
+    nnz : Number of unique matrix entries after consolidation.
+    """
+    @jax.jit
+    def kernel(values, scatter):
+        out_shape = (nnz,) + values.shape[1:]
+        data = jnp.zeros(out_shape, dtype=values.dtype)
+        return data.at[scatter].add(values)
+
+    return kernel
 
 
 ## Helper functions
@@ -55,23 +116,23 @@ def _get_indices(connectivity, dofs):
     Returns:
         indices (jnp.ndarray): Array of indices for the sparse matrix.
     """
-    if callable(dofs):
-        dofs = dofs(0.)
+    dofs = _dofs_reference(dofs)
 
     if isinstance(dofs, dict):
-        keys = dofs.keys()
-
-        # Field-Offsets
+        # Field-Offsets are global (span the full DOF vector) ...
         field_offsets = {}
         current_offset = 0
-        for field in keys:
+        for field in dofs.keys():
             field_offsets[field] = current_offset
             field_size = dofs[field].size
             current_offset += field_size
 
+        # ... but the coupling is only over the fields present in this block.
+        keys = _block_field_keys(connectivity, dofs)
+
         indices_list = []
 
-        num_elems = connectivity[next(iter(keys))].shape[0]
+        num_elems = connectivity[keys[0]].shape[0]
         elem_indices = jnp.arange(num_elems, dtype=int)
 
         for field_i in keys:
@@ -83,7 +144,7 @@ def _get_indices(connectivity, dofs):
                     if dofs[field_i].ndim == 1:
                         dofs_per_node_i = 1
                     else:
-                        dofs_per_node_i = dofs[field_i].shape[-1]
+                        dofs_per_node_i = int(dofs[field_i].size // dofs[field_i].shape[0])
                     field_offset_i = field_offsets[field_i]
                     dof_local_i = jnp.arange(dofs_per_node_i, dtype=int)
                     dof_indices_i = (
@@ -96,7 +157,7 @@ def _get_indices(connectivity, dofs):
                     if dofs[field_j].ndim == 1:
                         dofs_per_node_j = 1
                     else:
-                        dofs_per_node_j = dofs[field_j].shape[-1]
+                        dofs_per_node_j = int(dofs[field_j].size // dofs[field_j].shape[0])
 
                     field_offset_j = field_offsets[field_j]
                     dof_local_j = jnp.arange(dofs_per_node_j, dtype=int)
@@ -145,7 +206,7 @@ def _get_element_quantities(dofs, settings, static_settings, set):
     Extracts element-dependent quantities for the specified set.
 
     Args:
-        dofs (jnp.ndarray or dict or callable): Degrees of freedom. Can be a function of time for transient problems.
+        dofs (jnp.ndarray, dict or _q_fun_state): Degrees of freedom.
         settings (dict): Settings dictionary.
         static_settings (dict or flax.core.FrozenDict): Static settings dictionary.
         set (int): The domain number.
@@ -155,11 +216,8 @@ def _get_element_quantities(dofs, settings, static_settings, set):
     """
     model_fun = static_settings["model"][set]
     x_nodes = settings["node coordinates"]
-    dofs_is_fun = True if callable(dofs) else False
-    if dofs_is_fun:
-        dofs_is_dict = True if isinstance(dofs(0.), dict) else False
-    else:
-        dofs_is_dict = True if isinstance(dofs, dict) else False
+    dofs_ref = _dofs_reference(dofs)
+    dofs_is_dict = isinstance(dofs_ref, dict)
 
     # Warning if it was defined in static_settings
     assert "connectivity" not in static_settings, \
@@ -169,22 +227,22 @@ def _get_element_quantities(dofs, settings, static_settings, set):
     connectivity = settings["connectivity"][set]
 
     if dofs_is_dict:
-        assert isinstance(
-            x_nodes, dict
-        ), "If 'dofs' is a dict, 'settings['node coordinates']' must also be a dict."
+        # assert isinstance(
+        #     x_nodes, dict
+        # ), "If 'dofs' is a dict, 'settings['node coordinates']' must also be a dict."
         assert isinstance(
             connectivity, dict
         ), "If 'dofs' is a dict, 'settings['connectivity'][set]' must also be a dict."
 
-        elem_numbers = jnp.arange(connectivity[next(iter(connectivity))].shape[0])
+        first_field = _block_field_keys(connectivity, dofs_ref)[0]
+        elem_numbers = jnp.arange(connectivity[first_field].shape[0])
     else:
         elem_numbers = jnp.arange(connectivity.shape[0])
 
     return model_fun, x_nodes, elem_numbers, connectivity
 
 def _get_element_quantities_2(dofs, settings, static_settings, set):
-    if callable(dofs):
-        dofs = dofs(0.)
+    dofs = _dofs_reference(dofs)
     assert isinstance(
         dofs, jnp.ndarray
     ), "Variational schemes do currently not support dofs as dicts."
@@ -197,23 +255,62 @@ def _get_element_quantities_2(dofs, settings, static_settings, set):
     return connectivity, variational_scheme, x_int, w_int, int_point_numbers
 
 def _extract_local_dofs_and_coor(dofs, node_list, x_nodes):
-    # If DOFs are a function of time (for transient problems, forward them as a function of time)
-    if callable(dofs):
-        local_dofs = lambda t: treemap(lambda x, y: x.at[y].get(), dofs(t), node_list)
-        # local_dofs = _make_elem_dofs_fun(dofs, node_list)
+    if isinstance(dofs, _q_fun_state):
+
+        def _local_field_values(key):
+            q_tup = dofs.q_ts[key]
+            local_q = q_tup[0].at[node_list[key]].get(wrap_negative_indices=False)
+            local_q_derivs = tuple(
+                q_deriv.at[node_list[key]].get(wrap_negative_indices=False)
+                for q_deriv in q_tup[1:]
+            )
+            return local_q, local_q_derivs
+
+        local_q_ts = {
+            key: _local_field_values(key)
+            for key in dofs.q_ts.keys() if key in node_list
+        }
+
+        def local_dofs(t):
+            return {
+                key: discrete_value_with_derivatives(t, local_q, local_q_derivs)
+                for key, (local_q, local_q_derivs) in local_q_ts.items()
+            }
+
     else:
-        local_dofs = treemap(lambda x, y: x.at[y].get(), dofs, node_list)
-    local_node_coor = treemap(lambda x, y: x.at[y].get(), x_nodes, node_list)
+        if isinstance(dofs, dict):
+            local_dofs = {
+                key: dofs[key].at[node_list[key]].get(wrap_negative_indices=False)
+                for key in dofs.keys() if key in node_list
+            }
+        else:
+            local_dofs = treemap(lambda x, y: x.at[y].get(wrap_negative_indices=False), dofs, node_list)
+
+    if isinstance(node_list, dict):
+        if 'physical coor' in node_list:
+            if isinstance(x_nodes, dict):
+                x_source = x_nodes['physical coor'] if 'physical coor' in x_nodes else x_nodes[next(iter(x_nodes.keys()))]
+            else:
+                x_source = x_nodes
+            local_node_coor = x_source.at[node_list['physical coor']].get(wrap_negative_indices=False)
+        else:
+            if isinstance(x_nodes, dict):
+                local_node_coor = {key: x_nodes[key].at[node_list[key]].get(wrap_negative_indices=False) for key in node_list.keys()}
+            else:
+                local_node_coor = {key: x_nodes.at[node_list[key]].get(wrap_negative_indices=False) for key in node_list.keys()}
+    else:
+        if isinstance(x_nodes, dict):
+            x_source = x_nodes['physical coor'] if 'physical coor' in x_nodes else x_nodes[next(iter(x_nodes.keys()))]
+            local_node_coor = x_source.at[node_list].get(wrap_negative_indices=False)
+        else:
+            local_node_coor = x_nodes.at[node_list].get(wrap_negative_indices=False)
     return local_dofs, local_node_coor
 
 def _extract_local_dofs_and_coor_2(dofs, int_point_number, x_int, w_int, connectivity):
     x_i = x_int[int_point_number]
     w_i = w_int[int_point_number]
-    if callable(dofs):
-        local_dofs = lambda t: treemap(lambda x, y: x.at[y].get(), dofs(t), connectivity[int_point_number])
-        # local_dofs = _make_elem_dofs_fun(dofs, connectivity[int_point_number])
-    else:
-        local_dofs = treemap(lambda x, y: x.at[y].get(), dofs, connectivity[int_point_number])
+    dofs = _dofs_reference(dofs)
+    local_dofs = treemap(lambda x, y: x.at[y].get(), dofs, connectivity[int_point_number])
     return x_i, w_i, local_dofs
 
 def _get_tangent_diagonal(tangent_contributions, connectivity, dofs):
@@ -229,25 +326,22 @@ def _get_tangent_diagonal(tangent_contributions, connectivity, dofs):
     Returns:
         jnp.ndarray: The assembled diagonal of the tangent matrix.
     """
-    if callable(dofs):
-        dofs = dofs(0.)
+    dofs = _dofs_reference(dofs)
 
     # Total number of DOFs
-    num_dofs = (
-        dofs.size if not isinstance(dofs, dict) else sum(v.size for v in dofs.values())
-    )
+    num_dofs = _num_dofs(dofs)
 
     if isinstance(dofs, dict):
-        keys = dofs.keys()
-        n_elems = next(iter(connectivity.values())).shape[0]  # Number of elements
-
-        # Compute field offsets for global DOF numbering
+        # Field offsets are global; the block only carries its present fields.
         field_offsets = {}
         current_offset = 0
-        for key in keys:
+        for key in dofs.keys():
             field_offsets[key] = current_offset
             field_size = dofs[key].size  # Total DOFs in the field
             current_offset += field_size
+
+        keys = _block_field_keys(connectivity, dofs)
+        n_elems = connectivity[keys[0]].shape[0]  # Number of elements
 
         # Initialize the global diagonal vector
         diag = jnp.zeros(num_dofs)
@@ -264,8 +358,10 @@ def _get_tangent_diagonal(tangent_contributions, connectivity, dofs):
             if dofs[key].ndim == 1:
                 dofs_per_node = 1
             else:
-                dofs_per_node = dofs[key].shape[-1]
+                dofs_per_node = int(dofs[key].size // dofs[key].shape[0])
             element_dofs = nodes_per_element * dofs_per_node
+            if element_dofs == 0:
+                continue
 
             # Reshape tc
             tc = tc.reshape(n_elems, element_dofs, element_dofs)
@@ -342,13 +438,14 @@ def _get_residual(residual_contributions, connectivity, dofs):
     Returns:
         dict or jnp.ndarray: The assembled residual vector with the same structure as dofs.
     """
-    if callable(dofs):
-        dofs = dofs(0.)
+    dofs = _dofs_reference(dofs)
 
     if isinstance(dofs, dict):
-        keys = dofs.keys()
-        n_elems = connectivity[next(iter(keys))].shape[0]
-        
+        # Only the fields present in this block contribute a residual here; the
+        # global accumulation (see assemble_residual) sums per field key.
+        keys = _block_field_keys(connectivity, dofs)
+        n_elems = connectivity[keys[0]].shape[0]
+
         # Initialize the residual dictionary
         residual = {}
 
@@ -365,8 +462,11 @@ def _get_residual(residual_contributions, connectivity, dofs):
             if dofs[key].ndim == 1:
                 dofs_per_node = 1
             else:
-                dofs_per_node = dofs[key].shape[-1]
+                dofs_per_node = int(dofs[key].size // dofs[key].shape[0])
             element_dofs = nodes_per_element * dofs_per_node
+            if element_dofs == 0:
+                residual[key] = jnp.zeros_like(dofs[key])
+                continue
 
             # Reshape rc
             rc = rc.reshape(n_elems, element_dofs)  # Shape: (n_elems, element_dofs)
@@ -435,118 +535,76 @@ def _get_residual(residual_contributions, connectivity, dofs):
 
         return residual
 
-def _make_elem_dofs_fun(dofs, elem):
-    """This function takes the function `dofs(t)` and returns basically lambda t: dofs(t)[elem].
-    
-    The difference is, that when this function is used under jacrev, it will allocate less memory.
-    Supports only as many derivatives as are defined via the custom_jvp decorators
+def _get_num_local_dofs(connectivity, dofs):
     """
-    # @custom_jvp
-    # def elem_dofs_ttt_f(t):
-    #     dofs_ttt_ = jacfwd(jacfwd(jacfwd(dofs)))(t)
-    #     elem_dofs_ttt_ = treemap(lambda x, y: x.at[y].get(), dofs_ttt_, elem)
-    #     return elem_dofs_ttt_
-    # @elem_dofs_ttt_f.defjvp
-    # def elem_dofs_ttt_jvp(primals, tangents):
-    #     t, = primals
-    #     t_dot, = tangents
-    #     elem_dofs_tttt = jacfwd(jacfwd(jacfwd(jacfwd(dofs))))(t)[elem]
-    #     return elem_dofs_ttt_f(t), treemap(lambda x: x * t_dot, elem_dofs_tttt)
-    # @custom_jvp
-    # def elem_dofs_tt_f(t):
-    #     dofs_tt_ = jacfwd(jacfwd(dofs))(t)
-    #     elem_dofs_tt_ = treemap(lambda x, y: x.at[y].get(), dofs_tt_, elem)
-    #     return elem_dofs_tt_
-    # @elem_dofs_tt_f.defjvp
-    # def elem_dofs_tt_jvp(primals, tangents):
-    #     t, = primals
-    #     t_dot, = tangents
-    #     elem_dofs_ttt = elem_dofs_ttt_f(t)
-    #     return elem_dofs_tt_f(t), treemap(lambda x: x * t_dot, elem_dofs_ttt)
-    # @custom_jvp
-    # def elem_dofs_t_f(t):
-    #     dofs_t_ = jacfwd(dofs)(t)
-    #     elem_dofs_t_ = treemap(lambda x, y: x.at[y].get(), dofs_t_, elem)
-    #     return elem_dofs_t_
-    # @elem_dofs_t_f.defjvp
-    # def elem_dofs_t_jvp(primals, tangents):
-    #     t, = primals
-    #     t_dot, = tangents
-    #     elem_dofs_tt = elem_dofs_tt_f(t)
-    #     return elem_dofs_t_f(t), treemap(lambda x: x * t_dot, elem_dofs_tt)
-    # @custom_jvp
-    # def elem_dofs_f(t):
-    #     dofs_ = dofs(t)
-    #     elem_dofs_ = treemap(lambda x, y: x.at[y].get(), dofs_, elem)
-    #     return elem_dofs_
-    # @elem_dofs_f.defjvp
-    # def elem_dofs_jvp(primals, tangents):
-    #     t, = primals
-    #     t_dot, = tangents
-    #     elem_dofs_t = elem_dofs_t_f(t)
-    #     return elem_dofs_f(t), treemap(lambda x: x * t_dot, elem_dofs_t)
-    # return elem_dofs_f
+    Determine the number of local degrees of freedom per element.
 
+    This is used by `_batched_map` to estimate a memory-aware batch size.
+    The result is a Python int and is derived purely from static shape
+    information of `connectivity` and `dofs`.
 
-    # @partial(custom_jvp, nondiff_argnums=(1, 2))
-    # def elem_dofs_ttt_f(t, dofs, elem):
-    #     dofs_ttt_ = jacfwd(jacfwd(jacfwd(dofs)))(t)
-    #     elem_dofs_ttt_ = treemap(lambda x, y: x.at[y].get(), dofs_ttt_, elem)
-    #     return elem_dofs_ttt_
-    # @elem_dofs_ttt_f.defjvp
-    # def elem_dofs_ttt_jvp(dofs, elem, primals, tangents):
-    #     t, = primals
-    #     t_dot, = tangents
-    #     elem_dofs_tttt = jacfwd(jacfwd(jacfwd(jacfwd(dofs))))(t)[elem]
-    #     return elem_dofs_ttt_f(t, dofs, elem), treemap(lambda x: x * t_dot, elem_dofs_tttt)
-    # @partial(custom_jvp, nondiff_argnums=(1, 2))
-    # def elem_dofs_tt_f(t, dofs, elem):
-    #     dofs_tt_ = jacfwd(jacfwd(dofs))(t)
-    #     elem_dofs_tt_ = treemap(lambda x, y: x.at[y].get(), dofs_tt_, elem)
-    #     return elem_dofs_tt_
-    # @elem_dofs_tt_f.defjvp
-    # def elem_dofs_tt_jvp(dofs, elem, primals, tangents):
-    #     t, = primals
-    #     t_dot, = tangents
-    #     elem_dofs_ttt = elem_dofs_ttt_f(t, dofs, elem)
-    #     return elem_dofs_tt_f(t, dofs, elem), treemap(lambda x: x * t_dot, elem_dofs_ttt)
-    @partial(custom_jvp, nondiff_argnums=(1, 2))
-    def elem_dofs_f(t, dofs, elem):
-        dofs_ = dofs(t)
-        elem_dofs_ = treemap(lambda x, y: x[y], dofs_, elem)
-        return elem_dofs_
-    @elem_dofs_f.defjvp
-    def elem_dofs_jvp(dofs, elem, primals, tangents):
-        t, = primals
-        t_dot, = tangents
+    Args:
+        connectivity (jnp.ndarray or dict): Element connectivity. For dict DOFs,
+            this must contain one connectivity array per DOF field.
+        dofs (jnp.ndarray, dict or _q_fun_state): Global degrees of freedom.
 
-        # @partial(custom_jvp, nondiff_argnums=(1, 2))
-        # def elem_dofs_t_f(t, dofs, elem):
-        #     dofs_t_ = jacfwd(dofs)(t)
-        #     elem_dofs_t_ = treemap(lambda x, y: x.at[y].get(), dofs_t_, elem)
-        #     return elem_dofs_t_
-        # @elem_dofs_t_f.defjvp
-        # def elem_dofs_t_jvp(dofs, elem, primals, tangents):
-        #     t, = primals
-        #     t_dot, = tangents
-        #     # elem_dofs_tt = elem_dofs_tt_f(t, dofs, elem)
-        #     elem_dofs_tt = jacfwd(jacfwd(dofs))(t)[elem]
-        #     return elem_dofs_t_f(t, dofs, elem), treemap(lambda x: x * t_dot, elem_dofs_tt)
+    Returns:
+        int: Number of local DOFs on one element.
+    """
+    dofs = _dofs_reference(dofs)
 
-        # elem_dofs_t = elem_dofs_t_f(t, dofs, elem)
-        elem_dofs_t = treemap(lambda a, b: a[b], jacfwd(dofs)(t), elem)
-        return elem_dofs_f(t, dofs, elem), treemap(lambda x: x * t_dot, elem_dofs_t)
-    local_dofs_fun = lambda t: elem_dofs_f(t, dofs, elem)
-    return local_dofs_fun
+    if isinstance(dofs, dict):
+        assert isinstance(
+            connectivity, dict
+        ), "If 'dofs' is a dict, 'connectivity' must also be a dict."
 
-def _batched_map(fun, elem_numbers, connectivity):
+        num_local_dofs = 0
+
+        for key in _block_field_keys(connectivity, dofs):
+            field_dofs = dofs[key]
+            conn = connectivity[key]
+
+            # Expected shape: (num_elems, nodes_per_element)
+            nodes_per_element = int(conn.shape[1])
+
+            if field_dofs.ndim == 1:
+                dofs_per_node = 1
+            else:
+                dofs_per_node = int(field_dofs.size // field_dofs.shape[0])
+
+            num_local_dofs += nodes_per_element * dofs_per_node
+
+        return int(num_local_dofs)
+
+    else:
+        # Expected shape: (num_elems, nodes_per_element)
+        nodes_per_element = int(connectivity.shape[1])
+
+        if dofs.ndim == 1:
+            dofs_per_node = 1
+        else:
+            dofs_per_node = int(dofs.size // dofs.shape[0])
+            # Equivalent for usual shape (num_nodes, n_components):
+            # dofs_per_node = int(dofs.shape[-1])
+
+        return int(nodes_per_element * dofs_per_node)
+
+# TODO: check performance for different element orders and numbers for residual and tangent assembly
+def _batched_map(fun, elem_numbers, connectivity, num_local_dofs):
+    # In order to save memory map over batches
     body_fun = lambda i: fun(elem_numbers[i], jax.tree.map(lambda x: x[i], connectivity))
-    num_dofs_per_elem = jax.eval_shape(lambda i: dict_flatten(body_fun(i)), 0).shape[0]
-    return jax.lax.map(body_fun, jnp.arange(elem_numbers.shape[0]), batch_size=int(64000/num_dofs_per_elem))
-
+    # num_local_dofs = jax.eval_shape(lambda i: dict_flatten(body_fun(i)), 0).shape[0]
+    if any(0 in getattr(leaf, "shape", ()) for leaf in jax.tree_util.tree_leaves(connectivity)):
+        return vmap(fun, (0, 0), (0))(elem_numbers, connectivity)
+    num_local_dofs = max(int(num_local_dofs), 1)
+    batch_size = int(2097152/num_local_dofs)
+    batch_size = 2 ** int(np.ceil(np.log2(batch_size)))
+    batch_size = min(elem_numbers.shape[0], batch_size)
+    # print("batch size: ", batch_size)
+    return jax.lax.map(body_fun, jnp.arange(elem_numbers.shape[0]), batch_size=batch_size)
 
 ### General assembling functions
-@jit_with_docstring(static_argnames=["static_settings"], possibly_static_argnames=['dofs'])
+@jit_with_docstring(static_argnames=["static_settings"])
 def integrate_functional(dofs, settings, static_settings):
     """
     Integrate functional as sum over set of domains.
@@ -584,14 +642,13 @@ def integrate_functional(dofs, settings, static_settings):
 
     return integrated_functional
 
-@jit_with_docstring(static_argnames=["static_settings"], possibly_static_argnames=['dofs'])
+@jit_with_docstring(static_argnames=["static_settings"])
 def assemble_residual(dofs, settings, static_settings):
     """
     Assemble residuals over set of domains.
 
     Args:
-      dofs (jnp.ndarray or dict or callable): Degrees of freedom. 
-        Can be a function of time for transient problems in combination with user_residuals.
+      dofs (jnp.ndarray, dict or _q_fun_state): Degrees of freedom.
       settings (dict): Settings dictionary.
       static_settings (flax.core.FrozenDict): Static settings as frozen dictionary.
 
@@ -600,16 +657,16 @@ def assemble_residual(dofs, settings, static_settings):
     """
     # Loop over all sets of integration points/ domains
     num_sets = len(static_settings["assembling mode"])
+    dofs_ref = _dofs_reference(dofs)
 
-    if isinstance(dofs(0.), dict) if callable(dofs) else isinstance(dofs, dict):
-        assert all([isinstance(settings['connectivity'][0], dict),
-                    isinstance(settings['node coordinates'], dict)]), \
-                    "If the DOFs are a dict, the connectivity, node coordinates, dirichlet dofs, and dirichlet conditions must also be dicts."
+    if isinstance(dofs_ref, dict):
+        assert isinstance(settings['connectivity'][0], dict), \
+                    "If the DOFs are a dict, the connectivity, dirichlet dofs, and dirichlet conditions must also be dicts."
+        # assert all([isinstance(settings['connectivity'][0], dict),
+        #             isinstance(settings['node coordinates'], dict)]), \
+        #             "If the DOFs are a dict, the connectivity, node coordinates, dirichlet dofs, and dirichlet conditions must also be dicts."
         
-    if callable(dofs):
-        integrated_residual = dict_zeros_like(dofs(0.))
-    else:
-        integrated_residual = dict_zeros_like(dofs)
+    integrated_residual = dict_zeros_like(dofs_ref)
     for set in range(num_sets):
         assembling_mode = static_settings["assembling mode"][set]
 
@@ -630,13 +687,14 @@ def assemble_residual(dofs, settings, static_settings):
 
         # Handle both cases dict and jnp.ndarray
         if isinstance(add, dict):
-            integrated_residual = treemap(lambda x, y: x + y, integrated_residual, add)
+            for key in add.keys():
+                integrated_residual[key] = integrated_residual[key] + add[key]
         else:
             integrated_residual += add
 
     return integrated_residual
 
-@jit_with_docstring(static_argnames=["static_settings"], possibly_static_argnames=['dofs'])
+@jit_with_docstring(static_argnames=["static_settings"])
 def assemble_tangent_diagonal(dofs, settings, static_settings):
     """
     Assemble the diagonal of the tangent matrix.
@@ -651,10 +709,7 @@ def assemble_tangent_diagonal(dofs, settings, static_settings):
     """
     # Loop over all sets of integration points/ domains
     num_sets = len(static_settings["assembling mode"])
-    if callable(dofs):
-        tangent_diagonal = jnp.zeros_like(dict_flatten(dofs(0.)))
-    else:
-        tangent_diagonal = jnp.zeros_like(dict_flatten(dofs))
+    tangent_diagonal = jnp.zeros_like(dict_flatten(_dofs_reference(dofs)))
     for set in range(num_sets):
         assembling_mode = static_settings["assembling mode"][set]
         if assembling_mode == "sparse":
@@ -679,7 +734,7 @@ def assemble_tangent_diagonal(dofs, settings, static_settings):
             ), "Assembling mode for assembling tangent diagonal supports currently only 'sparse' and 'user element'"
     return tangent_diagonal
 
-@jit_with_docstring(static_argnames=["static_settings"], possibly_static_argnames=['dofs'])
+@jit_with_docstring(static_argnames=["static_settings"])
 def assemble_tangent(dofs, settings, static_settings):
     """
     Assemble the full (possibly sparse) tangent matrix.
@@ -696,12 +751,14 @@ def assemble_tangent(dofs, settings, static_settings):
 
     num_sets = len(static_settings["assembling mode"])
     one_dense = "dense" in static_settings["assembling mode"]
+    dofs_ref = _dofs_reference(dofs)
 
-    if isinstance(dofs, dict):
-        num_dofs = sum(v.size for v in dofs.values())
+    if isinstance(dofs_ref, dict):
+        num_dofs = sum(v.size for v in dofs_ref.values())
+        float_dtype = list(dofs_ref.values())[0].dtype
     else:
-        num_dofs = dofs.size
-
+        num_dofs = dofs_ref.size
+        float_dtype = dofs_ref.dtype
     try:
         sparsity_pattern = static_settings["known sparsity pattern"]
     except KeyError:
@@ -710,10 +767,10 @@ def assemble_tangent(dofs, settings, static_settings):
     match sparsity_pattern:
         case "none":
             if one_dense:
-                integrated_tangent = jnp.zeros((num_dofs, num_dofs))
+                integrated_tangent = jnp.zeros((num_dofs, num_dofs), dtype=float_dtype)
             else:
                 integrated_tangent = sparse.empty(
-                    (num_dofs, num_dofs), dtype=float, index_dtype=jnp.int_
+                    (num_dofs, num_dofs), dtype=float_dtype, index_dtype=int
                 )
 
             # Loop over all sets of integration points/ domains
@@ -776,9 +833,157 @@ def assemble_tangent(dofs, settings, static_settings):
 
     return integrated_tangent
 
+### Initialization of template for deleting duplicates in the tangent
+def _build_assembling_template_from_indices(indices, shape, settings, static_settings):
+    """
+    Build the assembling template from sparse matrix indices with duplicate entries.
+    """
+    n_rows, n_cols = shape
+
+    if indices.size == 0:
+        assembling_template = AssemblingTemplate(
+            nnz=0,
+            col_sorted=jnp.zeros((0,), dtype=int),
+            indptr=jnp.zeros((int(n_rows) + 1,), dtype=int),
+            scatter=jnp.zeros((0,), dtype=int),
+            indices_unique=jnp.zeros((0, 2), dtype=int),
+        )
+    else:
+        def _np_sort_key_val(keys, raw_pos):
+            perm = np.argsort(np.asarray(keys), kind="stable")
+            return np.asarray(keys)[perm], np.asarray(raw_pos)[perm]
+        def sort_key_val_with_cpu_fallback(keys, raw_pos):
+            if jax.default_backend() != "cpu":
+                return jax.lax.sort_key_val(keys, raw_pos, is_stable=False)
+            out = (
+                jax.ShapeDtypeStruct(keys.shape, keys.dtype),
+                jax.ShapeDtypeStruct(raw_pos.shape, raw_pos.dtype),
+            )
+            return jax.pure_callback(_np_sort_key_val, out, keys, raw_pos)
+
+        @partial(jax.jit, static_argnames=("n_rows", "n_cols"))
+        def _assemble_stage1(indices, *, n_rows: int, n_cols: int):
+            n = indices.shape[0]
+
+            max_key = np.int64(n_rows - 1) * np.int64(n_cols) + np.int64(n_cols - 1)
+            key_dtype = jnp.uint32 if max_key <= np.iinfo(np.uint32).max else jnp.uint64
+
+            row = indices[:, 0].astype(key_dtype)
+            col = indices[:, 1].astype(key_dtype)
+            keys = row * jnp.asarray(n_cols, dtype=key_dtype) + col
+
+            raw_pos = jnp.arange(n, dtype=int)
+
+            # keys_sorted, perm = jax.lax.sort_key_val(keys, raw_pos, is_stable=False)
+            keys_sorted, perm = sort_key_val_with_cpu_fallback(keys, raw_pos)
+
+            is_new = jnp.concatenate([
+                jnp.array([True], dtype=bool),
+                keys_sorted[1:] != keys_sorted[:-1],
+            ])
+            scatter_sorted = jnp.cumsum(is_new.astype(int)) - 1
+
+            scatter = jnp.empty(n, dtype=int)
+            scatter = scatter.at[perm].set(scatter_sorted)
+
+            return keys_sorted, is_new, scatter
+
+        @partial(jax.jit, static_argnames=("n_rows", "n_cols"))
+        def _assemble_stage2(unique_keys, *, n_rows: int, n_cols: int):
+            key_dtype = unique_keys.dtype
+            n_cols_t = jnp.asarray(n_cols, dtype=key_dtype)
+
+            row_unique = (unique_keys // n_cols_t).astype(int)
+            col_unique = (unique_keys %  n_cols_t).astype(int)
+
+            counts_row = jnp.bincount(row_unique, length=n_rows).astype(int)
+
+            indptr = jnp.empty(n_rows + 1, dtype=int)
+            indptr = indptr.at[0].set(0)
+            indptr = indptr.at[1:].set(jnp.cumsum(counts_row))
+
+            indices_unique = jnp.stack([row_unique, col_unique], axis=1)
+
+            return col_unique, indptr, indices_unique
+
+        n_cols = int(n_cols)
+        keys_sorted, is_new, scatter = _assemble_stage1(
+            indices,
+            n_rows=n_rows,
+            n_cols=n_cols,
+        )
+        unique_keys = keys_sorted[is_new]
+        col_unique, indptr, indices_unique = _assemble_stage2(
+            unique_keys,
+            n_rows=n_rows,
+            n_cols=n_cols,
+        )
+        assembling_template = AssemblingTemplate(
+            nnz=int(unique_keys.shape[0]),
+            col_sorted=col_unique,
+            indptr=indptr,
+            scatter=scatter,
+            indices_unique=indices_unique,
+        )
+
+    settings["assembling template"] = assembling_template
+    static_settings = static_settings.copy(
+        add_or_replace={"assembling kernel": _make_assembling_kernel(assembling_template.nnz)}
+    )
+    return settings, static_settings
+
+def _build_assembling_template_from_connectivity(initial_guess, settings, static_settings):
+    """
+    Build the sparse assembly template from connectivity only.
+
+    The template depends on the global DOF layout and element connectivity, not on
+    model values. Avoiding tangent assembly here saves an expensive prepare-time
+    trace/compile.
+    """
+    connectivity = settings["connectivity"]
+    if not isinstance(connectivity, tuple):
+        connectivity = (connectivity,)
+    indices = jnp.concatenate(
+        [_get_indices(conn, initial_guess) for conn in connectivity],
+        axis=0,
+    )
+    num_dofs = sum(v.size for v in initial_guess.values()) if isinstance(initial_guess, dict) else initial_guess.size
+    return _build_assembling_template_from_indices(
+        indices,
+        (num_dofs, num_dofs),
+        settings,
+        static_settings,
+    )
+
+def build_assembling_template(initial_guess, settings, static_settings):
+    """
+    Builds a template for summing duplicate entries directly from connectivity
+    and stores the result in `settings` and `static_settings`.
+
+    Input
+    -----
+    initial_guess : dict
+        Initial guess for the DOFs.
+    settings : dict
+        Runtime settings dictionary. Will be returned with an added entry
+        "assembling template".
+    static_settings : flax.core.FrozenDict
+        Static settings dictionary. Will be returned with an added entry
+        "assembling kernel".
+
+    Returns
+    -------
+    settings : dict
+        Updated settings including the assembling template.
+    static_settings : flax.core.FrozenDict
+        Updated static_settings including the assembling kernel.
+    """
+
+    return _build_assembling_template_from_connectivity(initial_guess, settings, static_settings)
+
 
 ### Dense assembling
-@jit_with_docstring(static_argnames=["static_settings", "set"], possibly_static_argnames=['dofs'])
+@jit_with_docstring(static_argnames=["static_settings", "set"])
 def dense_integrate_functional(dofs, settings, static_settings, set):
     """
     Dense integration of functional of specified domain.
@@ -806,7 +1011,7 @@ def dense_integrate_functional(dofs, settings, static_settings, set):
 
     return integrated_functional
 
-@jit_with_docstring(static_argnames=["static_settings", "set"], possibly_static_argnames=['dofs'])
+@jit_with_docstring(static_argnames=["static_settings", "set"])
 def dense_assemble_residual(dofs, settings, static_settings, set):
     """
     Dense assembly of residual of specified domain.
@@ -822,7 +1027,7 @@ def dense_assemble_residual(dofs, settings, static_settings, set):
     """
     return jacrev(dense_integrate_functional)(dofs, settings, static_settings, set)
 
-@jit_with_docstring(static_argnames=["static_settings", "set"], possibly_static_argnames=['dofs'])
+@jit_with_docstring(static_argnames=["static_settings", "set"])
 def dense_assemble_tangent(dofs, settings, static_settings, set):
     """
     Dense assembly of tangent of specified domain.
@@ -846,7 +1051,7 @@ def dense_assemble_tangent(dofs, settings, static_settings, set):
 
 
 ### Sparse assembling
-@jit_with_docstring(static_argnames=["static_settings", "set"], possibly_static_argnames=['dofs'])
+@jit_with_docstring(static_argnames=["static_settings", "set"])
 def sparse_integrate_functional(dofs, settings, static_settings, set):
     """
     Sparse integration of functional of specified domain.
@@ -871,7 +1076,7 @@ def sparse_integrate_functional(dofs, settings, static_settings, set):
     functional_at_int_point_vj = vmap(func_at_int_pt, (0,))
     return functional_at_int_point_vj(int_point_numbers).sum()
 
-@jit_with_docstring(static_argnames=["static_settings", "set"], possibly_static_argnames=['dofs'])
+@jit_with_docstring(static_argnames=["static_settings", "set"])
 def sparse_assemble_residual(dofs, settings, static_settings, set):
     """
     Sparse assembly of residual of specified domain.
@@ -923,7 +1128,7 @@ def sparse_assemble_residual(dofs, settings, static_settings, set):
         raise KeyError("Variational scheme not or wrongly specified!")
     return _get_residual(residual_contributions, connectivity, dofs)
 
-@jit_with_docstring(static_argnames=["static_settings", "set"], possibly_static_argnames=['dofs'])
+@jit_with_docstring(static_argnames=["static_settings", "set"])
 def sparse_assemble_tangent_diagonal(dofs, settings, static_settings, set):
     """
     Sparse assembly of the diagonal of the tangent matrix for specified set.
@@ -975,7 +1180,7 @@ def sparse_assemble_tangent_diagonal(dofs, settings, static_settings, set):
 
     return _get_tangent_diagonal(tangent_contributions, connectivity, dofs)
 
-@jit_with_docstring(static_argnames=["static_settings", "set"], possibly_static_argnames=['dofs'])
+@jit_with_docstring(static_argnames=["static_settings", "set"])
 def sparse_assemble_tangent(dofs, settings, static_settings, set):
     """
     Sparse assembly of the full tangent matrix of specified domain.
@@ -1028,21 +1233,19 @@ def sparse_assemble_tangent(dofs, settings, static_settings, set):
     # Assembling (without summing duplicates)
     data = dict_flatten(tangent_contributions)
     indices = _get_indices(connectivity, dofs)
-    num_dofs = (
-        dofs.size if not isinstance(dofs, dict) else sum(v.size for v in dofs.values())
-    )
+    num_dofs = _num_dofs(dofs)
     tangent_matrix = sparse.BCOO((data, indices), shape=(num_dofs, num_dofs))
     return tangent_matrix
 
 
 ### Assembling for user potentials
-@jit_with_docstring(static_argnames=["static_settings", "set"], possibly_static_argnames=['dofs'])
+@jit_with_docstring(static_argnames=["static_settings", "set"])
 def user_potential_integrate_functional(dofs, settings, static_settings, set):
     """
     Assembly of potential for custom user definition of specified domain.
 
     Args:
-      dofs (jnp.ndarray or dict or callable): Degrees of freedom. Can be a function of time for transient problems.
+      dofs (jnp.ndarray, dict or _q_fun_state): Degrees of freedom.
       settings (dict): Settings dictionary.
       static_settings (flax.core.FrozenDict): Static settings as frozen dictionary.
       set (int): The domain number.
@@ -1061,7 +1264,7 @@ def user_potential_integrate_functional(dofs, settings, static_settings, set):
 
     return functional_contributions.sum()
 
-@jit_with_docstring(static_argnames=["static_settings", "set"], possibly_static_argnames=['dofs'])
+@jit_with_docstring(static_argnames=["static_settings", "set"])
 def user_potential_assemble_residual(dofs, settings, static_settings, set):
     """
     Assembly of residual for custom user potential of specified domain.
@@ -1075,6 +1278,8 @@ def user_potential_assemble_residual(dofs, settings, static_settings, set):
     Returns:
       jnp.ndarray: The assembled residual.
     """
+    # return jacrev(user_potential_integrate_functional)(dofs, settings, static_settings, set)
+
     model_fun, x_nodes, elem_numbers, connectivity = _get_element_quantities(dofs, settings, static_settings, set)
 
     # Modify the model_fun such that it extracts the DOFs from the global dofs and vmap only over connectivity
@@ -1082,12 +1287,15 @@ def user_potential_assemble_residual(dofs, settings, static_settings, set):
         local_dofs, local_node_coor = _extract_local_dofs_and_coor(dofs, node_list, x_nodes)
         return  jacrev(model_fun)(local_dofs, local_node_coor, elem_number, settings, static_settings, set)
 
-    # residual_contributions = vmap(element_residual, (0, 0))(elem_numbers, connectivity)
-    residual_contributions = _batched_map(element_residual, elem_numbers, connectivity)
+    no_local_dofs = _get_num_local_dofs(connectivity, dofs)
 
+    # residual_contributions = vmap(element_residual, (0, 0))(elem_numbers, connectivity)
+    residual_contributions = _batched_map(element_residual, elem_numbers, connectivity, no_local_dofs)
+
+    # return residual_contributions
     return _get_residual(residual_contributions, connectivity, dofs)
 
-@jit_with_docstring(static_argnames=["static_settings", "set"], possibly_static_argnames=['dofs'])
+@jit_with_docstring(static_argnames=["static_settings", "set"])
 def user_potential_assemble_tangent_diagonal(dofs, settings, static_settings, set):
     """
     Assembly of the diagonal of the tangent matrix for custom user potential of specified domain.
@@ -1112,7 +1320,7 @@ def user_potential_assemble_tangent_diagonal(dofs, settings, static_settings, se
 
     return _get_tangent_diagonal(tangent_contributions, connectivity, dofs)
 
-@jit_with_docstring(static_argnames=["static_settings", "set"], possibly_static_argnames=['dofs'])
+@jit_with_docstring(static_argnames=["static_settings", "set"])
 def user_potential_assemble_tangent(dofs, settings, static_settings, set):
     """
     Assembly of the full (sparse) tangent matrix for custom user potential of specified domain.
@@ -1133,22 +1341,16 @@ def user_potential_assemble_tangent(dofs, settings, static_settings, set):
         local_dofs, local_node_coor = _extract_local_dofs_and_coor(dofs, node_list, x_nodes)
         return  jacfwd(jacrev(model_fun))(local_dofs, local_node_coor, elem_number, settings, static_settings, set)
 
-    # tangent_contributions = vmap(element_tangent, (0, 0), (0))(elem_numbers, connectivity)
-
-    body_fun = lambda i: element_tangent(elem_numbers[i], jax.tree.map(lambda x: x[i], connectivity))
-    num_dofs_per_elem = jax.eval_shape(lambda i: dict_flatten(body_fun(i)), 0).shape[0]
-    tangent_contributions = jax.lax.map(body_fun, jnp.arange(elem_numbers.shape[0]), batch_size=int(64000/num_dofs_per_elem))
+    tangent_contributions = vmap(element_tangent, (0, 0), (0))(elem_numbers, connectivity)
 
     data = dict_flatten(tangent_contributions)
     indices = _get_indices(connectivity, dofs)
-    num_dofs = (
-        dofs.size if not isinstance(dofs, dict) else sum(v.size for v in dofs.values())
-    )
+    num_dofs = _num_dofs(dofs)
 
     tangent_matrix = sparse.BCOO((data, indices), shape=(num_dofs, num_dofs))
     return tangent_matrix
 
-@jit_with_docstring(static_argnames=["static_settings", "set"], possibly_static_argnames=['dofs'])
+@jit_with_docstring(static_argnames=["static_settings", "set"])
 def _user_potential_assemble_r_and_t(dofs, settings, static_settings, set):
     model_fun, x_nodes, elem_numbers, connectivity = _get_element_quantities(dofs, settings, static_settings, set)
 
@@ -1157,8 +1359,9 @@ def _user_potential_assemble_r_and_t(dofs, settings, static_settings, set):
         local_dofs, local_node_coor = _extract_local_dofs_and_coor(dofs, node_list, x_nodes)
         residual_fun = lambda x: jacrev(model_fun)(x, local_node_coor, elem_number, settings, static_settings, set)
 
-        elem_res = residual_fun(local_dofs)
-        elem_tan = jacfwd(residual_fun)(local_dofs)
+        # residual_fun = jax.jit(residual_fun)
+        # elem_res = residual_fun(local_dofs)
+        # elem_tan = jacfwd(residual_fun)(local_dofs)
 
         # def residual_and_tangent_linearize(residual_fun, local_dofs):
         #     primals, lin_fun = linearize(residual_fun, local_dofs)            
@@ -1169,17 +1372,17 @@ def _user_potential_assemble_r_and_t(dofs, settings, static_settings, set):
         #     return primals, jacobian
         # elem_res, elem_tan = residual_and_tangent_linearize(residual_fun, local_dofs)
 
-        # def residual_and_tangent(residual_fun, local_dofs):
-        #     flat_local_dofs = dict_flatten(local_dofs)
-        #     n = flat_local_dofs.shape[0]
-        #     identity = jnp.eye(n)
-        #     def jvp_with_flat_tangent(v):
-        #         tangent_pytree = reshape_as(v, local_dofs)
-        #         return jvp(residual_fun, (local_dofs,), (tangent_pytree,))
-        #     primals, elem_tan = vmap(jvp_with_flat_tangent)(identity)
-        #     elem_res = treemap(lambda x: x[0], primals)
-        #     return elem_res, elem_tan        
-        # elem_res, elem_tan = residual_and_tangent(residual_fun, local_dofs)
+        def residual_and_tangent(residual_fun, local_dofs):
+            flat_local_dofs = dict_flatten(local_dofs)
+            n = flat_local_dofs.shape[0]
+            identity = jnp.eye(n)
+            def jvp_with_flat_tangent(v):
+                tangent_pytree = reshape_as(v, local_dofs)
+                return jvp(residual_fun, (local_dofs,), (tangent_pytree,))
+            primals, elem_tan = vmap(jvp_with_flat_tangent)(identity)
+            elem_res = treemap(lambda x: x[0], primals)
+            return elem_res, elem_tan        
+        elem_res, elem_tan = residual_and_tangent(residual_fun, local_dofs)
 
         # def residual_and_tangent_vjp(residual_fun, local_dofs):
         #     primals, vjp_fun = vjp(residual_fun, local_dofs)          
@@ -1204,22 +1407,20 @@ def _user_potential_assemble_r_and_t(dofs, settings, static_settings, set):
 
     data = dict_flatten(tangent_contributions)
     indices = _get_indices(connectivity, dofs)
-    num_dofs = (
-        dofs.size if not isinstance(dofs, dict) else sum(v.size for v in dofs.values())
-    )
+    num_dofs = _num_dofs(dofs)
 
     tangent_matrix = sparse.BCOO((data, indices), shape=(num_dofs, num_dofs))
     return residual, tangent_matrix
 
 
 ### Assembling for user residuals
-@jit_with_docstring(static_argnames=["static_settings", "set"], possibly_static_argnames=['dofs'])
+@jit_with_docstring(static_argnames=["static_settings", "set"])
 def user_residual_assemble_residual(dofs, settings, static_settings, set):
     """
     Assembly of residual for custom user residual of specified domain.
 
     Args:
-      dofs (jnp.ndarray or dict or callable): Degrees of freedom. Can be a function of time for transient problems.
+      dofs (jnp.ndarray, dict or _q_fun_state): Degrees of freedom.
       settings (dict): Settings dictionary.
       static_settings (flax.core.FrozenDict): Static settings as frozen dictionary.
       set (int): The domain number.
@@ -1234,15 +1435,14 @@ def user_residual_assemble_residual(dofs, settings, static_settings, set):
         local_dofs, local_node_coor = _extract_local_dofs_and_coor(dofs, node_list, x_nodes)
         return  model_fun(local_dofs, local_node_coor, elem_number, settings, static_settings, set)
     
+    no_local_dofs = _get_num_local_dofs(connectivity, dofs)
+
     # residual_contributions = vmap(element_residual, (0, 0), (0))(elem_numbers, connectivity)
+    residual_contributions = _batched_map(element_residual, elem_numbers, connectivity, no_local_dofs)
 
-    body_fun = lambda i: element_residual(elem_numbers[i], jax.tree.map(lambda x: x[i], connectivity))
-    num_dofs_per_elem = jax.eval_shape(lambda i: dict_flatten(body_fun(i)), 0).shape[0]
-    residual_contributions = jax.lax.map(body_fun, jnp.arange(elem_numbers.shape[0]), batch_size=int(64000/num_dofs_per_elem))
+    return _get_residual(residual_contributions, connectivity, dofs)
 
-    return _get_residual(residual_contributions, connectivity, dofs(0.) if callable(dofs) else dofs)
-
-@jit_with_docstring(static_argnames=["static_settings", "set"], possibly_static_argnames=['dofs'])
+@jit_with_docstring(static_argnames=["static_settings", "set"])
 def user_residual_assemble_tangent_diagonal(dofs, settings, static_settings, set):
     """
     Assembly of the diagonal of the tangent matrix for custom user residual of specified domain.
@@ -1267,7 +1467,7 @@ def user_residual_assemble_tangent_diagonal(dofs, settings, static_settings, set
 
     return _get_tangent_diagonal(tangent_contributions, connectivity, dofs)
 
-@jit_with_docstring(static_argnames=["static_settings", "set"], possibly_static_argnames=['dofs'])
+@jit_with_docstring(static_argnames=["static_settings", "set"])
 def user_residual_assemble_tangent(dofs, settings, static_settings, set):
     """
     Assembly of the full (sparse) tangent matrix for custom user residual of specified domain.
@@ -1293,21 +1493,13 @@ def user_residual_assemble_tangent(dofs, settings, static_settings, set):
     data = dict_flatten(tangent_contributions)
     indices = _get_indices(connectivity, dofs)
 
-    if callable(dofs):
-        dofs0 = dofs(0.)
-        num_dofs = (
-        dofs0.size if not isinstance(dofs0, dict) else sum(v.size for v in dofs0.values())
-        )
-    else:
-        num_dofs = (
-            dofs.size if not isinstance(dofs, dict) else sum(v.size for v in dofs.values())
-        )
+    num_dofs = _num_dofs(dofs)
     tangent_matrix = sparse.BCOO((data, indices), shape=(num_dofs, num_dofs))
     return tangent_matrix
 
 
 ### Assembling for user elements
-@jit_with_docstring(static_argnames=["static_settings", "set"], possibly_static_argnames=['dofs'])
+@jit_with_docstring(static_argnames=["static_settings", "set"])
 def user_element_assemble_residual(dofs, settings, static_settings, set):
     """
     Assembly of residual for custom user element of specified domain.
@@ -1332,7 +1524,7 @@ def user_element_assemble_residual(dofs, settings, static_settings, set):
 
     return _get_residual(residual_contributions, connectivity, dofs)
 
-@jit_with_docstring(static_argnames=["static_settings", "set"], possibly_static_argnames=['dofs'])
+@jit_with_docstring(static_argnames=["static_settings", "set"])
 def user_element_assemble_tangent_diagonal(dofs, settings, static_settings, set):
     """
     Assembly of the diagonal of the tangent matrix for custom user element of specified domain.
@@ -1357,7 +1549,7 @@ def user_element_assemble_tangent_diagonal(dofs, settings, static_settings, set)
 
     return _get_tangent_diagonal(tangent_contributions, connectivity, dofs)
 
-@jit_with_docstring(static_argnames=["static_settings", "set"], possibly_static_argnames=['dofs'])
+@jit_with_docstring(static_argnames=["static_settings", "set"])
 def user_element_assemble_tangent(dofs, settings, static_settings, set):
     """
     Assembly of the full (sparse) tangent matrix for custom user element of specified domain.
@@ -1382,15 +1574,13 @@ def user_element_assemble_tangent(dofs, settings, static_settings, set):
 
     data = dict_flatten(tangent_contributions)
     indices = _get_indices(connectivity, dofs)
-    num_dofs = (
-        dofs.size if not isinstance(dofs, dict) else sum(v.size for v in dofs.values())
-    )
+    num_dofs = _num_dofs(dofs)
     tangent_matrix = sparse.BCOO((data, indices), shape=(num_dofs, num_dofs))
     return tangent_matrix
 
 
 ### Internal variable update function
-@jit_with_docstring(static_argnames=["static_settings", "set"], possibly_static_argnames=['dofs'])
+@jit_with_docstring(static_argnames=["static_settings", "set"])
 def get_int_var_updates(dofs, settings, static_settings, set):
     """
     Get the internal variables for a specified domain for all elements and integration points.

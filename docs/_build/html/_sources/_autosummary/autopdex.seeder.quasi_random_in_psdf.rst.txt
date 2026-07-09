@@ -1,6 +1,0 @@
-﻿autopdex.seeder.quasi\_random\_in\_psdf
-=======================================
-
-.. currentmodule:: autopdex.seeder
-
-.. autofunction:: quasi_random_in_psdf

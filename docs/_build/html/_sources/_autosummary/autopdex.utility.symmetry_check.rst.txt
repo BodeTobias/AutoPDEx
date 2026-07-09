@@ -1,6 +1,0 @@
-﻿autopdex.utility.symmetry\_check
-================================
-
-.. currentmodule:: autopdex.utility
-
-.. autofunction:: symmetry_check

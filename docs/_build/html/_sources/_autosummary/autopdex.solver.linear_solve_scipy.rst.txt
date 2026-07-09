@@ -1,6 +1,0 @@
-﻿autopdex.solver.linear\_solve\_scipy
-====================================
-
-.. currentmodule:: autopdex.solver
-
-.. autofunction:: linear_solve_scipy

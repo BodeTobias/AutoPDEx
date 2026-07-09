@@ -1,6 +1,0 @@
-﻿autopdex.models.d\_alembert
-===========================
-
-.. currentmodule:: autopdex.models
-
-.. autofunction:: d_alembert

@@ -1,6 +1,0 @@
-﻿autopdex.solver.scipy\_assembling
-=================================
-
-.. currentmodule:: autopdex.solver
-
-.. autofunction:: scipy_assembling

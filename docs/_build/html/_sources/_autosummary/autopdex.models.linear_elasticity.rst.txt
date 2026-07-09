@@ -1,6 +1,0 @@
-﻿autopdex.models.linear\_elasticity
-==================================
-
-.. currentmodule:: autopdex.models
-
-.. autofunction:: linear_elasticity

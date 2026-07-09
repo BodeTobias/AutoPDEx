@@ -1,6 +1,0 @@
-﻿autopdex.seeder.int\_pts\_ref\_tri
-==================================
-
-.. currentmodule:: autopdex.seeder
-
-.. autofunction:: int_pts_ref_tri

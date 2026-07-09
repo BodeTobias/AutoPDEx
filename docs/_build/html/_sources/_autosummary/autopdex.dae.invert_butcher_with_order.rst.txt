@@ -1,6 +1,0 @@
-﻿autopdex.dae.invert\_butcher\_with\_order
-=========================================
-
-.. currentmodule:: autopdex.dae
-
-.. autofunction:: invert_butcher_with_order

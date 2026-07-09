@@ -1,6 +1,0 @@
-﻿autopdex.spaces.fem\_iso\_line\_quad\_brick
-===========================================
-
-.. currentmodule:: autopdex.spaces
-
-.. autofunction:: fem_iso_line_quad_brick

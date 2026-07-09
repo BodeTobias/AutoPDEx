@@ -22,6 +22,7 @@ The key functionalities of the seeder module include:
 import sys
 import math
 
+import numpy as np
 import jax
 import jax.numpy as jnp
 from jax import random
@@ -211,13 +212,14 @@ def gauss_points_in_psdf(
 
     # Quadrature rule on reference cell in the interval of [0, 1]
     if type == "gauss legendre":
-        roots_1d, weights_1d = gauss_legendre_1d(order)
+        roots_1d, weights_1d = jnp.asarray(gauss_legendre_1d(order))
         if n_dim == 1:
             roots_reference, weights_reference = roots_1d, weights_1d
         else:
             roots_reference, weights_reference = tensor_product_rule(
-                roots_1d, weights_1d, n_dim
+                np.asarray(roots_1d), np.asarray(weights_1d), n_dim
             )
+            roots_reference, weights_reference = jnp.asarray(roots_reference), jnp.asarray(weights_reference)
     else:
         assert False, "Quadrature rule not implemented."
 
@@ -299,7 +301,6 @@ def just_in_psdf(psdf, x_seeds, n_seeds, atol, w_int=None):
 
 
 ### Numerical integration
-@jit_with_docstring()
 def tensor_product_two_coordinate_arrays(xi, yi):
     """
     Computes the tensor product of two coordinate arrays.
@@ -311,9 +312,9 @@ def tensor_product_two_coordinate_arrays(xi, yi):
     Returns:
       tuple: Two arrays representing the tensor product of the input coordinates.
     """
-    xi_new = jnp.tile(xi, yi.shape[0])
+    xi_new = np.tile(xi, yi.shape[0])
     yi_new = (
-        jnp.tile(yi, xi.shape[0])
+        np.tile(yi, xi.shape[0])
         .reshape((xi.shape[0], yi.shape[0]))
         .transpose()
         .flatten()
@@ -336,8 +337,8 @@ def tensor_product_rule(roots_1d, weights_1d, dim):
     match dim:
         case 2:
             xi, yi = tensor_product_two_coordinate_arrays(roots_1d, roots_1d)
-            x_int = jnp.asarray([xi, yi]).transpose()
-            w_int = jnp.outer(weights_1d, weights_1d).flatten()
+            x_int = np.array([xi, yi]).transpose()
+            w_int = np.outer(weights_1d, weights_1d).flatten()
             return x_int, w_int
         case 3:
             xi_2d, yi_2d = tensor_product_two_coordinate_arrays(roots_1d, roots_1d)
@@ -345,9 +346,9 @@ def tensor_product_rule(roots_1d, weights_1d, dim):
             xi, zi = tensor_product_two_coordinate_arrays(xi_2d, roots_1d)
             yi, _ = tensor_product_two_coordinate_arrays(yi_2d, roots_1d)
 
-            x_int = jnp.asarray([xi, yi, zi]).transpose()
-            wi_2d = jnp.outer(weights_1d, weights_1d).flatten()
-            w_int = jnp.outer(wi_2d, weights_1d).flatten()
+            x_int = np.array([xi, yi, zi]).transpose()
+            wi_2d = np.outer(weights_1d, weights_1d).flatten()
+            w_int = np.outer(wi_2d, weights_1d).flatten()
             return x_int, w_int
         case 4:
             xi_2d, yi_2d = tensor_product_two_coordinate_arrays(roots_1d, roots_1d)
@@ -358,10 +359,10 @@ def tensor_product_rule(roots_1d, weights_1d, dim):
             yi, _ = tensor_product_two_coordinate_arrays(yi_3d, roots_1d)
             zi, _ = tensor_product_two_coordinate_arrays(zi_3d, roots_1d)
 
-            x_int = jnp.asarray([xi, yi, zi, ti]).transpose()
-            wi_2d = jnp.outer(weights_1d, weights_1d).flatten()
-            wi_3d = jnp.outer(wi_2d, weights_1d).flatten()
-            w_int = jnp.outer(wi_3d, weights_1d).flatten()
+            x_int = np.array([xi, yi, zi, ti]).transpose()
+            wi_2d = np.outer(weights_1d, weights_1d).flatten()
+            wi_3d = np.outer(wi_2d, weights_1d).flatten()
+            w_int = np.outer(wi_3d, weights_1d).flatten()
             return x_int, w_int
         case _:
             assert False, "Not implemented for this dimensionality!"
@@ -373,27 +374,27 @@ def gauss_legendre_1d(order):
 
     - Interval [0, 1]
     - accurate for polynomials up to order
-    - returns jnp.ceil((order + 1) / 2) integration points
+    - returns np.ceil((order + 1) / 2) integration points
     """
 
     match order:
-        case 1:
-            return (jnp.asarray([0.5]), jnp.asarray([1.0]))
+        case 0 | 1:
+            return (np.array([0.5]), np.array([1.0]))
         case 2 | 3:
             return (
-                jnp.asarray([0.21132486540518713, 0.7886751345948129]),
-                jnp.asarray([0.5, 0.5]),
+                np.array([0.21132486540518713, 0.7886751345948129]),
+                np.array([0.5, 0.5]),
             )
         case 4 | 5:
             return (
-                jnp.asarray([0.1127016653792583, 0.5, 0.8872983346207417]),
-                jnp.asarray(
+                np.array([0.1127016653792583, 0.5, 0.8872983346207417]),
+                np.array(
                     [0.2777777777777777, 0.44444444444444453, 0.2777777777777777]
                 ),
             )
         case 6 | 7:
             return (
-                jnp.asarray(
+                np.array(
                     [
                         0.06943184420297377,
                         0.33000947820757187,
@@ -401,7 +402,7 @@ def gauss_legendre_1d(order):
                         0.9305681557970262,
                     ]
                 ),
-                jnp.asarray(
+                np.array(
                     [
                         0.1739274225687273,
                         0.3260725774312727,
@@ -412,7 +413,7 @@ def gauss_legendre_1d(order):
             )
         case 8 | 9:
             return (
-                jnp.asarray(
+                np.array(
                     [
                         0.046910077030668074,
                         0.2307653449471585,
@@ -421,7 +422,7 @@ def gauss_legendre_1d(order):
                         0.9530899229693319,
                     ]
                 ),
-                jnp.asarray(
+                np.array(
                     [
                         0.11846344252809497,
                         0.23931433524968299,
@@ -433,7 +434,7 @@ def gauss_legendre_1d(order):
             )
         case 10 | 11:
             return (
-                jnp.asarray(
+                np.array(
                     [
                         0.033765242898423975,
                         0.16939530676686776,
@@ -443,7 +444,7 @@ def gauss_legendre_1d(order):
                         0.966234757101576,
                     ]
                 ),
-                jnp.asarray(
+                np.array(
                     [
                         0.08566224618958529,
                         0.18038078652406922,
@@ -456,7 +457,7 @@ def gauss_legendre_1d(order):
             )
         case 12 | 13:
             return (
-                jnp.asarray(
+                np.array(
                     [
                         0.025446043828620812,
                         0.12923440720030277,
@@ -467,7 +468,7 @@ def gauss_legendre_1d(order):
                         0.9745539561713792,
                     ]
                 ),
-                jnp.asarray(
+                np.array(
                     [
                         0.06474248308443546,
                         0.13985269574463816,
@@ -481,7 +482,7 @@ def gauss_legendre_1d(order):
             )
         case 14 | 15:
             return (
-                jnp.asarray(
+                np.array(
                     [
                         0.019855071751231912,
                         0.10166676129318664,
@@ -493,7 +494,7 @@ def gauss_legendre_1d(order):
                         0.9801449282487681,
                     ]
                 ),
-                jnp.asarray(
+                np.array(
                     [
                         0.05061426814518863,
                         0.11119051722668714,
@@ -508,7 +509,7 @@ def gauss_legendre_1d(order):
             )
         case 16 | 17:
             return (
-                jnp.asarray(
+                np.array(
                     [
                         0.015919880246186957,
                         0.08198444633668212,
@@ -521,7 +522,7 @@ def gauss_legendre_1d(order):
                         0.984080119753813,
                     ]
                 ),
-                jnp.asarray(
+                np.array(
                     [
                         0.04063719418078741,
                         0.09032408034742868,
@@ -537,7 +538,7 @@ def gauss_legendre_1d(order):
             )
         case 18 | 19:
             return (
-                jnp.asarray(
+                np.array(
                     [
                         0.013046735741414128,
                         0.06746831665550768,
@@ -551,7 +552,7 @@ def gauss_legendre_1d(order):
                         0.9869532642585859,
                     ]
                 ),
-                jnp.asarray(
+                np.array(
                     [
                         0.03333567215434388,
                         0.07472567457528995,
@@ -568,7 +569,7 @@ def gauss_legendre_1d(order):
             )
         case 20 | 21:
             return (
-                jnp.asarray(
+                np.array(
                     [
                         0.010885670926971514,
                         0.05646870011595234,
@@ -583,7 +584,7 @@ def gauss_legendre_1d(order):
                         0.9891143290730284,
                     ]
                 ),
-                jnp.asarray(
+                np.array(
                     [
                         0.027834283558086717,
                         0.06279018473245102,
@@ -601,7 +602,7 @@ def gauss_legendre_1d(order):
             )
         case 22 | 23:
             return (
-                jnp.asarray(
+                np.array(
                     [
                         0.009219682876640378,
                         0.047941371814762546,
@@ -617,7 +618,7 @@ def gauss_legendre_1d(order):
                         0.9907803171233596,
                     ]
                 ),
-                jnp.asarray(
+                np.array(
                     [
                         0.023587668193255553,
                         0.053469662997670135,
@@ -636,7 +637,7 @@ def gauss_legendre_1d(order):
             )
         case 24 | 25:
             return (
-                jnp.asarray(
+                np.array(
                     [
                         0.007908472640705932,
                         0.04120080038851104,
@@ -653,7 +654,7 @@ def gauss_legendre_1d(order):
                         0.9920915273592941,
                     ]
                 ),
-                jnp.asarray(
+                np.array(
                     [
                         0.020242002382658532,
                         0.04606074991880237,
@@ -673,7 +674,7 @@ def gauss_legendre_1d(order):
             )
         case 26 | 27:
             return (
-                jnp.asarray(
+                np.array(
                     [
                         0.006858095651593843,
                         0.03578255816821324,
@@ -691,7 +692,7 @@ def gauss_legendre_1d(order):
                         0.9931419043484062,
                     ]
                 ),
-                jnp.asarray(
+                np.array(
                     [
                         0.01755973016589133,
                         0.040079043579841746,
@@ -712,7 +713,7 @@ def gauss_legendre_1d(order):
             )
         case 28 | 29:
             return (
-                jnp.asarray(
+                np.array(
                     [
                         0.006003740989757311,
                         0.031363303799647024,
@@ -731,7 +732,7 @@ def gauss_legendre_1d(order):
                         0.9939962590102427,
                     ]
                 ),
-                jnp.asarray(
+                np.array(
                     [
                         0.015376620998021777,
                         0.03518302374405937,
@@ -753,7 +754,7 @@ def gauss_legendre_1d(order):
             )
         case 30 | 31:
             return (
-                jnp.asarray(
+                np.array(
                     [
                         0.005299532504175031,
                         0.0277124884633837,
@@ -773,7 +774,7 @@ def gauss_legendre_1d(order):
                         0.994700467495825,
                     ]
                 ),
-                jnp.asarray(
+                np.array(
                     [
                         0.013576229706024828,
                         0.03112676196928269,
@@ -796,7 +797,7 @@ def gauss_legendre_1d(order):
             )
         case 32 | 33:
             return (
-                jnp.asarray(
+                np.array(
                     [
                         0.004712262342791318,
                         0.024662239115616102,
@@ -817,7 +818,7 @@ def gauss_legendre_1d(order):
                         0.9952877376572087,
                     ]
                 ),
-                jnp.asarray(
+                np.array(
                     [
                         0.01207415143431202,
                         0.027729764686325483,
@@ -841,7 +842,7 @@ def gauss_legendre_1d(order):
             )
         case 34 | 35:
             return (
-                jnp.asarray(
+                np.array(
                     [
                         0.004217415789534551,
                         0.022088025214301144,
@@ -863,7 +864,7 @@ def gauss_legendre_1d(order):
                         0.9957825842104655,
                     ]
                 ),
-                jnp.asarray(
+                np.array(
                     [
                         0.010808006763319273,
                         0.024857274446330582,
@@ -888,7 +889,7 @@ def gauss_legendre_1d(order):
             )
         case 36 | 37:
             return (
-                jnp.asarray(
+                np.array(
                     [
                         0.003796578078207824,
                         0.01989592393258499,
@@ -911,7 +912,7 @@ def gauss_legendre_1d(order):
                         0.9962034219217921,
                     ]
                 ),
-                jnp.asarray(
+                np.array(
                     [
                         0.00973089411478413,
                         0.022407113383627688,
@@ -937,7 +938,7 @@ def gauss_legendre_1d(order):
             )
         case 38 | 39:
             return (
-                jnp.asarray(
+                np.array(
                     [
                         0.0034357004074525577,
                         0.018014036361043095,
@@ -961,7 +962,7 @@ def gauss_legendre_1d(order):
                         0.9965642995925474,
                     ]
                 ),
-                jnp.asarray(
+                np.array(
                     [
                         0.008807003569250137,
                         0.02030071490320808,
@@ -988,7 +989,7 @@ def gauss_legendre_1d(order):
             )
         case 40 | 41:
             return (
-                jnp.asarray(
+                np.array(
                     [
                         0.003123914689805274,
                         0.016386580716846844,
@@ -1013,7 +1014,7 @@ def gauss_legendre_1d(order):
                         0.9968760853101948,
                     ]
                 ),
-                jnp.asarray(
+                np.array(
                     [
                         0.00800861413046309,
                         0.018476894874559474,
@@ -1071,12 +1072,12 @@ def gauss_lobatto_1d(order):
     """
 
     match order:
-        case 1:
-            return (jnp.asarray([0.0, 1.0]), jnp.asarray([0.5, 0.5]))
+        case 0 | 1:
+            return (np.array([0.0, 1.0]), np.array([0.5, 0.5]))
         case 2 | 3:
             return (
-                jnp.asarray([0.0, 0.5, 1.0]),
-                jnp.asarray(
+                np.array([0.0, 0.5, 1.0]),
+                np.array(
                     [
                         0.16666666666666666667,
                         0.66666666666666666667,
@@ -1086,7 +1087,7 @@ def gauss_lobatto_1d(order):
             )
         case 4 | 5:
             return (
-                jnp.asarray(
+                np.array(
                     [
                         0.0,
                         0.27639320225002106,
@@ -1094,7 +1095,7 @@ def gauss_lobatto_1d(order):
                         1.0000000000000000000,
                     ]
                 ),
-                jnp.asarray(
+                np.array(
                     [
                         0.083333333333333333333,
                         0.41666666666666663,
@@ -1105,7 +1106,7 @@ def gauss_lobatto_1d(order):
             )
         case 6 | 7:
             return (
-                jnp.asarray(
+                np.array(
                     [
                         0.0,
                         0.1726731646460114,
@@ -1114,7 +1115,7 @@ def gauss_lobatto_1d(order):
                         1.0000000000000000000,
                     ]
                 ),
-                jnp.asarray(
+                np.array(
                     [
                         0.050000000000000000000,
                         0.27222222222222225,
@@ -1126,7 +1127,7 @@ def gauss_lobatto_1d(order):
             )
         case 8 | 9:
             return (
-                jnp.asarray(
+                np.array(
                     [
                         0.0,
                         0.11747233803526763,
@@ -1136,7 +1137,7 @@ def gauss_lobatto_1d(order):
                         1.0000000000000000000,
                     ]
                 ),
-                jnp.asarray(
+                np.array(
                     [
                         0.033333333333333333333,
                         0.18923747814892347,
@@ -1149,7 +1150,7 @@ def gauss_lobatto_1d(order):
             )
         case 10 | 11:
             return (
-                jnp.asarray(
+                np.array(
                     [
                         0.0,
                         0.08488805186071652,
@@ -1160,7 +1161,7 @@ def gauss_lobatto_1d(order):
                         1.0000000000000000000,
                     ]
                 ),
-                jnp.asarray(
+                np.array(
                     [
                         0.023809523809523809524,
                         0.13841302368078293,
@@ -1174,7 +1175,7 @@ def gauss_lobatto_1d(order):
             )
         case 12 | 13:
             return (
-                jnp.asarray(
+                np.array(
                     [
                         0.0,
                         0.06412992574519671,
@@ -1186,7 +1187,7 @@ def gauss_lobatto_1d(order):
                         1.0000000000000000000,
                     ]
                 ),
-                jnp.asarray(
+                np.array(
                     [
                         0.017857142857142857143,
                         0.10535211357175307,
@@ -1201,7 +1202,7 @@ def gauss_lobatto_1d(order):
             )
         case 14 | 15:
             return (
-                jnp.asarray(
+                np.array(
                     [
                         0.0,
                         0.05012100229426991,
@@ -1214,7 +1215,7 @@ def gauss_lobatto_1d(order):
                         1.0000000000000000000,
                     ]
                 ),
-                jnp.asarray(
+                np.array(
                     [
                         0.013888888888888888889,
                         0.0827476807804028,
@@ -1230,7 +1231,7 @@ def gauss_lobatto_1d(order):
             )
         case 16 | 17:
             return (
-                jnp.asarray(
+                np.array(
                     [
                         0.0,
                         0.04023304591677057,
@@ -1244,7 +1245,7 @@ def gauss_lobatto_1d(order):
                         1.0000000000000000000,
                     ]
                 ),
-                jnp.asarray(
+                np.array(
                     [
                         0.011111111111111111111,
                         0.06665299542553504,
@@ -1261,7 +1262,7 @@ def gauss_lobatto_1d(order):
             )
         case 18 | 19:
             return (
-                jnp.asarray(
+                np.array(
                     [
                         0.0,
                         0.03299928479597042,
@@ -1276,7 +1277,7 @@ def gauss_lobatto_1d(order):
                         1.0000000000000000000,
                     ]
                 ),
-                jnp.asarray(
+                np.array(
                     [
                         0.0090909090909090909091,
                         0.05480613663349739,
@@ -1294,7 +1295,7 @@ def gauss_lobatto_1d(order):
             )
         case 20 | 21:
             return (
-                jnp.asarray(
+                np.array(
                     [
                         0.0,
                         0.027550363888558915,
@@ -1310,7 +1311,7 @@ def gauss_lobatto_1d(order):
                         1.0000000000000000000,
                     ]
                 ),
-                jnp.asarray(
+                np.array(
                     [
                         0.0075757575757575757576,
                         0.04584225870659809,
@@ -1329,7 +1330,7 @@ def gauss_lobatto_1d(order):
             )
         case 22 | 23:
             return (
-                jnp.asarray(
+                np.array(
                     [
                         0.0,
                         0.023345076678918053,
@@ -1346,7 +1347,7 @@ def gauss_lobatto_1d(order):
                         1.0000000000000000000,
                     ]
                 ),
-                jnp.asarray(
+                np.array(
                     [
                         0.0064102564102564102564,
                         0.038900843373409474,
@@ -1366,7 +1367,7 @@ def gauss_lobatto_1d(order):
             )
         case 24 | 25:
             return (
-                jnp.asarray(
+                np.array(
                     [
                         0.0,
                         0.02003247736636954,
@@ -1384,7 +1385,7 @@ def gauss_lobatto_1d(order):
                         1.0000000000000000000,
                     ]
                 ),
-                jnp.asarray(
+                np.array(
                     [
                         0.0054945054945054945055,
                         0.03341864224884061,
@@ -1405,7 +1406,7 @@ def gauss_lobatto_1d(order):
             )
         case 26 | 27:
             return (
-                jnp.asarray(
+                np.array(
                     [
                         0.0,
                         0.01737703674808072,
@@ -1424,7 +1425,7 @@ def gauss_lobatto_1d(order):
                         1.0000000000000000000,
                     ]
                 ),
-                jnp.asarray(
+                np.array(
                     [
                         0.0047619047619047619048,
                         0.029014946514300685,
@@ -1446,7 +1447,7 @@ def gauss_lobatto_1d(order):
             )
         case 28 | 29:
             return (
-                jnp.asarray(
+                np.array(
                     [
                         0.0,
                         0.015215976864891012,
@@ -1466,7 +1467,7 @@ def gauss_lobatto_1d(order):
                         1.0000000000000000000,
                     ]
                 ),
-                jnp.asarray(
+                np.array(
                     [
                         0.0041666666666666666667,
                         0.025425180502959957,
@@ -1489,7 +1490,7 @@ def gauss_lobatto_1d(order):
             )
         case 30 | 31:
             return (
-                jnp.asarray(
+                np.array(
                     [
                         0.0,
                         0.013433911684290867,
@@ -1510,7 +1511,7 @@ def gauss_lobatto_1d(order):
                         1.0000000000000000000,
                     ]
                 ),
-                jnp.asarray(
+                np.array(
                     [
                         0.0036764705882352941176,
                         0.02246097027162709,
@@ -1534,7 +1535,7 @@ def gauss_lobatto_1d(order):
             )
         case 32 | 33:
             return (
-                jnp.asarray(
+                np.array(
                     [
                         0.0,
                         0.011947221293900745,
@@ -1556,7 +1557,7 @@ def gauss_lobatto_1d(order):
                         1.0000000000000000000,
                     ]
                 ),
-                jnp.asarray(
+                np.array(
                     [
                         0.0032679738562091503268,
                         0.019985314405457075,
@@ -1581,7 +1582,7 @@ def gauss_lobatto_1d(order):
             )
         case 34 | 35:
             return (
-                jnp.asarray(
+                np.array(
                     [
                         0.0,
                         0.010694116888959937,
@@ -1604,7 +1605,7 @@ def gauss_lobatto_1d(order):
                         1.0000000000000000000,
                     ]
                 ),
-                jnp.asarray(
+                np.array(
                     [
                         0.0029239766081871345029,
                         0.017896682593088343,
@@ -1630,7 +1631,7 @@ def gauss_lobatto_1d(order):
             )
         case 36 | 37:
             return (
-                jnp.asarray(
+                np.array(
                     [
                         0.0,
                         0.00962814755304292,
@@ -1654,7 +1655,7 @@ def gauss_lobatto_1d(order):
                         1.0000000000000000000,
                     ]
                 ),
-                jnp.asarray(
+                np.array(
                     [
                         0.0026315789473684210526,
                         0.0161185615942445,
@@ -1681,7 +1682,7 @@ def gauss_lobatto_1d(order):
             )
         case 38 | 39:
             return (
-                jnp.asarray(
+                np.array(
                     [
                         0.0,
                         0.008713851697725983,
@@ -1706,7 +1707,7 @@ def gauss_lobatto_1d(order):
                         1.0000000000000000000,
                     ]
                 ),
-                jnp.asarray(
+                np.array(
                     [
                         0.0023809523809523809524,
                         0.01459242004925281,
@@ -1734,7 +1735,7 @@ def gauss_lobatto_1d(order):
             )
         case 40 | 41:
             return (
-                jnp.asarray(
+                np.array(
                     [
                         0.0,
                         0.007923780771176892,
@@ -1760,7 +1761,7 @@ def gauss_lobatto_1d(order):
                         1.0000000000000000000,
                     ]
                 ),
-                jnp.asarray(
+                np.array(
                     [
                         0.0021645021645021645022,
                         0.013272873841250856,
@@ -1817,24 +1818,24 @@ def int_pts_ref_tri(order):
     Rules from: https://mathsfromnothing.au/triangle-quadrature-rules/
     """
     match order:
-        case 1:
-            return (jnp.asarray([[1 / 3, 1 / 3]]), jnp.asarray([1 / 2]))
+        case 0 | 1:
+            return (np.array([[1 / 3, 1 / 3]]), np.array([1 / 2]))
         case 2:
             return (
-                jnp.asarray(
+                np.array(
                     [
                         [0.166666666666667, 0.166666666666667, 0.666666666666667],
                         [0.666666666666667, 0.166666666666667, 0.166666666666667],
                     ]
                 ).transpose(),
                 (1 / 2)
-                * jnp.asarray(
+                * np.array(
                     [0.333333333333333, 0.333333333333333, 0.333333333333333]
                 ),
             )
         case 3:
             return (
-                jnp.asarray(
+                np.array(
                     [
                         [
                             0.445948490915965,
@@ -1855,7 +1856,7 @@ def int_pts_ref_tri(order):
                     ]
                 ).transpose(),
                 (1 / 2)
-                * jnp.asarray(
+                * np.array(
                     [
                         0.223381589678011,
                         0.223381589678011,
@@ -1868,7 +1869,7 @@ def int_pts_ref_tri(order):
             )
         case 4:
             return (
-                jnp.asarray(
+                np.array(
                     [
                         [
                             0.445948490915965,
@@ -1889,7 +1890,7 @@ def int_pts_ref_tri(order):
                     ]
                 ).transpose(),
                 (1 / 2)
-                * jnp.asarray(
+                * np.array(
                     [
                         0.223381589678011,
                         0.223381589678011,
@@ -1902,7 +1903,7 @@ def int_pts_ref_tri(order):
             )
         case 5:
             return (
-                jnp.asarray(
+                np.array(
                     [
                         [
                             0.333333333333333,
@@ -1925,7 +1926,7 @@ def int_pts_ref_tri(order):
                     ]
                 ).transpose(),
                 (1 / 2)
-                * jnp.asarray(
+                * np.array(
                     [
                         0.225,
                         0.132394152788506,
@@ -1939,7 +1940,7 @@ def int_pts_ref_tri(order):
             )
         case 6:
             return (
-                jnp.asarray(
+                np.array(
                     [
                         [
                             0.063089014491502,
@@ -1972,7 +1973,7 @@ def int_pts_ref_tri(order):
                     ]
                 ).transpose(),
                 (1 / 2)
-                * jnp.asarray(
+                * np.array(
                     [
                         0.050844906370207,
                         0.050844906370207,
@@ -1991,7 +1992,7 @@ def int_pts_ref_tri(order):
             )
         case 7:
             return (
-                jnp.asarray(
+                np.array(
                     [
                         [
                             0.333333333333333,
@@ -2032,7 +2033,7 @@ def int_pts_ref_tri(order):
                     ]
                 ).transpose(),
                 (1 / 2)
-                * jnp.asarray(
+                * np.array(
                     [
                         0.144315607677787,
                         0.095091634267285,
@@ -2055,7 +2056,7 @@ def int_pts_ref_tri(order):
             )
         case 8:
             return (
-                jnp.asarray(
+                np.array(
                     [
                         [
                             0.333333333333333,
@@ -2096,7 +2097,7 @@ def int_pts_ref_tri(order):
                     ]
                 ).transpose(),
                 (1 / 2)
-                * jnp.asarray(
+                * np.array(
                     [
                         0.144315607677787,
                         0.095091634267285,
@@ -2119,7 +2120,7 @@ def int_pts_ref_tri(order):
             )
         case 9:
             return (
-                jnp.asarray(
+                np.array(
                     [
                         [
                             0.333333333333333,
@@ -2166,7 +2167,7 @@ def int_pts_ref_tri(order):
                     ]
                 ).transpose(),
                 (1 / 2)
-                * jnp.asarray(
+                * np.array(
                     [
                         0.097135796282799,
                         0.031334700227139,
@@ -2192,7 +2193,7 @@ def int_pts_ref_tri(order):
             )
         case 10:
             return (
-                jnp.asarray(
+                np.array(
                     [
                         [
                             0.333333333333333,
@@ -2251,7 +2252,7 @@ def int_pts_ref_tri(order):
                     ]
                 ).transpose(),
                 (1 / 2)
-                * jnp.asarray(
+                * np.array(
                     [
                         0.090817990382754,
                         0.036725957756467,
@@ -2292,8 +2293,8 @@ def int_pts_ref_tet(order):
     Rules from Jaśkowiec and Sukumar (2020):  https://doi.org/10.1002/nme.6313
     """
     match order:
-        case 1:
-            tmp = jnp.asarray(
+        case 0 | 1:
+            tmp = np.array(
                 [
                     [
                         1 / 4,
@@ -2304,7 +2305,7 @@ def int_pts_ref_tet(order):
                 ]
             )
         case 2:
-            tmp = jnp.asarray(
+            tmp = np.array(
                 [
                     0.1285157070717654,
                     0.1395716909679451,
@@ -2326,7 +2327,7 @@ def int_pts_ref_tet(order):
             )
             tmp = tmp.reshape((4, 4))
         case 3:
-            tmp = jnp.asarray(
+            tmp = np.array(
                 [
                     0.0701026973651683,
                     0.1666606997304260,
@@ -2356,7 +2357,7 @@ def int_pts_ref_tet(order):
             )
             tmp = tmp.reshape((6, 4))
         case 4:
-            tmp = jnp.asarray(
+            tmp = np.array(
                 [
                     0.1187280740805765,
                     0.4881393122183348,
@@ -2406,7 +2407,7 @@ def int_pts_ref_tet(order):
             )
             tmp = tmp.reshape((11, 4))
         case 5:
-            tmp = jnp.asarray(
+            tmp = np.array(
                 [
                     0.3108859192633006,
                     0.3108859192633006,
@@ -2468,7 +2469,7 @@ def int_pts_ref_tet(order):
             )
             tmp = tmp.reshape((14, 4))
         case 6:
-            tmp = jnp.asarray(
+            tmp = np.array(
                 [
                     0.8746168885670683,
                     0.0016502414396875,
@@ -2566,7 +2567,7 @@ def int_pts_ref_tet(order):
             )
             tmp = tmp.reshape((23, 4))
         case 7:
-            tmp = jnp.asarray(
+            tmp = np.array(
                 [
                     0.3002416572973887,
                     0.0343958764090097,
@@ -2696,7 +2697,7 @@ def int_pts_ref_tet(order):
             )
             tmp = tmp.reshape((31, 4))
         case 8:
-            tmp = jnp.asarray(
+            tmp = np.array(
                 [
                     0.4145770165127839,
                     0.3830837692811989,
@@ -2878,7 +2879,7 @@ def int_pts_ref_tet(order):
             )
             tmp = tmp.reshape((44, 4))
         case 9:
-            tmp = jnp.asarray(
+            tmp = np.array(
                 [
                     0.0228771921259469,
                     0.3854277790362540,
@@ -3112,7 +3113,7 @@ def int_pts_ref_tet(order):
             )
             tmp = tmp.reshape((57, 4))
         case 10:
-            tmp = jnp.asarray(
+            tmp = np.array(
                 [
                     0.7108211811635610,
                     0.1680938151486082,
@@ -3443,7 +3444,7 @@ def int_pts_line(x_i, order):
     area = length
     area_ratio = area
 
-    (ref_coor, ref_weights) = gauss_legendre_1d(order)
+    (ref_coor, ref_weights) = jnp.asarray(gauss_legendre_1d(order))
 
     def map_one(x_ref, w_ref):
         coor = x_0 + x_ref * dx01
@@ -3478,7 +3479,9 @@ def int_pts_tri(x_i, order):
     area = (1 / 2) * length * height
     area_ratio = area / (1 / 2)
 
-    (ref_coor, ref_weights) = int_pts_ref_tri(order)
+    ref_coor, ref_weights = int_pts_ref_tri(order)
+    ref_coor = jnp.asarray(ref_coor)
+    ref_weights = jnp.asarray(ref_weights)
 
     def map_one(x_ref, w_ref):
         coor = x_0 + x_ref[0] * dx01 + x_ref[1] * dx02
@@ -3513,7 +3516,9 @@ def int_pts_tet(x_i, order):
     area = (1 / 6) * jnp.sqrt(jnp.dot(jnp.cross(dx01, dx02), dx03) ** 2)
     area_ratio = area / (1 / 6)
 
-    (ref_coor, ref_weights) = int_pts_ref_tet(order)
+    ref_coor, ref_weights = int_pts_ref_tet(order)
+    ref_coor = jnp.asarray(ref_coor)
+    ref_weights = jnp.asarray(ref_weights)
 
     def map_one(x_ref, w_ref):
         coor = x_0 + x_ref[0] * dx01 + x_ref[1] * dx02 + x_ref[2] * dx03

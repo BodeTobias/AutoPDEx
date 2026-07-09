@@ -1,6 +1,0 @@
-﻿autopdex.assembler.sparse\_assemble\_tangent
-============================================
-
-.. currentmodule:: autopdex.assembler
-
-.. autofunction:: sparse_assemble_tangent

@@ -1,6 +1,0 @@
-﻿autopdex.seeder.gauss\_points\_in\_psdf
-=======================================
-
-.. currentmodule:: autopdex.seeder
-
-.. autofunction:: gauss_points_in_psdf

@@ -1,6 +1,0 @@
-﻿autopdex.geometry.in\_sdf
-=========================
-
-.. currentmodule:: autopdex.geometry
-
-.. autofunction:: in_sdf

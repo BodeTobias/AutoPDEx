@@ -1,6 +1,0 @@
-﻿autopdex.seeder.gauss\_lobatto\_1d
-==================================
-
-.. currentmodule:: autopdex.seeder
-
-.. autofunction:: gauss_lobatto_1d

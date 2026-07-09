@@ -1,6 +1,0 @@
-﻿autopdex.utility.jnp\_to\_tuple
-===============================
-
-.. currentmodule:: autopdex.utility
-
-.. autofunction:: jnp_to_tuple

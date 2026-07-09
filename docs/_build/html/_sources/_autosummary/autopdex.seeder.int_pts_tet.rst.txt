@@ -1,6 +1,0 @@
-﻿autopdex.seeder.int\_pts\_tet
-=============================
-
-.. currentmodule:: autopdex.seeder
-
-.. autofunction:: int_pts_tet

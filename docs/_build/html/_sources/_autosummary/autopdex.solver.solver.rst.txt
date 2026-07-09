@@ -1,6 +1,0 @@
-﻿autopdex.solver.solver
-======================
-
-.. currentmodule:: autopdex.solver
-
-.. autofunction:: solver

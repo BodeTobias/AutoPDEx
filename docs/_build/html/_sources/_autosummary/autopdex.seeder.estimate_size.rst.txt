@@ -1,6 +1,0 @@
-﻿autopdex.seeder.estimate\_size
-==============================
-
-.. currentmodule:: autopdex.seeder
-
-.. autofunction:: estimate_size

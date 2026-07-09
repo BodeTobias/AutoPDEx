@@ -1,6 +1,0 @@
-﻿autopdex.solver.linear\_solve\_jax
-==================================
-
-.. currentmodule:: autopdex.solver
-
-.. autofunction:: linear_solve_jax

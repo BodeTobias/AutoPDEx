@@ -1,6 +1,0 @@
-﻿autopdex.spaces.moving\_least\_squares
-======================================
-
-.. currentmodule:: autopdex.spaces
-
-.. autofunction:: moving_least_squares

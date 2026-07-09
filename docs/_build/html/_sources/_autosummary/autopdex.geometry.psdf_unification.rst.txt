@@ -1,6 +1,0 @@
-﻿autopdex.geometry.psdf\_unification
-===================================
-
-.. currentmodule:: autopdex.geometry
-
-.. autofunction:: psdf_unification

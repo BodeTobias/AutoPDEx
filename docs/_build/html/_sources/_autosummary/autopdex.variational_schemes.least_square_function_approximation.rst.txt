@@ -1,6 +1,0 @@
-﻿autopdex.variational\_schemes.least\_square\_function\_approximation
-====================================================================
-
-.. currentmodule:: autopdex.variational_schemes
-
-.. autofunction:: least_square_function_approximation

@@ -1,6 +1,0 @@
-﻿autopdex.geometry.sdf\_infinite\_line
-=====================================
-
-.. currentmodule:: autopdex.geometry
-
-.. autofunction:: sdf_infinite_line

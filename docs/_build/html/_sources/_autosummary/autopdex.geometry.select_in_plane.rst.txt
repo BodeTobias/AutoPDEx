@@ -1,6 +1,0 @@
-﻿autopdex.geometry.select\_in\_plane
-===================================
-
-.. currentmodule:: autopdex.geometry
-
-.. autofunction:: select_in_plane

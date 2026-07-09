@@ -1,6 +1,0 @@
-﻿autopdex.utility.to\_jax\_function
-==================================
-
-.. currentmodule:: autopdex.utility
-
-.. autofunction:: to_jax_function

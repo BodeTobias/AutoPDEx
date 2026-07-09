@@ -82,7 +82,20 @@ def structured_mesh(n_elements, vertices, element_type, order=1):
   if dim == 2:
     if element_type not in ["quad", "tri"]:
       raise NotImplementedError("For 2D, element_type must be either 'quad' or 'tri'.")
-    nx, ny = n_elements
+    ny, nx = n_elements
+
+    def _ensure_ccw_quad_vertices(v):
+      # v: shape (4, 2)
+      x = v[:, 0]
+      y = v[:, 1]
+      # 2 * signed area des Vierecks: >0 -> ccw, <0 -> cw
+      area2 = jnp.sum(x * jnp.roll(y, -1) - y * jnp.roll(x, -1))
+      v_rev = jnp.flip(v, axis=0)  # komplett umdrehen
+      # Wenn area2 < 0 (cw), benutze v_rev, sonst v.
+      # jnp.where ist elementweise, cond ist Skalar und wird gebroadcastet.
+      return jnp.where(area2 < 0, v_rev, v)
+
+    vertices = _ensure_ccw_quad_vertices(vertices)
 
     # Create a reference grid in [-1,1] x [-1,1]
     s = jnp.linspace(-1, 1, nx + 1)
@@ -93,8 +106,12 @@ def structured_mesh(n_elements, vertices, element_type, order=1):
     # Bilinear mapping from reference coordinates to physical coordinates.
     def bilinear_interpolate(pt):
       s, t = pt
-      return ((1 - s) * (1 - t) * vertices[0] + (1 + s) * (1 - t) * vertices[1] + (1 + s) * (1 + t) * vertices[2] +
-              (1 - s) * (1 + t) * vertices[3]) / 4
+      return (
+          (1 - s) * (1 - t) * vertices[0]
+        + (1 - s) * (1 + t) * vertices[1]
+        + (1 + s) * (1 + t) * vertices[2]
+        + (1 + s) * (1 - t) * vertices[3]
+      ) / 4
 
     coords = jax.vmap(bilinear_interpolate)(ref_coords)
 

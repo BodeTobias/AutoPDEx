@@ -1,6 +1,0 @@
-﻿autopdex.solution\_structures.precompute\_projection
-====================================================
-
-.. currentmodule:: autopdex.solution_structures
-
-.. autofunction:: precompute_projection

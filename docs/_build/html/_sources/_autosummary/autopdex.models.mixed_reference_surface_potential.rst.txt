@@ -1,6 +1,0 @@
-﻿autopdex.models.mixed\_reference\_surface\_potential
-====================================================
-
-.. currentmodule:: autopdex.models
-
-.. autofunction:: mixed_reference_surface_potential

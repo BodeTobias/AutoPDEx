@@ -5,11 +5,11 @@ Welcome to the documentation of AutoPDEx!
 
 The idea of the project is to develop a modular and easily extendable environment for the solution of boundary and initial boundary value problems, which allows for good integration with machine learning algorithms and can be executed on accelerators such as GPUs.
 
-The highest level of abstraction is available in the 'solver' and 'dae' modules, which includes different solution algorithms such as the Newton-Raphson method, adaptive load- and time step control and nonlinear minimizers, and leverages different backends. 
-To solve problems, two dictionaries (`static_settings` and `settings`) are particularly needed, in which the problem settings are specified. 
-Part of the static settings includes the definition of the model in the form of a JAX-transformable function, which returns a strong or weak form of a PDE or user-specific potentials, residuals and tangents. 
-Some pre-made models are included in the models module.
-The solver module, in turn, calls functions from lower-level modules, as e.g. the assembler. These can also be accessed directly, for example, to assemble the global residual or a tangent matrix.
+The highest level of abstraction is the :class:`autopdex.SimState` interface.
+It orchestrates complete simulations from mesh import and field definitions to model registration, boundary conditions, time integration and postprocessing.
+For more control, the medium-level modules such as 'solver', 'dae' and 'models' can be directly accessed.
+They operate on the `static_settings` and `settings` dictionaries and call lower-level modules such as the assembler.
+These lower-level modules can also be accessed directly, for example to assemble a global residual or tangent matrix.
 
 .. image:: _static/demos_small.png
    :align: center
@@ -24,23 +24,28 @@ To install AutoPDEx, you can use the following command. Note, that it requires p
    pip install --upgrade pip
    pip install autopdex
 
+Or with all optional dependencies:
+
+.. code-block:: bash
+
+   pip install autopdex[dev]
+
+
 To use the Intel MKL Pardiso and PETSc solvers, they have to be installed by the user.
 
 .. toctree::
    :maxdepth: 1
 
-   notebooks/quickstart
+   notebooks/quickstart_hli
 
 .. toctree::
    :maxdepth: 1
-   :caption: High level operations
+   :caption: High-level interface
 
-   solver
-   dae
-   models
+   sim_state
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
    :caption: Examples
 
    example_notebooks
@@ -51,24 +56,17 @@ To use the Intel MKL Pardiso and PETSc solvers, they have to be installed by the
 
 .. toctree::
    :maxdepth: 1
-   :caption: Settings
-   
+   :caption: Lower level modules
+
+   dae
+   solver
+   models
    settings
-
-.. toctree::
-   :maxdepth: 1
-   :caption: Lower level operations
-
    assembler
    implicit_diff
    spaces
    solution_structures
    variational_schemes
-
-.. toctree::
-   :maxdepth: 1
-   :caption: Pre- and postprocessing
-
    geometry
    seeder
    utility

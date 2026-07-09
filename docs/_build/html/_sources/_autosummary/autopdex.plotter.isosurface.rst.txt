@@ -1,6 +1,0 @@
-﻿autopdex.plotter.isosurface
-===========================
-
-.. currentmodule:: autopdex.plotter
-
-.. autofunction:: isosurface

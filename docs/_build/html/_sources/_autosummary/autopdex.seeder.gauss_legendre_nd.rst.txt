@@ -1,6 +1,0 @@
-﻿autopdex.seeder.gauss\_legendre\_nd
-===================================
-
-.. currentmodule:: autopdex.seeder
-
-.. autofunction:: gauss_legendre_nd

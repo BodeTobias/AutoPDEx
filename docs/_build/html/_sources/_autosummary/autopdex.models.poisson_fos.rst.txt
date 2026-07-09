@@ -1,6 +1,0 @@
-﻿autopdex.models.poisson\_fos
-============================
-
-.. currentmodule:: autopdex.models
-
-.. autofunction:: poisson_fos

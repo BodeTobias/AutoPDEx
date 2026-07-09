@@ -1,5 +1,5 @@
-Examplary input files
-======================
+Lower level input files
+=======================
 
 Here is a list of examples demonstrating the functionality of AutoPDEx.
 
