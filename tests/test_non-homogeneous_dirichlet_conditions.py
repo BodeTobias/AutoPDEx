@@ -12,12 +12,14 @@
 
 def test_nonhomogeneous_dirichlet():
 
+    from pathlib import Path
+
     import jax
     from jax import config
     import jax.numpy as jnp
     import numpy as np
     import flax
-    import pygmsh
+    import meshio
 
     from autopdex import seeder, geometry, solver, utility, models
 
@@ -28,9 +30,8 @@ def test_nonhomogeneous_dirichlet():
 
     ### Definition of geometry and boundary conditions
     pts = [[0.,0.], [48.,44.], [48.,60.], [0.,44.]]
-    with pygmsh.geo.Geometry() as geom:
-        geom.add_polygon(pts,mesh_size=50.0)
-        mesh = geom.generate_mesh(order=1)
+    # Mesh generated offline with pygmsh (see meshes/generate_test_meshes.py)
+    mesh = meshio.read(Path(__file__).resolve().parent / "meshes" / "cooks_tri_p1.vtu")
 
     # Import region mesh
     n_dim = 2
