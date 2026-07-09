@@ -1,0 +1,6 @@
+﻿autopdex.geometry.first\_order\_normalization
+=============================================
+
+.. currentmodule:: autopdex.geometry
+
+.. autofunction:: first_order_normalization

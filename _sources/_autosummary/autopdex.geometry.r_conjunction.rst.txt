@@ -1,0 +1,6 @@
+﻿autopdex.geometry.r\_conjunction
+================================
+
+.. currentmodule:: autopdex.geometry
+
+.. autofunction:: r_conjunction

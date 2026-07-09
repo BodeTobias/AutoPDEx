@@ -1,0 +1,58 @@
+﻿autopdex.dae.AdamsBashforth
+===========================
+
+.. currentmodule:: autopdex.dae
+
+.. autoclass:: AdamsBashforth
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~AdamsBashforth.__delattr__
+      ~AdamsBashforth.__dir__
+      ~AdamsBashforth.__eq__
+      ~AdamsBashforth.__format__
+      ~AdamsBashforth.__ge__
+      ~AdamsBashforth.__getattribute__
+      ~AdamsBashforth.__getstate__
+      ~AdamsBashforth.__gt__
+      ~AdamsBashforth.__hash__
+      ~AdamsBashforth.__init_subclass__
+      ~AdamsBashforth.__le__
+      ~AdamsBashforth.__lt__
+      ~AdamsBashforth.__ne__
+      ~AdamsBashforth.__new__
+      ~AdamsBashforth.__reduce__
+      ~AdamsBashforth.__reduce_ex__
+      ~AdamsBashforth.__repr__
+      ~AdamsBashforth.__setattr__
+      ~AdamsBashforth.__sizeof__
+      ~AdamsBashforth.__str__
+      ~AdamsBashforth.__subclasshook__
+      ~AdamsBashforth._error_estimate
+      ~AdamsBashforth._rule
+      ~AdamsBashforth._update
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~AdamsBashforth.__abstractmethods__
+      ~AdamsBashforth.__annotations__
+      ~AdamsBashforth.__dict__
+      ~AdamsBashforth.__doc__
+      ~AdamsBashforth.__module__
+      ~AdamsBashforth.__slots__
+      ~AdamsBashforth.__weakref__
+      ~AdamsBashforth._abc_impl
+   
+   

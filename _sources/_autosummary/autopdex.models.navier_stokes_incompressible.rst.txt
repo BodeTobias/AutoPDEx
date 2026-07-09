@@ -1,0 +1,6 @@
+﻿autopdex.models.navier\_stokes\_incompressible
+==============================================
+
+.. currentmodule:: autopdex.models
+
+.. autofunction:: navier_stokes_incompressible

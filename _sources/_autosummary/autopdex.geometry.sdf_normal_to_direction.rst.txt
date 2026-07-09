@@ -1,0 +1,6 @@
+﻿autopdex.geometry.sdf\_normal\_to\_direction
+============================================
+
+.. currentmodule:: autopdex.geometry
+
+.. autofunction:: sdf_normal_to_direction

@@ -1,0 +1,58 @@
+﻿autopdex.dae.Kvaerno
+====================
+
+.. currentmodule:: autopdex.dae
+
+.. autoclass:: Kvaerno
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~Kvaerno.__delattr__
+      ~Kvaerno.__dir__
+      ~Kvaerno.__eq__
+      ~Kvaerno.__format__
+      ~Kvaerno.__ge__
+      ~Kvaerno.__getattribute__
+      ~Kvaerno.__getstate__
+      ~Kvaerno.__gt__
+      ~Kvaerno.__hash__
+      ~Kvaerno.__init_subclass__
+      ~Kvaerno.__le__
+      ~Kvaerno.__lt__
+      ~Kvaerno.__ne__
+      ~Kvaerno.__new__
+      ~Kvaerno.__reduce__
+      ~Kvaerno.__reduce_ex__
+      ~Kvaerno.__repr__
+      ~Kvaerno.__setattr__
+      ~Kvaerno.__sizeof__
+      ~Kvaerno.__str__
+      ~Kvaerno.__subclasshook__
+      ~Kvaerno._error_estimate
+      ~Kvaerno._rule
+      ~Kvaerno._update
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~Kvaerno.__abstractmethods__
+      ~Kvaerno.__annotations__
+      ~Kvaerno.__dict__
+      ~Kvaerno.__doc__
+      ~Kvaerno.__module__
+      ~Kvaerno.__slots__
+      ~Kvaerno.__weakref__
+      ~Kvaerno._abc_impl
+   
+   

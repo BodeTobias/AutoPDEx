@@ -1,0 +1,6 @@
+﻿autopdex.geometry.psdf\_trimmed\_line
+=====================================
+
+.. currentmodule:: autopdex.geometry
+
+.. autofunction:: psdf_trimmed_line

@@ -1,0 +1,6 @@
+﻿autopdex.geometry.elem\_in\_plane
+=================================
+
+.. currentmodule:: autopdex.geometry
+
+.. autofunction:: elem_in_plane

@@ -1,0 +1,6 @@
+﻿autopdex.utility.reshape\_as
+============================
+
+.. currentmodule:: autopdex.utility
+
+.. autofunction:: reshape_as

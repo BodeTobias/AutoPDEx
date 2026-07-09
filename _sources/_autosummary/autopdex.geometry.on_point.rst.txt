@@ -1,0 +1,6 @@
+﻿autopdex.geometry.on\_point
+===========================
+
+.. currentmodule:: autopdex.geometry
+
+.. autofunction:: on_point

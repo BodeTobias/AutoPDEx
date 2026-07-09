@@ -1,0 +1,58 @@
+﻿autopdex.dae.Newmark
+====================
+
+.. currentmodule:: autopdex.dae
+
+.. autoclass:: Newmark
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~Newmark.__delattr__
+      ~Newmark.__dir__
+      ~Newmark.__eq__
+      ~Newmark.__format__
+      ~Newmark.__ge__
+      ~Newmark.__getattribute__
+      ~Newmark.__getstate__
+      ~Newmark.__gt__
+      ~Newmark.__hash__
+      ~Newmark.__init_subclass__
+      ~Newmark.__le__
+      ~Newmark.__lt__
+      ~Newmark.__ne__
+      ~Newmark.__new__
+      ~Newmark.__reduce__
+      ~Newmark.__reduce_ex__
+      ~Newmark.__repr__
+      ~Newmark.__setattr__
+      ~Newmark.__sizeof__
+      ~Newmark.__str__
+      ~Newmark.__subclasshook__
+      ~Newmark._error_estimate
+      ~Newmark._rule
+      ~Newmark._update
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~Newmark.__abstractmethods__
+      ~Newmark.__annotations__
+      ~Newmark.__dict__
+      ~Newmark.__doc__
+      ~Newmark.__module__
+      ~Newmark.__slots__
+      ~Newmark.__weakref__
+      ~Newmark._abc_impl
+   
+   

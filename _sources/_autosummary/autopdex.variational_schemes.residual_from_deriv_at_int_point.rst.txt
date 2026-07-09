@@ -1,0 +1,6 @@
+﻿autopdex.variational\_schemes.residual\_from\_deriv\_at\_int\_point
+===================================================================
+
+.. currentmodule:: autopdex.variational_schemes
+
+.. autofunction:: residual_from_deriv_at_int_point

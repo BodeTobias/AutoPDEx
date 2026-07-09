@@ -1,0 +1,6 @@
+﻿autopdex.mesher.structured\_mesh
+================================
+
+.. currentmodule:: autopdex.mesher
+
+.. autofunction:: structured_mesh

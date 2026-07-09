@@ -1,0 +1,6 @@
+﻿autopdex.geometry.normal
+========================
+
+.. currentmodule:: autopdex.geometry
+
+.. autofunction:: normal

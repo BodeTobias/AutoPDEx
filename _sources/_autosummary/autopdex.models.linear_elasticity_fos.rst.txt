@@ -1,0 +1,6 @@
+﻿autopdex.models.linear\_elasticity\_fos
+=======================================
+
+.. currentmodule:: autopdex.models
+
+.. autofunction:: linear_elasticity_fos

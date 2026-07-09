@@ -1,0 +1,6 @@
+﻿autopdex.solution\_structures.precompile
+========================================
+
+.. currentmodule:: autopdex.solution_structures
+
+.. autofunction:: precompile

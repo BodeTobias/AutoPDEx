@@ -1,0 +1,6 @@
+﻿autopdex.geometry.sdf\_infinite\_cylinder
+=========================================
+
+.. currentmodule:: autopdex.geometry
+
+.. autofunction:: sdf_infinite_cylinder

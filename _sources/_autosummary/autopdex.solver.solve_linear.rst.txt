@@ -1,0 +1,6 @@
+﻿autopdex.solver.solve\_linear
+=============================
+
+.. currentmodule:: autopdex.solver
+
+.. autofunction:: solve_linear

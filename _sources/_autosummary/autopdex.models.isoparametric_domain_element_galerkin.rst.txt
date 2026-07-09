@@ -1,0 +1,6 @@
+﻿autopdex.models.isoparametric\_domain\_element\_galerkin
+========================================================
+
+.. currentmodule:: autopdex.models
+
+.. autofunction:: isoparametric_domain_element_galerkin

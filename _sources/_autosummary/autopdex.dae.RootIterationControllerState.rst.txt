@@ -1,0 +1,59 @@
+﻿autopdex.dae.RootIterationControllerState
+=========================================
+
+.. currentmodule:: autopdex.dae
+
+.. autoclass:: RootIterationControllerState
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~RootIterationControllerState.__delattr__
+      ~RootIterationControllerState.__dir__
+      ~RootIterationControllerState.__eq__
+      ~RootIterationControllerState.__format__
+      ~RootIterationControllerState.__ge__
+      ~RootIterationControllerState.__getattribute__
+      ~RootIterationControllerState.__getstate__
+      ~RootIterationControllerState.__gt__
+      ~RootIterationControllerState.__init_subclass__
+      ~RootIterationControllerState.__le__
+      ~RootIterationControllerState.__lt__
+      ~RootIterationControllerState.__ne__
+      ~RootIterationControllerState.__new__
+      ~RootIterationControllerState.__reduce__
+      ~RootIterationControllerState.__reduce_ex__
+      ~RootIterationControllerState.__repr__
+      ~RootIterationControllerState.__setattr__
+      ~RootIterationControllerState.__sizeof__
+      ~RootIterationControllerState.__str__
+      ~RootIterationControllerState.__subclasshook__
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~RootIterationControllerState.__annotations__
+      ~RootIterationControllerState.__dataclass_fields__
+      ~RootIterationControllerState.__dataclass_params__
+      ~RootIterationControllerState.__dict__
+      ~RootIterationControllerState.__doc__
+      ~RootIterationControllerState.__hash__
+      ~RootIterationControllerState.__match_args__
+      ~RootIterationControllerState.__module__
+      ~RootIterationControllerState.__weakref__
+      ~RootIterationControllerState.step_scaler
+      ~RootIterationControllerState.dt
+      ~RootIterationControllerState.accept
+      ~RootIterationControllerState.interrupt
+   
+   

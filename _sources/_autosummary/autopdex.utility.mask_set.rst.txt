@@ -1,0 +1,6 @@
+﻿autopdex.utility.mask\_set
+==========================
+
+.. currentmodule:: autopdex.utility
+
+.. autofunction:: mask_set

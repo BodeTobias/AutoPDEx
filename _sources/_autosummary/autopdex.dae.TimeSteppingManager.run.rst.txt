@@ -1,0 +1,6 @@
+﻿autopdex.dae.TimeSteppingManager.run
+====================================
+
+.. currentmodule:: autopdex.dae
+
+.. automethod:: TimeSteppingManager.run

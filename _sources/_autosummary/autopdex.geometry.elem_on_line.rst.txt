@@ -1,0 +1,6 @@
+﻿autopdex.geometry.elem\_on\_line
+================================
+
+.. currentmodule:: autopdex.geometry
+
+.. autofunction:: elem_on_line

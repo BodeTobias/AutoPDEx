@@ -1,0 +1,59 @@
+﻿autopdex.dae.SaveAllPolicy
+==========================
+
+.. currentmodule:: autopdex.dae
+
+.. autoclass:: SaveAllPolicy
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~SaveAllPolicy.__delattr__
+      ~SaveAllPolicy.__dir__
+      ~SaveAllPolicy.__eq__
+      ~SaveAllPolicy.__format__
+      ~SaveAllPolicy.__ge__
+      ~SaveAllPolicy.__getattribute__
+      ~SaveAllPolicy.__getstate__
+      ~SaveAllPolicy.__gt__
+      ~SaveAllPolicy.__hash__
+      ~SaveAllPolicy.__init_subclass__
+      ~SaveAllPolicy.__le__
+      ~SaveAllPolicy.__lt__
+      ~SaveAllPolicy.__ne__
+      ~SaveAllPolicy.__new__
+      ~SaveAllPolicy.__reduce__
+      ~SaveAllPolicy.__reduce_ex__
+      ~SaveAllPolicy.__repr__
+      ~SaveAllPolicy.__setattr__
+      ~SaveAllPolicy.__sizeof__
+      ~SaveAllPolicy.__str__
+      ~SaveAllPolicy.__subclasshook__
+      ~SaveAllPolicy.finalize
+      ~SaveAllPolicy.initialize
+      ~SaveAllPolicy.save_step
+      ~SaveAllPolicy.unpack_state
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~SaveAllPolicy.__abstractmethods__
+      ~SaveAllPolicy.__annotations__
+      ~SaveAllPolicy.__dict__
+      ~SaveAllPolicy.__doc__
+      ~SaveAllPolicy.__module__
+      ~SaveAllPolicy.__slots__
+      ~SaveAllPolicy.__weakref__
+      ~SaveAllPolicy._abc_impl
+   
+   

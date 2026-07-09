@@ -1,0 +1,6 @@
+﻿autopdex.seeder.tensor\_product\_two\_coordinate\_arrays
+========================================================
+
+.. currentmodule:: autopdex.seeder
+
+.. autofunction:: tensor_product_two_coordinate_arrays

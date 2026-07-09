@@ -1,0 +1,60 @@
+﻿autopdex.dae.PIDControllerState
+===============================
+
+.. currentmodule:: autopdex.dae
+
+.. autoclass:: PIDControllerState
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~PIDControllerState.__delattr__
+      ~PIDControllerState.__dir__
+      ~PIDControllerState.__eq__
+      ~PIDControllerState.__format__
+      ~PIDControllerState.__ge__
+      ~PIDControllerState.__getattribute__
+      ~PIDControllerState.__getstate__
+      ~PIDControllerState.__gt__
+      ~PIDControllerState.__init_subclass__
+      ~PIDControllerState.__le__
+      ~PIDControllerState.__lt__
+      ~PIDControllerState.__ne__
+      ~PIDControllerState.__new__
+      ~PIDControllerState.__reduce__
+      ~PIDControllerState.__reduce_ex__
+      ~PIDControllerState.__repr__
+      ~PIDControllerState.__setattr__
+      ~PIDControllerState.__sizeof__
+      ~PIDControllerState.__str__
+      ~PIDControllerState.__subclasshook__
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~PIDControllerState.__annotations__
+      ~PIDControllerState.__dataclass_fields__
+      ~PIDControllerState.__dataclass_params__
+      ~PIDControllerState.__dict__
+      ~PIDControllerState.__doc__
+      ~PIDControllerState.__hash__
+      ~PIDControllerState.__match_args__
+      ~PIDControllerState.__module__
+      ~PIDControllerState.__weakref__
+      ~PIDControllerState.step_scaler
+      ~PIDControllerState.e_n
+      ~PIDControllerState.e_nn
+      ~PIDControllerState.accept
+      ~PIDControllerState.interrupt
+   
+   

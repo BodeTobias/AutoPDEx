@@ -1,0 +1,6 @@
+﻿autopdex.geometry.sdf\_infinite\_triprism\_3d
+=============================================
+
+.. currentmodule:: autopdex.geometry
+
+.. autofunction:: sdf_infinite_triprism_3d

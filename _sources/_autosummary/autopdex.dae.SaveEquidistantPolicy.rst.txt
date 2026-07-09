@@ -1,0 +1,58 @@
+﻿autopdex.dae.SaveEquidistantPolicy
+==================================
+
+.. currentmodule:: autopdex.dae
+
+.. autoclass:: SaveEquidistantPolicy
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~SaveEquidistantPolicy.__delattr__
+      ~SaveEquidistantPolicy.__dir__
+      ~SaveEquidistantPolicy.__eq__
+      ~SaveEquidistantPolicy.__format__
+      ~SaveEquidistantPolicy.__ge__
+      ~SaveEquidistantPolicy.__getattribute__
+      ~SaveEquidistantPolicy.__getstate__
+      ~SaveEquidistantPolicy.__gt__
+      ~SaveEquidistantPolicy.__hash__
+      ~SaveEquidistantPolicy.__init_subclass__
+      ~SaveEquidistantPolicy.__le__
+      ~SaveEquidistantPolicy.__lt__
+      ~SaveEquidistantPolicy.__ne__
+      ~SaveEquidistantPolicy.__new__
+      ~SaveEquidistantPolicy.__reduce__
+      ~SaveEquidistantPolicy.__reduce_ex__
+      ~SaveEquidistantPolicy.__repr__
+      ~SaveEquidistantPolicy.__setattr__
+      ~SaveEquidistantPolicy.__sizeof__
+      ~SaveEquidistantPolicy.__str__
+      ~SaveEquidistantPolicy.__subclasshook__
+      ~SaveEquidistantPolicy.finalize
+      ~SaveEquidistantPolicy.initialize
+      ~SaveEquidistantPolicy.save_step
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~SaveEquidistantPolicy.__abstractmethods__
+      ~SaveEquidistantPolicy.__annotations__
+      ~SaveEquidistantPolicy.__dict__
+      ~SaveEquidistantPolicy.__doc__
+      ~SaveEquidistantPolicy.__module__
+      ~SaveEquidistantPolicy.__slots__
+      ~SaveEquidistantPolicy.__weakref__
+      ~SaveEquidistantPolicy._abc_impl
+   
+   

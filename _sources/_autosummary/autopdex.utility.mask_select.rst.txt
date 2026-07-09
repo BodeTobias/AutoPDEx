@@ -1,0 +1,6 @@
+﻿autopdex.utility.mask\_select
+=============================
+
+.. currentmodule:: autopdex.utility
+
+.. autofunction:: mask_select

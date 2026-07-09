@@ -1,0 +1,6 @@
+﻿autopdex.implicit\_diff.custom\_root
+====================================
+
+.. currentmodule:: autopdex.implicit_diff
+
+.. autofunction:: custom_root

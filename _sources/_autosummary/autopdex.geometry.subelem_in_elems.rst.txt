@@ -1,0 +1,6 @@
+﻿autopdex.geometry.subelem\_in\_elems
+====================================
+
+.. currentmodule:: autopdex.geometry
+
+.. autofunction:: subelem_in_elems

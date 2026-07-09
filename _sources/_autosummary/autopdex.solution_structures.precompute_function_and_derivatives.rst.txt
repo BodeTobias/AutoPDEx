@@ -1,0 +1,6 @@
+﻿autopdex.solution\_structures.precompute\_function\_and\_derivatives
+====================================================================
+
+.. currentmodule:: autopdex.solution_structures
+
+.. autofunction:: precompute_function_and_derivatives

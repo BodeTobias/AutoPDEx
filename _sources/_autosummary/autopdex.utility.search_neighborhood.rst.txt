@@ -1,0 +1,6 @@
+﻿autopdex.utility.search\_neighborhood
+=====================================
+
+.. currentmodule:: autopdex.utility
+
+.. autofunction:: search_neighborhood

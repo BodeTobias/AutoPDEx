@@ -1,0 +1,6 @@
+﻿autopdex.models.neumann\_weak
+=============================
+
+.. currentmodule:: autopdex.models
+
+.. autofunction:: neumann_weak

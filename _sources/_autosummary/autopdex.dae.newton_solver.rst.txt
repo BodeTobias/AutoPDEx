@@ -1,0 +1,6 @@
+﻿autopdex.dae.newton\_solver
+===========================
+
+.. currentmodule:: autopdex.dae
+
+.. autofunction:: newton_solver

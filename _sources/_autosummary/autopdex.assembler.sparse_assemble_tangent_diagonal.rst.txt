@@ -1,0 +1,6 @@
+﻿autopdex.assembler.sparse\_assemble\_tangent\_diagonal
+======================================================
+
+.. currentmodule:: autopdex.assembler
+
+.. autofunction:: sparse_assemble_tangent_diagonal

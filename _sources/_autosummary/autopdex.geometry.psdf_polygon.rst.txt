@@ -1,0 +1,6 @@
+﻿autopdex.geometry.psdf\_polygon
+===============================
+
+.. currentmodule:: autopdex.geometry
+
+.. autofunction:: psdf_polygon

@@ -1,0 +1,6 @@
+﻿autopdex.geometry.sdf\_parallelogram\_2d
+========================================
+
+.. currentmodule:: autopdex.geometry
+
+.. autofunction:: sdf_parallelogram_2d

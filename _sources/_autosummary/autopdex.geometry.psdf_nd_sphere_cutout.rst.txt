@@ -1,0 +1,6 @@
+﻿autopdex.geometry.psdf\_nd\_sphere\_cutout
+==========================================
+
+.. currentmodule:: autopdex.geometry
+
+.. autofunction:: psdf_nd_sphere_cutout

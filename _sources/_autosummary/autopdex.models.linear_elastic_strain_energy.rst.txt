@@ -1,0 +1,6 @@
+﻿autopdex.models.linear\_elastic\_strain\_energy
+===============================================
+
+.. currentmodule:: autopdex.models
+
+.. autofunction:: linear_elastic_strain_energy

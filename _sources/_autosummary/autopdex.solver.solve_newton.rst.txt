@@ -1,0 +1,6 @@
+﻿autopdex.solver.solve\_newton
+=============================
+
+.. currentmodule:: autopdex.solver
+
+.. autofunction:: solve_newton

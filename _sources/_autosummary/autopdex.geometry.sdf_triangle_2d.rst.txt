@@ -1,0 +1,6 @@
+﻿autopdex.geometry.sdf\_triangle\_2d
+===================================
+
+.. currentmodule:: autopdex.geometry
+
+.. autofunction:: sdf_triangle_2d

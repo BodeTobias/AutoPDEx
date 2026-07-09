@@ -1,0 +1,6 @@
+﻿autopdex.variational\_schemes.functional\_at\_int\_point
+========================================================
+
+.. currentmodule:: autopdex.variational_schemes
+
+.. autofunction:: functional_at_int_point

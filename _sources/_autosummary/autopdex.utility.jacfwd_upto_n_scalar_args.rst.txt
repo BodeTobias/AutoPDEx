@@ -1,0 +1,6 @@
+﻿autopdex.utility.jacfwd\_upto\_n\_scalar\_args
+==============================================
+
+.. currentmodule:: autopdex.utility
+
+.. autofunction:: jacfwd_upto_n_scalar_args

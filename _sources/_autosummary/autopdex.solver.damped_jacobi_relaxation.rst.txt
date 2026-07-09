@@ -1,0 +1,6 @@
+﻿autopdex.solver.damped\_jacobi\_relaxation
+==========================================
+
+.. currentmodule:: autopdex.solver
+
+.. autofunction:: damped_jacobi_relaxation

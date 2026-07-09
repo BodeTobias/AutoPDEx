@@ -1,0 +1,6 @@
+﻿autopdex.utility.jit\_with\_docstring
+=====================================
+
+.. currentmodule:: autopdex.utility
+
+.. autofunction:: jit_with_docstring

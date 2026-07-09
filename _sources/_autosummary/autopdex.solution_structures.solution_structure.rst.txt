@@ -1,0 +1,6 @@
+﻿autopdex.solution\_structures.solution\_structure
+=================================================
+
+.. currentmodule:: autopdex.solution_structures
+
+.. autofunction:: solution_structure

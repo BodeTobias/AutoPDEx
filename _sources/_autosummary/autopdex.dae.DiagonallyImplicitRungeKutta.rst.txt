@@ -1,0 +1,58 @@
+﻿autopdex.dae.DiagonallyImplicitRungeKutta
+=========================================
+
+.. currentmodule:: autopdex.dae
+
+.. autoclass:: DiagonallyImplicitRungeKutta
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~DiagonallyImplicitRungeKutta.__delattr__
+      ~DiagonallyImplicitRungeKutta.__dir__
+      ~DiagonallyImplicitRungeKutta.__eq__
+      ~DiagonallyImplicitRungeKutta.__format__
+      ~DiagonallyImplicitRungeKutta.__ge__
+      ~DiagonallyImplicitRungeKutta.__getattribute__
+      ~DiagonallyImplicitRungeKutta.__getstate__
+      ~DiagonallyImplicitRungeKutta.__gt__
+      ~DiagonallyImplicitRungeKutta.__hash__
+      ~DiagonallyImplicitRungeKutta.__init_subclass__
+      ~DiagonallyImplicitRungeKutta.__le__
+      ~DiagonallyImplicitRungeKutta.__lt__
+      ~DiagonallyImplicitRungeKutta.__ne__
+      ~DiagonallyImplicitRungeKutta.__new__
+      ~DiagonallyImplicitRungeKutta.__reduce__
+      ~DiagonallyImplicitRungeKutta.__reduce_ex__
+      ~DiagonallyImplicitRungeKutta.__repr__
+      ~DiagonallyImplicitRungeKutta.__setattr__
+      ~DiagonallyImplicitRungeKutta.__sizeof__
+      ~DiagonallyImplicitRungeKutta.__str__
+      ~DiagonallyImplicitRungeKutta.__subclasshook__
+      ~DiagonallyImplicitRungeKutta._error_estimate
+      ~DiagonallyImplicitRungeKutta._rule
+      ~DiagonallyImplicitRungeKutta._update
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~DiagonallyImplicitRungeKutta.__abstractmethods__
+      ~DiagonallyImplicitRungeKutta.__annotations__
+      ~DiagonallyImplicitRungeKutta.__dict__
+      ~DiagonallyImplicitRungeKutta.__doc__
+      ~DiagonallyImplicitRungeKutta.__module__
+      ~DiagonallyImplicitRungeKutta.__slots__
+      ~DiagonallyImplicitRungeKutta.__weakref__
+      ~DiagonallyImplicitRungeKutta._abc_impl
+   
+   

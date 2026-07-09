@@ -1,0 +1,58 @@
+﻿autopdex.dae.ForwardEuler
+=========================
+
+.. currentmodule:: autopdex.dae
+
+.. autoclass:: ForwardEuler
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~ForwardEuler.__delattr__
+      ~ForwardEuler.__dir__
+      ~ForwardEuler.__eq__
+      ~ForwardEuler.__format__
+      ~ForwardEuler.__ge__
+      ~ForwardEuler.__getattribute__
+      ~ForwardEuler.__getstate__
+      ~ForwardEuler.__gt__
+      ~ForwardEuler.__hash__
+      ~ForwardEuler.__init_subclass__
+      ~ForwardEuler.__le__
+      ~ForwardEuler.__lt__
+      ~ForwardEuler.__ne__
+      ~ForwardEuler.__new__
+      ~ForwardEuler.__reduce__
+      ~ForwardEuler.__reduce_ex__
+      ~ForwardEuler.__repr__
+      ~ForwardEuler.__setattr__
+      ~ForwardEuler.__sizeof__
+      ~ForwardEuler.__str__
+      ~ForwardEuler.__subclasshook__
+      ~ForwardEuler._error_estimate
+      ~ForwardEuler._rule
+      ~ForwardEuler._update
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~ForwardEuler.__abstractmethods__
+      ~ForwardEuler.__annotations__
+      ~ForwardEuler.__dict__
+      ~ForwardEuler.__doc__
+      ~ForwardEuler.__module__
+      ~ForwardEuler.__slots__
+      ~ForwardEuler.__weakref__
+      ~ForwardEuler._abc_impl
+   
+   

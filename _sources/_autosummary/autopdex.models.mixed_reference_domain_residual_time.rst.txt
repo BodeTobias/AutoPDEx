@@ -1,0 +1,6 @@
+﻿autopdex.models.mixed\_reference\_domain\_residual\_time
+========================================================
+
+.. currentmodule:: autopdex.models
+
+.. autofunction:: mixed_reference_domain_residual_time

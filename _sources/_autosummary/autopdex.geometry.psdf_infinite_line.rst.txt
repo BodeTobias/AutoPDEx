@@ -1,0 +1,6 @@
+﻿autopdex.geometry.psdf\_infinite\_line
+======================================
+
+.. currentmodule:: autopdex.geometry
+
+.. autofunction:: psdf_infinite_line
