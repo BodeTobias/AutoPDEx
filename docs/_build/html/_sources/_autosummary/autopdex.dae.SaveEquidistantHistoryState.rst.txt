@@ -51,7 +51,7 @@
       ~SaveEquidistantHistoryState.__match_args__
       ~SaveEquidistantHistoryState.__module__
       ~SaveEquidistantHistoryState.__weakref__
-      ~SaveEquidistantHistoryState.t_max
+      ~SaveEquidistantHistoryState.t_final
       ~SaveEquidistantHistoryState.num_points
       ~SaveEquidistantHistoryState.target_times
       ~SaveEquidistantHistoryState.t

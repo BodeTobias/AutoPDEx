@@ -3,6 +3,11 @@ __pycache__/
 *.py[cod]
 *$py.class
 
+# Compiled native (cffi) extensions
+*.so
+*.pyd
+*.dylib
+
 # Distribution / packaging
 build/
 dist/
@@ -25,6 +30,7 @@ Thumbs.db
 
 # Sphinx documentation
 docs/_autosummary/
+docs/_build/
 docs/generated_rst/
 
 # Python egg caches
@@ -37,6 +43,7 @@ docs/generated_rst/
 examples/results/
 examples/in_progress/
 examples/offline/
+*.res/
 *.vtk
 *output*
 

@@ -36,10 +36,15 @@
       ~TimeSteppingManager.__subclasshook__
       ~TimeSteppingManager._assemble_sparse_tangent
       ~TimeSteppingManager._assemble_sparse_tangent_domain
+      ~TimeSteppingManager._build_assembling_template
+      ~TimeSteppingManager._global_residual
+      ~TimeSteppingManager._global_tangent
       ~TimeSteppingManager._initialize
       ~TimeSteppingManager._multi_stage_step
       ~TimeSteppingManager._tree_flatten
       ~TimeSteppingManager._tree_unflatten
+      ~TimeSteppingManager.add_dirichlet_condition
+      ~TimeSteppingManager.initialize
       ~TimeSteppingManager.run
    
    

@@ -53,6 +53,10 @@
       ~TimeSteppingManagerState.__weakref__
       ~TimeSteppingManagerState.q
       ~TimeSteppingManagerState.settings
+      ~TimeSteppingManagerState.q_n
+      ~TimeSteppingManagerState.q_der_n
+      ~TimeSteppingManagerState.dt
+      ~TimeSteppingManagerState.controller_state
       ~TimeSteppingManagerState.history
       ~TimeSteppingManagerState.num_steps
       ~TimeSteppingManagerState.num_accepted

@@ -51,7 +51,7 @@
       ~SaveAllHistoryState.__match_args__
       ~SaveAllHistoryState.__module__
       ~SaveAllHistoryState.__weakref__
-      ~SaveAllHistoryState.t_max
+      ~SaveAllHistoryState.t_final
       ~SaveAllHistoryState.max_steps
       ~SaveAllHistoryState.t
       ~SaveAllHistoryState.q

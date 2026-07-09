@@ -1,37 +1,35 @@
+
+
 <!DOCTYPE html>
-<html class="writer-html5" lang="en">
+<html class="writer-html5" lang="en" data-content_root="../">
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>autopdex.dae.SaveEquidistantPolicy &mdash; AutoPDEx  documentation</title>
-      <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
-      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css" />
-      <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
-      <link rel="stylesheet" type="text/css" href="../_static/jupyter-sphinx.css" />
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../_static/jupyter-sphinx.css?v=572af1d6" />
       <link rel="stylesheet" type="text/css" href="../_static/thebelab.css" />
-      <link rel="stylesheet" type="text/css" href="../_static/custom.css" />
-      <link rel="stylesheet" type="text/css" href="../_static/dark_mode_css/general.css" />
-      <link rel="stylesheet" type="text/css" href="../_static/dark_mode_css/dark.css" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=acfd50eb" />
+      <link rel="stylesheet" type="text/css" href="../_static/dark_mode_css/general.css?v=c0a7eb24" />
+      <link rel="stylesheet" type="text/css" href="../_static/dark_mode_css/dark.css?v=70edf1c7" />
 
   
-  <!--[if lt IE 9]>
-    <script src="../_static/js/html5shiv.min.js"></script>
-  <![endif]-->
-  
-        <script src="../_static/jquery.js"></script>
-        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-        <script src="../_static/doctools.js"></script>
-        <script src="../_static/sphinx_highlight.js"></script>
-        <script src="../_static/clipboard.min.js"></script>
-        <script src="../_static/copybutton.js"></script>
-        <script src="../_static/thebelab-helper.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
-        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-        <script src="../_static/dark_mode_js/default_light.js"></script>
-        <script src="../_static/dark_mode_js/theme_switcher.js"></script>
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../_static/copybutton.js?v=f281be69"></script>
+      <script src="../_static/thebelab-helper.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+      <script src="../_static/dark_mode_js/default_light.js?v=c2e647ce"></script>
+      <script src="../_static/dark_mode_js/theme_switcher.js?v=358d3910"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -51,9 +49,6 @@
             AutoPDEx
               <img src="../_static/logo.png" class="logo" alt="Logo"/>
           </a>
-              <div class="version">
-                1.1.1
-              </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
@@ -63,11 +58,19 @@
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul>
-<li class="toctree-l1"><a class="reference internal" href="../notebooks/quickstart.html">Quickstart to AutoPDEx</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../notebooks/quickstart_hli.html">Quickstart to AutoPDEx</a></li>
 </ul>
-<p class="caption" role="heading"><span class="caption-text">High level operations</span></p>
+<p class="caption" role="heading"><span class="caption-text">High-level interface</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../sim_state.html">High-level interface</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../example_notebooks.html">Example notebooks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples.html">Lower level input files</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Lower level modules</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="../solver.html">Solver</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../dae.html">Time stepping</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../dae.html#central-class">Central class</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../dae.html#time-integrators">Time integrators</a></li>
@@ -89,27 +92,14 @@
 <li class="toctree-l2"><a class="reference internal" href="../dae.html#rootsolvers-compatible-with-the-dae-module">Rootsolvers compatible with the DAE module</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="../solver.html">Solver</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../models.html">Models</a></li>
-</ul>
-<p class="caption" role="heading"><span class="caption-text">Examples</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../example_notebooks.html">Example notebooks</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../examples.html">Examplary input files</a></li>
-</ul>
-<p class="caption" role="heading"><span class="caption-text">Settings</span></p>
-<ul>
 <li class="toctree-l1"><a class="reference internal" href="../settings.html">Settings and static_settings</a></li>
-</ul>
-<p class="caption" role="heading"><span class="caption-text">Lower level operations</span></p>
-<ul>
 <li class="toctree-l1"><a class="reference internal" href="../assembler.html">Assembler</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../implicit_diff.html">Implicit_diff</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../spaces.html">Spaces</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../solution_structures.html">Solution structures</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../variational_schemes.html">Variational_schemes</a></li>
-</ul>
-<p class="caption" role="heading"><span class="caption-text">Pre- and postprocessing</span></p>
-<ul>
 <li class="toctree-l1"><a class="reference internal" href="../geometry.html">Geometry</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../seeder.html">Seeder</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../utility.html">Utility</a></li>
@@ -147,14 +137,14 @@
            <div itemprop="articleBody">
              
   <section id="autopdex-dae-saveequidistantpolicy">
-<h1>autopdex.dae.SaveEquidistantPolicy<a class="headerlink" href="#autopdex-dae-saveequidistantpolicy" title="Permalink to this heading"></a></h1>
+<h1>autopdex.dae.SaveEquidistantPolicy<a class="headerlink" href="#autopdex-dae-saveequidistantpolicy" title="Link to this heading"></a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="autopdex.dae.SaveEquidistantPolicy">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">autopdex.dae.</span></span><span class="sig-name descname"><span class="pre">SaveEquidistantPolicy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num_points</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-06</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/autopdex/dae.html#SaveEquidistantPolicy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#autopdex.dae.SaveEquidistantPolicy" title="Permalink to this definition"></a></dt>
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">autopdex.dae.</span></span><span class="sig-name descname"><span class="pre">SaveEquidistantPolicy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num_points</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-06</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/autopdex/dae.html#SaveEquidistantPolicy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#autopdex.dae.SaveEquidistantPolicy" title="Link to this definition"></a></dt>
 <dd><p>Saves data at (approximately) equidistant time points using pre-allocated arrays.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="autopdex.dae.SaveEquidistantPolicy.__init__">
-<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num_points</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-06</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/autopdex/dae.html#SaveEquidistantPolicy.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#autopdex.dae.SaveEquidistantPolicy.__init__" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num_points</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-06</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/autopdex/dae.html#SaveEquidistantPolicy.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#autopdex.dae.SaveEquidistantPolicy.__init__" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <p class="rubric">Methods</p>
@@ -199,7 +189,7 @@
 <tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">__ne__</span></code>(value, /)</p></td>
 <td><p>Return self!=value.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">__new__</span></code>(**kwargs)</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">__new__</span></code>(*args, **kwargs)</p></td>
 <td><p></p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">__reduce__</span></code>()</p></td>
@@ -226,11 +216,11 @@
 <tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">finalize</span></code>(state)</p></td>
 <td><p>Finalizes the storage and returns the relevant history data.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">initialize</span></code>(q, t_max, max_steps[, user_data])</p></td>
-<td><p>Initialisiert die vorab allokierten Arrays für Zeit und Zustände.</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">initialize</span></code>(q, t_start, t_final, max_steps[, ...])</p></td>
+<td><p>Initializes the preallocated arrays for time and states.</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">save_step</span></code>(state, t, q[, user_data])</p></td>
-<td><p>Speichert den aktuellen Zustand, wenn der Zielzeitpunkt erreicht ist.</p></td>
+<td><p>Saves the current state when the target time point is reached.</p></td>
 </tr>
 </tbody>
 </table>

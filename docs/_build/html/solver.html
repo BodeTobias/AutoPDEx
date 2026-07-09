@@ -1,42 +1,40 @@
+
+
 <!DOCTYPE html>
-<html class="writer-html5" lang="en">
+<html class="writer-html5" lang="en" data-content_root="./">
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Solver &mdash; AutoPDEx  documentation</title>
-      <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
-      <link rel="stylesheet" type="text/css" href="_static/css/theme.css" />
-      <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
-      <link rel="stylesheet" type="text/css" href="_static/jupyter-sphinx.css" />
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="_static/jupyter-sphinx.css?v=572af1d6" />
       <link rel="stylesheet" type="text/css" href="_static/thebelab.css" />
-      <link rel="stylesheet" type="text/css" href="_static/custom.css" />
-      <link rel="stylesheet" type="text/css" href="_static/dark_mode_css/general.css" />
-      <link rel="stylesheet" type="text/css" href="_static/dark_mode_css/dark.css" />
+      <link rel="stylesheet" type="text/css" href="_static/custom.css?v=acfd50eb" />
+      <link rel="stylesheet" type="text/css" href="_static/dark_mode_css/general.css?v=c0a7eb24" />
+      <link rel="stylesheet" type="text/css" href="_static/dark_mode_css/dark.css?v=70edf1c7" />
 
   
-  <!--[if lt IE 9]>
-    <script src="_static/js/html5shiv.min.js"></script>
-  <![endif]-->
-  
-        <script src="_static/jquery.js"></script>
-        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-        <script src="_static/doctools.js"></script>
-        <script src="_static/sphinx_highlight.js"></script>
-        <script src="_static/clipboard.min.js"></script>
-        <script src="_static/copybutton.js"></script>
-        <script src="_static/thebelab-helper.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
-        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-        <script src="_static/dark_mode_js/default_light.js"></script>
-        <script src="_static/dark_mode_js/theme_switcher.js"></script>
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="_static/copybutton.js?v=f281be69"></script>
+      <script src="_static/thebelab-helper.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+      <script src="_static/dark_mode_js/default_light.js?v=c2e647ce"></script>
+      <script src="_static/dark_mode_js/theme_switcher.js?v=358d3910"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="autopdex.solver.adaptive_load_stepping" href="_autosummary/autopdex.solver.adaptive_load_stepping.html" />
-    <link rel="prev" title="Quickstart to AutoPDEx" href="notebooks/quickstart.html" /> 
+    <link rel="prev" title="autopdex.dae.newton_solver" href="_autosummary/autopdex.dae.newton_solver.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -51,9 +49,6 @@
             AutoPDEx
               <img src="_static/logo.png" class="logo" alt="Logo"/>
           </a>
-              <div class="version">
-                1.1.1
-              </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
@@ -63,10 +58,20 @@
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul>
-<li class="toctree-l1"><a class="reference internal" href="notebooks/quickstart.html">Quickstart to AutoPDEx</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/quickstart_hli.html">Quickstart to AutoPDEx</a></li>
 </ul>
-<p class="caption" role="heading"><span class="caption-text">High level operations</span></p>
+<p class="caption" role="heading"><span class="caption-text">High-level interface</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="sim_state.html">High-level interface</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="example_notebooks.html">Example notebooks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Lower level input files</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Lower level modules</span></p>
 <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="dae.html">Time stepping</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Solver</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#automatic-solvers">Automatic Solvers</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="_autosummary/autopdex.solver.adaptive_load_stepping.html">autopdex.solver.adaptive_load_stepping</a></li>
@@ -100,28 +105,13 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="dae.html">Time stepping</a></li>
 <li class="toctree-l1"><a class="reference internal" href="models.html">Models</a></li>
-</ul>
-<p class="caption" role="heading"><span class="caption-text">Examples</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="example_notebooks.html">Example notebooks</a></li>
-<li class="toctree-l1"><a class="reference internal" href="examples.html">Examplary input files</a></li>
-</ul>
-<p class="caption" role="heading"><span class="caption-text">Settings</span></p>
-<ul>
 <li class="toctree-l1"><a class="reference internal" href="settings.html">Settings and static_settings</a></li>
-</ul>
-<p class="caption" role="heading"><span class="caption-text">Lower level operations</span></p>
-<ul>
 <li class="toctree-l1"><a class="reference internal" href="assembler.html">Assembler</a></li>
 <li class="toctree-l1"><a class="reference internal" href="implicit_diff.html">Implicit_diff</a></li>
 <li class="toctree-l1"><a class="reference internal" href="spaces.html">Spaces</a></li>
 <li class="toctree-l1"><a class="reference internal" href="solution_structures.html">Solution structures</a></li>
 <li class="toctree-l1"><a class="reference internal" href="variational_schemes.html">Variational_schemes</a></li>
-</ul>
-<p class="caption" role="heading"><span class="caption-text">Pre- and postprocessing</span></p>
-<ul>
 <li class="toctree-l1"><a class="reference internal" href="geometry.html">Geometry</a></li>
 <li class="toctree-l1"><a class="reference internal" href="seeder.html">Seeder</a></li>
 <li class="toctree-l1"><a class="reference internal" href="utility.html">Utility</a></li>
@@ -158,7 +148,7 @@
            <div itemprop="articleBody">
              
   <section id="module-autopdex.solver">
-<span id="solver"></span><h1>Solver<a class="headerlink" href="#module-autopdex.solver" title="Permalink to this heading"></a></h1>
+<span id="solver"></span><h1>Solver<a class="headerlink" href="#module-autopdex.solver" title="Link to this heading"></a></h1>
 <p>This module is the central module of the analysis phase.
 Based on the given entries in settings and static_settings, the functions solver and adaptive_load_stepping can be used to find the roots of the global residual vector.
 Depending on the settings, linear equation solvers, the Newton-Raphson method, or nonlinear minimizers are utilized.
@@ -166,9 +156,10 @@ The residual vectors and (in the case of external solvers) the tangent matrix ar
 The solver module uses the assembler, which in turn calls the variational_scheme, the solution_structure, and the spaces modules.
 Additionally, automatic implicit differentiation in forward or reverse mode via the implicit_diff module is provided for the adaptive_load_stepping function.
 For solving the linear equation systems, wrappers for different backends on CPU and GPU are available, including Pardiso and PETSc.</p>
-<a class="reference internal image-reference" href="_images/modules.png"><img alt="_images/modules.png" class="align-center" src="_images/modules.png" style="width: 490.0px; height: 490.5px;" /></a>
+<a class="reference internal image-reference" href="_images/modules.png"><img alt="_images/modules.png" class="align-center" height="490" src="_images/modules.png" width="490" />
+</a>
 <section id="automatic-solvers">
-<h2>Automatic Solvers<a class="headerlink" href="#automatic-solvers" title="Permalink to this heading"></a></h2>
+<h2>Automatic Solvers<a class="headerlink" href="#automatic-solvers" title="Link to this heading"></a></h2>
 <table class="autosummary longtable docutils align-default">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/autopdex.solver.adaptive_load_stepping.html#autopdex.solver.adaptive_load_stepping" title="autopdex.solver.adaptive_load_stepping"><code class="xref py py-obj docutils literal notranslate"><span class="pre">adaptive_load_stepping</span></code></a>(dofs, settings, ...)</p></td>
@@ -181,7 +172,7 @@ For solving the linear equation systems, wrappers for different backends on CPU 
 </table>
 </section>
 <section id="specific-solvers">
-<h2>Specific solvers<a class="headerlink" href="#specific-solvers" title="Permalink to this heading"></a></h2>
+<h2>Specific solvers<a class="headerlink" href="#specific-solvers" title="Link to this heading"></a></h2>
 <table class="autosummary longtable docutils align-default">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/autopdex.solver.solve_nonlinear_minimization.html#autopdex.solver.solve_nonlinear_minimization" title="autopdex.solver.solve_nonlinear_minimization"><code class="xref py py-obj docutils literal notranslate"><span class="pre">solve_nonlinear_minimization</span></code></a>(dofs, settings, ...)</p></td>
@@ -203,7 +194,7 @@ For solving the linear equation systems, wrappers for different backends on CPU 
 </table>
 </section>
 <section id="linear-solvers-for-different-backends">
-<h2>Linear Solvers for Different Backends<a class="headerlink" href="#linear-solvers-for-different-backends" title="Permalink to this heading"></a></h2>
+<h2>Linear Solvers for Different Backends<a class="headerlink" href="#linear-solvers-for-different-backends" title="Link to this heading"></a></h2>
 <table class="autosummary longtable docutils align-default">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/autopdex.solver.linear_solve_jax.html#autopdex.solver.linear_solve_jax" title="autopdex.solver.linear_solve_jax"><code class="xref py py-obj docutils literal notranslate"><span class="pre">linear_solve_jax</span></code></a>(dofs, settings, ...)</p></td>
@@ -225,7 +216,7 @@ For solving the linear equation systems, wrappers for different backends on CPU 
 </table>
 </section>
 <section id="iterative-solvers-smoothers">
-<h2>Iterative Solvers/Smoothers<a class="headerlink" href="#iterative-solvers-smoothers" title="Permalink to this heading"></a></h2>
+<h2>Iterative Solvers/Smoothers<a class="headerlink" href="#iterative-solvers-smoothers" title="Link to this heading"></a></h2>
 <table class="autosummary longtable docutils align-default">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/autopdex.solver.jacobi_method.html#autopdex.solver.jacobi_method" title="autopdex.solver.jacobi_method"><code class="xref py py-obj docutils literal notranslate"><span class="pre">jacobi_method</span></code></a>(hvp_fun, diag, x_0, rhs[, ...])</p></td>
@@ -238,7 +229,7 @@ For solving the linear equation systems, wrappers for different backends on CPU 
 </table>
 </section>
 <section id="utility-functions">
-<h2>Utility Functions<a class="headerlink" href="#utility-functions" title="Permalink to this heading"></a></h2>
+<h2>Utility Functions<a class="headerlink" href="#utility-functions" title="Link to this heading"></a></h2>
 <table class="autosummary longtable docutils align-default">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/autopdex.solver.scipy_assembling.html#autopdex.solver.scipy_assembling" title="autopdex.solver.scipy_assembling"><code class="xref py py-obj docutils literal notranslate"><span class="pre">scipy_assembling</span></code></a>(tangent_with_duplicates, ...)</p></td>
@@ -253,7 +244,7 @@ For solving the linear equation systems, wrappers for different backends on CPU 
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="notebooks/quickstart.html" class="btn btn-neutral float-left" title="Quickstart to AutoPDEx" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="_autosummary/autopdex.dae.newton_solver.html" class="btn btn-neutral float-left" title="autopdex.dae.newton_solver" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="_autosummary/autopdex.solver.adaptive_load_stepping.html" class="btn btn-neutral float-right" title="autopdex.solver.adaptive_load_stepping" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 

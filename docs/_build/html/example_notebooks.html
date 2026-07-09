@@ -1,42 +1,40 @@
+
+
 <!DOCTYPE html>
-<html class="writer-html5" lang="en">
+<html class="writer-html5" lang="en" data-content_root="./">
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Example notebooks &mdash; AutoPDEx  documentation</title>
-      <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
-      <link rel="stylesheet" type="text/css" href="_static/css/theme.css" />
-      <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
-      <link rel="stylesheet" type="text/css" href="_static/jupyter-sphinx.css" />
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="_static/jupyter-sphinx.css?v=572af1d6" />
       <link rel="stylesheet" type="text/css" href="_static/thebelab.css" />
-      <link rel="stylesheet" type="text/css" href="_static/custom.css" />
-      <link rel="stylesheet" type="text/css" href="_static/dark_mode_css/general.css" />
-      <link rel="stylesheet" type="text/css" href="_static/dark_mode_css/dark.css" />
+      <link rel="stylesheet" type="text/css" href="_static/custom.css?v=acfd50eb" />
+      <link rel="stylesheet" type="text/css" href="_static/dark_mode_css/general.css?v=c0a7eb24" />
+      <link rel="stylesheet" type="text/css" href="_static/dark_mode_css/dark.css?v=70edf1c7" />
 
   
-  <!--[if lt IE 9]>
-    <script src="_static/js/html5shiv.min.js"></script>
-  <![endif]-->
-  
-        <script src="_static/jquery.js"></script>
-        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-        <script src="_static/doctools.js"></script>
-        <script src="_static/sphinx_highlight.js"></script>
-        <script src="_static/clipboard.min.js"></script>
-        <script src="_static/copybutton.js"></script>
-        <script src="_static/thebelab-helper.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
-        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-        <script src="_static/dark_mode_js/default_light.js"></script>
-        <script src="_static/dark_mode_js/theme_switcher.js"></script>
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="_static/copybutton.js?v=f281be69"></script>
+      <script src="_static/thebelab-helper.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+      <script src="_static/dark_mode_js/default_light.js?v=c2e647ce"></script>
+      <script src="_static/dark_mode_js/theme_switcher.js?v=358d3910"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Incompressible hyperelasticity as user potential or user residual" href="notebooks/mixed_problem.html" />
-    <link rel="prev" title="autopdex.models.linear_elastic_strain_energy" href="_autosummary/autopdex.models.linear_elastic_strain_energy.html" /> 
+    <link rel="next" title="Poisson problem described as a potential" href="notebooks/short_example_hli.html" />
+    <link rel="prev" title="autopdex.spaces.InternalVariable" href="_autosummary/autopdex.spaces.InternalVariable.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -51,9 +49,6 @@
             AutoPDEx
               <img src="_static/logo.png" class="logo" alt="Logo"/>
           </a>
-              <div class="version">
-                1.1.1
-              </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
@@ -63,40 +58,48 @@
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul>
-<li class="toctree-l1"><a class="reference internal" href="notebooks/quickstart.html">Quickstart to AutoPDEx</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/quickstart_hli.html">Quickstart to AutoPDEx</a></li>
 </ul>
-<p class="caption" role="heading"><span class="caption-text">High level operations</span></p>
+<p class="caption" role="heading"><span class="caption-text">High-level interface</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="solver.html">Solver</a></li>
-<li class="toctree-l1"><a class="reference internal" href="dae.html">Time stepping</a></li>
-<li class="toctree-l1"><a class="reference internal" href="models.html">Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sim_state.html">High-level interface</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Examples</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Example notebooks</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="notebooks/quickstart.html">Quickstart to AutoPDEx</a></li>
-<li class="toctree-l2"><a class="reference internal" href="notebooks/mixed_problem.html">Incompressible hyperelasticity as user potential or user residual</a></li>
-<li class="toctree-l2"><a class="reference internal" href="notebooks/ode_lotka_volterra.html">Nonlinear coupled ODEs (Lotka-Volterra)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="notebooks/dae_robertson.html">Differential-algebraic system of equations (Robertson problem)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="notebooks/pdae_navier_stokes_and_energy_balance.html">Incompressible Navier-Stokes with heat conduction and convection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#high-level-interface">High-level interface</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/quickstart_hli.html">Quickstart to AutoPDEx</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/short_example_hli.html">Poisson problem described as a potential</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/navier_stokes_hli.html">Incompressible Navier-Stokes with heat conduction and convection</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/norton_creep.html">Global problem with internal variables and sub-Newton: Norton creep</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="examples.html">Examplary input files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#local-problems">Local problems</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/ode_lotka_volterra.html">Nonlinear coupled ODEs (Lotka-Volterra)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/dae_robertson.html">Differential-algebraic system of equations (Robertson problem)</a></li>
 </ul>
-<p class="caption" role="heading"><span class="caption-text">Settings</span></p>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#further-notebooks">Further notebooks</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/quickstart.html">Quickstart in the lower level interface</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/mixed_problem.html">Incompressible hyperelasticity as user potential or user residual</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/pdae_navier_stokes_and_energy_balance.html">Incompressible Navier-Stokes with heat conduction and convection (via low level interface)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Lower level input files</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Lower level modules</span></p>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="dae.html">Time stepping</a></li>
+<li class="toctree-l1"><a class="reference internal" href="solver.html">Solver</a></li>
+<li class="toctree-l1"><a class="reference internal" href="models.html">Models</a></li>
 <li class="toctree-l1"><a class="reference internal" href="settings.html">Settings and static_settings</a></li>
-</ul>
-<p class="caption" role="heading"><span class="caption-text">Lower level operations</span></p>
-<ul>
 <li class="toctree-l1"><a class="reference internal" href="assembler.html">Assembler</a></li>
 <li class="toctree-l1"><a class="reference internal" href="implicit_diff.html">Implicit_diff</a></li>
 <li class="toctree-l1"><a class="reference internal" href="spaces.html">Spaces</a></li>
 <li class="toctree-l1"><a class="reference internal" href="solution_structures.html">Solution structures</a></li>
 <li class="toctree-l1"><a class="reference internal" href="variational_schemes.html">Variational_schemes</a></li>
-</ul>
-<p class="caption" role="heading"><span class="caption-text">Pre- and postprocessing</span></p>
-<ul>
 <li class="toctree-l1"><a class="reference internal" href="geometry.html">Geometry</a></li>
 <li class="toctree-l1"><a class="reference internal" href="seeder.html">Seeder</a></li>
 <li class="toctree-l1"><a class="reference internal" href="utility.html">Utility</a></li>
@@ -133,24 +136,45 @@
            <div itemprop="articleBody">
              
   <section id="example-notebooks">
-<h1>Example notebooks<a class="headerlink" href="#example-notebooks" title="Permalink to this heading"></a></h1>
+<h1>Example notebooks<a class="headerlink" href="#example-notebooks" title="Link to this heading"></a></h1>
+<section id="high-level-interface">
+<h2>High-level interface<a class="headerlink" href="#high-level-interface" title="Link to this heading"></a></h2>
 <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="notebooks/quickstart.html">Quickstart to AutoPDEx</a></li>
-<li class="toctree-l1"><a class="reference internal" href="notebooks/mixed_problem.html">Incompressible hyperelasticity as user potential or user residual</a></li>
-<li class="toctree-l1"><a class="reference internal" href="notebooks/ode_lotka_volterra.html">Nonlinear coupled ODEs (Lotka-Volterra)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="notebooks/dae_robertson.html">Differential-algebraic system of equations (Robertson problem)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="notebooks/pdae_navier_stokes_and_energy_balance.html">Incompressible Navier-Stokes with heat conduction and convection</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/quickstart_hli.html">Quickstart to AutoPDEx</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/short_example_hli.html">Poisson problem described as a potential</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/navier_stokes_hli.html">Incompressible Navier-Stokes with heat conduction and convection</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/norton_creep.html">Global problem with internal variables and sub-Newton: Norton creep</a></li>
 </ul>
 </div>
+</section>
+<section id="local-problems">
+<h2>Local problems<a class="headerlink" href="#local-problems" title="Link to this heading"></a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/ode_lotka_volterra.html">Nonlinear coupled ODEs (Lotka-Volterra)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/dae_robertson.html">Differential-algebraic system of equations (Robertson problem)</a></li>
+</ul>
+</div>
+</section>
+<section id="further-notebooks">
+<h2>Further notebooks<a class="headerlink" href="#further-notebooks" title="Link to this heading"></a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/quickstart.html">Quickstart in the lower level interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/mixed_problem.html">Incompressible hyperelasticity as user potential or user residual</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/pdae_navier_stokes_and_energy_balance.html">Incompressible Navier-Stokes with heat conduction and convection (via low level interface)</a></li>
+</ul>
+</div>
+</section>
 </section>
 
 
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="_autosummary/autopdex.models.linear_elastic_strain_energy.html" class="btn btn-neutral float-left" title="autopdex.models.linear_elastic_strain_energy" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="notebooks/mixed_problem.html" class="btn btn-neutral float-right" title="Incompressible hyperelasticity as user potential or user residual" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="_autosummary/autopdex.spaces.InternalVariable.html" class="btn btn-neutral float-left" title="autopdex.spaces.InternalVariable" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="notebooks/short_example_hli.html" class="btn btn-neutral float-right" title="Poisson problem described as a potential" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

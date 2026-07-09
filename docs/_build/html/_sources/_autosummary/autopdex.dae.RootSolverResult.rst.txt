@@ -54,5 +54,6 @@
       ~RootSolverResult.root
       ~RootSolverResult.num_iterations
       ~RootSolverResult.converged
+      ~RootSolverResult.settings
    
    

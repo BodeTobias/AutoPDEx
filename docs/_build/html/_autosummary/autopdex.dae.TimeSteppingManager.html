@@ -1,37 +1,35 @@
+
+
 <!DOCTYPE html>
-<html class="writer-html5" lang="en">
+<html class="writer-html5" lang="en" data-content_root="../">
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>autopdex.dae.TimeSteppingManager &mdash; AutoPDEx  documentation</title>
-      <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
-      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css" />
-      <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
-      <link rel="stylesheet" type="text/css" href="../_static/jupyter-sphinx.css" />
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../_static/jupyter-sphinx.css?v=572af1d6" />
       <link rel="stylesheet" type="text/css" href="../_static/thebelab.css" />
-      <link rel="stylesheet" type="text/css" href="../_static/custom.css" />
-      <link rel="stylesheet" type="text/css" href="../_static/dark_mode_css/general.css" />
-      <link rel="stylesheet" type="text/css" href="../_static/dark_mode_css/dark.css" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=acfd50eb" />
+      <link rel="stylesheet" type="text/css" href="../_static/dark_mode_css/general.css?v=c0a7eb24" />
+      <link rel="stylesheet" type="text/css" href="../_static/dark_mode_css/dark.css?v=70edf1c7" />
 
   
-  <!--[if lt IE 9]>
-    <script src="../_static/js/html5shiv.min.js"></script>
-  <![endif]-->
-  
-        <script src="../_static/jquery.js"></script>
-        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-        <script src="../_static/doctools.js"></script>
-        <script src="../_static/sphinx_highlight.js"></script>
-        <script src="../_static/clipboard.min.js"></script>
-        <script src="../_static/copybutton.js"></script>
-        <script src="../_static/thebelab-helper.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
-        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-        <script src="../_static/dark_mode_js/default_light.js"></script>
-        <script src="../_static/dark_mode_js/theme_switcher.js"></script>
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../_static/copybutton.js?v=f281be69"></script>
+      <script src="../_static/thebelab-helper.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+      <script src="../_static/dark_mode_js/default_light.js?v=c2e647ce"></script>
+      <script src="../_static/dark_mode_js/theme_switcher.js?v=358d3910"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -51,9 +49,6 @@
             AutoPDEx
               <img src="../_static/logo.png" class="logo" alt="Logo"/>
           </a>
-              <div class="version">
-                1.1.1
-              </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
@@ -63,11 +58,19 @@
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul>
-<li class="toctree-l1"><a class="reference internal" href="../notebooks/quickstart.html">Quickstart to AutoPDEx</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../notebooks/quickstart_hli.html">Quickstart to AutoPDEx</a></li>
 </ul>
-<p class="caption" role="heading"><span class="caption-text">High level operations</span></p>
+<p class="caption" role="heading"><span class="caption-text">High-level interface</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../sim_state.html">High-level interface</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../example_notebooks.html">Example notebooks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples.html">Lower level input files</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Lower level modules</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="../solver.html">Solver</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../dae.html">Time stepping</a><ul class="current">
 <li class="toctree-l2 current"><a class="reference internal" href="../dae.html#central-class">Central class</a><ul class="current">
 <li class="toctree-l3 current"><a class="current reference internal" href="#">autopdex.dae.TimeSteppingManager</a><ul>
@@ -85,27 +88,14 @@
 <li class="toctree-l2"><a class="reference internal" href="../dae.html#rootsolvers-compatible-with-the-dae-module">Rootsolvers compatible with the DAE module</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="../solver.html">Solver</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../models.html">Models</a></li>
-</ul>
-<p class="caption" role="heading"><span class="caption-text">Examples</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../example_notebooks.html">Example notebooks</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../examples.html">Examplary input files</a></li>
-</ul>
-<p class="caption" role="heading"><span class="caption-text">Settings</span></p>
-<ul>
 <li class="toctree-l1"><a class="reference internal" href="../settings.html">Settings and static_settings</a></li>
-</ul>
-<p class="caption" role="heading"><span class="caption-text">Lower level operations</span></p>
-<ul>
 <li class="toctree-l1"><a class="reference internal" href="../assembler.html">Assembler</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../implicit_diff.html">Implicit_diff</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../spaces.html">Spaces</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../solution_structures.html">Solution structures</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../variational_schemes.html">Variational_schemes</a></li>
-</ul>
-<p class="caption" role="heading"><span class="caption-text">Pre- and postprocessing</span></p>
-<ul>
 <li class="toctree-l1"><a class="reference internal" href="../geometry.html">Geometry</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../seeder.html">Seeder</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../utility.html">Utility</a></li>
@@ -143,10 +133,10 @@
            <div itemprop="articleBody">
              
   <section id="autopdex-dae-timesteppingmanager">
-<h1>autopdex.dae.TimeSteppingManager<a class="headerlink" href="#autopdex-dae-timesteppingmanager" title="Permalink to this heading"></a></h1>
+<h1>autopdex.dae.TimeSteppingManager<a class="headerlink" href="#autopdex-dae-timesteppingmanager" title="Link to this heading"></a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="autopdex.dae.TimeSteppingManager">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">autopdex.dae.</span></span><span class="sig-name descname"><span class="pre">TimeSteppingManager</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">static_settings</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">settings={'current</span> <span class="pre">time':</span> <span class="pre">0.0}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">root_solver=&lt;function</span> <span class="pre">newton_solver&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_policy=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">step_size_controller=&lt;autopdex.dae.ConstantStepSizeController</span> <span class="pre">object&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">postprocessing_fun=&lt;function</span> <span class="pre">TimeSteppingManager.&lt;lambda&gt;&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pre_step_updates=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">post_step_updates=None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/autopdex/dae.html#TimeSteppingManager"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#autopdex.dae.TimeSteppingManager" title="Permalink to this definition"></a></dt>
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">autopdex.dae.</span></span><span class="sig-name descname"><span class="pre">TimeSteppingManager</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">static_settings</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">settings</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{'current</span> <span class="pre">time':</span> <span class="pre">0.0}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">root_solver</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">&lt;function</span> <span class="pre">newton_solver&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_policy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">step_size_controller</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">&lt;autopdex.dae.ConstantStepSizeController</span> <span class="pre">object&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">postprocessing_fun</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">&lt;function</span> <span class="pre">TimeSteppingManager.&lt;lambda&gt;&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pre_step_updates</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">post_step_updates</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/autopdex/dae.html#TimeSteppingManager"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#autopdex.dae.TimeSteppingManager" title="Link to this definition"></a></dt>
 <dd><p>Manages the time stepping procedure for a simulation using multi-stage integration schemes.</p>
 <dl class="simple">
 <dt>This class orchestrates the simulation by coordinating various components such as:</dt><dd><ul class="simple">
@@ -164,7 +154,7 @@ applies error control and adaptive time stepping, and optionally records simulat
 along with simulation statistics is returned.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="autopdex.dae.TimeSteppingManager.__init__">
-<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">static_settings</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">settings={'current</span> <span class="pre">time':</span> <span class="pre">0.0}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">root_solver=&lt;function</span> <span class="pre">newton_solver&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_policy=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">step_size_controller=&lt;autopdex.dae.ConstantStepSizeController</span> <span class="pre">object&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">postprocessing_fun=&lt;function</span> <span class="pre">TimeSteppingManager.&lt;lambda&gt;&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pre_step_updates=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">post_step_updates=None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/autopdex/dae.html#TimeSteppingManager.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#autopdex.dae.TimeSteppingManager.__init__" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">static_settings</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">settings</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{'current</span> <span class="pre">time':</span> <span class="pre">0.0}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">root_solver</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">&lt;function</span> <span class="pre">newton_solver&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_policy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">step_size_controller</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">&lt;autopdex.dae.ConstantStepSizeController</span> <span class="pre">object&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">postprocessing_fun</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">&lt;function</span> <span class="pre">TimeSteppingManager.&lt;lambda&gt;&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pre_step_updates</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">post_step_updates</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/autopdex/dae.html#TimeSteppingManager.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#autopdex.dae.TimeSteppingManager.__init__" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <p class="rubric">Methods</p>
@@ -209,7 +199,7 @@ along with simulation statistics is returned.</p>
 <tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">__ne__</span></code>(value, /)</p></td>
 <td><p>Return self!=value.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">__new__</span></code>(**kwargs)</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">__new__</span></code>(*args, **kwargs)</p></td>
 <td><p></p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">__reduce__</span></code>()</p></td>
@@ -233,25 +223,40 @@ along with simulation statistics is returned.</p>
 <tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">__subclasshook__</span></code></p></td>
 <td><p>Abstract classes can override this to customize issubclass().</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">_assemble_sparse_tangent</span></code>(x_flat, q_n, q_t_n, ...)</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">_assemble_sparse_tangent</span></code>(x_flat, q_stages, ...)</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">_assemble_sparse_tangent_domain</span></code>(x_flat, q_n, ...)</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">_assemble_sparse_tangent_domain</span></code>(x_flat, ...)</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">_initialize</span></code>(dofs)</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">_build_assembling_template</span></code>(initial_guess, ...)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">_global_residual</span></code>(dofs, dt0[, settings])</p></td>
+<td><p>Not tested, only for performance checks.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">_global_tangent</span></code>(dofs, dt0[, settings])</p></td>
+<td><p>Not tested, only for performance checks.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">_initialize</span></code>(dofs[, settings])</p></td>
 <td><p>Initializes history for multi-step methods and stores the global DOF structure as a template for unflattening.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">_multi_stage_step</span></code>(q, t, t_n, dt, q_n, q_t_n, ...)</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">_multi_stage_step</span></code>(q, t, t_n, dt, q_n, q_t_n, ...)</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">_tree_flatten</span></code>(obj)</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">_tree_flatten</span></code>(obj)</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">_tree_unflatten</span></code>(aux_data, children)</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">_tree_unflatten</span></code>(aux_data, children)</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="autopdex.dae.TimeSteppingManager.run.html#autopdex.dae.TimeSteppingManager.run" title="autopdex.dae.TimeSteppingManager.run"><code class="xref py py-obj docutils literal notranslate"><span class="pre">run</span></code></a>(dofs, dt0, t_max, num_time_steps[, settings])</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_dirichlet_condition</span></code>(field, ...[, index, ...])</p></td>
+<td><p>Register a Dirichlet BC for <cite>field</cite> (not jittable).</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">initialize</span></code>(dofs, settings)</p></td>
+<td><p>Constructs a template for efficient assembling (not jittable).</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="autopdex.dae.TimeSteppingManager.run.html#autopdex.dae.TimeSteppingManager.run" title="autopdex.dae.TimeSteppingManager.run"><code class="xref py py-obj docutils literal notranslate"><span class="pre">run</span></code></a>(dofs, dt0, t_final, num_time_steps[, ...])</p></td>
 <td><p>Executes the time stepping loop for the simulation.</p></td>
 </tr>
 </tbody>
