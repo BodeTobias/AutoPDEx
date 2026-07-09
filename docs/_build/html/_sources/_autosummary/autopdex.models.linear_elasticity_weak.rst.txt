@@ -1,6 +1,0 @@
-﻿autopdex.models.linear\_elasticity\_weak
-========================================
-
-.. currentmodule:: autopdex.models
-
-.. autofunction:: linear_elasticity_weak

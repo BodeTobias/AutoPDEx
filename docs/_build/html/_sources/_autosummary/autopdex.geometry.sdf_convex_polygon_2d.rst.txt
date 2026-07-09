@@ -1,6 +1,0 @@
-﻿autopdex.geometry.sdf\_convex\_polygon\_2d
-==========================================
-
-.. currentmodule:: autopdex.geometry
-
-.. autofunction:: sdf_convex_polygon_2d

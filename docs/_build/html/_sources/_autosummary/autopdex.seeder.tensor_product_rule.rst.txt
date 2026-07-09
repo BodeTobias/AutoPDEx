@@ -1,6 +1,0 @@
-﻿autopdex.seeder.tensor\_product\_rule
-=====================================
-
-.. currentmodule:: autopdex.seeder
-
-.. autofunction:: tensor_product_rule

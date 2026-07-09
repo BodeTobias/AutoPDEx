@@ -1,6 +1,0 @@
-﻿autopdex.models.mixed\_reference\_surface\_residual
-===================================================
-
-.. currentmodule:: autopdex.models
-
-.. autofunction:: mixed_reference_surface_residual

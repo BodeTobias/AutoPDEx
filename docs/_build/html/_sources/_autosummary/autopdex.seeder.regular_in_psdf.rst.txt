@@ -1,6 +1,0 @@
-﻿autopdex.seeder.regular\_in\_psdf
-=================================
-
-.. currentmodule:: autopdex.seeder
-
-.. autofunction:: regular_in_psdf

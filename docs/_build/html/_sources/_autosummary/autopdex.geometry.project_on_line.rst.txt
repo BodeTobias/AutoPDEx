@@ -1,6 +1,0 @@
-﻿autopdex.geometry.project\_on\_line
-===================================
-
-.. currentmodule:: autopdex.geometry
-
-.. autofunction:: project_on_line

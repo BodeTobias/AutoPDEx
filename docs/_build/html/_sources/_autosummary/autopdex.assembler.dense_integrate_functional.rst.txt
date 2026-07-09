@@ -1,6 +1,0 @@
-﻿autopdex.assembler.dense\_integrate\_functional
-===============================================
-
-.. currentmodule:: autopdex.assembler
-
-.. autofunction:: dense_integrate_functional

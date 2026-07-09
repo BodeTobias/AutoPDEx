@@ -23,18 +23,43 @@ For solving the linear equation systems, wrappers for different backends on CPU 
 
 import time
 import sys
+from typing import Dict, Tuple
+import struct
 
+import xxhash
 import jax
-import jaxopt
 import jax.numpy as jnp
 from jax.experimental import sparse
 from jax import lax
 import numpy as np
+from numpy.typing import ArrayLike
 import scipy as scp
+from scipy import sparse
 from flax.core import FrozenDict
+try:
+    import pypardiso
+    from pypardiso import PyPardisoSolver
+    # ---------------------------------------------------------------------------
+    # Global cache for Pardiso solver:
+    #
+    #   _GLOBAL_PARDISO_ANALYSIS_CACHE[mtype][(n_rows, n_cols, nnz)][structure_hash]
+    #       -> PyPardisoSolver
+    #
+    # 1. mtype (e.g. 11 for general real, 2 for SPD real)
+    # 2. size and nnz (cheap to compare)
+    # 3. structure_hash (sparsity pattern)
+    # ---------------------------------------------------------------------------
+    _GLOBAL_PARDISO_ANALYSIS_CACHE: Dict[
+        int,  # mtype
+        Dict[
+            Tuple[int, int, int],  # (n_rows, n_cols, nnz)
+            Dict[str, PyPardisoSolver]  # structure_hash -> solver
+        ]
+    ] = {}
+except ImportError:
+    pass
 
 from autopdex import assembler, implicit_diff, utility
-
 
 
 ### Solvers as specified by the static_settings and settings
@@ -108,7 +133,7 @@ def solver(dofs, settings, static_settings, **kwargs):
             sol = solve_diagonal_linear(dofs, settings, static_settings, **kwargs)
             infos = None
         # case 'diagonal newton':
-        #   # ToDo
+        #   # TODO
         #   sol, infos = solve_diagonal_newton(dofs, settings, static_settings, **kwargs)
         case "newton":
             sol, infos = solve_newton(dofs, settings, static_settings, **kwargs)
@@ -184,7 +209,7 @@ def adaptive_load_stepping(
       settings (dict): Dictionary of problem settings.
       static_settings (dict): Dictionary of static settings that do not change during load steps.
       multiplier_settings (callable): Function to update settings based on the current load multiplier.
-      path_dependent (bool): Specifies wether problem is path-dependent (experimental) or not (has an influence on the implicit differentiation).
+      path_dependent (bool): Specifies wether problem is path-dependent or not (has an influence on the implicit differentiation).
       implicit_diff_mode (string): Can be either \'reverse\', \'forward\' or None. In case of \'reverse\', only reverse mode differentiation is supported (jacrev), in case of \'forward\', only forward mode differentiation is supported (jacfwd).
       max_multiplier (float): Maximum value for the load multiplier.
       min_increment (float): Minimum allowable increment size.
@@ -202,8 +227,8 @@ def adaptive_load_stepping(
 
     if implicit_diff_mode is not None:
         # Set-up the decorator for implicit differentiation
-        residual_fun = lambda dofs, settings: assembler.assemble_residual(dofs, settings, static_settings)
-        tangent_fun = lambda dofs, settings: assembler.assemble_tangent(dofs, settings, static_settings)
+        residual_fun = lambda dofs_, settings_: assembler.assemble_residual(dofs_, settings_, static_settings)
+        tangent_fun = lambda dofs_, settings_: assembler.assemble_tangent(dofs_, settings_, static_settings)
 
         try:
             dirichlet_dofs = settings["dirichlet dofs"]
@@ -228,6 +253,15 @@ def adaptive_load_stepping(
         except KeyError:
             sensitivity_solver_backend = solver_backend
             sensitivity_solver_subtype = solver_subtype
+
+        # Optional: assembling kernel + template (wenn vorhanden)
+        assembling_kernel = static_settings.get("assembling kernel", None)
+        assembling_template = settings.get("assembling template", None)
+        use_jax_assembling = (
+            assembling_kernel is not None
+            and assembling_template is not None
+            and sensitivity_solver_backend == "pardiso"
+        )
 
         match sensitivity_solver_backend:
             case "petsc":
@@ -279,6 +313,15 @@ def adaptive_load_stepping(
 
         def lin_solve_callback_fun(mat, rhs, free_dofs_flat):
             rhs_flat = utility.dict_flatten(rhs)
+            if use_jax_assembling:
+                if isinstance(mat, jnp.ndarray):
+                    mat = sparse.bcoo_fromdense(mat)
+                assembled_values = assembling_kernel(mat.data, assembling_template.scatter)
+                mat = (
+                    assembled_values,
+                    assembling_template.col_sorted,
+                    assembling_template.indptr,
+                )
             sol = jax.pure_callback(lin_solve_fun, jnp.zeros(rhs_flat.shape, rhs_flat.dtype), mat, rhs_flat, free_dofs_flat, vmap_method='sequential')
             return utility.reshape_as(sol, rhs)
 
@@ -444,8 +487,6 @@ def adaptive_load_stepping(
                     lambda x: finish(x),
                     carry,
                 )
-
-                # ToDo: Verify accuracy of derivatives with finite differences.
                 return carry
 
             init_state = (dofs, 0.0, init_increment, 0., settings, 0.0, False)
@@ -490,11 +531,18 @@ def solve_nonlinear_minimization(dofs, settings, static_settings, **kwargs):
         to set up suitable optimization functions or residual functions, depending on what the solver needs.
       - The current implementation does not support nodal imposition of DOFs.
     """
+    try:
+        import jaxopt
+    except ImportError:
+        raise ImportError(
+            "jaxopt is required for nonlinear minimization solvers. Please install it via 'pip install jaxopt'."
+        )
+
     nodal_imposition = "nodal imposition" in static_settings["solution structure"]
     assert (
         not nodal_imposition
     ), "solver type 'minimize' does currently not support nodal imposition of DOFs."
-    # ToDo: impose boundary conditions and freeze dirichlet dofs
+    # TODO: impose boundary conditions and freeze dirichlet dofs
 
     def functional(params):
         return assembler.integrate_functional(params, settings, static_settings)
@@ -581,7 +629,11 @@ def solve_linear(dofs, settings, static_settings, **kwargs):
 
     ### External linear solver
 
-    nodal_imposition = "nodal imposition" in static_settings["solution structure"]
+    solution_structure = static_settings.get("solution structure", None)
+    if solution_structure is not None:
+        nodal_imposition = "nodal imposition" in solution_structure
+    else:
+        nodal_imposition = False
     # Impose nodal dofs
     if nodal_imposition:
         dirichlet_conditions = settings["dirichlet conditions"]
@@ -617,6 +669,25 @@ def solve_linear(dofs, settings, static_settings, **kwargs):
         and type(mat) == jnp.ndarray
     ):
         mat = sparse.bcoo_fromdense()
+
+    # Optional: pre-assemble duplicates via JAX kernel
+    assembling_kernel = static_settings.get("assembling kernel", None)
+    assembling_template = settings.get("assembling template", None)
+    use_jax_assembling = (
+        (assembling_kernel is not None)
+        and (assembling_template is not None)
+    )
+
+    if use_jax_assembling:
+        assembled_values = assembling_kernel(mat.data, assembling_template.scatter)
+        # (data, indices, indptr)
+        mat = (
+            assembled_values,
+            assembling_template.col_sorted,
+            assembling_template.indptr,
+        )
+    else:
+        mat = mat
 
     match solver_backend:
         case "petsc":
@@ -809,7 +880,7 @@ def solve_damped_newton(
 
     nodal_imposition = "nodal imposition" in static_settings["solution structure"]
     if nodal_imposition:
-        # Impose Dirichlet boundaries. Dirichlet dofs has to be concrete, therefore it is passed in static_settings as tuple of tuples
+        # Impose Dirichlet boundaries
         if isinstance(settings["dirichlet dofs"], (dict, FrozenDict)):
             free_dofs_flat = {
                 key: jnp.invert(jnp.asarray(val).flatten())
@@ -944,6 +1015,10 @@ def damped_newton(
     sol, load_steps, _, res_norm, divergence = lax.while_loop(
         convergence_check, step, (dofs_0, 0, True, 0.0, False)
     )
+    # def body_fn(i, carry):
+    #     return jax.lax.cond(convergence_check(carry),lambda x: step(x),lambda x: x,carry)
+    # init_state = (dofs_0, 0, True, 0.0, False)
+    # sol, load_steps, _, res_norm, divergence = jax.lax.fori_loop(0, maxiter, body_fn, init_state)
 
     return (sol, (load_steps, res_norm, divergence))
 
@@ -1115,6 +1190,12 @@ def linear_solve_jax(dofs, settings, static_settings, **kwargs):
         case "cg":
             (sol, _) = jax.scipy.sparse.linalg.cg(hvp, rhs, M=preconditioner, **kwargs)
         case "normal cg":
+            try:
+                import jaxopt
+            except ImportError:
+                raise ImportError(
+                    "jaxopt is required for nonlinear minimization solvers. Please install it via 'pip install jaxopt'."
+                )
             sol = jaxopt.linear_solve.solve_normal_cg(hvp, rhs, **kwargs)
         case "gmres":
             (sol, _) = jax.scipy.sparse.linalg.gmres(
@@ -1125,6 +1206,12 @@ def linear_solve_jax(dofs, settings, static_settings, **kwargs):
                 hvp, rhs, M=preconditioner, **kwargs
             )
         case "lu":
+            try:
+                import jaxopt
+            except ImportError:
+                raise ImportError(
+                    "jaxopt is required for nonlinear minimization solvers. Please install it via 'pip install jaxopt'."
+                )
             sol = jaxopt.linear_solve.solve_lu(hvp, rhs)
         case "cholesky":
             assert (
@@ -1177,6 +1264,52 @@ def linear_solve_jax(dofs, settings, static_settings, **kwargs):
     else:
         return sol
 
+def _reduce_mat(mat, free_dofs):
+    """
+    Reduce a SciPy CSR matrix by removing rows and columns corresponding to Dirichlet degrees of freedom.
+
+    Args:
+      mat (scipy.sparse.csr_matrix): The input SciPy CSR matrix.
+      free_dofs (array): Boolean array indicating which degrees of freedom are free.
+    Returns:
+      scipy.sparse.csr_matrix: The reduced CSR matrix.
+    """
+    # Deleting rows and columns
+    free_dofs = np.asarray(free_dofs)
+    mat = mat[free_dofs]
+    mat = mat[:, free_dofs]
+    return mat
+
+def _deduplicate_and_reduce(mat, verbose, free_dofs):
+    if isinstance(mat, tuple):
+        if verbose >= 2:
+            start = time.time()
+        else:
+            start = None
+
+        data, indices, indptr = mat
+        data = np.asarray(data)
+        indices = np.asarray(indices)
+        indptr = np.asarray(indptr)
+
+        n_rows = indptr.size - 1
+        tangent_csr = sparse.csr_matrix(
+            (data, indices, indptr),
+            shape=(n_rows, n_rows)
+        )
+
+        # Row deletion for Dirichlet-DOFs
+        if free_dofs is not None:
+            tangent_csr = _reduce_mat(tangent_csr, free_dofs)
+    else:
+        tangent_csr = scipy_assembling(mat, verbose, free_dofs)
+
+        if verbose >= 2:
+            start = time.time()
+        else:
+            start = None
+    return tangent_csr, start
+
 def scipy_assembling(tangent_with_duplicates, verbose, free_dofs):
     """
     Convert a JAX BCOO matrix to a SciPy CSR matrix while summing duplicates.
@@ -1213,8 +1346,7 @@ def scipy_assembling(tangent_with_duplicates, verbose, free_dofs):
     # Row deletion for Dirichlet-DOFs
     if free_dofs is not None:
         # Deleting rows and columns
-        tangent_csr = tangent_csr[:, free_dofs]
-        tangent_csr = tangent_csr[free_dofs]
+        tangent_csr = _reduce_mat(tangent_csr, free_dofs)
 
     if verbose >= 2:
         print("Time for summing duplicates: ", time.time() - start)
@@ -1262,10 +1394,8 @@ def linear_solve_petsc(mat, rhs, n_fields, solver, pc_type, verbose, free_dofs, 
         reduced_rhs = rhs
         n_dofs = rhs.shape[0]
 
-    # Transform matrix to csr format and sum duplicates
-    tangent_csr = scipy_assembling(mat, verbose, free_dofs)
-    if verbose >= 2:
-        start = time.time()
+    # Build CSR matrix
+    tangent_csr, start = _deduplicate_and_reduce(mat, verbose, free_dofs)
 
     # Load to petsc
     mat_petsc = PETSc.Mat().createAIJ(
@@ -1350,10 +1480,11 @@ def linear_solve_pardiso(mat, rhs, solver, verbose, free_dofs):
     Returns:
       jax.numpy.array: The solution vector.
     """
-    # Transform matrix to csr format and sum duplicates
-    tangent_csr = scipy_assembling(mat, verbose, free_dofs)
-    if verbose >= 2:
-        start = time.time()
+    # Build CSR matrix
+    tangent_csr, start = _deduplicate_and_reduce(mat, verbose, free_dofs)
+
+    if solver == "cholesky":
+        tangent_csr = sparse.triu(tangent_csr, format="csr")
 
     # Prepare right hand side
     if free_dofs is not None:
@@ -1361,16 +1492,27 @@ def linear_solve_pardiso(mat, rhs, solver, verbose, free_dofs):
     else:
         b = np.asarray(rhs)
 
-    if solver == "lu":
+    # Pypardiso accepts only float64
+    dtype = tangent_csr.dtype
+    if dtype != jnp.float64:
+        tangent_csr = tangent_csr.astype(np.float64)
+        b = b.astype(np.float64)
+
+    if solver == "lu" or isinstance(solver, type(None)):
         try:
             import pypardiso
         except ModuleNotFoundError:
             print("Linear solver requires the installation of pypardiso.")
 
-        # ToDo: make use of symmetries and other settings available#, msglvl=verbose, iparm=iparm
-        # pypardiso_solver = pypardiso.PyPardisoSolver(mtype=11) # spd: 2
-        # x = pypardiso.spsolve(tangent_csr, b, solver=pypardiso_solver)
-        x = pypardiso.spsolve(tangent_csr, b)
+        x = smart_spsolve(tangent_csr, b, symmetric=False)
+
+    elif solver == "cholesky":
+        try:
+            import pypardiso
+        except ModuleNotFoundError:
+            print("Linear solver requires the installation of pypardiso.")
+        
+        x = smart_spsolve(tangent_csr, b, symmetric=True)
     elif solver == "qr":
         try:
             import sparse_dot_mkl
@@ -1394,6 +1536,9 @@ def linear_solve_pardiso(mat, rhs, solver, verbose, free_dofs):
             f"The relative residual after linear solve is: {np.linalg.norm(residual) / (np.linalg.norm(b) + 1e-12)}."
         )
         print("Linear solver time: ", time.time() - start)
+
+    if dtype != jnp.float64:
+        sol = sol.astype(dtype)
     return sol
 
 def linear_solve_pyamg(mat, rhs, solver, pc_type, verbose, free_dofs, **kwargs):
@@ -1417,11 +1562,8 @@ def linear_solve_pyamg(mat, rhs, solver, pc_type, verbose, free_dofs, **kwargs):
     Returns:
       jax.numpy.array: The solution vector.
     """
-    # Transform matrix to csr format and sum duplicates
-    pyamg_tangent = scipy_assembling(mat, verbose, free_dofs)
-
-    if verbose >= 2:
-        start = time.time()
+    # Build CSR matrix
+    pyamg_tangent, start = _deduplicate_and_reduce(mat, verbose, free_dofs)
 
     # Set up solver
     try:
@@ -1504,11 +1646,8 @@ def linear_solve_scipy(mat, rhs, solver, verbose, free_dofs):
     Returns:
       sol (jnp.ndarray): Solution vector to the linear system.
     """
-    # Transform matrix to csr format and sum duplicates
-    tangent_csr = scipy_assembling(mat, verbose, free_dofs)
-
-    if verbose >= 2:
-        start = time.time()
+    # Build CSR matrix
+    tangent_csr, start = _deduplicate_and_reduce(mat, verbose, free_dofs)
 
     # Prepare right hand side
     if free_dofs is not None:
@@ -1537,6 +1676,218 @@ def linear_solve_scipy(mat, rhs, solver, verbose, free_dofs):
         )
         print("Direct solver time: ", time.time() - start)
     return sol
+
+### Pardiso solver with automatic caching of analysis and factorization
+def _structure_hash(A: sparse.csr_matrix) -> str:
+    """
+    Compute a hash of the sparsity pattern of a CSR matrix.
+
+    Only shape, `indptr`, and `indices` are used; values are ignored.
+    This is used to distinguish different matrix structures while
+    allowing the numerical values to change.
+    """
+    h = xxhash.xxh3_128()
+    h.update(struct.pack("<QQ", *A.shape))
+    h.update(memoryview(A.indptr).cast("B"))
+    h.update(memoryview(A.indices).cast("B"))
+    return h.hexdigest()
+
+def _cache_factorized_signature(solver, A):
+    """
+    Mark the matrix `A` as factorized inside the solver.
+
+    This mirrors the logic used by `PyPardisoSolver.factorize()` and allows
+    `_is_already_factorized` to recognize that the factorization is valid
+    for the current matrix values.
+    """
+    if A.nnz > solver.size_limit_storage:
+        solver.factorized_A = solver._hash_csr_matrix(A)
+    else:
+        solver.factorized_A = A.copy()
+
+def clear_pardiso_cache() -> None:
+    """
+    Clear the global PARDISO cache and release internal memory of all solvers.
+
+    This is usually not required at the end of a short-lived script because
+    the operating system will reclaim all memory when the process exits.
+
+    It is useful in long-running processes (servers, services, notebooks)
+    where many different sparsity patterns are solved over time and you want
+    to explicitly free PARDISO's internal memory.
+    """
+    for per_mtype in _GLOBAL_PARDISO_ANALYSIS_CACHE.values():
+        for per_size in per_mtype.values():
+            for solver in per_size.values():
+                try:
+                    # Phase -1: release PARDISO internal memory.
+                    solver.set_phase(-1)
+
+                    # PARDISO requires at least one call to actually execute
+                    # the requested phase. We use a tiny 1x1 dummy system.
+                    A_dummy = sparse.csr_matrix(([1.0], ([0], [0])), shape=(1, 1), dtype=np.float64)
+                    zeros_rhs = np.zeros((1, 1), dtype=np.float64, order="F")
+                    solver._call_pardiso(A_dummy, zeros_rhs)
+                except Exception:
+                    # Memory release is best-effort; ignore failures.
+                    pass
+
+    _GLOBAL_PARDISO_ANALYSIS_CACHE.clear()
+
+def smart_spsolve(
+    A: sparse.spmatrix,
+    b: ArrayLike,
+    *,
+    symmetric: bool | None = None,
+    mtype: int | None = None,
+) -> np.ndarray:
+    """
+    Solve A x = b using PARDISO with automatic reuse of analysis and
+    factorization across multiple calls.
+
+    The function maintains a global cache of PyPardisoSolver instances,
+    keyed by
+        (mtype, matrix shape, nnz, sparsity pattern).
+
+    First call for a new structure:
+        - phase 11 (analysis) + phase 22 (factorization) + phase 33 (solve)
+
+    Subsequent calls with the same structure:
+        - if numeric values are unchanged:
+              phase 33 (solve) only
+        - if numeric values have changed:
+              phase 22 (factorization) + phase 33 (solve)
+          (analysis is reused; phase 11 is not repeated)
+
+    Parameters
+    ----------
+    A : sparse.spmatrix
+        Square sparse system matrix. It will be converted to CSR internally.
+    b : array_like
+        Right-hand side vector or 2D array.
+    symmetric : bool, optional
+        Convenience flag for choosing mtype when `mtype` is not given.
+        If `mtype` is None:
+            - symmetric is True  -> mtype = 2 (real SPD), upper triangle of A is used.
+            - symmetric is False -> mtype = 11 (real unsymmetric), full A is used.
+        If `mtype` is not None, this flag is ignored.
+    mtype : int, optional
+        Explicit PARDISO mtype. If given, it overrides `symmetric`.
+        For mtype == 2 the upper triangle of A is passed to PARDISO.
+        For all other mtypes the full matrix in CSR format is passed as-is.
+
+        It is the caller's responsibility to choose a valid mtype that matches
+        the properties of A (symmetry, definiteness, real/complex, etc.).
+
+    Returns
+    -------
+    x : ndarray
+        Solution of the linear system A x = b.
+    """
+    # -----------------------------------------------------------------------
+    # 1) Determine effective mtype and how the matrix is passed to PARDISO
+    # -----------------------------------------------------------------------
+    if mtype is None:
+        # Use the convenience mapping based on `symmetric`
+        if symmetric:
+            effective_mtype = 2   # real SPD
+            use_upper_triangle = True
+        else:
+            effective_mtype = 11  # real general unsymmetric
+            use_upper_triangle = False
+    else:
+        effective_mtype = mtype
+        # For mtype == 2 we pass only the upper triangle, otherwise the full matrix.
+        use_upper_triangle = (mtype == 2)
+
+    if use_upper_triangle:
+        # PARDISO prefers the upper triangle for SPD real systems.
+        A_use = A.tocsr()#sparse.triu(A, format="csr")
+    else:
+        A_use = A.tocsr()
+
+    n_rows, n_cols = A_use.shape
+    nnz = A_use.nnz
+
+    # Basic sanity: PyPardisoSolver will check more thoroughly, but we
+    # ensure a meaningful size key here.
+    if n_rows != n_cols:
+        raise ValueError("smart_spsolve requires a square matrix A.")
+
+    size_key = (n_rows, n_cols, nnz)
+
+    # -----------------------------------------------------------------------
+    # 2) Look up or create the nested cache entries for this mtype and size
+    # -----------------------------------------------------------------------
+    per_mtype = _GLOBAL_PARDISO_ANALYSIS_CACHE.get(effective_mtype)
+    if per_mtype is None:
+        per_mtype = {}
+        _GLOBAL_PARDISO_ANALYSIS_CACHE[effective_mtype] = per_mtype
+
+    per_size = per_mtype.get(size_key)
+    if per_size is None:
+        per_size = {}
+        per_mtype[size_key] = per_size
+
+        # No solver for this (mtype, shape, nnz) yet: create a new one and
+        # run analysis (phase 11) once.
+        pattern_hash = _structure_hash(A_use)
+
+        solver = PyPardisoSolver(mtype=effective_mtype)
+        solver._check_A(A_use)
+
+        zeros_rhs = np.zeros((n_rows, 1), dtype=np.float64, order="F")
+        solver.set_phase(11)  # analysis / reordering
+        solver._call_pardiso(A_use, zeros_rhs)
+
+        per_size[pattern_hash] = solver
+
+    # -----------------------------------------------------------------------
+    # 3) At this point we know there is at least one solver for
+    #    (mtype, shape, nnz). Now distinguish by sparsity pattern.
+    # -----------------------------------------------------------------------
+    pattern_hash = _structure_hash(A_use)
+    solver = per_size.get(pattern_hash)
+
+    if solver is None:
+        # Same (mtype, shape, nnz), but a different sparsity pattern:
+        # create a new solver and perform analysis (phase 11) for this pattern.
+        solver = PyPardisoSolver(mtype=effective_mtype)
+        solver._check_A(A_use)
+
+        zeros_rhs = np.zeros((n_rows, 1), dtype=np.float64, order="F")
+        solver.set_phase(11)
+        solver._call_pardiso(A_use, zeros_rhs)
+
+        per_size[pattern_hash] = solver
+
+    # -----------------------------------------------------------------------
+    # 4) Reuse or (re)build the factorization and solve
+    # -----------------------------------------------------------------------
+    solver._check_A(A_use)
+    b_checked = solver._check_b(A_use, b)
+
+    # If the factorization is still valid for the current matrix values,
+    # we can go directly to phase 33 (solve).
+    if solver._is_already_factorized(A_use):
+        solver.set_phase(33)
+        x = solver._call_pardiso(A_use, b_checked)
+        return x
+
+    # Otherwise, reuse the existing analysis and perform factorization (22)
+    # followed by solve (33). Analysis (11) is not repeated because the
+    # sparsity pattern is unchanged.
+    zeros_rhs = np.zeros((n_rows, 1), dtype=np.float64, order="F")
+
+    # Phase 22: numerical factorization
+    solver.set_phase(22)
+    solver._call_pardiso(A_use, zeros_rhs)
+    _cache_factorized_signature(solver, A_use)
+
+    # Phase 33: solve
+    solver.set_phase(33)
+    x = solver._call_pardiso(A_use, b_checked)
+    return x
 
 ### Iterative solvers/smoothers
 def jacobi_method(hvp_fun, diag, x_0, rhs, tol=1e-6, atol=1e-6, maxiter=1000):

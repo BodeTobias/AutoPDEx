@@ -1,6 +1,0 @@
-﻿autopdex.geometry.centroid
-==========================
-
-.. currentmodule:: autopdex.geometry
-
-.. autofunction:: centroid

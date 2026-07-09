@@ -1,6 +1,0 @@
-﻿autopdex.seeder.just\_in\_psdf
-==============================
-
-.. currentmodule:: autopdex.seeder
-
-.. autofunction:: just_in_psdf

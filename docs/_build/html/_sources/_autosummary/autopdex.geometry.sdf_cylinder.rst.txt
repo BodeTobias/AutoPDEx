@@ -1,6 +1,0 @@
-﻿autopdex.geometry.sdf\_cylinder
-===============================
-
-.. currentmodule:: autopdex.geometry
-
-.. autofunction:: sdf_cylinder

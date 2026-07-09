@@ -29,6 +29,132 @@ import numpy as np
 from flax.core import FrozenDict
 from jax.experimental import sparse
 
+
+DOF_SCALING_KEY = "dof scaling"
+
+
+def dof_scale(settings, field):
+    scaling = settings.get(DOF_SCALING_KEY, None)
+    if scaling is None:
+        return 1.0
+    return scaling.get(field, 1.0)
+
+
+def scale_dof_value(settings, field, value):
+    return jnp.asarray(value) * dof_scale(settings, field)
+
+
+def unscale_dof_value(settings, field, value):
+    return jnp.asarray(value) / dof_scale(settings, field)
+
+
+
+def set_dirichlet_conditions(settings, field, on_boundary_fun, value_fun, index=None, reset=False):
+    """
+    Store Dirichlet boundary conditions for `field` in `settings`.
+
+    Evaluates `on_boundary_fun(x)->bool` and `value_fun(x)` on all node coordinates of `field`
+    (via `jax.vmap`) and updates/creates:
+      - settings['dirichlet dofs'][field]        : bool mask of constrained DOFs
+      - settings['dirichlet conditions'][field] : prescribed values
+
+    For vector/tensor fields, `value_fun` may return either a scalar per node (then `index`
+    selects the component; int for vectors, tuple for tensors) or the full per-node value
+    with shape (n_nodes, *field_shape). If `reset=True`, existing constraints for `field`
+    are cleared first.
+
+    Returns the updated `settings`.
+    """
+    if settings.get('field dimensions') is None:
+        raise ValueError("settings must contain a 'field dimensions' dictionary.")
+    if settings.get('node coordinates') is None:
+        raise ValueError("settings must contain 'node coordinates'.")
+    if field not in settings['field dimensions']:
+        raise KeyError(f"Unknown field '{field}' in settings['field dimensions'].")
+
+    fields = list(settings['field dimensions'].keys())
+    def _per_node_shape(dim):
+        if dim == 1 or dim is None:
+            return ()
+        if isinstance(dim, int):
+            if dim < 1:
+                raise ValueError(f"Invalid field dimension: {dim}")
+            return (dim,) if dim != 1 else ()
+        if isinstance(dim, tuple):
+            if any((not isinstance(d, int) or d < 1) for d in dim):
+                raise ValueError(f"Invalid tensor dimension: {dim}")
+            return dim
+        raise TypeError(f"Field dimension must be int or tuple, got {type(dim)}")
+
+    field_shape = _per_node_shape(settings['field dimensions'][field])
+    coor = settings['node coordinates']#[field]
+    n_nodes = coor.shape[0]
+
+    mask = jax.vmap(on_boundary_fun)(coor).astype(bool)
+    values = jax.vmap(value_fun)(coor)
+
+    if settings.get('dirichlet dofs') is None:
+        dirichlet_dofs = {}
+        for f in fields:
+            f_shape = _per_node_shape(settings['field dimensions'][f])
+            coor_f = settings['node coordinates']#[f]
+            n_f = coor_f.shape[0]
+            if f_shape == ():
+                dirichlet_dofs[f] = jnp.zeros((n_f,), dtype=bool)
+            else:
+                dirichlet_dofs[f] = jnp.zeros((n_f, *f_shape), dtype=bool)
+        settings['dirichlet dofs'] = dirichlet_dofs
+
+    if settings.get('dirichlet conditions') is None:
+        settings['dirichlet conditions'] = dict_zeros_like(settings['dirichlet dofs'], dtype=float)
+
+    dirichlet_dofs = settings['dirichlet dofs'][field]
+    dirichlet_conditions = settings['dirichlet conditions'][field]
+
+    if reset:
+        dirichlet_dofs = jnp.zeros_like(dirichlet_dofs)
+        dirichlet_conditions = jnp.zeros_like(dirichlet_conditions)
+
+    if field_shape == ():  # scalar field
+        if values.ndim != 1:
+            raise ValueError(f"value_fun must return a scalar per node (ndim=1), got ndim={values.ndim}.")
+        dirichlet_dofs = jnp.where(mask, True, dirichlet_dofs)
+        dirichlet_conditions = jnp.where(mask, values, dirichlet_conditions)
+
+    else:  # vector/tensor field
+        k = len(field_shape)
+        node_ids = jnp.where(mask)[0]
+
+        if values.ndim == 1:  # scalar per node -> component selection via index
+            if index is None:
+                raise ValueError("For scalar value_fun and non-scalar field, `index` must be provided.")
+            index_t = (index,) if isinstance(index, int) else index
+            if not isinstance(index_t, tuple) or len(index_t) != k:
+                raise ValueError(f"`index` must be an int or a tuple of length {k}, got {index}.")
+            for ax, (ii, dim) in enumerate(zip(index_t, field_shape)):
+                if not isinstance(ii, int) or ii < 0 or ii >= dim:
+                    raise ValueError(f"index[{ax}]={ii} out of range [0, {dim}).")
+
+            dirichlet_dofs = dirichlet_dofs.at[(node_ids, *index_t)].set(True)
+            dirichlet_conditions = dirichlet_conditions.at[(node_ids, *index_t)].set(values[node_ids])
+
+        else:  # full value per node
+            expected_ndim = 1 + k
+            if values.ndim != expected_ndim:
+                raise ValueError(
+                    f"value_fun must return shape (n, *field_shape) with ndim={expected_ndim}, got {values.ndim}."
+                )
+            if tuple(values.shape[1:]) != field_shape:
+                raise ValueError(f"value_fun returned wrong component shape: {values.shape[1:]} != {field_shape}")
+
+            mask_nd = mask.reshape((n_nodes,) + (1,) * k)
+            dirichlet_dofs = jnp.where(mask_nd, True, dirichlet_dofs)
+            dirichlet_conditions = jnp.where(mask_nd, values, dirichlet_conditions)
+
+    settings['dirichlet dofs'][field] = dirichlet_dofs
+    settings['dirichlet conditions'][field] = dirichlet_conditions
+    return settings
+
 def jit_with_docstring(static_argnames=None, possibly_static_argnames=None, inline=False):
     """
     JIT wrapper that preserves the original docstring of the function and
@@ -383,9 +509,9 @@ def search_neighborhood(x_nodes, x_query, support_radius):
         - min_neighbors (int): Minimum number of neighbors.
         - neighbor_list (array): List of neighbors for each query point.
     """
-    import scipy
+    from scipy import spatial
 
-    tree = scipy.spatial.cKDTree(x_nodes)
+    tree = spatial.cKDTree(x_nodes)
     num_neighbors = jnp.asarray(
         tree.query_ball_point(
             x_query, support_radius, return_sorted=False, return_length=True
@@ -653,6 +779,8 @@ def jacfwd_upto_n_one_vector_arg(fun, x, n):
 
     return flatten_tuple(jacfwd_upto_n_one_vector_arg_tmp(fun, x, n))
 
+
+
 def matrix_adj(mat):
     """
     Computes the adjugate of a square matrix of size 1x1, 2x2, or 3x3.
@@ -675,42 +803,36 @@ def matrix_adj(mat):
     n = mat.shape[0]
 
     if n == 1:
-        # Inversion of a 1x1 matrix
-        adjugate = mat
+        return jnp.array([[1.0]])
     elif n == 2:
-        # Inversion of a 2x2 matrix using the explicit formula
         a, b = mat[0, 0], mat[0, 1]
         c, d = mat[1, 0], mat[1, 1]
 
-        adjugate = jnp.array([[ d, -b],
+        return jnp.array([[ d, -b],
                             [-c,  a]])
     elif n == 3:
-        # Inversion of a 3x3 matrix using the adjugate method
         a, b, c = mat[0, 0], mat[0, 1], mat[0, 2]
         d, e, f = mat[1, 0], mat[1, 1], mat[1, 2]
         g, h, i = mat[2, 0], mat[2, 1], mat[2, 2]
 
-        # Compute the adjugate matrix (transpose of cofactors)
-        adjugate = jnp.array([
+        return jnp.array([
             [ e * i - f * h, c * h - b * i, b * f - c * e],
             [ f * g - d * i, a * i - c * g, c * d - a * f],
             [ d * h - e * g, b * g - a * h, a * e - b * d]
         ])
 
     else:
-        raise ValueError("Function only supports matrices of size 1x1, 2x2, or 3x3.")
+        return matrix_inv(mat).T * matrix_det(mat)
 
-    return adjugate
-
-@jax.custom_jvp
+# @jax.custom_jvp
 def matrix_inv(mat):
     """
-    Inverts a square matrix of size 1x1, 2x2, or 3x3.
+    Inverts a square matrix with unrolled formulas for sizes 1x1, 2x2, 3x3 and 4x4.
 
     Parameters:
     -----------
     mat : jnp.ndarray
-        A square matrix of shape (1,1), (2,2), or (3,3).
+        A square matrix of shape (1,1), (2,2), (3,3), or (4,4).
 
     Returns:
     --------
@@ -726,57 +848,118 @@ def matrix_inv(mat):
 
     if n == 1:
         # Inversion of a 1x1 matrix
-        inv_mat = 1.0 / mat
+        return 1.0 / mat
     elif n == 2:
         # Inversion of a 2x2 matrix using the explicit formula
         a, b = mat[0, 0], mat[0, 1]
         c, d = mat[1, 0], mat[1, 1]
         det = a * d - b * c
         inv_det = 1.0 / det
-        inv_mat = inv_det * jnp.array([[ d, -b],
+        return inv_det * jnp.array([[ d, -b],
                                        [-c,  a]])
     elif n == 3:
-        # Inversion of a 3x3 matrix using the adjugate method
         a, b, c = mat[0, 0], mat[0, 1], mat[0, 2]
         d, e, f = mat[1, 0], mat[1, 1], mat[1, 2]
         g, h, i = mat[2, 0], mat[2, 1], mat[2, 2]
 
-        # Compute the determinant using the rule of Sarrus
-        det = (a * (e * i - f * h) -
-               b * (d * i - f * g) +
-               c * (d * h - e * g))
+        # Minoren, die in det und adj vorkommen
+        m00 = e * i - f * h          # = adj[0,0]
+        m01 = d * i - f * g          # = -(adj[1,0])
+        m02 = d * h - e * g          # = adj[2,0]
+
+        det = a * m00 - b * m01 + c * m02
         inv_det = 1.0 / det
 
-        # Compute the adjugate matrix (transpose of cofactors)
-        adjugate = jnp.array([
-            [ e * i - f * h, c * h - b * i, b * f - c * e],
-            [ f * g - d * i, a * i - c * g, c * d - a * f],
-            [ d * h - e * g, b * g - a * h, a * e - b * d]
+        # Restliche Cofaktoren
+        m10 = c * h - b * i
+        m11 = a * i - c * g
+        m12 = b * g - a * h
+
+        m20 = b * f - c * e
+        m21 = c * d - a * f
+        m22 = a * e - b * d
+
+        adj = jnp.stack([
+            jnp.stack([ m00,  m10,  m20]),
+            jnp.stack([-m01,  m11,  m21]),
+            jnp.stack([ m02,  m12,  m22]),
         ])
 
-        # The inverse is the adjugate divided by the determinant
-        inv_mat = inv_det * adjugate
+        return inv_det * adj
+    elif n == 4:
+        """
+        See https://github.com/willnode/N-Matrix-Programmer
+        for source in the "Info" folder
+        MIT License.
+        """
+        A2323 = mat[2, 2] * mat[3, 3] - mat[2, 3] * mat[3, 2]
+        A1323 = mat[2, 1] * mat[3, 3] - mat[2, 3] * mat[3, 1]
+        A1223 = mat[2, 1] * mat[3, 2] - mat[2, 2] * mat[3, 1]
+        A0323 = mat[2, 0] * mat[3, 3] - mat[2, 3] * mat[3, 0]
+        A0223 = mat[2, 0] * mat[3, 2] - mat[2, 2] * mat[3, 0]
+        A0123 = mat[2, 0] * mat[3, 1] - mat[2, 1] * mat[3, 0]
+        A2313 = mat[1, 2] * mat[3, 3] - mat[1, 3] * mat[3, 2]
+        A1313 = mat[1, 1] * mat[3, 3] - mat[1, 3] * mat[3, 1]
+        A1213 = mat[1, 1] * mat[3, 2] - mat[1, 2] * mat[3, 1]
+        A2312 = mat[1, 2] * mat[2, 3] - mat[1, 3] * mat[2, 2]
+        A1312 = mat[1, 1] * mat[2, 3] - mat[1, 3] * mat[2, 1]
+        A1212 = mat[1, 1] * mat[2, 2] - mat[1, 2] * mat[2, 1]
+        A0313 = mat[1, 0] * mat[3, 3] - mat[1, 3] * mat[3, 0]
+        A0213 = mat[1, 0] * mat[3, 2] - mat[1, 2] * mat[3, 0]
+        A0312 = mat[1, 0] * mat[2, 3] - mat[1, 3] * mat[2, 0]
+        A0212 = mat[1, 0] * mat[2, 2] - mat[1, 2] * mat[2, 0]
+        A0113 = mat[1, 0] * mat[3, 1] - mat[1, 1] * mat[3, 0]
+        A0112 = mat[1, 0] * mat[2, 1] - mat[1, 1] * mat[2, 0]
+
+        det = (
+            mat[0, 0] * (mat[1, 1] * A2323 - mat[1, 2] * A1323 + mat[1, 3] * A1223)
+            - mat[0, 1] * (mat[1, 0] * A2323 - mat[1, 2] * A0323 + mat[1, 3] * A0223)
+            + mat[0, 2] * (mat[1, 0] * A1323 - mat[1, 1] * A0323 + mat[1, 3] * A0123)
+            - mat[0, 3] * (mat[1, 0] * A1223 - mat[1, 1] * A0223 + mat[1, 2] * A0123)
+        )
+        invdet = 1.0 / det
+
+        return invdet * jnp.array(
+            [
+                (mat[1, 1] * A2323 - mat[1, 2] * A1323 + mat[1, 3] * A1223),
+                -(mat[0, 1] * A2323 - mat[0, 2] * A1323 + mat[0, 3] * A1223),
+                (mat[0, 1] * A2313 - mat[0, 2] * A1313 + mat[0, 3] * A1213),
+                -(mat[0, 1] * A2312 - mat[0, 2] * A1312 + mat[0, 3] * A1212),
+                -(mat[1, 0] * A2323 - mat[1, 2] * A0323 + mat[1, 3] * A0223),
+                (mat[0, 0] * A2323 - mat[0, 2] * A0323 + mat[0, 3] * A0223),
+                -(mat[0, 0] * A2313 - mat[0, 2] * A0313 + mat[0, 3] * A0213),
+                (mat[0, 0] * A2312 - mat[0, 2] * A0312 + mat[0, 3] * A0212),
+                (mat[1, 0] * A1323 - mat[1, 1] * A0323 + mat[1, 3] * A0123),
+                -(mat[0, 0] * A1323 - mat[0, 1] * A0323 + mat[0, 3] * A0123),
+                (mat[0, 0] * A1313 - mat[0, 1] * A0313 + mat[0, 3] * A0113),
+                -(mat[0, 0] * A1312 - mat[0, 1] * A0312 + mat[0, 3] * A0112),
+                -(mat[1, 0] * A1223 - mat[1, 1] * A0223 + mat[1, 2] * A0123),
+                (mat[0, 0] * A1223 - mat[0, 1] * A0223 + mat[0, 2] * A0123),
+                -(mat[0, 0] * A1213 - mat[0, 1] * A0213 + mat[0, 2] * A0113),
+                (mat[0, 0] * A1212 - mat[0, 1] * A0212 + mat[0, 2] * A0112),
+            ]
+        ).reshape((4, 4))
+
     else:
-        raise ValueError("Function only supports matrices of size 1x1, 2x2, or 3x3.")
+        return jnp.linalg.inv(mat)
 
-    return inv_mat
-@matrix_inv.defjvp
-def matrix_inv_jvp(primals, tangents):
-    mat, = primals
-    mat_dot, = tangents
-    inv_mat = matrix_inv(mat)
-    inv_mat_dot = -jnp.dot(jnp.dot(inv_mat, mat_dot), inv_mat)
-    return inv_mat, inv_mat_dot
+# @matrix_inv.defjvp
+# def matrix_inv_jvp(primals, tangents):
+#     mat, = primals
+#     mat_dot, = tangents
+#     inv_mat = matrix_inv(mat)
+#     inv_mat_dot = -jnp.dot(jnp.dot(inv_mat, mat_dot), inv_mat)
+#     return inv_mat, inv_mat_dot
 
-@jax.custom_jvp
+# @jax.custom_jvp
 def matrix_det(mat):
     """
-    Computes the determinant of a square matrix of size 1x1, 2x2, or 3x3.
+    Computes the determinant of a square matrix with unrolled formulas for sizes 1x1, 2x2, and 3x3.
 
     Parameters:
     -----------
     mat : jnp.ndarray
-        A square matrix of shape (1,1), (2,2), or (3,3).
+        A square matrix of shape (1,1), (2,2), (3,3), or (4,4).
 
     Returns:
     --------
@@ -791,30 +974,29 @@ def matrix_det(mat):
 
     if n == 1:
         # Determinant of a 1x1 matrix
-        det = mat[0, 0]
+        return mat[0, 0]
     elif n == 2:
         # Determinant of a 2x2 matrix using the explicit formula
         a, b = mat[0, 0], mat[0, 1]
         c, d = mat[1, 0], mat[1, 1]
-        det = a * d - b * c
+        return a * d - b * c
     elif n == 3:
         # Determinant of a 3x3 matrix using the rule of Sarrus
         a, b, c = mat[0, 0], mat[0, 1], mat[0, 2]
         d, e, f = mat[1, 0], mat[1, 1], mat[1, 2]
         g, h, i = mat[2, 0], mat[2, 1], mat[2, 2]
-        det = (a * (e * i - f * h) -
+        return (a * (e * i - f * h) -
                b * (d * i - f * g) +
                c * (d * h - e * g))
     else:
-        raise ValueError("Function only supports matrices of size 1x1, 2x2, or 3x3.")
+        return jnp.linalg.det(mat)
 
-    return det
-@matrix_det.defjvp
-def matrix_det_jvp(primals, tangents):
-    mat, = primals
-    mat_dot, = tangents
-    mat_adj = matrix_adj(mat)
-    return matrix_det(mat), jnp.trace(mat_adj @ mat_dot)
+# @matrix_det.defjvp
+# def matrix_det_jvp(primals, tangents):
+#     mat, = primals
+#     mat_dot, = tangents
+#     mat_adj = matrix_adj(mat)
+#     return matrix_det(mat), jnp.einsum('ij,ij->', mat_adj, mat_dot.T)
 
 def matrix_dev(mat):
     """
@@ -849,7 +1031,53 @@ def matrix_dev(mat):
     
     n = mat.shape[0]
     trace_val = jnp.trace(mat)
-    identity = jnp.eye(n)
+    identity = jnp.eye(n, dtype=mat.dtype)
     
     deviator = mat - (trace_val / n) * identity
     return deviator
+
+def lin_solve(A, b):
+    """
+    Solves Ax = b or AX = B.
+
+    Supports:
+    - b.shape == (n,)      single right-hand side
+    - b.shape == (n, m)    multiple right-hand sides
+    """
+    n = A.shape[0]
+
+    if n == 1:
+        return b / A[0, 0]
+
+    elif n == 2:
+        a, b0 = A[0, 0], A[0, 1]
+        c, d  = A[1, 0], A[1, 1]
+
+        det = a * d - b0 * c
+        inv_det = 1.0 / det
+
+        x0 =  d * b[0] - b0 * b[1]
+        x1 = -c * b[0] +  a * b[1]
+
+        return inv_det * jnp.stack([x0, x1], axis=0)
+
+    elif n == 3:
+        a, b0, c = A[0, 0], A[0, 1], A[0, 2]
+        d, e,  f = A[1, 0], A[1, 1], A[1, 2]
+        g, h,  i = A[2, 0], A[2, 1], A[2, 2]
+
+        ei_fh = e * i - f * h
+        di_fg = d * i - f * g
+        dh_eg = d * h - e * g
+
+        det = a * ei_fh - b0 * di_fg + c * dh_eg
+        inv_det = 1.0 / det
+
+        x0 = b[0] * ei_fh          + b[1] * (c * h - b0 * i) + b[2] * (b0 * f - c * e)
+        x1 = b[0] * (f * g - d*i)  + b[1] * (a * i - c * g)  + b[2] * (c * d - a * f)
+        x2 = b[0] * dh_eg          + b[1] * (b0 * g - a * h) + b[2] * (a * e - b0 * d)
+
+        return inv_det * jnp.stack([x0, x1, x2], axis=0)
+
+    else:
+        return jnp.linalg.solve(A, b)

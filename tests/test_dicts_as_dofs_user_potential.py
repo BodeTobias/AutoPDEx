@@ -62,4 +62,32 @@ def test_example():
   test = solver.solver(initial_guess, settings, static_settings)[0]['phi'].sum()
   assert jnp.isclose(test, 1.9066412530282952)
 
+
+def test_connectivity_helpers_ignore_physical_coor_key():
+
+  import jax.numpy as jnp
+  import flax
+
+  from autopdex import assembler
+
+  dofs = {'phi': jnp.zeros((3,), dtype=jnp.float64)}
+  connectivity = {
+    'physical coor': jnp.asarray([[0, 1], [1, 2], [2, 3]], dtype=int),
+    'phi': jnp.asarray([[0, 1], [1, 2]], dtype=int),
+  }
+  settings = {
+    'connectivity': (connectivity,),
+    'node coordinates': {'physical coor': jnp.zeros((4, 2), dtype=jnp.float64)},
+  }
+  static_settings = flax.core.FrozenDict({'model': (lambda *args: None,)})
+
+  _, _, elem_numbers, _ = assembler._get_element_quantities(dofs, settings, static_settings, 0)
+  assert jnp.array_equal(elem_numbers, jnp.arange(2))
+
+  tangent_contributions = {
+    'phi': {'phi': jnp.ones((2, 2, 1, 2, 1), dtype=jnp.float64)}
+  }
+  diag = assembler._get_tangent_diagonal(tangent_contributions, connectivity, dofs)
+  assert jnp.allclose(diag, jnp.asarray([1.0, 2.0, 1.0], dtype=jnp.float64))
+
 # test_example()

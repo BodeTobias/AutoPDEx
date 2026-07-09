@@ -1,6 +1,0 @@
-﻿autopdex.seeder.int\_pts\_in\_line\_mesh
-========================================
-
-.. currentmodule:: autopdex.seeder
-
-.. autofunction:: int_pts_in_line_mesh

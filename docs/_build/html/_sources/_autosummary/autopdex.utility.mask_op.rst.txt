@@ -1,6 +1,0 @@
-﻿autopdex.utility.mask\_op
-=========================
-
-.. currentmodule:: autopdex.utility
-
-.. autofunction:: mask_op

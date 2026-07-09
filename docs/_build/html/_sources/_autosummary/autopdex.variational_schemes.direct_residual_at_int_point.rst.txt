@@ -1,6 +1,0 @@
-﻿autopdex.variational\_schemes.direct\_residual\_at\_int\_point
-==============================================================
-
-.. currentmodule:: autopdex.variational_schemes
-
-.. autofunction:: direct_residual_at_int_point

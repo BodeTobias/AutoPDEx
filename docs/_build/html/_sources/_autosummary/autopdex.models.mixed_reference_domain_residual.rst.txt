@@ -1,6 +1,0 @@
-﻿autopdex.models.mixed\_reference\_domain\_residual
-==================================================
-
-.. currentmodule:: autopdex.models
-
-.. autofunction:: mixed_reference_domain_residual

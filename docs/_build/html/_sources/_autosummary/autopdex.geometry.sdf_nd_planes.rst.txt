@@ -1,6 +1,0 @@
-﻿autopdex.geometry.sdf\_nd\_planes
-=================================
-
-.. currentmodule:: autopdex.geometry
-
-.. autofunction:: sdf_nd_planes

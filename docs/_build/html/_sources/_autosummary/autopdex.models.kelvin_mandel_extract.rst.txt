@@ -1,6 +1,0 @@
-﻿autopdex.models.kelvin\_mandel\_extract
-=======================================
-
-.. currentmodule:: autopdex.models
-
-.. autofunction:: kelvin_mandel_extract

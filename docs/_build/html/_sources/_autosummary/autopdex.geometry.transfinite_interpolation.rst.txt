@@ -1,6 +1,0 @@
-﻿autopdex.geometry.transfinite\_interpolation
-============================================
-
-.. currentmodule:: autopdex.geometry
-
-.. autofunction:: transfinite_interpolation

@@ -50,7 +50,12 @@ def pv_plot(
     Notes:
       - Only supports 2d and 3d
     """
-    import pyvista as pv
+    try:
+        import pyvista as pv
+    except ImportError:
+        raise ImportError(
+            "PyVista is required for pv_plot. Please install it via 'pip install pyvista'."
+        )
 
     pv.global_theme.cmap = "jet"
 
@@ -124,7 +129,12 @@ def isosurface(x_vis, data, n_surfaces=20):
       - data (np.ndarray): Data to be visualized at the points.
       - n_surfaces (int, optional): Number of isosurfaces to plot. Default is 20.
     """
-    import plotly.graph_objects as go
+    try:
+        import plotly.graph_objects as go
+    except ImportError:
+        raise ImportError(
+            "Plotly is required for isosurface plotting. Please install it via 'pip install plotly'."
+        )
 
     fig = go.Figure(
         data=go.Isosurface(

@@ -121,8 +121,7 @@ def _root_vjp(
         differentiate ``sol`` against.
       cotangent: vector to left-multiply the Jacobian with
         (pytree, same structure as ``sol``).
-      solve_fun: a linear solver of the form ``x = solve_fun(mat, b)``,
-        where ``mat`` is as jax.experimental.sparse.BCOO matrix.
+      solve_fun: a linear solver of the form ``x = solve_fun(mat, b, free_dofs_flat)``.
     Returns:
       tuple of the same length as ``len(args)`` containing the vjps w.r.t.
       each argument. Each ``vjps[i]`` has the same pytree structure as
@@ -248,91 +247,143 @@ def _root_jvp(
 
     Args:
       residual_fun: the optimality function to use.
-      mat_fun: a function that has to compute the sparse tangent matrix with sol and args as arguments.
+      mat_fun: a function that has to compute the jax.experimental.sparse.BCOO or dense jax.array tangent matrix with sol and args as arguments.
       sol: solution / root (pytree).
       args: tuple containing the arguments with respect to which to differentiate.
       tangents: a tuple of the same size as ``len(args)``. Each ``tangents[i]``
         has the same pytree structure as ``args[i]``.
-      solve_fun: a linear solver of the form ``x = solve_fun(mat, b)``,
-        where ``mat`` is as jax.experimental.sparse.BCOO matrix.
+      solve_fun: a linear solver of the form ``x = solve_fun(mat, b, solve_data)``.
+        In the default case, ``solve_data`` is the flattened free-DOF mask. If the
+        first residual argument is a settings dictionary containing
+        ``"_linear solve data"``, that value is passed through instead. This allows
+        callers to provide backend-specific solver metadata, e.g. an assembling
+        template, while the AD rule still differentiates the BCOO matrix data.
     Returns:
       a pytree with the same structure as ``sol``.
     """
+
     free_dofs_flat = None
     if free_dofs is not None:
         assert "dirichlet conditions" in args[0], "'dirichlet conditions' \
         have to be defined in a dict as the second argument of the root solver function."
         dirichlet_dofs_flat = utility.dict_flatten(args[0]["dirichlet dofs"])
         free_dofs_flat = ~dirichlet_dofs_flat
+    solve_data = (
+        args[0].get("_linear solve data", free_dofs_flat)
+        if len(args) > 0 and hasattr(args[0], "get")
+        else free_dofs_flat
+    )
+
+    def _free_dofs_from_solve_data(data):
+        return data[0] if isinstance(data, tuple) else data
 
     # Compute tangent matrix
     A = mat_fun(sol, *args)
     mat_shape = A.shape
 
-    # Forward differentiable sparse linear solver
-    # TODO: register as primitive in order to allow mixed jacfwd/jacrev
-    @jax.custom_jvp
-    def linear_solver_fun_jvp(data, indices, b, free_dofs_flat):
-        A = jax.experimental.sparse.BCOO((data, indices), shape=mat_shape)
-        return solve_fun(A, b, free_dofs_flat)
-
-    @linear_solver_fun_jvp.defjvp
-    def linear_solver_fun_jvp_rule(primals, tangents):
-        data, indices, b, free_dofs_flat = primals
-        data_dot, _, b_dot, _ = tangents
-
-        # Compute the primal result using the linear solver function
-        primal_result = linear_solver_fun_jvp(data, indices, b, free_dofs_flat)
-
-        # ToDo: is it somehow possible without A_dot via jvps?
-        A_dot = jax.experimental.sparse.BCOO((data_dot, indices), shape=mat_shape)
-
-        # Handle the tangent calculation
+    if isinstance(A, jnp.ndarray):
         if free_dofs is not None:
-            primal_result_tmp = utility.mask_op(
-                jnp.zeros((mat_shape[0],), dtype=float),
-                free_dofs_flat,
-                primal_result,
+            dirichlet_dofs = utility.reshape_as(dirichlet_dofs_flat, sol)
+
+            # Explicit imposition of DOFs in order to be able to take derivatives w.r.t. nodally imposed DOFs
+            def residual_fun_tmp(sol, *args):
+                sol_with_bc = utility.mask_op(
+                    sol, dirichlet_dofs, args[0]["dirichlet conditions"], "set"
+                )
+                return residual_fun(sol_with_bc, *args)
+
+            Bv = _jvp_args(residual_fun_tmp, sol, args, tangents)
+            Bv_free = utility.dict_flatten(Bv)
+            Jv_free = solve_fun(A, -Bv_free, solve_data)
+
+            empty_flat = utility.dict_flatten(utility.dict_zeros_like(sol))
+            Jv = utility.reshape_as(
+                utility.mask_op(empty_flat, free_dofs_flat, Jv_free, "set"), sol
             )
-            rhs = b_dot - (A_dot @ primal_result_tmp)
-            result_dot = linear_solver_fun_jvp(data, indices, rhs, free_dofs_flat)
+
+            Jv = utility.mask_op(
+                Jv, dirichlet_dofs, tangents[0]["dirichlet conditions"], "set"
+            )
+
         else:
-            result_dot = linear_solver_fun_jvp(
-                data, indices, b_dot - A_dot @ primal_result, None
+            Bv = _jvp_args(residual_fun, sol, args, tangents)
+            Jv = utility.reshape_as(
+                solve_fun(A, -utility.dict_flatten(Bv), solve_data), Bv
             )
 
-        return primal_result, result_dot
+    elif isinstance(A, jax.experimental.sparse.BCOO):
 
-    # Assign the jvp-enabled solver function
-    solve_func = linear_solver_fun_jvp
+        # Forward differentiable sparse linear solver
+        # TODO: register as primitive in order to allow mixed jacfwd/jacrev
+        @jax.custom_jvp
+        def linear_solver_fun_jvp(data, indices, b, solve_data):
+            A = jax.experimental.sparse.BCOO((data, indices), shape=mat_shape)
+            return solve_fun(A, b, solve_data)
 
-    if free_dofs is not None:
-        dirichlet_dofs = utility.reshape_as(dirichlet_dofs_flat, sol)
+        @linear_solver_fun_jvp.defjvp
+        def linear_solver_fun_jvp_rule(primals, tangents):
+            data, indices, b, solve_data = primals
+            data_dot, _, b_dot, _ = tangents
+            solve_free_dofs = _free_dofs_from_solve_data(solve_data)
 
-        # Explicit imposition of DOFs in order to be able to take derivatives w.r.t. nodally imposed DOFs
-        def residual_fun_tmp(sol, *args):
-            sol_with_bc = utility.mask_op(
-                sol, dirichlet_dofs, args[0]["dirichlet conditions"], "set"
+            # Compute the primal result using the linear solver function
+            primal_result = linear_solver_fun_jvp(data, indices, b, solve_data)
+
+            # ToDo: is it somehow possible without A_dot via jvps?
+            A_dot = jax.experimental.sparse.BCOO((data_dot, indices), shape=mat_shape)
+
+            # Handle the tangent calculation
+            if solve_free_dofs is not None:
+                primal_result_tmp = utility.mask_op(
+                    jnp.zeros((mat_shape[0],), dtype=float),
+                    solve_free_dofs,
+                    primal_result,
+                )
+                rhs = b_dot - (A_dot @ primal_result_tmp)
+                result_dot = linear_solver_fun_jvp(data, indices, rhs, solve_data)
+            else:
+                result_dot = linear_solver_fun_jvp(
+                    data, indices, b_dot - A_dot @ primal_result, solve_data
+                )
+
+            return primal_result, result_dot
+
+        # Assign the jvp-enabled solver function
+        solve_func = linear_solver_fun_jvp
+
+        if free_dofs is not None:
+            dirichlet_dofs = utility.reshape_as(dirichlet_dofs_flat, sol)
+
+            # Explicit imposition of DOFs in order to be able to take derivatives w.r.t. nodally imposed DOFs
+            def residual_fun_tmp(sol, *args):
+                sol_with_bc = utility.mask_op(
+                    sol, dirichlet_dofs, args[0]["dirichlet conditions"], "set"
+                )
+                return residual_fun(sol_with_bc, *args)
+
+            Bv = _jvp_args(residual_fun_tmp, sol, args, tangents)
+            Bv_free = utility.dict_flatten(Bv)
+            Jv_free = solve_func(A.data, A.indices, -Bv_free, solve_data)
+
+            empty_flat = utility.dict_flatten(utility.dict_zeros_like(sol))
+            Jv = utility.reshape_as(
+                utility.mask_op(empty_flat, free_dofs_flat, Jv_free, "set"), sol
             )
-            return residual_fun(sol_with_bc, *args)
 
-        Bv = _jvp_args(residual_fun_tmp, sol, args, tangents)
-        Bv_free = utility.dict_flatten(Bv)
-        Jv_free = solve_func(A.data, A.indices, -Bv_free, free_dofs_flat)
+            Jv = utility.mask_op(
+                Jv, dirichlet_dofs, tangents[0]["dirichlet conditions"], "set"
+            )
 
-        empty_flat = utility.dict_flatten(utility.dict_zeros_like(sol))
-        Jv = utility.reshape_as(
-            utility.mask_op(empty_flat, free_dofs_flat, Jv_free, "set"), sol
-        )
-
-        Jv = utility.mask_op(
-            Jv, dirichlet_dofs, tangents[0]["dirichlet conditions"], "set"
-        )
+        else:
+            Bv = _jvp_args(residual_fun, sol, args, tangents)
+            Jv = utility.reshape_as(
+                solve_func(A.data, A.indices, -utility.dict_flatten(Bv), solve_data), Bv
+            )
 
     else:
-        Bv = _jvp_args(residual_fun, sol, args, tangents)
-        Jv = utility.reshape_as(
-            solve_func(A.data, A.indices, -utility.dict_flatten(Bv), None), Bv
+        raise ValueError(
+            f"mat_fun has to return either a jnp.ndarray or a "
+            f"jax.experimental.sparse.BCOO, but got {mat_type}."
         )
 
     return Jv
@@ -367,6 +418,12 @@ def _custom_root(
     # default, the signature of `residual_fun`).
 
     solver_fun_signature = inspect.signature(solver_fun)
+
+    # If matrix is dense, assume no callback is used and use allways custom_jvp
+    mat_type = inspect.signature(mat_fun).return_annotation
+    if mat_type == jnp.ndarray:
+        mode = "forward"
+
 
     if reference_signature is None:
         reference_signature = inspect.signature(residual_fun)
@@ -499,9 +556,16 @@ def custom_root(
       residual_fun: A callable the returns the possibly nonlinear residual of which to find the root of,
         ``residual_fun(dofs, *args)``.
         The invariant is ``residual_fun(sol, *args) == 0`` at the solution / root ``sol``.
-      mat_fun: A callable that returns the sparse tangent matrix as a jax.experimental.BCOO with dofs and
-        args as arguments. Can also be a pure callback.
-      solve: A linear solver of the form ``solve(mat[jax.experimental.BCOO], b[jnp.ndarray])``.
+      mat_fun: A callable that returns the sparse tangent matrix as a jnp.array or jax.experimental.BCOO with dofs and
+        args as arguments. Can also be a pure callback (in case of jax.experimental.BCOO).
+      solve: A linear solver of the form ``solve(mat, b, solve_data)``.
+        In the default case, ``solve_data`` is the flattened free-DOF mask. In
+        forward mode, if the first residual argument is a settings dictionary with
+        ``"_linear solve data"``, that value is forwarded to ``solve`` instead.
+        This can be used to pass backend-specific metadata such as sparse
+        assembling templates without changing the differentiable BCOO tangent
+        representation. If ``solve_data`` is a tuple, its first entry is expected
+        to be the flattened free-DOF mask or ``None``.
       free_dofs: For constraining certain degrees of freedom. In case free_dofs is not None, the second argument of the solver
         has to be a dictionary having the keys 'dirichlet dofs' and 'dirichlet conditions'. The first one is a
         dictionary of jnp.ndarrays with the same structure as dofs, where the entries are boolean masks indicating

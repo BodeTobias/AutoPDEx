@@ -1,6 +1,0 @@
-﻿autopdex.geometry.psdf\_parallelogram
-=====================================
-
-.. currentmodule:: autopdex.geometry
-
-.. autofunction:: psdf_parallelogram

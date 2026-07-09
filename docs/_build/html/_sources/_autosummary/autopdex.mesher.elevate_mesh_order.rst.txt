@@ -1,6 +1,0 @@
-﻿autopdex.mesher.elevate\_mesh\_order
-====================================
-
-.. currentmodule:: autopdex.mesher
-
-.. autofunction:: elevate_mesh_order

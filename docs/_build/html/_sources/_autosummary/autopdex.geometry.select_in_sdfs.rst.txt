@@ -1,6 +1,0 @@
-﻿autopdex.geometry.select\_in\_sdfs
-==================================
-
-.. currentmodule:: autopdex.geometry
-
-.. autofunction:: select_in_sdfs

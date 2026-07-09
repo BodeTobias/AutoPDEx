@@ -1,6 +1,0 @@
-﻿autopdex.assembler.user\_potential\_assemble\_tangent\_diagonal
-===============================================================
-
-.. currentmodule:: autopdex.assembler
-
-.. autofunction:: user_potential_assemble_tangent_diagonal

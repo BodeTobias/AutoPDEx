@@ -38,13 +38,13 @@ git clone https://github.com/BodeTobias/AutoPDEx.git
 2. Install the project in editable mode:
 
 ```bash
-pip install -e .
+pip install -e '.[dev]'
 ```
 
 3. Run the tests to verify that the environment is set up correctly:
 
 ```bash
-pytest
+autopdex-test
 ```
 
 ## Contributor License Agreement

@@ -1,0 +1,351 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   width="525"
+   height="495"
+   viewBox="0 0 525 495"
+   version="1.1"
+   id="svg38"
+   sodipodi:docname="biot_consolidation_unit_square_editable.svg"
+   inkscape:version="1.4.4 (dcaf3e7, 2026-05-05)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs38" />
+  <sodipodi:namedview
+     id="namedview38"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:zoom="3.7434343"
+     inkscape:cx="262.45953"
+     inkscape:cy="247.5"
+     inkscape:window-width="3840"
+     inkscape:window-height="2071"
+     inkscape:window-x="-9"
+     inkscape:window-y="-9"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg38" />
+  <title
+     id="title1">Unit square Biot consolidation boundary conditions</title>
+  <desc
+     id="desc1">Fully editable SVG vector recreation of the provided diagram for Inkscape.</desc>
+  <!-- background -->
+  <rect
+     x="0"
+     y="0"
+     width="525"
+     height="495"
+     fill="#ffffff"
+     id="rect1" />
+  <!-- main domain -->
+  <rect
+     x="84"
+     y="115"
+     width="387"
+     height="320"
+     fill="#edf4f9"
+     stroke="none"
+     id="rect2" />
+  <!-- grid -->
+  <g
+     id="grid"
+     stroke="#b8cfdd"
+     stroke-width="1.1">
+    <line
+       x1="123"
+       y1="115"
+       x2="123"
+       y2="435"
+       id="line2" />
+    <line
+       x1="161"
+       y1="115"
+       x2="161"
+       y2="435"
+       id="line3" />
+    <line
+       x1="200"
+       y1="115"
+       x2="200"
+       y2="435"
+       id="line4" />
+    <line
+       x1="239"
+       y1="115"
+       x2="239"
+       y2="435"
+       id="line5" />
+    <line
+       x1="277"
+       y1="115"
+       x2="277"
+       y2="435"
+       id="line6" />
+    <line
+       x1="316"
+       y1="115"
+       x2="316"
+       y2="435"
+       id="line7" />
+    <line
+       x1="355"
+       y1="115"
+       x2="355"
+       y2="435"
+       id="line8" />
+    <line
+       x1="394"
+       y1="115"
+       x2="394"
+       y2="435"
+       id="line9" />
+    <line
+       x1="432"
+       y1="115"
+       x2="432"
+       y2="435"
+       id="line10" />
+    <line
+       x1="84"
+       y1="147"
+       x2="471"
+       y2="147"
+       id="line11" />
+    <line
+       x1="84"
+       y1="179"
+       x2="471"
+       y2="179"
+       id="line12" />
+    <line
+       x1="84"
+       y1="211"
+       x2="471"
+       y2="211"
+       id="line13" />
+    <line
+       x1="84"
+       y1="243"
+       x2="471"
+       y2="243"
+       id="line14" />
+    <line
+       x1="84"
+       y1="275"
+       x2="471"
+       y2="275"
+       id="line15" />
+    <line
+       x1="84"
+       y1="307"
+       x2="471"
+       y2="307"
+       id="line16" />
+    <line
+       x1="84"
+       y1="339"
+       x2="471"
+       y2="339"
+       id="line17" />
+    <line
+       x1="84"
+       y1="371"
+       x2="471"
+       y2="371"
+       id="line18" />
+    <line
+       x1="84"
+       y1="403"
+       x2="471"
+       y2="403"
+       id="line19" />
+  </g>
+  <!-- boundaries -->
+  <g
+     id="boundaries"
+     fill="none"
+     stroke-linecap="square">
+    <line
+       x1="84"
+       y1="115"
+       x2="84"
+       y2="435"
+       stroke="#004c7a"
+       stroke-width="6"
+       id="line20" />
+    <line
+       x1="471"
+       y1="115"
+       x2="471"
+       y2="435"
+       stroke="#004c7a"
+       stroke-width="6"
+       id="line21" />
+    <line
+       x1="84"
+       y1="435"
+       x2="471"
+       y2="435"
+       stroke="#004c7a"
+       stroke-width="6"
+       id="line22" />
+    <line
+       x1="84"
+       y1="115"
+       x2="471"
+       y2="115"
+       stroke="#32821e"
+       stroke-width="6"
+       id="line23" />
+  </g>
+  <!-- load arrows: separate lines and triangles for robust Inkscape editability -->
+  <g
+     id="load-arrows"
+     stroke="#b52a2a"
+     stroke-width="3"
+     fill="#b52a2a">
+    <line
+       x1="132"
+       y1="57"
+       x2="132"
+       y2="93"
+       id="line24" />
+    <polygon
+       points="132,106 124,91 140,91"
+       id="polygon24" />
+    <line
+       x1="205"
+       y1="57"
+       x2="205"
+       y2="93"
+       id="line25" />
+    <polygon
+       points="205,106 197,91 213,91"
+       id="polygon25" />
+    <line
+       x1="278"
+       y1="57"
+       x2="278"
+       y2="93"
+       id="line26" />
+    <polygon
+       points="278,106 270,91 286,91"
+       id="polygon26" />
+    <line
+       x1="351"
+       y1="57"
+       x2="351"
+       y2="93"
+       id="line27" />
+    <polygon
+       points="351,106 343,91 359,91"
+       id="polygon27" />
+    <line
+       x1="424"
+       y1="57"
+       x2="424"
+       y2="93"
+       id="line28" />
+    <polygon
+       points="424,106 416,91 432,91"
+       id="polygon28" />
+  </g>
+  <!-- top traction label -->
+  <g
+     id="traction-label"
+     font-family="Arial, Helvetica, sans-serif"
+     fill="#b52a2a">
+    <text
+       x="202"
+       y="38"
+       font-size="24"
+       font-style="italic"
+       id="text28">t</text>
+    <line
+       x1="201"
+       y1="16"
+       x2="214"
+       y2="16"
+       stroke="#b52a2a"
+       stroke-width="2"
+       id="line29" />
+    <text
+       x="215"
+       y="43"
+       font-size="15"
+       font-style="italic"
+       id="text29">y</text>
+    <text
+       x="232"
+       y="38"
+       font-size="24px"
+       id="text30">= 100 kPa</text>
+  </g>
+  <text
+     x="276.46573"
+     y="140.22827"
+     text-anchor="middle"
+     font-family="Arial, Helvetica, sans-serif"
+     font-size="24px"
+     fill="#32821e"
+     id="text31">drained top: p=0</text>
+  <!-- displacement labels -->
+  <text
+     x="58"
+     y="276"
+     text-anchor="middle"
+     font-family="Arial, Helvetica, sans-serif"
+     font-size="20"
+     fill="#004c7a"
+     transform="rotate(-90 58 276)"
+     id="text32">uₓ = 0</text>
+  <text
+     x="500"
+     y="276"
+     text-anchor="middle"
+     font-family="Arial, Helvetica, sans-serif"
+     font-size="20"
+     fill="#004c7a"
+     transform="rotate(-90 500 276)"
+     id="text33">uₓ = 0</text>
+  <text
+     x="277"
+     y="472"
+     text-anchor="middle"
+     font-family="Arial, Helvetica, sans-serif"
+     font-size="20"
+     fill="#004c7a"
+     id="text34">uᵧ = 0</text>
+
+  <!-- no-normal-flow hydraulic boundary labels -->
+  <g
+     id="no-normal-flow-labels"
+     font-family="Arial, Helvetica, sans-serif"
+     font-size="18px"
+     fill="#32821e">
+    <text
+       x="112"
+       y="276"
+       text-anchor="middle"
+       transform="rotate(-90 112 276)"
+       id="text-no-flow-left">no normal flow: qₙ = 0</text>
+    <text
+       x="443"
+       y="276"
+       text-anchor="middle"
+       transform="rotate(-90 443 276)"
+       id="text-no-flow-right">no normal flow: qₙ = 0</text>
+    <text
+       x="277"
+       y="418"
+       text-anchor="middle"
+       id="text-no-flow-bottom">no normal flow: qₙ = 0</text>
+  </g>
+  <!-- center annotation box -->
+</svg>
