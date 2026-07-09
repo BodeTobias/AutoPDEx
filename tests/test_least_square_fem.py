@@ -12,10 +12,12 @@
 
 
 def test_least_square_fem():
+    from pathlib import Path
+
     from jax import config
     import jax.numpy as jnp
     import flax
-    import pygmsh
+    import meshio
 
     from autopdex import seeder, geometry, utility, models, assembler
 
@@ -70,10 +72,9 @@ def test_least_square_fem():
 
     ### Discretization
     ### Definition of geometry and boundary conditions
-    with pygmsh.geo.Geometry() as geom:
-        elem_length = 50.
-        geom.add_polygon(pts,mesh_size=elem_length)
-        mesh = geom.generate_mesh(order=2)
+    # Mesh generated offline with pygmsh (see meshes/generate_test_meshes.py)
+    elem_length = 50.
+    mesh = meshio.read(Path(__file__).resolve().parent / "meshes" / "cooks_tri6_p2.vtu")
 
     # Import region mesh
     n_dim = 2

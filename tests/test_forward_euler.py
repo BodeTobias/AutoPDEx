@@ -19,8 +19,8 @@ def test_example_forward_euler():
   from jax import lax, config
   import jax.numpy as jnp
   import flax
-  import pygmsh
   import meshio
+  from pathlib import Path
 
   from autopdex import seeder, geometry, solver, solution_structures, utility, models, assembler
 
@@ -277,9 +277,8 @@ def test_example_forward_euler():
     7.82], [2.22, 7.94], [2.66, 7.94], [2.66, 8.24], [1.5, 8.24], [1.5, 
     7.82], [1.38, 7.82], [1.38, 8.68], [1.06, 8.68], [1.06, 
     8.24], [0.94, 8.24]]
-  with pygmsh.geo.Geometry() as geom:
-      geom.add_polygon(pts,mesh_size=5.)
-      mesh = geom.generate_mesh(order=1)
+  # Mesh generated offline with pygmsh (see meshes/generate_test_meshes.py)
+  mesh = meshio.read(Path(__file__).resolve().parent / "meshes" / "maze_tri_p1.vtu")
 
 
   # Import mesh
